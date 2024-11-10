@@ -654,7 +654,7 @@ class OrbitControls extends EventDispatcher {
 
 			// rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight );
 
-			rotate(rotateDelta.x / scope.domElement.clientHeight, rotateDelta.y / scope.domElement.clientHeight)
+			rotate(2 * rotateDelta.x / scope.domElement.clientHeight, 2 * rotateDelta.y / scope.domElement.clientHeight)
 
 			rotateStart.copy( rotateEnd );
 

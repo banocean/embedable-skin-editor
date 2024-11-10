@@ -39,6 +39,7 @@ class Renderer extends LitElement {
 
   baseMesh;
   baseGroup;
+  parts = [];
 
   render() {
     return this.renderer.domElement;
@@ -77,6 +78,18 @@ class Renderer extends LitElement {
     this.camera.updateProjectionMatrix();
   }
 
+  setOverlaysVisible(visible) {
+    this.parts.forEach(part => {
+      part.setOverlayVisible(visible);
+    })
+  }
+
+  setBasesVisible(visible) {
+    this.parts.forEach(part => {
+      part.setBaseVisible(visible);
+    })
+  }
+
   _setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(this.clientWidth, this.clientHeight);
@@ -113,6 +126,7 @@ class Renderer extends LitElement {
   }
 
   _setupMesh(image) {
+    const scope = this;
     const group = new THREE.Group();
 
     const base = new THREE.Group();
@@ -121,6 +135,7 @@ class Renderer extends LitElement {
     function addPart(part) {
       base.add(part.baseMesh);
       overlay.add(part.overlayMesh);
+      scope.parts.push(part);
     }
 
     const head = new HeadPart(image);

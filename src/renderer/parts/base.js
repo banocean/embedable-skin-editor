@@ -67,6 +67,14 @@ class BasePart {
   size() { return {} }
   position() { return {} }
 
+  setBaseVisible(visible) {
+    this.baseMesh.visible = visible;
+  }
+
+  setOverlayVisible(visible) {
+    this.overlayMesh.visible = visible;
+  }
+
   _setupGeometry(uvmap, overlay = false) {
     const size = overlay ? this.size().overlay : this.size().base
 
