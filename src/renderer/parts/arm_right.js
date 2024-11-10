@@ -6,6 +6,8 @@ class RightArmPart extends ArmBasePart {
     super(texture)
   }
 
+  name() { return "arm_right" }
+  
   position() {
     return new THREE.Vector3(-0.75, -1.25, 0)
   }

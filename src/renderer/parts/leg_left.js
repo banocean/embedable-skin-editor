@@ -6,6 +6,8 @@ class LeftLegPart extends BasePart {
     super(texture)
   }
 
+  name() { return "leg_left" }
+
   position() {
     return new THREE.Vector3(0.25, -2.75, 0)
   }

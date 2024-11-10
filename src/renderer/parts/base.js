@@ -61,18 +61,38 @@ class BasePart {
     this.texture = texture
     this.baseMesh = this._setupMesh(this.uvmap().base)
     this.overlayMesh = this._setupMesh(this.uvmap().overlay, true)
+
+    this.baseMeshVisible = true
+    this.overlayMeshVisible = true
   }
 
+  name() { return "" }
   uvmap() { return {} }
   size() { return {} }
   position() { return {} }
 
   setBaseVisible(visible) {
-    this.baseMesh.visible = visible;
+    this.baseMeshVisible = visible;
+    this.updateMeshVisible()
   }
 
   setOverlayVisible(visible) {
-    this.overlayMesh.visible = visible;
+    this.overlayMeshVisible = visible;
+    this.baseMeshVisible()
+  }
+
+  setVisible(hidden) {
+    if (!hidden) {
+      this.baseMesh.visible = false
+      this.overlayMeshVisible = false
+    } else {
+      this.updateMeshVisible()
+    }
+  }
+
+  updateMeshVisible() {
+    this.baseMesh.visible = this.baseMeshVisible
+    this.overlayMesh.visible = this.overlayMeshVisible
   }
 
   _setupGeometry(uvmap, overlay = false) {

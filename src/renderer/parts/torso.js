@@ -6,6 +6,8 @@ class TorsoPart extends BasePart {
     super(texture)
   }
 
+  name() { return "torso" }
+
   position() {
     return new THREE.Vector3(0, -1.25, 0)
   }

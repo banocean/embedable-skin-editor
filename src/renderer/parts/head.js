@@ -6,6 +6,8 @@ class HeadPart extends BasePart {
     super(texture)
   }
 
+  name() { return "head" }
+
   position() {
     return new THREE.Vector3(0, 0, 0)
   }

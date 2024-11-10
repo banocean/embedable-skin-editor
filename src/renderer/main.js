@@ -90,6 +90,14 @@ class Renderer extends LitElement {
     })
   }
 
+  setPartVisible(name, visible) {
+    this.parts.forEach(part => {
+      if (part.name() == name) {
+        part.setVisible(visible)
+      }
+    })
+  }
+
   _setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(this.clientWidth, this.clientHeight);
