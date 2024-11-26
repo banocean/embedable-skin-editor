@@ -18,6 +18,7 @@ class Renderer extends LitElement {
       height: 100%;
       position: relative;
       overflow: hidden;
+      cursor: grab;
     }
   `;
 
@@ -46,8 +47,9 @@ class Renderer extends LitElement {
   }
 
   sceneRender() {
-    this.controls.handleIntersects()
+    this.controls.handleIntersects();
     this.renderer.render(this.scene, this.camera);
+    this.style.cursor = this.getCursorStyle();
   }
 
   centerModel() {
@@ -96,6 +98,13 @@ class Renderer extends LitElement {
         part.setVisible(visible)
       }
     })
+  }
+
+  getCursorStyle() {
+    if (this.controls.targetingModel && !this.controls.firstClickOutside) { return "crosshair"; }
+    if (this.controls.pointerDown && !this.controls.firstClickOutside) { return "crosshair"; }
+    if (this.controls.pointerDown) { return "grabbing"; }
+    return "grab";
   }
 
   _setupRenderer() {
