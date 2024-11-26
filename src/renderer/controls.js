@@ -4,9 +4,8 @@ import { OrbitControls } from "./orbit";
 class Controls {
   constructor(parent) {
     this.parent = parent;
-    this.orbit = new OrbitControls(parent.camera, parent);
-
-    this._setupEvents();
+    this.orbit = this._setupOrbit(parent.camera, parent);
+    this._setupEvents(parent);
   }
 
   pointer = new THREE.Vector2(100000, 100000);
@@ -68,10 +67,19 @@ class Controls {
     this.pointer.y = -(y / domElement.clientHeight) * 2 + 1;
   }
 
-  _setupEvents() {
-    this.parent.addEventListener("mousedown", this.onMouseDown.bind(this));
-    this.parent.addEventListener("mousemove", this.onMouseMove.bind(this));
-    this.parent.addEventListener("mouseup", this.onMouseUp.bind(this));
+  _setupOrbit(camera, parent) {
+    const orbit = new OrbitControls(camera, parent);
+    orbit.minDistance = 1;
+    orbit.maxDistance = 15;
+    orbit.panSpeed = 0.075
+
+    return orbit;
+  }
+
+  _setupEvents(parent) {
+    parent.addEventListener("mousedown", this.onMouseDown.bind(this));
+    parent.addEventListener("mousemove", this.onMouseMove.bind(this));
+    parent.addEventListener("mouseup", this.onMouseUp.bind(this));
   }
 }
 
