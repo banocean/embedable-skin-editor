@@ -7,11 +7,12 @@ import { LeftLegPart } from "./parts/leg_left";
 import { RightLegPart } from "./parts/leg_right";
 import { RightArmPart } from "./parts/arm_right";
 import { LeftArmPart } from "./parts/arm_left";
+import { Layers } from "./layers";
 
 const IMAGE_WIDTH = 64
 const IMAGE_HEIGHT = 64
 
-class Renderer extends LitElement {
+class Editor extends LitElement {
   static styles = css`
     :host {
       display: block;
@@ -34,7 +35,10 @@ class Renderer extends LitElement {
     this.renderer = this._setupRenderer();
     this.controls = new Controls(this);
     this.raycaster = new THREE.Raycaster();
+    this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this._loadSkin();
+    this._setupMesh(this.layers.texture);
+    this._startRender();
     this._setupResizeObserver();
   }
 
@@ -49,7 +53,7 @@ class Renderer extends LitElement {
   sceneRender() {
     this.controls.handleIntersects();
     this.renderer.render(this.scene, this.camera);
-    this.style.cursor = this.getCursorStyle();
+    this.style.cursor = this.controls.getCursorStyle();
   }
 
   centerModel() {
@@ -100,13 +104,6 @@ class Renderer extends LitElement {
     })
   }
 
-  getCursorStyle() {
-    if (this.controls.targetingModel && !this.controls.firstClickOutside) { return "crosshair"; }
-    if (this.controls.pointerDown && !this.controls.firstClickOutside) { return "crosshair"; }
-    if (this.controls.pointerDown) { return "grabbing"; }
-    return "grab";
-  }
-
   _setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(this.clientWidth, this.clientHeight);
@@ -129,17 +126,15 @@ class Renderer extends LitElement {
   }
 
   _loadSkin() {
-    const texture = new THREE.TextureLoader().load("mncs-mascot.png");
-    texture.magFilter = THREE.NearestFilter;
-    texture.minFilter = THREE.NearestFilter;
-    texture.colorSpace = THREE.SRGBColorSpace;
+    new THREE.TextureLoader().load("mncs-mascot.png", texture => {
+      this.layers.addLayer(texture);
+      this.layers.renderTexture();
+    });
 
-    this.baseMesh = this._setupMesh(texture);
-    this.baseGroup = new THREE.Group();
-    this.baseGroup.add(this.baseMesh)
-    this.scene.add(this.baseGroup);
-
-    this._startRender();
+    new THREE.TextureLoader().load("overlay.png", texture => {
+      this.layers.addLayer(texture);
+      this.layers.renderTexture();
+    });
   }
 
   _setupMesh(image) {
@@ -172,7 +167,10 @@ class Renderer extends LitElement {
     group.add(base);
     group.add(overlay);
 
-    return group;
+    this.baseMesh = group;
+    this.baseGroup = new THREE.Group();
+    this.baseGroup.add(this.baseMesh);
+    this.scene.add(this.baseGroup);
   }
 
   _startRender() {
@@ -187,6 +185,6 @@ class Renderer extends LitElement {
   }
 }
 
-customElements.define("ncrs-renderer", Renderer);
+customElements.define("ncrs-editor", Editor);
 
-export {Renderer, IMAGE_WIDTH, IMAGE_HEIGHT}
+export {Editor, IMAGE_WIDTH, IMAGE_HEIGHT}

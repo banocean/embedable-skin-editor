@@ -10,6 +10,7 @@ class Controls {
 
   pointer = new THREE.Vector2(100000, 100000);
   pointerDown = false;
+  panning = false;
   firstClickOutside = false;
   targetingModel = false;
 
@@ -35,12 +36,25 @@ class Controls {
   }
 
   onMouseDown(event) {
-    if (event.buttons == 1) {
-      this.pointerDown = true;
-      if (this.targetingModel) {
-        this.orbit.enabled = false;
-      } else {
-        this.firstClickOutside = true;
+    const domElement = this.parent.renderer.domElement;
+    this.setPointer(
+      event.pageX - domElement.offsetLeft,
+      event.pageY - domElement.offsetTop
+    );
+    this.handleIntersects();
+    switch (event.buttons) {
+      case 1: {
+        this.pointerDown = true;
+        if (this.targetingModel) {
+          this.orbit.enabled = false;
+        } else {
+          this.firstClickOutside = true;
+        }
+        break;
+      }
+      case 4: {
+        this.panning = true;
+        break;
       }
     }
   }
@@ -54,9 +68,8 @@ class Controls {
   }
 
   onMouseUp() {
-    this.pointer = new THREE.Vector2(100000, 100000);
-
     this.pointerDown = false;
+    this.panning = false;
     this.firstClickOutside = false;
     this.orbit.enabled = true;
   }
@@ -67,11 +80,19 @@ class Controls {
     this.pointer.y = -(y / domElement.clientHeight) * 2 + 1;
   }
 
+  getCursorStyle() {
+    if (this.panning) { return "all-scroll"; }
+    if ((this.targetingModel || this.pointerDown ) && !this.firstClickOutside) { return "crosshair"; }
+    if (this.pointerDown) { return "grabbing"; }
+    return "grab";
+  }
+
   _setupOrbit(camera, parent) {
     const orbit = new OrbitControls(camera, parent);
     orbit.minDistance = 1;
     orbit.maxDistance = 15;
-    orbit.panSpeed = 0.075
+    orbit.panSpeed = 0.75;
+    orbit.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: undefined };
 
     return orbit;
   }
