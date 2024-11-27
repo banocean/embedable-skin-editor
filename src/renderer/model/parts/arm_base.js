@@ -1,4 +1,4 @@
-import { BasePart } from "./base";
+import { BasePart } from "../base";
 
 class ArmBasePart extends BasePart {
   static models = ["classic", "slim"];

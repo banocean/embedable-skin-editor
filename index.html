@@ -8,7 +8,21 @@
   </head>
   <body>
     <div id="app">
-      <ncrs-editor></ncrs-editor>
+      <ncrs-editor id="editor"></ncrs-editor>
+      <div id="controls">
+        <div>
+          <input type="checkbox" name="overlay" id="overlayToggle" checked autocomplete="off">
+          <label for="overlayToggle">Toggle Overlay</label>
+        </div>
+        <div>
+          <input type="checkbox" name="base" id="baseToggle" checked autocomplete="off">
+          <label for="baseToggle">Toggle Base</label>
+        </div>
+        <div>
+          <input type="checkbox" name="grid" id="gridToggle" checked autocomplete="off">
+          <label for="gridToggle">Toggle Grid</label>
+        </div>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

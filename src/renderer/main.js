@@ -1,13 +1,8 @@
 import { LitElement, css, html } from "lit";
 import * as THREE from "three";
-import { HeadPart } from "./parts/head";
 import { Controls } from "./controls";
-import { TorsoPart } from "./parts/torso";
-import { LeftLegPart } from "./parts/leg_left";
-import { RightLegPart } from "./parts/leg_right";
-import { RightArmPart } from "./parts/arm_right";
-import { LeftArmPart } from "./parts/arm_left";
 import { Layers } from "./layers";
+import { SkinModel } from "./model/model";
 
 const IMAGE_WIDTH = 64
 const IMAGE_HEIGHT = 64
@@ -42,9 +37,9 @@ class Editor extends LitElement {
     this._setupResizeObserver();
   }
 
-  baseMesh;
+  skinMesh;
   baseGroup;
-  parts = [];
+  model;
 
   render() {
     return this.renderer.domElement;
@@ -60,12 +55,12 @@ class Editor extends LitElement {
     const orbit = this.controls.orbit;
 
     const bounds = new THREE.Box3();
-    bounds.setFromObject(this.baseMesh);
+    bounds.setFromObject(this.skinMesh);
 
     const size = new THREE.Vector3();
     bounds.getSize(size);
 
-    this.baseMesh.position.y = size.y / 3;
+    this.skinMesh.position.y = size.y / 3;
         
     orbit.saveState();
     orbit.reset();
@@ -75,8 +70,6 @@ class Editor extends LitElement {
     const pixel = new THREE.Vector2(part.uv.x * IMAGE_WIDTH, part.uv.y * IMAGE_HEIGHT);
     pixel.x = Math.floor(pixel.x);
     pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
-
-    console.log(pixel)
   }
 
   zoom(zoom) {
@@ -85,19 +78,19 @@ class Editor extends LitElement {
   }
 
   setOverlaysVisible(visible) {
-    this.parts.forEach(part => {
+    this.model.parts.forEach(part => {
       part.setOverlayVisible(visible);
     })
   }
 
   setBasesVisible(visible) {
-    this.parts.forEach(part => {
+    this.model.parts.forEach(part => {
       part.setBaseVisible(visible);
     })
   }
 
   setPartVisible(name, visible) {
-    this.parts.forEach(part => {
+    this.model.parts.forEach(part => {
       if (part.name() == name) {
         part.setVisible(visible)
       }
@@ -105,7 +98,7 @@ class Editor extends LitElement {
   }
 
   _setupRenderer() {
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(this.clientWidth, this.clientHeight);
     renderer.domElement.style.position = "absolute";
     renderer.sortObjects = false;
@@ -137,39 +130,12 @@ class Editor extends LitElement {
     });
   }
 
-  _setupMesh(image) {
-    const scope = this;
-    const group = new THREE.Group();
+  _setupMesh(texture) {
+    this.model = new SkinModel(texture);
 
-    const base = new THREE.Group();
-    const overlay = new THREE.Group();
-
-    function addPart(part) {
-      base.add(part.baseMesh);
-      overlay.add(part.overlayMesh);
-      scope.parts.push(part);
-    }
-
-    const head = new HeadPart(image);
-    const torso = new TorsoPart(image);
-    const leftLeg = new LeftLegPart(image);
-    const rightLeg = new RightLegPart(image);
-    const leftArm = new LeftArmPart(image);
-    const rightArm = new RightArmPart(image);
-
-    addPart(head);
-    addPart(torso);
-    addPart(leftLeg);
-    addPart(rightLeg);
-    addPart(leftArm);
-    addPart(rightArm);
-
-    group.add(base);
-    group.add(overlay);
-
-    this.baseMesh = group;
+    this.skinMesh = this.model.mesh;
     this.baseGroup = new THREE.Group();
-    this.baseGroup.add(this.baseMesh);
+    this.baseGroup.add(this.skinMesh);
     this.scene.add(this.baseGroup);
   }
 

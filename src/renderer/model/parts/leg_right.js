@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { BasePart } from "./base"
+import { BasePart } from "../base"
 
 class RightLegPart extends BasePart {
   constructor(texture) {

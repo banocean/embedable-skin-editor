@@ -18,11 +18,20 @@ class Controls {
     const intersects = this.raycast();
 
     if (intersects.length > 0) {
-      this.targetingModel = true;
+      this.targetingModel = false;
 
-      if (this.pointerDown && !this.firstClickOutside) {
-        this.parent.toolAction(intersects[0]);
-      }
+      intersects.forEach(part => {
+        if (part.object.type == "Mesh") {
+          this.targetingModel = true;
+
+          if (this.pointerDown && !this.firstClickOutside) {
+            this.parent.toolAction(part);
+          }
+
+          return;
+        }
+      });
+
     } else {
       this.targetingModel = false;
     }
