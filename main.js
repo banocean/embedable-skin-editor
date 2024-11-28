@@ -1,5 +1,5 @@
 import "./style.css"
-import "./src/renderer/main"
+import "./src/editor/main"
 
 const editor = document.getElementById("editor");
 
