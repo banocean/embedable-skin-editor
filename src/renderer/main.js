@@ -4,9 +4,10 @@ import { Controls } from "./controls";
 import { Layers } from "./layers";
 import { SkinModel } from "./model/model";
 import { Renderer } from "./renderer";
+import Stats from "stats.js";
 
-const IMAGE_WIDTH = 64
-const IMAGE_HEIGHT = 64
+const IMAGE_WIDTH = 64;
+const IMAGE_HEIGHT = 64;
 
 class Editor extends LitElement {
   static styles = css`
@@ -32,6 +33,7 @@ class Editor extends LitElement {
     this.controls = new Controls(this);
     this.raycaster = new THREE.Raycaster();
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
+    this.stats = new Stats();
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -43,13 +45,16 @@ class Editor extends LitElement {
   model;
 
   render() {
-    return this.renderer.renderer.domElement;
+    this.stats.showPanel(0);
+    document.body.appendChild(this.stats.dom);
+    return this.renderer.canvas();
   }
 
   sceneRender() {
     this.controls.handleIntersects();
+    this.stats.begin();
     this.renderer.render();
-    // this.renderer.render(this.scene, this.camera);
+    this.stats.end();
     this.style.cursor = this.controls.getCursorStyle();
   }
 
@@ -63,13 +68,16 @@ class Editor extends LitElement {
     bounds.getSize(size);
 
     this.skinMesh.position.y = size.y / 3;
-        
+
     orbit.saveState();
     orbit.reset();
   }
 
   toolAction(part) {
-    const pixel = new THREE.Vector2(part.uv.x * IMAGE_WIDTH, part.uv.y * IMAGE_HEIGHT);
+    const pixel = new THREE.Vector2(
+      part.uv.x * IMAGE_WIDTH,
+      part.uv.y * IMAGE_HEIGHT
+    );
     pixel.x = Math.floor(pixel.x);
     pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
   }
@@ -80,23 +88,23 @@ class Editor extends LitElement {
   }
 
   setOverlaysVisible(visible) {
-    this.model.parts.forEach(part => {
+    this.model.parts.forEach((part) => {
       part.setOverlayVisible(visible);
-    })
+    });
   }
 
   setBasesVisible(visible) {
-    this.model.parts.forEach(part => {
+    this.model.parts.forEach((part) => {
       part.setBaseVisible(visible);
-    })
+    });
   }
 
   setPartVisible(name, visible) {
-    this.model.parts.forEach(part => {
+    this.model.parts.forEach((part) => {
       if (part.name() == name) {
-        part.setVisible(visible)
+        part.setVisible(visible);
       }
-    })
+    });
   }
 
   _setupResizeObserver() {
@@ -111,12 +119,12 @@ class Editor extends LitElement {
   }
 
   _loadSkin() {
-    new THREE.TextureLoader().load("mncs-mascot.png", texture => {
+    new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
       this.layers.addLayer(texture);
       this.layers.renderTexture();
     });
 
-    new THREE.TextureLoader().load("overlay.png", texture => {
+    new THREE.TextureLoader().load("overlay.png", (texture) => {
       this.layers.addLayer(texture);
       this.layers.renderTexture();
     });
@@ -132,7 +140,7 @@ class Editor extends LitElement {
   }
 
   _startRender() {
-    this.camera.position.z = 5;
+    this.camera.position.z = 3;
     this.zoom(0.75);
 
     this.centerModel();
@@ -145,4 +153,4 @@ class Editor extends LitElement {
 
 customElements.define("ncrs-editor", Editor);
 
-export {Editor, IMAGE_WIDTH, IMAGE_HEIGHT}
+export { Editor, IMAGE_WIDTH, IMAGE_HEIGHT };
