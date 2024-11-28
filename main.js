@@ -19,3 +19,13 @@ setupToggle("baseToggle", event => {
 setupToggle("gridToggle", event => {
   editor.model.setGridVisible(event.target.checked);
 })
+
+document.addEventListener("keypress", event => {
+  if (event.key == "z") {
+    editor.history.undo();
+  }
+
+  if (event.key == "y") {
+    editor.history.redo();
+  }
+})

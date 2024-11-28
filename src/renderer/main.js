@@ -5,6 +5,8 @@ import { Layers } from "./layers";
 import { SkinModel } from "./model/model";
 import { Renderer } from "./renderer";
 import Stats from "stats.js";
+import { HistoryManager } from "./history/history_manager";
+import AddLayerEntry from "./history/entries/add_layer_entry";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -33,6 +35,7 @@ class Editor extends LitElement {
     this.controls = new Controls(this);
     this.raycaster = new THREE.Raycaster();
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
+    this.history = new HistoryManager;
     this.stats = new Stats();
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -120,13 +123,11 @@ class Editor extends LitElement {
 
   _loadSkin() {
     new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
-      this.layers.addLayer(texture);
-      this.layers.renderTexture();
+      new AddLayerEntry(this.layers, {texture}).perform();
     });
 
     new THREE.TextureLoader().load("overlay.png", (texture) => {
-      this.layers.addLayer(texture);
-      this.layers.renderTexture();
+      this.history.add(new AddLayerEntry(this.layers, {texture}));
     });
   }
 

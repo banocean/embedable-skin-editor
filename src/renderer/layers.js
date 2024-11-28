@@ -19,21 +19,52 @@ class Layers {
   }
 
   getSelectedLayer() {
-    this.selectedLayerIndex = clamp(this.selectedLayerIndex, 0, this.layers.length - 1)
+    this.selectedLayerIndex = clamp(
+      this.selectedLayerIndex,
+      0,
+      this.layers.length - 1
+    );
     this.layers[this.selectedLayerIndex];
   }
 
-  addLayer(texture) {
-    this.layers.push(new Layer(this.lastLayerId++, texture));
+  createFromTexture(texture) {
+    return new Layer(this.lastLayerId++, texture);
+  }
+
+  layerIndex(layer) {
+    return this.layers.findIndex((element) => {
+      return layer.id == element.id;
+    });
+  }
+
+  addLayer(layer) {
+    this.layers.push(layer);
+    this.renderTexture();
+  }
+
+  removeLayer(layer) {
+    const index = this.layerIndex(layer);
+
+    if (index < 0) { return false; }
+
+    this.layers.splice(index, 1)[0];
+    this.renderTexture();
+  }
+
+  reorderLayers(fromIndex, toIndex) {
+    const max = this.layers.length - 1;
+    if (fromIndex < 0 || fromIndex > max || toIndex < 0 || toIndex > max) { return false; }
+
+    this.layers.splice(toIndex, 0, this.layers.splice(fromIndex, 1)[0])
   }
 
   renderTexture() {
-    const ctx = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext("2d");
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.layers.forEach(layer => {
-      ctx.drawImage(layer.texture.image, 0, 0)
-    })
+    this.layers.forEach((layer) => {
+      ctx.drawImage(layer.texture.image, 0, 0);
+    });
 
     this.texture.needsUpdate = true;
   }
@@ -53,6 +84,10 @@ class Layer {
     this.id = id;
     this.texture = texture;
   }
+
+  replaceTexture(texture) {
+    this.texture = texture;
+  }
 }
 
-export {Layers, Layer}
+export { Layers, Layer };
