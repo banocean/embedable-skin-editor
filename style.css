@@ -4,6 +4,12 @@ html, body, #app {
   height: 100%;
 }
 
+ncrs-editor {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 #controls {
   position: absolute;
   bottom: 0px;

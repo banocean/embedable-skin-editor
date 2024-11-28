@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { Controls } from "./controls";
 import { Layers } from "./layers";
 import { SkinModel } from "./model/model";
+import { Renderer } from "./renderer";
 
 const IMAGE_WIDTH = 64
 const IMAGE_HEIGHT = 64
@@ -27,7 +28,7 @@ class Editor extends LitElement {
       0.1,
       1000
     );
-    this.renderer = this._setupRenderer();
+    this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
     this.raycaster = new THREE.Raycaster();
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -42,12 +43,13 @@ class Editor extends LitElement {
   model;
 
   render() {
-    return this.renderer.domElement;
+    return this.renderer.renderer.domElement;
   }
 
   sceneRender() {
     this.controls.handleIntersects();
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render();
+    // this.renderer.render(this.scene, this.camera);
     this.style.cursor = this.controls.getCursorStyle();
   }
 
@@ -97,21 +99,11 @@ class Editor extends LitElement {
     })
   }
 
-  _setupRenderer() {
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(this.clientWidth, this.clientHeight);
-    renderer.domElement.style.position = "absolute";
-    renderer.sortObjects = false;
-    return renderer;
-  }
-
   _setupResizeObserver() {
     const obs = new ResizeObserver((e) => {
       const target = e[0].target;
-      const renderer = this.renderer;
-      renderer.setSize(target.clientWidth * 2, target.clientHeight * 2);
-      renderer.domElement.style.top = `-${this.clientHeight / 2}px`;
-      renderer.domElement.style.left = `-${this.clientWidth / 2}px`;
+      this.renderer.updateSize(target.clientWidth, target.clientHeight);
+
       this.camera.aspect = target.clientWidth / target.clientHeight;
       this.camera.updateProjectionMatrix();
     });

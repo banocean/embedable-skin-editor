@@ -45,7 +45,7 @@ class Controls {
   }
 
   onMouseDown(event) {
-    const domElement = this.parent.renderer.domElement;
+    const domElement = this.parent.renderer.canvas();
     this.setPointer(
       event.pageX - domElement.offsetLeft,
       event.pageY - domElement.offsetTop
@@ -69,7 +69,7 @@ class Controls {
   }
 
   onMouseMove(event) {
-    const domElement = this.parent.renderer.domElement;
+    const domElement = this.parent.renderer.canvas();
     this.setPointer(
       event.pageX - domElement.offsetLeft,
       event.pageY - domElement.offsetTop
@@ -84,7 +84,7 @@ class Controls {
   }
 
   setPointer(x, y) {
-    const domElement = this.parent.renderer.domElement;
+    const domElement = this.parent.renderer.canvas();
     this.pointer.x = (x / domElement.clientWidth) * 2 - 1;
     this.pointer.y = -(y / domElement.clientHeight) * 2 + 1;
   }
