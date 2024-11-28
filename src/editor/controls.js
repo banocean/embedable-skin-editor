@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "./orbit";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./main";
 
 class Controls {
   constructor(parent) {
     this.parent = parent;
+    this.raycaster = new THREE.Raycaster();
     this.orbit = this._setupOrbit(parent.camera, parent);
     this._setupEvents(parent);
   }
@@ -13,6 +15,7 @@ class Controls {
   panning = false;
   firstClickOutside = false;
   targetingModel = false;
+  drawing = false;
 
   handleIntersects() {
     const intersects = this.raycast();
@@ -20,25 +23,34 @@ class Controls {
     if (intersects.length > 0) {
       this.targetingModel = false;
 
-      intersects.forEach(part => {
+      for (const part of intersects) {
         if (part.object.type == "Mesh") {
           this.targetingModel = true;
 
           if (this.pointerDown && !this.firstClickOutside) {
-            this.parent.toolAction(part);
+            const pixel = new THREE.Vector2(
+              part.uv.x * IMAGE_WIDTH,
+              part.uv.y * IMAGE_HEIGHT
+            );
+            pixel.x = Math.floor(pixel.x);
+            pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
+
+            this.drawing ? this.parent.toolMove(pixel) : this.parent.toolDown(pixel);
+            this.drawing = true;
           }
 
-          return;
+          break;
         }
-      });
-
+      }
     } else {
       this.targetingModel = false;
     }
   }
 
   raycast() {
-    const raycaster = this.parent.raycaster;
+    const raycaster = this.raycaster;
+    raycaster.layers.mask = this.parent.camera.layers.mask;
+
     raycaster.setFromCamera(this.pointer, this.parent.camera);
 
     return raycaster.intersectObjects(this.parent.scene.children);
@@ -50,7 +62,6 @@ class Controls {
       event.pageX - domElement.offsetLeft,
       event.pageY - domElement.offsetTop
     );
-    this.handleIntersects();
     switch (event.buttons) {
       case 1: {
         this.pointerDown = true;
@@ -66,6 +77,7 @@ class Controls {
         break;
       }
     }
+    this.handleIntersects();
   }
 
   onMouseMove(event) {
@@ -74,9 +86,15 @@ class Controls {
       event.pageX - domElement.offsetLeft,
       event.pageY - domElement.offsetTop
     );
+    this.handleIntersects();
   }
 
   onMouseUp() {
+    if (this.drawing) {
+      this.parent.toolUp();
+    }
+
+    this.drawing = false;
     this.pointerDown = false;
     this.panning = false;
     this.firstClickOutside = false;

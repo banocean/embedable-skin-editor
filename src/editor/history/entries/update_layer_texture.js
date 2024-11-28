@@ -12,12 +12,14 @@ class UpdateLayerTexture extends BaseEntry {
   oldTexture;
 
   onPerform() {
-    this.oldTexture = this.layer.texture;
+    this.oldTexture = this.oldTexture || this.layer.oldTexture;
+    this.layer.flush();
     this.layer.replaceTexture(this.texture);
     this.layers.renderTexture();
   }
 
   onRevert() {
+    this.layer.flush();
     this.layer.replaceTexture(this.oldTexture);
     this.layers.renderTexture();
   }

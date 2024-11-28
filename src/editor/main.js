@@ -7,6 +7,9 @@ import { Renderer } from "./renderer";
 import Stats from "stats.js";
 import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
+import ToolConfig from "./tools/tool_config";
+import PenTool from "./tools/toolset/pen_tool";
+import UpdateLayerTexture from "./history/entries/update_layer_texture";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -33,10 +36,11 @@ class Editor extends LitElement {
     );
     this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
-    this.raycaster = new THREE.Raycaster();
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this.history = new HistoryManager;
     this.stats = new Stats();
+    this.config = new ToolConfig;
+    this.currentTool = new PenTool(this.config);
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -50,11 +54,15 @@ class Editor extends LitElement {
   render() {
     this.stats.showPanel(0);
     document.body.appendChild(this.stats.dom);
+
+    this.camera.layers.enable(1);
+    this.camera.layers.enable(2);
+    this.camera.layers.enable(3);
+
     return this.renderer.canvas();
   }
 
   sceneRender() {
-    this.controls.handleIntersects();
     this.stats.begin();
     this.renderer.render();
     this.stats.end();
@@ -76,13 +84,27 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolAction(part) {
-    const pixel = new THREE.Vector2(
-      part.uv.x * IMAGE_WIDTH,
-      part.uv.y * IMAGE_HEIGHT
-    );
-    pixel.x = Math.floor(pixel.x);
-    pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
+  toolDown(pixel) {
+    const layer = this.layers.getSelectedLayer();
+    const texture = this.currentTool.down(layer.texture, pixel.x, pixel.y);
+    
+    layer.flush();
+    layer.replaceTexture(texture);
+    this.layers.renderTexture();
+  }
+
+  toolMove(pixel) {
+    const texture = this.currentTool.move(pixel.x, pixel.y);
+    
+    this.layers.getSelectedLayer().replaceTexture(texture);
+    this.layers.renderTexture();
+  }
+
+  toolUp() {
+    const texture = this.currentTool.up();
+    const layer = this.layers.getSelectedLayer();
+
+    this.history.add(new UpdateLayerTexture(this.layers, layer, texture))
   }
 
   zoom(zoom) {

@@ -14,9 +14,8 @@ class SkinModel {
     this.mesh.add(this.baseGrid);
     this.mesh.add(this.overlayMesh);
     this.mesh.add(this.overlayGrid);
-
-    this.setOverlayVisible(true);
   }
+  
   parts = [];
   baseMesh;
   baseGrid;
@@ -24,37 +23,11 @@ class SkinModel {
   overlayGrid;
   mesh;
 
-  baseVisible = true;
-  overlayVisible = true;
-  gridVisible = true;
-
-  setBaseVisible(visible) {
-    this.baseVisible = visible;
-    this.updateVisibility();
-  }
-
-  setOverlayVisible(visible) {
-    this.overlayVisible = visible;
-    this.updateVisibility();
-  }
-
-  setGridVisible(visible) {
-    this.gridVisible = visible;
-    this.updateVisibility();
-  }
-
-  updateVisibility() {
-    this.baseMesh.visible = this.baseVisible;
-    this.baseGrid.visible =
-      this.gridVisible && this.baseVisible && !this.overlayVisible;
-    this.overlayMesh.visible = this.overlayVisible;
-    this.overlayGrid.visible = this.gridVisible && this.overlayVisible;
-  }
-
   _setupMesh(texture) {
     const scope = this;
     this.baseMesh = new THREE.Group();
     this.baseGrid = new THREE.Group();
+
     this.overlayMesh = new THREE.Group();
     this.overlayGrid = new THREE.Group();
 

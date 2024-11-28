@@ -24,7 +24,7 @@ class Layers {
       0,
       this.layers.length - 1
     );
-    this.layers[this.selectedLayerIndex];
+    return this.layers[this.selectedLayerIndex];
   }
 
   createFromTexture(texture) {
@@ -83,6 +83,11 @@ class Layer {
   constructor(id, texture) {
     this.id = id;
     this.texture = texture;
+    this.oldTexture = texture;
+  }
+
+  flush() {
+    this.oldTexture = this.texture;
   }
 
   replaceTexture(texture) {

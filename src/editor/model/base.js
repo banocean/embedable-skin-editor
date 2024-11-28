@@ -152,6 +152,7 @@ class BasePart {
     );
     mesh.userData.part = this;
     mesh.position.copy(this.position());
+    mesh.layers.set(overlay ? 2 : 1);
 
     return mesh;
   }
@@ -164,6 +165,7 @@ class BasePart {
 
     grid.grids.forEach(face => {
       face.position.add(this.position());
+      face.layers.set(overlay ? 2 : 1);
     })
 
     return grid;
