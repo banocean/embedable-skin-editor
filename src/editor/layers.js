@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
+import { imageToPreview } from "./layer_preview";
 
 class Layers {
   constructor(width, height) {
@@ -92,6 +93,10 @@ class Layer {
 
   replaceTexture(texture) {
     this.texture = texture;
+  }
+
+  toPreview() {
+    return imageToPreview(this.canvas);
   }
 }
 
