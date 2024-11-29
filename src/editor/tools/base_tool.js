@@ -1,17 +1,18 @@
 import * as THREE from "three";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
+import CanvasHelper from "./canvas_helper";
 
 class BaseTool {
   constructor(config) {
     this.config = config;
   }
 
-  down(texture, x, y) {}
-  move(x, y) {}
-  up(x, y) {}
+  down(_texture, _part, _x, _y) {}
+  move(_part, _x, _y) {}
+  up(_x, _y) {}
 
   tempCanvas() {
-    return new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+    return new CanvasHelper();
   }
 
   canvasToTexture(canvas) {

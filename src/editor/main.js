@@ -84,17 +84,17 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolDown(pixel) {
+  toolDown(part, pixel) {
     const layer = this.layers.getSelectedLayer();
-    const texture = this.currentTool.down(layer.texture, pixel.x, pixel.y);
+    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y);
     
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
   }
 
-  toolMove(pixel) {
-    const texture = this.currentTool.move(pixel.x, pixel.y);
+  toolMove(part, pixel) {
+    const texture = this.currentTool.move(part, pixel.x, pixel.y);
     
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();
@@ -148,9 +148,9 @@ class Editor extends LitElement {
       new AddLayerEntry(this.layers, {texture}).perform();
     });
 
-    new THREE.TextureLoader().load("overlay.png", (texture) => {
-      this.history.add(new AddLayerEntry(this.layers, {texture}));
-    });
+    // new THREE.TextureLoader().load("overlay.png", (texture) => {
+    //   this.history.add(new AddLayerEntry(this.layers, {texture}));
+    // });
   }
 
   _setupMesh(texture) {

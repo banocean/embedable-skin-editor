@@ -35,7 +35,7 @@ class Controls {
             pixel.x = Math.floor(pixel.x);
             pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
 
-            this.drawing ? this.parent.toolMove(pixel) : this.parent.toolDown(pixel);
+            this.drawing ? this.parent.toolMove(part, pixel) : this.parent.toolDown(part, pixel);
             this.drawing = true;
           }
 

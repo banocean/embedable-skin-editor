@@ -5,32 +5,42 @@ class PenTool extends BaseTool {
     super(config);
   }
 
-  intermediateCanvas;
+  canvas;
+  cursor = {x: 0, y: 0};
+  lastPart;
+  lastFace;
 
-  down(texture, x, y) {
-    this.intermediateCanvas = this.tempCanvas();
-    const ctx = this.intermediateCanvas.getContext("2d")
-    ctx.drawImage(texture.image, 0, 0);
+  down(texture, part, x, y) {
+    this.cursor = {x, y};
+    this.canvas = this.tempCanvas();
+    this.canvas.drawImage(texture.image, 0, 0);
 
-    this.draw(x, y);
+    this.draw(part, x, y);
 
-    return this.canvasToTexture(this.intermediateCanvas);
+    return this.canvas.toTexture();
   }
 
-  move(x, y) {
-    this.draw(x, y);
+  move(part, x, y) {
+    this.draw(part, x, y);
 
-    return this.canvasToTexture(this.intermediateCanvas);
+    return this.canvas.toTexture();
   }
 
   up() {
-    return this.canvasToTexture(this.intermediateCanvas);
+    return this.canvas.toTexture();
   }
 
-  draw(x, y) {
-    const ctx = this.intermediateCanvas.getContext("2d")
-    ctx.fillStyle = this.config.color;
-    ctx.fillRect(x, y, 1, 1)
+  draw(part, x, y) {
+    if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
+      this.cursor = {x, y};
+    }
+
+    this.lastPart = part.object.id;
+    this.lastFace = part.faceIndex;
+
+    this.canvas.putLine(this.config.color, this.cursor.x, this.cursor.y, x, y);
+
+    this.cursor = {x, y};
   }
 }
 
