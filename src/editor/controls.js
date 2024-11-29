@@ -22,7 +22,7 @@ class Controls {
 
     if (intersects.length > 0) {
       this.targetingModel = false;
-
+      
       for (const part of intersects) {
         if (part.object.type == "Mesh") {
           this.targetingModel = true;
@@ -57,10 +57,8 @@ class Controls {
   }
 
   onMouseDown(event) {
-    const domElement = this.parent.renderer.canvas();
     this.setPointer(
-      event.pageX - domElement.offsetLeft,
-      event.pageY - domElement.offsetTop
+      event.offsetX, event.offsetY
     );
     switch (event.buttons) {
       case 1: {
@@ -81,10 +79,8 @@ class Controls {
   }
 
   onMouseMove(event) {
-    const domElement = this.parent.renderer.canvas();
     this.setPointer(
-      event.pageX - domElement.offsetLeft,
-      event.pageY - domElement.offsetTop
+      event.offsetX, event.offsetY
     );
     this.handleIntersects();
   }
@@ -103,8 +99,8 @@ class Controls {
 
   setPointer(x, y) {
     const domElement = this.parent.renderer.canvas();
-    this.pointer.x = (x / domElement.clientWidth) * 2 - 1;
-    this.pointer.y = -(y / domElement.clientHeight) * 2 + 1;
+    this.pointer.x = (x / domElement.clientWidth) * 2 - 1,
+    this.pointer.y = -(y / domElement.clientHeight) * 2 + 1
   }
 
   getCursorStyle() {

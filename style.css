@@ -4,6 +4,18 @@ html, body, #app {
   height: 100%;
 }
 
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  position: relative;
+  max-width: 1000px;
+  height: 640px;
+}
+
 ncrs-editor {
   display: block;
   width: 100%;

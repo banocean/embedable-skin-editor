@@ -57,7 +57,6 @@ class Editor extends LitElement {
 
     this.camera.layers.enable(1);
     this.camera.layers.enable(2);
-    this.camera.layers.enable(3);
 
     return this.renderer.canvas();
   }
