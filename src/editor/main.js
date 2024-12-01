@@ -9,6 +9,7 @@ import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
+import EraseTool from "./tools/toolset/erase_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 
 const IMAGE_WIDTH = 64;
