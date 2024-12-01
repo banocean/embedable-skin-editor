@@ -9,6 +9,7 @@ import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
+import EraseTool from "./tools/toolset/erase_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 
 const IMAGE_WIDTH = 64;
@@ -83,17 +84,17 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolDown(part, pixel) {
+  toolDown(part, pixel, pointerButton) {
     const layer = this.layers.getSelectedLayer();
-    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y);
+    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y, pointerButton);
     
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
   }
 
-  toolMove(part, pixel) {
-    const texture = this.currentTool.move(part, pixel.x, pixel.y);
+  toolMove(part, pixel, pointerButton) {
+    const texture = this.currentTool.move(part, pixel.x, pixel.y, pointerButton);
     
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();

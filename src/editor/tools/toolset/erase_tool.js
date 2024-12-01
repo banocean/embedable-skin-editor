@@ -1,6 +1,6 @@
 import { BaseTool } from "../base_tool";
 
-class PenTool extends BaseTool {
+class EraseTool extends BaseTool {
   constructor(config) {
     super(config);
   }
@@ -10,18 +10,18 @@ class PenTool extends BaseTool {
   lastPart;
   lastFace;
 
-  down(texture, part, x, y, pointerButton) {
+  down(texture, part, x, y) {
     this.cursor = {x, y};
     this.canvas = this.tempCanvas();
     this.canvas.drawImage(texture.image, 0, 0);
 
-    this.draw(part, x, y, pointerButton == 1 ? this.config.color : {r: 0, g: 0, b: 0, a: 0})
+    this.draw(part, x, y, {r: 0, g: 0, b: 0, a: 0})
     
     return this.canvas.toTexture();
   }
 
-  move(part, x, y, pointerButton) {
-    this.draw(part, x, y, pointerButton == 1 ? this.config.color : {r: 0, g: 0, b: 0, a: 0})
+  move(part, x, y) {
+    this.draw(part, x, y, {r: 0, g: 0, b: 0, a: 0})
 
     return this.canvas.toTexture();
   }
@@ -44,4 +44,4 @@ class PenTool extends BaseTool {
   }
 }
 
-export default PenTool;
+export default EraseTool;
