@@ -12,6 +12,7 @@ class Controls {
 
   pointer = new THREE.Vector2(100000, 100000);
   pointerDown = false;
+  pointerButton = 0;
   panning = false;
   firstClickOutside = false;
   targetingModel = false;
@@ -35,7 +36,7 @@ class Controls {
             pixel.x = Math.floor(pixel.x);
             pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
 
-            this.drawing ? this.parent.toolMove(part, pixel) : this.parent.toolDown(part, pixel);
+            this.drawing ? this.parent.toolMove(part, pixel, this.pointerButton) : this.parent.toolDown(part, pixel, this.pointerButton);
             this.drawing = true;
           }
 
@@ -63,8 +64,10 @@ class Controls {
       event.pageY - domElement.offsetTop
     );
     switch (event.buttons) {
-      case 1: {
+      case 1: 
+      case 2: {
         this.pointerDown = true;
+        this.pointerButton = event.buttons;
         if (this.targetingModel) {
           this.orbit.enabled = false;
         } else {

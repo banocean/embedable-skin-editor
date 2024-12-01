@@ -84,17 +84,17 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolDown(part, pixel) {
+  toolDown(part, pixel, pointerButton) {
     const layer = this.layers.getSelectedLayer();
-    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y);
+    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y, pointerButton);
     
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
   }
 
-  toolMove(part, pixel) {
-    const texture = this.currentTool.move(part, pixel.x, pixel.y);
+  toolMove(part, pixel, pointerButton) {
+    const texture = this.currentTool.move(part, pixel.x, pixel.y, pointerButton);
     
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();

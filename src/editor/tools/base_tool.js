@@ -7,8 +7,8 @@ class BaseTool {
     this.config = config;
   }
 
-  down(_texture, _part, _x, _y) {}
-  move(_part, _x, _y) {}
+  down(_texture, _part, _x, _y, _pointerButton) {}
+  move(_part, _x, _y, _pointerButton) {}
   up(_x, _y) {}
 
   tempCanvas() {
