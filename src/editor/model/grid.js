@@ -50,6 +50,7 @@ class SkinGrid extends THREE.LineSegments {
       toneMapped: false,
       side: THREE.FrontSide,
       transparent: true,
+      opacity: 0.6,
     });
 
     super(geometry, material);
