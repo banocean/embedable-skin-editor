@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "./orbit";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./main";
 
 class Controls {
   constructor(parent) {
@@ -23,24 +22,17 @@ class Controls {
 
     if (intersects.length > 0) {
       this.targetingModel = false;
-      
-      for (const part of intersects) {
-        if (part.object.type == "Mesh") {
-          this.targetingModel = true;
 
-          if (this.pointerDown && !this.firstClickOutside) {
-            const pixel = new THREE.Vector2(
-              part.uv.x * IMAGE_WIDTH,
-              part.uv.y * IMAGE_HEIGHT
-            );
-            pixel.x = Math.floor(pixel.x);
-            pixel.y = IMAGE_HEIGHT - Math.ceil(pixel.y);
+      const parts = intersects.filter((part) => part.object.type == "Mesh");
 
-            this.drawing ? this.parent.toolMove(part, pixel, this.pointerButton) : this.parent.toolDown(part, pixel, this.pointerButton);
-            this.drawing = true;
-          }
+      if (parts.length > 0) {
+        this.targetingModel = true;
 
-          break;
+        if (this.pointerDown && !this.firstClickOutside) {
+          this.drawing
+            ? this.parent.toolMove(parts, this.pointerButton)
+            : this.parent.toolDown(parts, this.pointerButton);
+          this.drawing = true;
         }
       }
     } else {
@@ -58,11 +50,9 @@ class Controls {
   }
 
   onMouseDown(event) {
-    this.setPointer(
-      event.offsetX, event.offsetY
-    );
+    this.setPointer(event.offsetX, event.offsetY);
     switch (event.buttons) {
-      case 1: 
+      case 1:
       case 2: {
         this.pointerDown = true;
         this.pointerButton = event.buttons;
@@ -82,9 +72,7 @@ class Controls {
   }
 
   onMouseMove(event) {
-    this.setPointer(
-      event.offsetX, event.offsetY
-    );
+    this.setPointer(event.offsetX, event.offsetY);
     this.handleIntersects();
   }
 
@@ -102,14 +90,19 @@ class Controls {
 
   setPointer(x, y) {
     const domElement = this.parent.renderer.canvas();
-    this.pointer.x = (x / domElement.clientWidth) * 2 - 1,
-    this.pointer.y = -(y / domElement.clientHeight) * 2 + 1
+    (this.pointer.x = (x / domElement.clientWidth) * 2 - 1), (this.pointer.y = -(y / domElement.clientHeight) * 2 + 1);
   }
 
   getCursorStyle() {
-    if (this.panning) { return "all-scroll"; }
-    if ((this.targetingModel || this.pointerDown ) && !this.firstClickOutside) { return "crosshair"; }
-    if (this.pointerDown) { return "grabbing"; }
+    if (this.panning) {
+      return "all-scroll";
+    }
+    if ((this.targetingModel || this.pointerDown) && !this.firstClickOutside) {
+      return "crosshair";
+    }
+    if (this.pointerDown) {
+      return "grabbing";
+    }
     return "grab";
   }
 

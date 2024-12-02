@@ -31,11 +31,22 @@ class CanvasHelper {
     return texture;
   }
 
+  getPixel(point) {
+    const color = {};
+
+    color.r = this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4];
+    color.r = this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4];
+    color.r = this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4];
+    color.r = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
+
+    return color;
+  }
+
   putPixel(point, color) {
-    this.data[(point.x * 4 + 0) + point.y * IMAGE_WIDTH * 4] = color.r;
-    this.data[(point.x * 4 + 1) + point.y * IMAGE_WIDTH * 4] = color.g;
-    this.data[(point.x * 4 + 2) + point.y * IMAGE_WIDTH * 4] = color.b;
-    this.data[(point.x * 4 + 3) + point.y * IMAGE_WIDTH * 4] = color.a;
+    this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4] = color.r;
+    this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4] = color.g;
+    this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4] = color.b;
+    this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4] = color.a;
   }
 
   // https://zingl.github.io/bresenham.html
@@ -47,15 +58,23 @@ class CanvasHelper {
     let err = dx + dy;
     let e2;
 
-    const dir = (x0 >= x1) ? 1 : -1;
+    const dir = x0 >= x1 ? 1 : -1;
 
     while (true) {
-      this.putPixel({x: x0, y: y0}, color);
+      this.putPixel({ x: x0, y: y0 }, color);
 
-      if (x0 == x1 && y0 == y1) { break; }
+      if (x0 == x1 && y0 == y1) {
+        break;
+      }
       e2 = 2 * err;
-      if (e2 >= dy) { err += dy; x0 += sx; }
-      if (e2 <= dx) { err += dx; y0 += sy; }
+      if (e2 >= dy) {
+        err += dy;
+        x0 += sx;
+      }
+      if (e2 <= dx) {
+        err += dx;
+        y0 += sy;
+      }
     }
   }
 

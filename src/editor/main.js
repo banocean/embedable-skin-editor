@@ -11,6 +11,7 @@ import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
 import EraseTool from "./tools/toolset/erase_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
+import ToolData from "./tools/tool_data";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -29,18 +30,13 @@ class Editor extends LitElement {
   constructor() {
     super();
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      this.clientWidth / this.clientHeight,
-      0.1,
-      1000
-    );
+    this.camera = new THREE.PerspectiveCamera(75, this.clientWidth / this.clientHeight, 0.1, 1000);
     this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
-    this.history = new HistoryManager;
+    this.history = new HistoryManager();
     this.stats = new Stats();
-    this.config = new ToolConfig;
+    this.config = new ToolConfig();
     this.currentTool = new PenTool(this.config);
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -84,27 +80,29 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolDown(part, pixel, pointerButton) {
+  toolDown(parts, pointerButton) {
+    const toolData = this._createToolData(parts, pointerButton);
+    const texture = this.currentTool.down(toolData);
+
     const layer = this.layers.getSelectedLayer();
-    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y, pointerButton);
-    
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
   }
 
-  toolMove(part, pixel, pointerButton) {
-    const texture = this.currentTool.move(part, pixel.x, pixel.y, pointerButton);
-    
+  toolMove(parts, pointerButton) {
+    const toolData = this._createToolData(parts, pointerButton);
+    const texture = this.currentTool.move(toolData);
+
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();
   }
 
   toolUp() {
-    const texture = this.currentTool.up();
+    this.currentTool.up();
     const layer = this.layers.getSelectedLayer();
 
-    this.history.add(new UpdateLayerTexture(this.layers, layer, texture))
+    this.history.add(new UpdateLayerTexture(this.layers, layer, layer.texture));
   }
 
   zoom(zoom) {
@@ -132,6 +130,13 @@ class Editor extends LitElement {
     });
   }
 
+  _createToolData(parts, button) {
+    const layer = this.layers.getSelectedLayer();
+    const texture = layer.texture.image;
+
+    return new ToolData({ texture, parts, button });
+  }
+
   _setupResizeObserver() {
     const obs = new ResizeObserver((e) => {
       const target = e[0].target;
@@ -145,7 +150,7 @@ class Editor extends LitElement {
 
   _loadSkin() {
     new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
-      new AddLayerEntry(this.layers, {texture}).perform();
+      new AddLayerEntry(this.layers, { texture }).perform();
     });
 
     // new THREE.TextureLoader().load("overlay.png", (texture) => {

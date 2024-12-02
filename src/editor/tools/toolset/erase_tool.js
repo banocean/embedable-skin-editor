@@ -6,22 +6,24 @@ class EraseTool extends BaseTool {
   }
 
   canvas;
-  cursor = {x: 0, y: 0};
+  cursor = { x: 0, y: 0 };
   lastPart;
   lastFace;
 
-  down(texture, part, x, y) {
-    this.cursor = {x, y};
-    this.canvas = this.tempCanvas();
-    this.canvas.drawImage(texture.image, 0, 0);
+  down(toolData) {
+    this.canvas = toolData.texture;
 
-    this.draw(part, x, y, {r: 0, g: 0, b: 0, a: 0})
-    
+    const part = toolData.parts[0];
+
+    this.draw(part, toolData.getCoords(), { r: 0, g: 0, b: 0, a: 0 });
+
     return this.canvas.toTexture();
   }
 
-  move(part, x, y) {
-    this.draw(part, x, y, {r: 0, g: 0, b: 0, a: 0})
+  move(toolData) {
+    const part = toolData.parts[0];
+
+    this.draw(part, toolData.getCoords(), { r: 0, g: 0, b: 0, a: 0 });
 
     return this.canvas.toTexture();
   }
@@ -30,17 +32,17 @@ class EraseTool extends BaseTool {
     return this.canvas.toTexture();
   }
 
-  draw(part, x, y, color) {
+  draw(part, point, color) {
     if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
-      this.cursor = {x, y};
+      this.cursor = point;
     }
 
     this.lastPart = part.object.id;
     this.lastFace = part.faceIndex;
 
-    this.canvas.putLine(color, this.cursor.x, this.cursor.y, x, y);
+    this.canvas.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
 
-    this.cursor = {x, y};
+    this.cursor = point;
   }
 }
 
