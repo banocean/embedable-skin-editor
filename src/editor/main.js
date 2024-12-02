@@ -9,7 +9,6 @@ import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
-import EraseTool from "./tools/toolset/erase_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 
 const IMAGE_WIDTH = 64;
@@ -29,18 +28,13 @@ class Editor extends LitElement {
   constructor() {
     super();
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      this.clientWidth / this.clientHeight,
-      0.1,
-      1000
-    );
+    this.camera = new THREE.PerspectiveCamera(75, this.clientWidth / this.clientHeight, 0.1, 1000);
     this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
-    this.history = new HistoryManager;
+    this.history = new HistoryManager();
     this.stats = new Stats();
-    this.config = new ToolConfig;
+    this.config = new ToolConfig();
     this.currentTool = new PenTool(this.config);
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -104,24 +98,12 @@ class Editor extends LitElement {
     const texture = this.currentTool.up();
     const layer = this.layers.getSelectedLayer();
 
-    this.history.add(new UpdateLayerTexture(this.layers, layer, texture))
+    this.history.add(new UpdateLayerTexture(this.layers, layer, texture));
   }
 
   zoom(zoom) {
     this.camera.zoom = zoom;
     this.camera.updateProjectionMatrix();
-  }
-
-  setOverlaysVisible(visible) {
-    this.model.parts.forEach((part) => {
-      part.setOverlayVisible(visible);
-    });
-  }
-
-  setBasesVisible(visible) {
-    this.model.parts.forEach((part) => {
-      part.setBaseVisible(visible);
-    });
   }
 
   setPartVisible(name, visible) {
@@ -130,6 +112,42 @@ class Editor extends LitElement {
         part.setVisible(visible);
       }
     });
+  }
+
+  baseVisible = true;
+  overlayVisible = true;
+  gridVisible = true;
+
+  setBaseVisible(visible) {
+    this.baseVisible = visible;
+    this.updateVisibility();
+  }
+
+  setOverlayVisible(visible) {
+    this.overlayVisible = visible;
+    this.updateVisibility();
+  }
+
+  setGridVisible(visible) {
+    this.gridVisible = visible;
+    this.updateVisibility();
+  }
+
+  updateVisibility() {
+    if (this.baseVisible) {
+      this.camera.layers.enable(1);
+    } else {
+      this.camera.layers.disable(1);
+    }
+
+    if (this.overlayVisible) {
+      this.camera.layers.enable(2);
+    } else {
+      this.camera.layers.disable(2);
+    }
+
+    this.model.baseGrid.visible = this.gridVisible && this.baseVisible && !this.overlayVisible;
+    this.model.overlayGrid.visible = this.gridVisible && this.overlayVisible;
   }
 
   _setupResizeObserver() {
@@ -145,7 +163,7 @@ class Editor extends LitElement {
 
   _loadSkin() {
     new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
-      new AddLayerEntry(this.layers, {texture}).perform();
+      new AddLayerEntry(this.layers, { texture }).perform();
     });
 
     // new THREE.TextureLoader().load("overlay.png", (texture) => {
