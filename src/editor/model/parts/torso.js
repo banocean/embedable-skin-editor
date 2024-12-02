@@ -15,7 +15,7 @@ class TorsoPart extends BasePart {
   size() {
     return {
       base: [1, 1.5, 0.5],
-      overlay: [1.1, 1.6, 0.6]
+      overlay: [1.0625, 1.5625, 0.5625]
     }
   }
 

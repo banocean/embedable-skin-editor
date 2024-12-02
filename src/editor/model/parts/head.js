@@ -15,7 +15,7 @@ class HeadPart extends BasePart {
   size() {
     return {
       base: [1, 1, 1],
-      overlay: [1.1, 1.1, 1.1]
+      overlay: [1.125, 1.125, 1.125]
     }
   }
 

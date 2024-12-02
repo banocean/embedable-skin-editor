@@ -12,7 +12,7 @@ class ArmBasePart extends BasePart {
 
     return {
       base: [width, 1.5, 0.5],
-      overlay: [width + 0.1, 1.6, 0.6]
+      overlay: [width + 0.0625, 1.5625, 0.5625]
     }
   }
 }
