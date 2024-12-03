@@ -31,6 +31,10 @@ class SculptTool extends BaseTool {
       this.draw(texture, part, point, toolData.texture.getPixel({ x: point.x-16, y: point.y }));
     }
 
+    else if (toolData.button==2){
+      this.draw(texture, part, point, { r: 0, g: 0, b: 0, a: 0 });
+    }
+
     return texture.toTexture();
   }
 
