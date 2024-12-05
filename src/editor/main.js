@@ -10,6 +10,7 @@ import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
+import ToolData from "./tools/tool_data";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -61,6 +62,8 @@ class Editor extends LitElement {
     this.renderer.render();
     this.stats.end();
     this.style.cursor = this.controls.getCursorStyle();
+
+    this.dispatchEvent(new CustomEvent("render"));
   }
 
   centerModel() {
@@ -78,27 +81,29 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolDown(part, pixel, pointerButton) {
+  toolDown(parts, pointerButton) {
+    const toolData = this._createToolData(parts, pointerButton);
+    const texture = this.currentTool.down(toolData);
+
     const layer = this.layers.getSelectedLayer();
-    const texture = this.currentTool.down(layer.texture, part, pixel.x, pixel.y, pointerButton);
-    
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
   }
 
-  toolMove(part, pixel, pointerButton) {
-    const texture = this.currentTool.move(part, pixel.x, pixel.y, pointerButton);
-    
+  toolMove(parts, pointerButton) {
+    const toolData = this._createToolData(parts, pointerButton);
+    const texture = this.currentTool.move(toolData);
+
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();
   }
 
   toolUp() {
-    const texture = this.currentTool.up();
+    this.currentTool.up();
     const layer = this.layers.getSelectedLayer();
 
-    this.history.add(new UpdateLayerTexture(this.layers, layer, texture));
+    this.history.add(new UpdateLayerTexture(this.layers, layer, layer.texture));
   }
 
   zoom(zoom) {
@@ -148,6 +153,13 @@ class Editor extends LitElement {
 
     this.model.baseGrid.visible = this.gridVisible && this.baseVisible && !this.overlayVisible;
     this.model.overlayGrid.visible = this.gridVisible && this.overlayVisible;
+  }
+  
+  _createToolData(parts, button) {
+    const layer = this.layers.getSelectedLayer();
+    const texture = layer.texture.image;
+
+    return new ToolData({ texture, parts, button });
   }
 
   _setupResizeObserver() {

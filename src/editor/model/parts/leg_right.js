@@ -15,7 +15,7 @@ class RightLegPart extends BasePart {
   size() {
     return {
       base: [0.5, 1.5, 0.5],
-      overlay: [0.6, 1.6, 0.6]
+      overlay: [0.5625, 1.5625, 0.5625]
     }
   }
 

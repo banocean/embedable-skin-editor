@@ -5,42 +5,44 @@ class PenTool extends BaseTool {
     super(config);
   }
 
-  canvas;
-  cursor = {x: 0, y: 0};
+  cursor = { x: 0, y: 0 };
   lastPart;
   lastFace;
 
-  down(texture, part, x, y, pointerButton) {
-    this.cursor = {x, y};
-    this.canvas = this.tempCanvas();
-    this.canvas.drawImage(texture.image, 0, 0);
+  down(toolData) {
+    const texture = toolData.texture;
+    const part = toolData.parts[0];
+    const point = toolData.getCoords();
+    const color = toolData.button == 1 ? this.config.color : { r: 0, g: 0, b: 0, a: 0 };
 
-    this.draw(part, x, y, pointerButton == 1 ? this.config.color : {r: 0, g: 0, b: 0, a: 0})
-    
-    return this.canvas.toTexture();
+    this.draw(texture, part, point, color);
+
+    return texture.toTexture();
   }
 
-  move(part, x, y, pointerButton) {
-    this.draw(part, x, y, pointerButton == 1 ? this.config.color : {r: 0, g: 0, b: 0, a: 0})
+  move(toolData) {
+    const texture = toolData.texture;
+    const part = toolData.parts[0];
+    const point = toolData.getCoords();
+    const color = toolData.button == 1 ? this.config.color : { r: 0, g: 0, b: 0, a: 0 };
+    this.draw(texture, part, point, color);
 
-    return this.canvas.toTexture();
+    return texture.toTexture();
   }
 
-  up() {
-    return this.canvas.toTexture();
-  }
+  up() {}
 
-  draw(part, x, y, color) {
+  draw(texture, part, point, color) {
     if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
-      this.cursor = {x, y};
+      this.cursor = point;
     }
 
     this.lastPart = part.object.id;
     this.lastFace = part.faceIndex;
 
-    this.canvas.putLine(color, this.cursor.x, this.cursor.y, x, y);
+    texture.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
 
-    this.cursor = {x, y};
+    this.cursor = point;
   }
 }
 
