@@ -58,8 +58,6 @@ class CanvasHelper {
     let err = dx + dy;
     let e2;
 
-    const dir = x0 >= x1 ? 1 : -1;
-
     while (true) {
       this.putPixel({ x: x0, y: y0 }, color);
 

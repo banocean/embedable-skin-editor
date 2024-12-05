@@ -63,6 +63,8 @@ class Editor extends LitElement {
     this.renderer.render();
     this.stats.end();
     this.style.cursor = this.controls.getCursorStyle();
+
+    this.dispatchEvent(new CustomEvent("render"));
   }
 
   centerModel() {
