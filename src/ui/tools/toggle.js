@@ -6,6 +6,7 @@ class RenderToggle extends LitElement {
     cursor: pointer;
     user-select: none;
     color: white;
+    white-space: nowrap;
   }
 
   button {

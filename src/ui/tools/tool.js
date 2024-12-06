@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import NCRSEditor from "../../editor";
+import NCRSEditor from "../../main";
 
 class Tool extends LitElement {
   static styles = css`
@@ -22,7 +22,7 @@ class Tool extends LitElement {
     --icon-color: #f5f8cc;
   }
 
-  :host([active=true]) {
+  :host([active=true]), :host(:active) {
     --icon-color: #aaaaaa;
     margin-top: 0.125rem;
     margin-bottom: 0.25rem;

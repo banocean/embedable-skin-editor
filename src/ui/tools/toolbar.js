@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import RenderToggle from "./toggle";
-import NCRSEditor from "../../editor";
+import NCRSEditor from "../../main";
 import Tool from "./tool";
 
 class Toolbar extends LitElement {
@@ -9,7 +9,7 @@ class Toolbar extends LitElement {
     display: block;
     height: auto;
     padding: 0.25rem;
-    width: 3.5rem;
+    width: 3.75rem;
     background-color: #131315;
     box-sizing: border-box;
   }

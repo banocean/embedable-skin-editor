@@ -1,5 +1,6 @@
 class BaseEntry {
   hasPerformed = false;
+  shadow = false;
 
   perform() {
     if (this.hasPerformed) { return false; }

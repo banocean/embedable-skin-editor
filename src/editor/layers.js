@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./main";
 
 class Layers {
   constructor(width, height) {
@@ -19,6 +20,12 @@ class Layers {
     return this.layers[index];
   }
 
+  getLayerAtIndex(index) {
+    if (index < 0 || index > this.layers.length - 1) { return false }
+
+    return this.layers[index];
+  }
+
   getSelectedLayer() {
     this.selectedLayerIndex = clamp(
       this.selectedLayerIndex,
@@ -29,6 +36,13 @@ class Layers {
   }
 
   createFromTexture(texture) {
+    return new Layer(this.lastLayerId++, texture);
+  }
+
+  createBlank() {
+    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+
     return new Layer(this.lastLayerId++, texture);
   }
 
@@ -43,13 +57,28 @@ class Layers {
     this.renderTexture();
   }
 
+  addBlankLayer() {
+    this.addLayer(this.createBlank());
+  }
+
   removeLayer(layer) {
     const index = this.layerIndex(layer);
 
     if (index < 0) { return false; }
 
     this.layers.splice(index, 1)[0];
+
+    if (this.layers.length < 1) {
+      this.addBlankLayer();
+    }
+
     this.renderTexture();
+  }
+
+  selectLayer(index) {
+    if (index < 0 || index > this.layers.length - 1) { return false }
+
+    this.selectedLayerIndex = index;
   }
 
   reorderLayers(fromIndex, toIndex) {

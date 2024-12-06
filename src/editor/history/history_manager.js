@@ -4,7 +4,9 @@ class HistoryManager {
     this.redoStack = [];
   }
 
-  add(entry) {
+  add(entry, shadow = false) {
+    entry.shadow = shadow;
+
     if (entry.perform()) {
       this.undoStack.push(entry);
       this.redoStack = [];
@@ -22,6 +24,11 @@ class HistoryManager {
     const entry = this.undoStack.pop();
     entry.revert();
     this.redoStack.push(entry);
+
+    if (entry.shadow) {
+      this.undo();
+    }
+
     return true;
   }
 
@@ -33,6 +40,11 @@ class HistoryManager {
     const entry = this.redoStack.pop();
     entry.perform();
     this.undoStack.push(entry);
+
+    if (entry.shadow) {
+      this.redo();
+    }
+
     return true;
   }
 }
