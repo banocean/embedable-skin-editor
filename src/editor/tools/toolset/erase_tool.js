@@ -2,7 +2,14 @@ import { BaseTool } from "../base_tool";
 
 class EraseTool extends BaseTool {
   constructor(config) {
-    super(config);
+    super(
+      config,
+      {
+        icon: "eraser",
+        name: "Erase",
+        description: "Simple tool for erasing."
+      }
+    );
   }
 
   canvas;

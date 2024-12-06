@@ -7,6 +7,13 @@ class RenderToggle extends LitElement {
     user-select: none;
     color: white;
   }
+
+  button {
+    all: unset;
+    width: 100%;
+    display: block;
+  }
+
   ncrs-icon {
     width: 20px;
     height: 20px;
@@ -28,10 +35,10 @@ class RenderToggle extends LitElement {
 
   render() {
     return html`
-      <div @click="${this.toggle}">
+      <button @click="${this.toggle}">
         <ncrs-icon icon="${this.icon}" color="white"></ncrs-icon>
         <ncrs-icon icon="${this.active ? "box-checked" : "box-unchecked"}" color="white"></ncrs-icon>
-      </div>
+      </button>
     `
   }
 

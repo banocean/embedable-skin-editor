@@ -11,6 +11,7 @@ import ToolConfig from "./tools/tool_config";
 import PenTool from "./tools/toolset/pen_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 import ToolData from "./tools/tool_data";
+import EraseTool from "./tools/toolset/erase_tool";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -36,7 +37,8 @@ class Editor extends LitElement {
     this.history = new HistoryManager();
     this.stats = new Stats();
     this.config = new ToolConfig();
-    this.currentTool = new PenTool(this.config);
+    this.tools = this._setupTools();
+    this.currentTool = this.tools[0];
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -154,7 +156,14 @@ class Editor extends LitElement {
     this.model.baseGrid.visible = this.gridVisible && this.baseVisible && !this.overlayVisible;
     this.model.overlayGrid.visible = this.gridVisible && this.overlayVisible;
   }
-  
+
+  selectTool(tool) {
+    if (!this.tools.includes(tool)) { return false; }
+
+    this.currentTool = tool;
+    this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool: tool}}));
+  }
+
   _createToolData(parts, button) {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
@@ -201,6 +210,14 @@ class Editor extends LitElement {
     this.renderer.setAnimationLoop(() => {
       this.sceneRender();
     });
+  }
+
+  _setupTools() {
+    return [
+      new PenTool(this.config),
+      new EraseTool(this.config),
+      new PenTool(this.config),
+    ]
   }
 }
 

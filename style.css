@@ -19,17 +19,14 @@ html, body, #app {
   height: 100%;
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 #app {
   display: flex;
   position: relative;
   max-width: 1000px;
   height: 640px;
+  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 ncrs-editor {

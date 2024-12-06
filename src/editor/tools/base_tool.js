@@ -3,9 +3,11 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import CanvasHelper from "./canvas_helper";
 
 class BaseTool {
-  constructor(config) {
+  constructor(config, properties) {
     this.config = config;
+    this.properties = properties;
   }
+  properties;
 
   down(_texture, _part, _x, _y, _pointerButton) {}
   move(_part, _x, _y, _pointerButton) {}

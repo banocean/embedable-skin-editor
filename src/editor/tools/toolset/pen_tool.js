@@ -2,7 +2,14 @@ import { BaseTool } from "../base_tool";
 
 class PenTool extends BaseTool {
   constructor(config) {
-    super(config);
+    super(
+      config,
+      {
+        icon: "brush",
+        name: "Pen",
+        description: "Simple tool for drawing."
+      }
+    );
   }
 
   cursor = { x: 0, y: 0 };
