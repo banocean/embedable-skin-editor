@@ -4,12 +4,14 @@ class HistoryManager {
     this.redoStack = [];
   }
 
-  add(entry, shadow = false) {
-    entry.shadow = shadow;
-
-    if (entry.perform()) {
+  add(entry) {
+    const lastEntry = this.undoStack.at(-1);
+    if (lastEntry?.stacking && lastEntry.constructor == entry.constructor) {
+      return lastEntry.onStack(entry);
+    } else if (entry.perform()) {
       this.undoStack.push(entry);
       this.redoStack = [];
+
       return true;
     }
 
@@ -25,10 +27,6 @@ class HistoryManager {
     entry.revert();
     this.redoStack.push(entry);
 
-    if (entry.shadow) {
-      this.undo();
-    }
-
     return true;
   }
 
@@ -40,10 +38,6 @@ class HistoryManager {
     const entry = this.redoStack.pop();
     entry.perform();
     this.undoStack.push(entry);
-
-    if (entry.shadow) {
-      this.redo();
-    }
 
     return true;
   }

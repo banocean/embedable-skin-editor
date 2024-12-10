@@ -2,9 +2,7 @@ import { Sortable } from "@shopify/draggable";
 import { css, LitElement } from "lit";
 import IconButton from "../misc/icon_button";
 import NCRSEditor from "../../main";
-import AddLayerEntry from "../../editor/history/entries/add_layer_entry";
-import DeleteLayerEntry from "../../editor/history/entries/delete_layer_entry";
-import SelectLayerEntry from "../../editor/history/entries/select_layer_entry";
+import Layer from "./layer";
 
 class LayerList extends LitElement {
   static styles = css`
@@ -13,10 +11,27 @@ class LayerList extends LitElement {
       width: 5rem;
       background-color: rgb(19, 19, 21);
       box-sizing: border-box;
+      padding: 0.25rem;
+    }
+
+    #list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      height: 100%;
+    }
+
+    #layers {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex-grow: 1;
+      gap: 0.25rem;
     }
 
     #buttons {
       display: flex;
+      gap: 0.125rem;
     }
 
     ncrs-icon-button {
@@ -25,27 +40,53 @@ class LayerList extends LitElement {
     }
 
     ncrs-icon-button[icon="plus"] {
-      border-bottom-left-radius: 0.75rem;
+      border-bottom-left-radius: 0.5rem;
       border-bottom-right-radius: 0px;
     }
 
     ncrs-icon-button[icon="trash"] {
       border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0.75rem;
+      border-bottom-right-radius: 0.5rem;
     }
   `
 
   constructor() {
     super();
-
     this.sortable = new Sortable(this);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  firstUpdated() {
+    NCRSEditor.layers.addEventListener("layers-update", () => {
+      this.requestUpdate();
+    })
   }
 
   render() {
     const div = document.createElement("div");
+    div.id = "list";
+
+    const layersDiv = this._setupLayers();
+    div.appendChild(layersDiv);
 
     const buttonDiv = this._setupLayerButtons();
     div.appendChild(buttonDiv);
+
+    return div;
+  }
+
+  _setupLayers() {
+    const div = document.createElement("div");
+    div.id = "layers";
+
+    NCRSEditor.forEachLayer((layer, index) => {
+      const uiLayer = new Layer(layer);
+
+      div.prepend(uiLayer);
+    })
 
     return div;
   }
@@ -54,25 +95,15 @@ class LayerList extends LitElement {
     const div = document.createElement("div");
     div.id = "buttons";
 
-    const layers = NCRSEditor.layers;
-    const history = NCRSEditor.history;
-
     div.appendChild(
       new IconButton("plus", () => {
-        history.add(
-          new AddLayerEntry(layers, {layer: layers.createBlank()})
-        )
-        history.add(
-          new SelectLayerEntry(layers, layers.getLayerAtIndex(layers.layers.length - 1))
-        )
+        NCRSEditor.addLayer();
       })
     );
 
     div.appendChild(
       new IconButton("trash", () => {
-        history.add(
-          new DeleteLayerEntry(layers, layers.getSelectedLayer())
-        )
+        NCRSEditor.removeLayer();
       })
     );
 

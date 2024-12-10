@@ -22,6 +22,7 @@ class PenTool extends BaseTool {
     const point = toolData.getCoords();
     const color = toolData.button == 1 ? this.config.color : { r: 0, g: 0, b: 0, a: 0 };
 
+    this.cursor = point;
     this.draw(texture, part, point, color);
 
     return texture.toTexture();

@@ -3,8 +3,10 @@ import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./main";
 
-class Layers {
+class Layers extends EventTarget {
   constructor(width, height) {
+    super();
+
     this.canvas = new OffscreenCanvas(width, height);
     this.texture = this._setupTexture();
   }
@@ -26,13 +28,16 @@ class Layers {
     return this.layers[index];
   }
 
-  getSelectedLayer() {
-    this.selectedLayerIndex = clamp(
+  getSelectedLayerIndex() {
+    return this.selectedLayerIndex = clamp(
       this.selectedLayerIndex,
       0,
       this.layers.length - 1
     );
-    return this.layers[this.selectedLayerIndex];
+  }
+
+  getSelectedLayer() {
+    return this.layers[this.getSelectedLayerIndex()];
   }
 
   createFromTexture(texture) {
@@ -55,10 +60,19 @@ class Layers {
   addLayer(layer) {
     this.layers.push(layer);
     this.renderTexture();
+    this.dispatchEvent(new CustomEvent("layers-update"));
   }
 
   addBlankLayer() {
     this.addLayer(this.createBlank());
+  }
+
+  insertLayer(layer, index) {
+    if (index < 0 || index > this.layers.length - 1) { return false }
+
+    this.layers.splice(index, 0, layer);
+    this.renderTexture();
+    this.dispatchEvent(new CustomEvent("layers-update"));
   }
 
   removeLayer(layer) {
@@ -66,19 +80,20 @@ class Layers {
 
     if (index < 0) { return false; }
 
-    this.layers.splice(index, 1)[0];
-
-    if (this.layers.length < 1) {
-      this.addBlankLayer();
-    }
+    this.layers.splice(index, 1);
 
     this.renderTexture();
+    this.dispatchEvent(new CustomEvent("layers-update"));
   }
 
   selectLayer(index) {
     if (index < 0 || index > this.layers.length - 1) { return false }
 
     this.selectedLayerIndex = index;
+
+    this.layers.forEach((layer, idx) => {
+      layer.select(this.selectedLayerIndex == idx);
+    })
   }
 
   reorderLayers(fromIndex, toIndex) {
@@ -109,12 +124,15 @@ class Layers {
   }
 }
 
-class Layer {
+class Layer extends EventTarget {
   constructor(id, texture) {
+    super();
+
     this.id = id;
     this.texture = texture;
     this.oldTexture = texture;
   }
+  selected = false;
 
   flush() {
     this.oldTexture = this.texture;
@@ -122,10 +140,16 @@ class Layer {
 
   replaceTexture(texture) {
     this.texture = texture;
+    this.dispatchEvent(new CustomEvent("layer-update"));
+  }
+
+  select(selected) {
+    this.selected = selected;
+    this.dispatchEvent(new CustomEvent("layer-select", {detail: {selected}}));
   }
 
   toPreview() {
-    return imageToPreview(this.canvas);
+    return imageToPreview(this.texture.image);
   }
 }
 

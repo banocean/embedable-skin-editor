@@ -1,6 +1,6 @@
 class BaseEntry {
   hasPerformed = false;
-  shadow = false;
+  stacking = false;
 
   perform() {
     if (this.hasPerformed) { return false; }

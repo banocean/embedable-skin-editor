@@ -22,6 +22,7 @@ class EraseTool extends BaseTool {
 
     const part = toolData.parts[0];
 
+    this.cursor = toolData.getCoords();
     this.draw(part, toolData.getCoords(), { r: 0, g: 0, b: 0, a: 0 });
 
     return this.canvas.toTexture();

@@ -12,6 +12,9 @@ import PenTool from "./tools/toolset/pen_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 import ToolData from "./tools/tool_data";
 import EraseTool from "./tools/toolset/erase_tool";
+import SelectLayerEntry from "./history/entries/select_layer_entry";
+import GroupedEntry from "./history/entries/grouped_entry";
+import DeleteLayerEntry from "./history/entries/delete_layer_entry";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -57,6 +60,10 @@ class Editor extends LitElement {
     this.camera.layers.enable(2);
 
     return this.renderer.canvas();
+  }
+
+  firstUpdated() {
+    this.layers.selectLayer(0);
   }
 
   sceneRender() {
@@ -164,6 +171,47 @@ class Editor extends LitElement {
     this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool: tool}}));
   }
 
+  selectLayer(layer) {
+    this.history.add(
+      new SelectLayerEntry(this.layers, {layer})
+    )
+  }
+
+  addLayer() {
+    const layer = this.layers.createBlank();
+
+    this.history.add(
+      new GroupedEntry(
+        new AddLayerEntry(this.layers, {layer}),
+        new SelectLayerEntry(this.layers, {layer})
+      )
+    );
+  }
+
+  removeLayer() {
+    const layers = this.layers;
+    const layer = this.layers.getSelectedLayer();
+    let entry;
+
+    if (layers.layers.length == 1) {
+      entry = new GroupedEntry(
+        new DeleteLayerEntry(layers, layer),
+        new AddLayerEntry(layers),
+        new SelectLayerEntry(this.layers, {index: 0})
+      );
+    } else {
+      entry = new GroupedEntry(
+        new DeleteLayerEntry(layers, layer),
+      );
+    }
+
+    this.history.add(entry);
+  }
+
+  forEachLayer(callback) {
+    this.layers.layers.forEach(callback);
+  }
+
   _createToolData(parts, button) {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
@@ -184,7 +232,10 @@ class Editor extends LitElement {
 
   _loadSkin() {
     new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
-      new AddLayerEntry(this.layers, { texture }).perform();
+      new GroupedEntry(
+        new AddLayerEntry(this.layers, { texture }),
+        new SelectLayerEntry(this.layers, {index: 0})
+      ).perform()
     });
 
     // new THREE.TextureLoader().load("overlay.png", (texture) => {

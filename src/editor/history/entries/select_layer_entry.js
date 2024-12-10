@@ -1,21 +1,40 @@
 import { BaseEntry } from "../base_entry";
 
 class SelectLayerEntry extends BaseEntry {
-  constructor(layers, layer) {
+  constructor(layers, params = {}) {
     super();
-
+    
     this.layers = layers;
-    this.layer = layer;
-    this.oldLayerIndex = layers.selectedLayerIndex;
+    this.layer = params.layer;
+    this.index = params.index;
   }
+  oldLayerIndex;
+  stacking = true;
 
   onPerform() {
-    const index = this.layers.layerIndex(this.layer);
-    this.layers.selectLayer(index);
+    this.oldLayerIndex = this.layers.selectedLayerIndex;
+    
+    if (this.index != undefined) {
+      this._selectLayer(this.index);
+    } else {
+      this._selectLayer(this.layers.layerIndex(this.layer));
+    }
+  }
+
+  onStack(entry) {
+    if (entry.index != undefined) {
+      this._selectLayer(entry.index);
+    } else {
+      this._selectLayer(this.layers.layerIndex(entry.layer));
+    }
   }
 
   onRevert() {
     this.layers.selectLayer(this.oldLayerIndex);
+  }
+
+  _selectLayer(index) {    
+    this.layers.selectLayer(index);
   }
 }
 
