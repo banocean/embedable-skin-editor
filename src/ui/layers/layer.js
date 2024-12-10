@@ -33,6 +33,9 @@ class Layer extends LitElement {
     super();
 
     this.layer = layer;
+
+    if (this.layer == undefined) { return; }
+
     this.canvas = this._setupCanvas();
     this.active = layer.selected;
 

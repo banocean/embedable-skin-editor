@@ -100,7 +100,14 @@ class Layers extends EventTarget {
     const max = this.layers.length - 1;
     if (fromIndex < 0 || fromIndex > max || toIndex < 0 || toIndex > max) { return false; }
 
-    this.layers.splice(toIndex, 0, this.layers.splice(fromIndex, 1)[0])
+    const currentLayer = this.getSelectedLayer();
+    this.layers.splice(toIndex, 0, this.layers.splice(fromIndex, 1)[0]);
+
+    const idx = this.layerIndex(currentLayer);
+    this.selectLayer(idx);
+
+    this.renderTexture();
+    this.dispatchEvent(new CustomEvent("layers-update"));
   }
 
   renderTexture() {

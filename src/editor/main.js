@@ -15,6 +15,7 @@ import EraseTool from "./tools/toolset/erase_tool";
 import SelectLayerEntry from "./history/entries/select_layer_entry";
 import GroupedEntry from "./history/entries/grouped_entry";
 import DeleteLayerEntry from "./history/entries/delete_layer_entry";
+import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -206,6 +207,12 @@ class Editor extends LitElement {
     }
 
     this.history.add(entry);
+  }
+
+  reorderLayers(fromIndex, toIndex) {
+    this.history.add(
+      new ReorderLayersEntry(this.layers, fromIndex, toIndex)
+    );
   }
 
   forEachLayer(callback) {

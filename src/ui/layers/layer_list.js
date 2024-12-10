@@ -1,5 +1,5 @@
-import { Sortable } from "@shopify/draggable";
-import { css, LitElement } from "lit";
+import { Sortable } from "sortablejs";
+import { css, html, LitElement } from "lit";
 import IconButton from "../misc/icon_button";
 import NCRSEditor from "../../main";
 import Layer from "./layer";
@@ -21,17 +21,42 @@ class LayerList extends LitElement {
       height: 100%;
     }
 
+    #layers-wrapper {
+      position: relative;
+      flex-grow: 1;
+      width: 68px;
+      overflow: auto;
+    }
+
+    #layers-overflow {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+
+    #layers-spacer {
+      flex-grow: 1;
+    }
+
     #layers {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      flex-grow: 1;
       gap: 0.25rem;
+      overflow: auto;
     }
 
     #buttons {
       display: flex;
       gap: 0.125rem;
+    }
+
+    ncrs-layer {
+      flex-shrink: 0;
     }
 
     ncrs-icon-button {
@@ -52,8 +77,8 @@ class LayerList extends LitElement {
 
   constructor() {
     super();
-    this.sortable = new Sortable(this);
   }
+  sortable;
 
   connectedCallback() {
     super.connectedCallback();
@@ -66,29 +91,52 @@ class LayerList extends LitElement {
   }
 
   render() {
-    const div = document.createElement("div");
-    div.id = "list";
-
     const layersDiv = this._setupLayers();
-    div.appendChild(layersDiv);
-
     const buttonDiv = this._setupLayerButtons();
-    div.appendChild(buttonDiv);
 
-    return div;
+    return html`
+      <div id="list">
+        ${layersDiv}
+        ${buttonDiv}
+      </div>
+    `;
   }
 
   _setupLayers() {
-    const div = document.createElement("div");
-    div.id = "layers";
+    const inner = document.createElement("div");
+    inner.id = "layers"
 
-    NCRSEditor.forEachLayer((layer, index) => {
-      const uiLayer = new Layer(layer);
+    this.sortable = this._setupSortable(inner);
 
-      div.prepend(uiLayer);
+    NCRSEditor.forEachLayer((layer) => {
+      inner.prepend(new Layer(layer));
     })
 
-    return div;
+    return html`
+      <div id="layers-wrapper">
+        <div id="layers-overflow">
+          <div id="layers-spacer"></div>
+          ${inner}
+        </div>
+      </div>
+    `;
+  }
+
+  _setupSortable(target) {
+    const sortable = new Sortable(target, {
+      draggable: "ncrs-layer",
+      distance: 2,
+      onEnd: (event) => {
+        const count = target.querySelectorAll("ncrs-layer").length - 1;
+
+        const fromIndex = count - event.oldDraggableIndex;
+        const toIndex = count - event.newDraggableIndex;
+
+        NCRSEditor.reorderLayers(fromIndex, toIndex);
+      }
+    });
+
+    return sortable;
   }
 
   _setupLayerButtons() {

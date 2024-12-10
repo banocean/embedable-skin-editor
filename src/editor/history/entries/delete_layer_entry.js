@@ -18,8 +18,6 @@ class DeleteLayerEntry extends BaseEntry {
   }
 
   onRevert() {
-    console.log(this.index)
-
     if (this.index >= this.layers.layers.length) {
       this.layers.addLayer(this.layer)
     } else {
