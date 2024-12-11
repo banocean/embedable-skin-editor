@@ -8,10 +8,11 @@ import Stats from "stats.js";
 import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
-import PenTool from "./tools/toolset/pen_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 import ToolData from "./tools/tool_data";
+import PenTool from "./tools/toolset/pen_tool";
 import EraseTool from "./tools/toolset/erase_tool";
+import SculptTool from "./tools/toolset/sculpt_tool";
 import SelectLayerEntry from "./history/entries/select_layer_entry";
 import GroupedEntry from "./history/entries/grouped_entry";
 import DeleteLayerEntry from "./history/entries/delete_layer_entry";
@@ -278,7 +279,7 @@ class Editor extends LitElement {
     return [
       new PenTool(this.config),
       new EraseTool(this.config),
-      new PenTool(this.config),
+      new SculptTool(this.config),
     ]
   }
 }
