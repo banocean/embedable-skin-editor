@@ -12,6 +12,7 @@ import PenTool from "./tools/toolset/pen_tool";
 import EraseTool from "./tools/toolset/erase_tool";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 import ToolData from "./tools/tool_data";
+import SculptTool from "./tools/toolset/sculpt_tool";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;

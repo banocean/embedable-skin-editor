@@ -35,9 +35,9 @@ class CanvasHelper {
     const color = {};
 
     color.r = this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4];
-    color.r = this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4];
-    color.r = this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4];
-    color.r = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
+    color.g = this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4];
+    color.b = this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4];
+    color.a = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
 
     return color;
   }
