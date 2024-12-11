@@ -115,6 +115,8 @@ class Layers extends EventTarget {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.layers.forEach((layer) => {
+      if (!layer.visible) { return; }
+
       ctx.drawImage(layer.texture.image, 0, 0);
     });
 
@@ -140,6 +142,7 @@ class Layer extends EventTarget {
     this.oldTexture = texture;
   }
   selected = false;
+  visible = true;
 
   flush() {
     this.oldTexture = this.texture;

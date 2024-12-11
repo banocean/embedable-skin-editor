@@ -219,6 +219,10 @@ class Editor extends LitElement {
     this.layers.layers.forEach(callback);
   }
 
+  renderLayers() {
+    this.layers.renderTexture();
+  }
+
   _createToolData(parts, button) {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;

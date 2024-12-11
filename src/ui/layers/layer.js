@@ -9,30 +9,56 @@ class Layer extends LitElement {
       image-rendering: pixelated;
       border-style: dashed;
       border-width: 2px;
-      border-color: #aaaaaa;
+      border-color: #2e3437;
     }
 
     :host([active=true]) {
-      border-color: white;
+      border-color: #5a6472;
+    }
+
+    #layer {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
 
     button {
       all: unset;
+      position: absolute;
       display: flex;
       justify-content: center;
-      width: 100%;
-      height: 100%;
+
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+
+    #visibility-toggle {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 2px;
+      top: 16px;
+    }
+
+    ncrs-icon {
+      --icon-color: white;
+      width: 16px;
+      height: auto;
     }
   `
 
   static properties = {
     active: {reflect: true},
+    visible: {},
   }
 
   constructor(layer) {
     super();
 
     this.layer = layer;
+    this.visible = layer.visible;
 
     if (this.layer == undefined) { return; }
 
@@ -56,13 +82,26 @@ class Layer extends LitElement {
     ctx.drawImage(image, 0, 0);
 
     return html`
-      <button @click=${this.select}>${this.canvas}</button>
+      <div id="layer">
+        <button @click=${this.select}>${this.canvas}</button>
+        <button id="visibility-toggle" @click=${this.toggleVisibile}>
+          <ncrs-icon icon="${this.visible ? "eye-open" : "eye-closed"}" color="var(--icon-color)">
+          </ncrs-icon>
+        </button>
+      </div>
     `;
   }
 
   select() {
     NCRSEditor.selectLayer(this.layer);
     this.active = true;
+  }
+
+  toggleVisibile() {
+    this.visible = !this.visible;
+    this.layer.visible = this.visible;
+
+    NCRSEditor.renderLayers();
   }
 
   _setupCanvas() {
