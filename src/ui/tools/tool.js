@@ -59,8 +59,10 @@ class Tool extends LitElement {
   render() {
     this.active = (NCRSEditor.currentTool == this.tool);
 
-    const icon = this.tool.properties.icon;
-    const title = this.tool.properties.name;
+    const properties = this.tool.properties;
+
+    const icon = properties.icon;
+    const title = properties.name + "\n" + properties.description;
 
     return html`
       <button title="${title}" @click="${this.select}">

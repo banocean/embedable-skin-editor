@@ -59,6 +59,10 @@ class LayerList extends LitElement {
       flex-shrink: 0;
     }
 
+    ncrs-layer.sortable-chosen {
+      cursor: grabbing;
+    }
+
     ncrs-icon-button {
       --icon-height: 1rem;
       flex-grow: 1;

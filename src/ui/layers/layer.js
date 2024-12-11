@@ -26,7 +26,12 @@ class Layer extends LitElement {
       all: unset;
       position: absolute;
       display: flex;
-      justify-content: center;
+    }
+
+    #layer-button {
+      cursor: grab;
+      padding: 0.375rem;
+      padding-left: 0.125rem;
 
       top: 0px;
       bottom: 0px;
@@ -34,12 +39,20 @@ class Layer extends LitElement {
       right: 0px;
     }
 
+    #layer-button:active {
+      cursor: grabbing;
+    }
+
     #visibility-toggle {
-      position: absolute;
+      cursor: pointer;
       width: 16px;
       height: 16px;
-      left: 2px;
+      right: 0.125rem;
       top: 16px;
+    }
+
+    :host(.sortable-drag) #visibility-toggle {
+      display: none;
     }
 
     ncrs-icon {
@@ -58,9 +71,12 @@ class Layer extends LitElement {
     super();
 
     this.layer = layer;
+    if (this.layer == undefined) {
+      this.blank = true;
+      return;
+    }
+    
     this.visible = layer.visible;
-
-    if (this.layer == undefined) { return; }
 
     this.canvas = this._setupCanvas();
     this.active = layer.selected;
@@ -73,17 +89,20 @@ class Layer extends LitElement {
       this.active = event.detail.selected;
     })
   }
+  blank = false;
 
   render() {
-    const image = this.layer.toPreview();
-    const ctx = this.canvas.getContext("2d");
-
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.drawImage(image, 0, 0);
+    if (!this.blank) {
+      const image = this.layer.toPreview();
+      const ctx = this.canvas.getContext("2d");
+  
+      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      ctx.drawImage(image, 0, 0);
+    }
 
     return html`
       <div id="layer">
-        <button @click=${this.select}>${this.canvas}</button>
+        <button id="layer-button" @click=${this.select}>${this.canvas}</button>
         <button id="visibility-toggle" @click=${this.toggleVisibile}>
           <ncrs-icon icon="${this.visible ? "eye-open" : "eye-closed"}" color="var(--icon-color)">
           </ncrs-icon>
@@ -93,11 +112,15 @@ class Layer extends LitElement {
   }
 
   select() {
+    if (this.blank) { return; }
+
     NCRSEditor.selectLayer(this.layer);
     this.active = true;
   }
 
   toggleVisibile() {
+    if (this.blank) { return; }
+
     this.visible = !this.visible;
     this.layer.visible = this.visible;
 

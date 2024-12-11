@@ -199,7 +199,7 @@ class Editor extends LitElement {
       entry = new GroupedEntry(
         new DeleteLayerEntry(layers, layer),
         new AddLayerEntry(layers),
-        new SelectLayerEntry(this.layers, {index: 0})
+        new SelectLayerEntry(layers, {index: 0})
       );
     } else {
       entry = new GroupedEntry(
