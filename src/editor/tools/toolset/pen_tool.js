@@ -2,14 +2,11 @@ import { BaseTool } from "../base_tool";
 
 class PenTool extends BaseTool {
   constructor(config) {
-    super(
-      config,
-      {
-        icon: "brush",
-        name: "Pen",
-        description: "Simple tool for drawing."
-      }
-    );
+    super(config, {
+      icon: "brush",
+      name: "Pen",
+      description: "Simple tool for drawing.",
+    });
   }
 
   cursor = { x: 0, y: 0 };
@@ -41,12 +38,12 @@ class PenTool extends BaseTool {
   up() {}
 
   draw(texture, part, point, color) {
-    if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
+    if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
       this.cursor = point;
     }
 
     this.lastPart = part.object.id;
-    this.lastFace = part.faceIndex;
+    this.lastFace = part.normal;
 
     texture.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
 
