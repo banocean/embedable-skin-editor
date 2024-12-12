@@ -1,7 +1,6 @@
 import { Sortable } from "sortablejs";
 import { css, html, LitElement } from "lit";
 import IconButton from "../misc/icon_button";
-import NCRSEditor from "../../main";
 import Layer from "./layer";
 
 class LayerList extends LitElement {
@@ -79,8 +78,9 @@ class LayerList extends LitElement {
     }
   `
 
-  constructor() {
+  constructor(ui) {
     super();
+    this.ui = ui;
   }
   sortable;
 
@@ -89,7 +89,7 @@ class LayerList extends LitElement {
   }
 
   firstUpdated() {
-    NCRSEditor.layers.addEventListener("layers-update", () => {
+    this.ui.editor.layers.addEventListener("layers-update", () => {
       this.requestUpdate();
     })
   }
@@ -112,8 +112,8 @@ class LayerList extends LitElement {
 
     this.sortable = this._setupSortable(inner);
 
-    NCRSEditor.forEachLayer((layer) => {
-      inner.prepend(new Layer(layer));
+    this.ui.editor.forEachLayer((layer) => {
+      inner.prepend(new Layer(this.ui, layer));
     })
 
     return html`
@@ -136,7 +136,7 @@ class LayerList extends LitElement {
         const fromIndex = count - event.oldDraggableIndex;
         const toIndex = count - event.newDraggableIndex;
 
-        NCRSEditor.reorderLayers(fromIndex, toIndex);
+        this.ui.editor.reorderLayers(fromIndex, toIndex);
       }
     });
 
@@ -149,13 +149,13 @@ class LayerList extends LitElement {
 
     div.appendChild(
       new IconButton("plus", () => {
-        NCRSEditor.addLayer();
+        this.ui.editor.addLayer();
       })
     );
 
     div.appendChild(
       new IconButton("trash", () => {
-        NCRSEditor.removeLayer();
+        this.ui.editor.removeLayer();
       })
     );
 

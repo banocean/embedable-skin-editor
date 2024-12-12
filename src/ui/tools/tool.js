@@ -1,5 +1,4 @@
 import { css, html, LitElement } from "lit";
-import NCRSEditor from "../../main";
 
 class Tool extends LitElement {
   static styles = css`
@@ -50,14 +49,15 @@ class Tool extends LitElement {
     active: {reflect: true},
   }
 
-  constructor(tool) {
+  constructor(ui, tool) {
     super()
     this.active = false;
+    this.ui = ui;
     this.tool = tool;
   }
 
   render() {
-    this.active = (NCRSEditor.currentTool == this.tool);
+    this.active = (this.ui.editor.currentTool == this.tool);
 
     const properties = this.tool.properties;
 
@@ -73,7 +73,7 @@ class Tool extends LitElement {
 
   select() {
     this.active = true;
-    NCRSEditor.selectTool(this.tool);
+    this.ui.editor.selectTool(this.tool);
   }
 }
 

@@ -1,6 +1,5 @@
-import { css, html, LitElement } from "lit";
+import { css, LitElement } from "lit";
 import RenderToggle from "./toggle";
-import NCRSEditor from "../../main";
 import Tool from "./tool";
 
 class Toolbar extends LitElement {
@@ -27,8 +26,10 @@ class Toolbar extends LitElement {
   }
 `;
 
-  constructor() {
+  constructor(ui) {
     super();
+
+    this.ui = ui;
   }
 
   render() {
@@ -50,7 +51,7 @@ class Toolbar extends LitElement {
   }
 
   _setupEvents() {
-    NCRSEditor.addEventListener("select-tool", event => {
+    this.ui.editor.addEventListener("select-tool", event => {
       this.select(event.detail.tool);
     });
   }
@@ -59,9 +60,9 @@ class Toolbar extends LitElement {
     const div = document.createElement("div");
     div.id = "tools";
 
-    NCRSEditor.tools.forEach(tool => {
+    this.ui.editor.tools.forEach(tool => {
       div.appendChild(
-        new Tool(tool)
+        new Tool(this.ui, tool)
       )
     });
 
@@ -73,19 +74,19 @@ class Toolbar extends LitElement {
 
     div.appendChild(
       new RenderToggle("armor", active => {
-        NCRSEditor.setOverlayVisible(active);
+        this.ui.editor.setOverlayVisible(active);
       })
     )
 
     div.appendChild(
       new RenderToggle("player", active => {
-        NCRSEditor.setBaseVisible(active);
+        this.ui.editor.setBaseVisible(active);
       })
     )
 
     div.appendChild(
       new RenderToggle("grid", active => {
-        NCRSEditor.setGridVisible(active);
+        this.ui.editor.setGridVisible(active);
       })
     )
 
@@ -94,3 +95,5 @@ class Toolbar extends LitElement {
 }
 
 customElements.define("ncrs-toolbar", Toolbar);
+
+export default Toolbar;

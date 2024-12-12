@@ -1,5 +1,4 @@
 import { css, html, LitElement } from "lit";
-import NCRSEditor from "../../main";
 
 class Layer extends LitElement {
   static styles = css`
@@ -67,9 +66,10 @@ class Layer extends LitElement {
     visible: {},
   }
 
-  constructor(layer) {
+  constructor(ui, layer) {
     super();
 
+    this.ui = ui;
     this.layer = layer;
     if (this.layer == undefined) {
       this.blank = true;
@@ -114,7 +114,7 @@ class Layer extends LitElement {
   select() {
     if (this.blank) { return; }
 
-    NCRSEditor.selectLayer(this.layer);
+    this.ui.editor.selectLayer(this.layer);
     this.active = true;
   }
 
@@ -124,7 +124,7 @@ class Layer extends LitElement {
     this.visible = !this.visible;
     this.layer.visible = this.visible;
 
-    NCRSEditor.renderLayers();
+    this.ui.editor.renderLayers();
   }
 
   _setupCanvas() {
