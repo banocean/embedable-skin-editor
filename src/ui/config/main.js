@@ -52,8 +52,12 @@ class Config extends LitElement {
       color: #f5f8cc;
     }
 
-    ncrs-tab-group::part(button selected) {
+    ncrs-tab-group::part(button selected),
+    ncrs-tab-group::part(button):active {
       border-color: #313436;
+    }
+
+    ncrs-tab-group::part(button selected) {
       background-color: #232428;
     }
   `
