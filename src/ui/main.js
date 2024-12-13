@@ -4,6 +4,7 @@ import { css, html, LitElement } from "lit";
 import { Editor } from "../editor/main";
 import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
+import Config from "./config/main";
 
 class UI extends LitElement {
   static styles = css`
@@ -11,6 +12,11 @@ class UI extends LitElement {
       display: flex;
       width: 100%;
       height: 100%;
+    }
+
+    ncrs-editor {
+      background-color: #191919;
+      flex-grow: 1;
     }
   `;
 
@@ -20,6 +26,7 @@ class UI extends LitElement {
     this.editor = new Editor;
     this.toolbar = new Toolbar(this);
     this.layers = new LayerList(this);
+    this.config = new Config();
   }
 
   firstUpdated() {
@@ -39,6 +46,7 @@ class UI extends LitElement {
       ${this.toolbar}
       ${this.editor}
       ${this.layers}
+      ${this.config}
     `;
   }
 }
