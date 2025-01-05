@@ -62,9 +62,15 @@ class Config extends LitElement {
     }
   `
 
+  constructor(editor) {
+    super();
+
+    this.editor = editor;
+  }
+
   render() {
     const tabs = new TabGroup();
-    tabs.registerTab(new ToolTab());
+    tabs.registerTab(new ToolTab(this.editor));
     tabs.registerTab(new LayersTab());
     tabs.registerTab(new ImportTab());
     tabs.registerTab(new ExportTab());

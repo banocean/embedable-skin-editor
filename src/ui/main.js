@@ -26,7 +26,7 @@ class UI extends LitElement {
     this.editor = new Editor;
     this.toolbar = new Toolbar(this);
     this.layers = new LayerList(this);
-    this.config = new Config();
+    this.config = new Config(this.editor);
   }
 
   firstUpdated() {

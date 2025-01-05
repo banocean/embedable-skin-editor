@@ -16,6 +16,7 @@ class LayerList extends LitElement {
     #list {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 0.25rem;
       height: 100%;
     }
@@ -52,6 +53,7 @@ class LayerList extends LitElement {
     #buttons {
       display: flex;
       gap: 0.125rem;
+      width: 100%;
     }
 
     ncrs-layer {

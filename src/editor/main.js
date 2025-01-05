@@ -65,6 +65,7 @@ class Editor extends LitElement {
 
   firstUpdated() {
     this.layers.selectLayer(0);
+    this.updateVisibility();
   }
 
   sceneRender() {
@@ -221,6 +222,13 @@ class Editor extends LitElement {
 
   renderLayers() {
     this.layers.renderTexture();
+  }
+
+  easterEgg(input) {
+    if (input == "#MOXVALLIX") {
+      this.baseGroup.rotateX(Math.PI);
+      this.baseGroup.rotateY(Math.PI);
+    }
   }
 
   _createToolData(parts, button) {
