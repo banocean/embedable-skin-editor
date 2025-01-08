@@ -38,6 +38,10 @@ class ColorPicker extends LitElement {
         linear-gradient(90deg, #fff, hsl(var(--current-hue), 100%, 50%));
     }
 
+    #gradient::part(cursor) {
+      background-color: var(--current-color)
+    }
+
     #sliders {
       box-sizing: border-box;
       margin-top: 0.75rem;
@@ -62,6 +66,10 @@ class ColorPicker extends LitElement {
       );
     }
 
+    #hue-slider::part(cursor) {
+      background-color: hsl(var(--current-hue) 100% 50%);
+    }
+
     #alpha-slider {
       margin-top: 0.5rem;
       width: 100%;
@@ -69,6 +77,10 @@ class ColorPicker extends LitElement {
       border-radius: 0.25rem;
       background: linear-gradient(to right, transparent, var(--current-color)),
         repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
+    }
+
+    #alpha-slider::part(cursor) {
+      background-color: var(--current-color-alpha);
     }
 
     #input {
@@ -291,7 +303,7 @@ class ColorPickerSlider extends LitElement {
   render() {
     return html`
       <button @pointerdown=${this.onClick} @keydown=${this.onKeyDown} @wheel=${this.onWheel} id="background"></button>
-      <div id="cursor" style="left: ${this._getPos() - 2}px;"></div>
+      <div id="cursor" part="cursor" style="left: ${this._getPos() - 2}px;"></div>
     `;
   }
 
@@ -392,7 +404,6 @@ class ColorPickerRegion extends LitElement {
       width: 8px;
       outline: 0.125rem solid white;
       border-radius: 100%;
-      background-color: var(--current-color);
     }
 
     :host(:hover) > #cursor {
@@ -428,7 +439,7 @@ class ColorPickerRegion extends LitElement {
 
     return html`
       <button @pointerdown=${this.onClick} @keydown=${this.onKeyDown} id="background"></button>
-      <div id="cursor" style="left: ${pos.x - 4}px; top: ${pos.y - 4}px;"></div>
+      <div id="cursor" part="cursor" style="left: ${pos.x - 4}px; top: ${pos.y - 4}px;"></div>
     `;
   }
 
