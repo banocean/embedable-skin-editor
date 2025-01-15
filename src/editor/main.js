@@ -42,7 +42,6 @@ class Editor extends LitElement {
     this.stats = new Stats();
     this.config = new ToolConfig();
     this.tools = this._setupTools();
-    this.currentTool = this.tools[0];
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -66,6 +65,7 @@ class Editor extends LitElement {
   firstUpdated() {
     this.layers.selectLayer(0);
     this.updateVisibility();
+    this.selectTool(this.tools[0]);
   }
 
   sceneRender() {

@@ -3,6 +3,7 @@ import { BaseTool } from "../base_tool";
 class SculptTool extends BaseTool {
   constructor(config) {
     super(config, {
+      id: "sculpt",
       icon: "sculpt",
       name: "Sculpt",
       description: "Copy pixels from base layer to overlay."

@@ -5,6 +5,7 @@ class EraseTool extends BaseTool {
     super(
       config,
       {
+        id: "eraser",
         icon: "eraser",
         name: "Erase",
         description: "Simple tool for erasing."

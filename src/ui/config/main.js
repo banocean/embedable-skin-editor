@@ -1,4 +1,5 @@
 import { css, html, LitElement } from "lit";
+import "./controls"
 import TabGroup from "../misc/tab_group";
 import ToolTab from "./tabs/tool";
 import LayersTab from "./tabs/layers";
