@@ -1,23 +1,67 @@
 import { objectToColor } from "../../../../helpers";
 import Tab from "../../../misc/tab";
-import { css } from "lit";
+import { css, html } from "lit";
 
-const defaultColors = [
-  "#ffffff", "#000000", "#c0c0c0", "#808080", "#ff0000", "#ffff00", "#808000", "#00ff00",
-  "#008000", "#00ffff", "#008080", "#0000ff", "#000080", "#ff00ff", "#800080"
+const defaultPalettes = [
+  {
+    name: "Basic",
+    palette: [
+      "#ffffff", "#000000", "#c0c0c0", "#808080", "#ff0000", "#ffff00", "#808000", "#00ff00",
+      "#008000", "#00ffff", "#008080", "#0000ff", "#000080", "#ff00ff", "#800080"
+    ]
+  },
+  {
+    name: "Pastels",
+    palette: [
+      "#E29191", "#99DD92", "#92D8B9", "#94C4D3", "#949ACE", "#B394CC", "#CC96B1", "#CCA499",
+      "#DFE592", "#FFA560", "#6AFF63", "#64FFCC", "#64C4FF", "#646BFF", "#AD65FF", "#FF65F4",
+      "#FF6584", "#FF6565"
+    ]
+  }
 ]
 
-class MainPaletteTab extends Tab {
+class CustomPaletteTab extends Tab {
   static styles = [
     Tab.styles,
     css`
       #main {
         display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      #options {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      #palette-select {
+        background-color: #232428;
+        border: none;
+        border-radius: 0.25rem;
+        color: white;
+      }
+
+      #palette-label {
+        color: white;
+        font-size: small;
+        margin-right: 0.25rem;
+      }
+
+      #palette {
+        flex-grow: 1;
+      }
+
+      #colors {
+        display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 0.125rem;
-        padding: 0.25rem;
       }
+
       .color {
         all: unset;
         display: inline-block;
@@ -30,41 +74,65 @@ class MainPaletteTab extends Tab {
     `
   ]
 
-  constructor(editor, colorPicker) {
-    super({name: "Recent Colors"});
+  constructor(colorPicker) {
+    super({name: "Palette"});
 
-    this.editor = editor;
     this.colorPicker = colorPicker;
-    this.colors = this._loadColors();
+    this.palettes = this._loadPalettes();
+    this.colors = this.palettes[0].palette;
+
+    this.select = this._createSelect();
+    this.select.id = "palette-select"
 
     this._setupEvents();
   }
 
   render() {
-    const div = document.createElement("div");
-    div.id = "main";
+    const colorsDiv = document.createElement("div");
+    colorsDiv.id = "colors";
 
     this.colors.forEach(color => {
-      div.appendChild(this._createColor(color))
+      colorsDiv.appendChild(this._createColor(color))
     });
 
-    return div;
+    return html`
+      <div id="main">
+        <div id="palette">
+          ${colorsDiv}
+        </div>
+        <div id="options">
+          <label id="palette-label" for="palette-select">Select palette</label>
+          ${this.select}
+        </div>
+      </div>
+    `;
   }
 
-  addColor(color) {
-    if (this.colors.includes(color)) { return; }
-
-    const len = this.colors.unshift(color);
-
-    if (len > 48) {
-      this.colors.pop();
-    }
-
-    this.requestUpdate();
+  _loadPalettes() {
+    return defaultPalettes;
   }
 
-  _loadColors() {
-    return defaultColors;
+  _createSelect() {
+    const select = document.createElement("select");
+
+    let idx = 0;
+    this.palettes.forEach(palette => {
+      const option = document.createElement("option");
+      option.value = idx;
+      option.textContent = palette.name;
+
+      select.appendChild(option);
+
+      idx++;
+    });
+
+    select.addEventListener("input", () => {
+      console.log(select.value);
+      this.colors = this.palettes[select.value].palette;
+      this.requestUpdate();
+    });
+
+    return select;
   }
 
   _createColor(color) {
@@ -82,15 +150,9 @@ class MainPaletteTab extends Tab {
     return button;
   }
 
-  _setupEvents() {
-    this.editor.addEventListener("tool-up", () => {
-      const color = objectToColor(this.editor.config.get("color"));
-
-      this.addColor(color.hex().toLowerCase())
-    })
-  }
+  _setupEvents() {}
 }
 
-customElements.define("ncrs-main-palette-tab", MainPaletteTab);
+customElements.define("ncrs-custom-palette-tab", CustomPaletteTab);
 
-export default MainPaletteTab;
+export default CustomPaletteTab;

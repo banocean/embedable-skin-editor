@@ -6,6 +6,8 @@ import TabGroup from "../../misc/tab_group";
 import { colorToObject } from "../../../helpers";
 import MainPaletteTab from "./tools/main_palette_tab";
 import ColorPicker from "../../misc/color_picker";
+import CustomPaletteTab from "./tools/custom_palette";
+import BlendPaletteTab from "./tools/blend_palette";
 
 class ToolTab extends Tab {
   static styles = [
@@ -28,6 +30,7 @@ class ToolTab extends Tab {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        flex-basis: 0;
         background-color: #1A1A1A;
         padding: 0.5rem;
       }
@@ -36,6 +39,11 @@ class ToolTab extends Tab {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+      }
+
+      #palettes::part(buttons) {
+        display: flex;
+        gap: 0.25rem;
       }
 
       #palettes::part(button) {
@@ -54,7 +62,7 @@ class ToolTab extends Tab {
         border-top-width: 2px;
         border-color: #232428;
         border-style: solid;
-        background-color: #1a1a1a;
+        background-color: #232428;
       }
 
       #palettes::part(button):hover {
@@ -82,6 +90,7 @@ class ToolTab extends Tab {
       #config {
         max-height: 200px;
         flex-grow: 1;
+        flex-basis: 0;
       }
     `
   ]
@@ -128,6 +137,8 @@ class ToolTab extends Tab {
     tabGroup.side = "top";
 
     tabGroup.registerTab(new MainPaletteTab(this.editor, this.colorPicker));
+    tabGroup.registerTab(new CustomPaletteTab(this.colorPicker));
+    tabGroup.registerTab(new BlendPaletteTab(this.colorPicker));
 
     return tabGroup;
   }
