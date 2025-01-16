@@ -100,6 +100,8 @@ class Editor extends LitElement {
     layer.flush();
     layer.replaceTexture(texture);
     this.layers.renderTexture();
+
+    this.dispatchEvent(new CustomEvent("tool-down"));
   }
 
   toolMove(parts, pointerButton) {
@@ -108,6 +110,8 @@ class Editor extends LitElement {
 
     this.layers.getSelectedLayer().replaceTexture(texture);
     this.layers.renderTexture();
+
+    this.dispatchEvent(new CustomEvent("tool-move"));
   }
 
   toolUp() {
@@ -115,6 +119,8 @@ class Editor extends LitElement {
     const layer = this.layers.getSelectedLayer();
 
     this.history.add(new UpdateLayerTexture(this.layers, layer, layer.texture));
+
+    this.dispatchEvent(new CustomEvent("tool-up"));
   }
 
   zoom(zoom) {

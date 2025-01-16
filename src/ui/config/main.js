@@ -23,6 +23,10 @@ class Config extends LitElement {
       flex-grow: 1;
     }
 
+    ncrs-tab-group::part(tab) {
+      height: 100%;
+    }
+
     ncrs-tab-group::part(buttons) {
       display: flex;
       gap: 0.25rem;

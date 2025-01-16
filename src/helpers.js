@@ -1,3 +1,5 @@
+import Color from "color";
+
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -9,4 +11,21 @@ function camelize(str) {
   }).replace(/\s+/g, '');
 }
 
-export {clamp, camelize};
+function colorToObject(color) {
+  return {
+    r: color.red(),
+    g: color.green(),
+    b: color.blue(),
+    a: color.alpha() * 255,
+  }
+}
+
+function objectToColor(object) {
+  return new Color({
+    r: object.r,
+    g: object.g,
+    b: object.b,
+  }).alpha(object.a / 255);
+}
+
+export {clamp, camelize, colorToObject, objectToColor};

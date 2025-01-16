@@ -9,7 +9,8 @@ class TabGroup extends LitElement {
   static styles = css``;
 
   static properties = {
-    visible: {reflect: true}
+    visible: {reflect: true},
+    side: {reflect: true},
   }
 
   render() {
@@ -26,10 +27,17 @@ class TabGroup extends LitElement {
       buttonsDiv.appendChild(this._createTabButton(tab));
     })
 
-    return html`
-      ${tabsDiv}
-      ${buttonsDiv}
-    `
+    if (this.side === "top") {
+      return html`
+        ${buttonsDiv}
+        ${tabsDiv}
+      `
+    } else {
+      return html`
+        ${tabsDiv}
+        ${buttonsDiv}
+      `
+    }
   }
 
   select(selectedTab) {

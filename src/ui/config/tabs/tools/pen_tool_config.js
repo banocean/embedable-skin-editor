@@ -11,6 +11,7 @@ class PenToolConfig extends LitElement {
       text-align: center;
       font-size: small;
       font-weight: normal;
+      margin-top: 0px;
     }
 
     .group {
