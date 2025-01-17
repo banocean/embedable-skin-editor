@@ -1,3 +1,4 @@
+import { clamp } from "three/src/math/MathUtils.js";
 import { objectToColor } from "../../../../helpers";
 import Tab from "../../../misc/tab";
 import { css, html } from "lit";
@@ -13,9 +14,9 @@ const defaultPalettes = [
   {
     name: "Pastels",
     palette: [
-      "#E29191", "#99DD92", "#92D8B9", "#94C4D3", "#949ACE", "#B394CC", "#CC96B1", "#CCA499",
-      "#DFE592", "#FFA560", "#6AFF63", "#64FFCC", "#64C4FF", "#646BFF", "#AD65FF", "#FF65F4",
-      "#FF6584", "#FF6565"
+      "#e29191", "#99dd92", "#92d8b9", "#94c4d3", "#949ace", "#b394cc", "#cc96b1", "#cca499",
+      "#dfe592", "#ffa560", "#6aff63", "#64ffcc", "#64c4ff", "#646bff", "#ad65ff", "#ff65f4",
+      "#ff6584", "#ff6565"
     ]
   }
 ]
@@ -24,6 +25,10 @@ class CustomPaletteTab extends Tab {
   static styles = [
     Tab.styles,
     css`
+      :host {
+        --palette-width: 12;
+      }
+
       #main {
         display: flex;
         flex-direction: column;
@@ -35,10 +40,11 @@ class CustomPaletteTab extends Tab {
 
       #options {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        height: 22px;
       }
 
-      #palette-select {
+      #palette-select, #columns {
         background-color: #232428;
         border: none;
         border-radius: 0.25rem;
@@ -53,21 +59,25 @@ class CustomPaletteTab extends Tab {
 
       #palette {
         flex-grow: 1;
+        height: 78px;
+        overflow: auto;
       }
 
       #colors {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(var(--palette-width), 1fr);
         gap: 0.125rem;
+      }
+
+      #columns {
+        width: 2.5rem;
       }
 
       .color {
         all: unset;
         display: inline-block;
         cursor: pointer;
-        width: 1.25rem;
-        height: 1.25rem;
+        aspect-ratio: 1;
         border-radius: 0.125rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
@@ -82,9 +92,7 @@ class CustomPaletteTab extends Tab {
     this.colors = this.palettes[0].palette;
 
     this.select = this._createSelect();
-    this.select.id = "palette-select"
-
-    this._setupEvents();
+    this.select.id = "palette-select";
   }
 
   render() {
@@ -101,8 +109,16 @@ class CustomPaletteTab extends Tab {
           ${colorsDiv}
         </div>
         <div id="options">
-          <label id="palette-label" for="palette-select">Select palette</label>
-          ${this.select}
+          <input
+            id="columns" value="12" type="number"
+            title="Palette width"
+            @input=${this._onColumnsInput}
+            @wheel=${this._onColumnsWheel}
+          >
+          <div>
+            <label id="palette-label" for="palette-select">Select palette</label>
+            ${this.select}
+          </div>
         </div>
       </div>
     `;
@@ -150,7 +166,19 @@ class CustomPaletteTab extends Tab {
     return button;
   }
 
-  _setupEvents() {}
+  _onColumnsInput(event) {
+    if (event.target.value == "") { return; }
+
+    event.target.value = clamp(Number(event.target.value), 1, 30);
+    this.style.setProperty("--palette-width", event.target.value);
+  }
+
+  _onColumnsWheel(event) {
+    let dir = 1;
+    if (event.deltaY > 0) { dir = -1 }
+    event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
+    this.style.setProperty("--palette-width", event.target.value)
+  }
 }
 
 customElements.define("ncrs-custom-palette-tab", CustomPaletteTab);

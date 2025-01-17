@@ -138,7 +138,7 @@ class ToolTab extends Tab {
 
     tabGroup.registerTab(new MainPaletteTab(this.editor, this.colorPicker));
     tabGroup.registerTab(new CustomPaletteTab(this.colorPicker));
-    tabGroup.registerTab(new BlendPaletteTab(this.colorPicker));
+    tabGroup.registerTab(new BlendPaletteTab(this.editor, this.colorPicker));
 
     return tabGroup;
   }

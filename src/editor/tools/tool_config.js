@@ -8,8 +8,12 @@ class ToolConfig extends EventTarget {
     this.set("color", { r: 255, g: 0, b: 0, a: 255 });
   }
 
-  get(key) {
-    return this.#config[key];
+  get(key, fallback = undefined) {
+    if (this.#config[key]) {
+      return this.#config[key];
+    }
+    
+    return fallback;
   }
 
   set(key, value) {

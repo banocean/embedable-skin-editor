@@ -1,6 +1,6 @@
-import { objectToColor } from "../../../../helpers";
+import { clamp, objectToColor } from "../../../../helpers";
 import Tab from "../../../misc/tab";
-import { css } from "lit";
+import { css, html } from "lit";
 
 const defaultColors = [
   "#ffffff", "#000000", "#c0c0c0", "#808080", "#ff0000", "#ffff00", "#808000", "#00ff00",
@@ -11,19 +11,59 @@ class MainPaletteTab extends Tab {
   static styles = [
     Tab.styles,
     css`
+      :host {
+        --palette-width: 12;
+      }
+
       #main {
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0.125rem;
+        flex-direction: column;
+        gap: 0.25rem;
         padding: 0.25rem;
+        box-sizing: border-box;
+        height: 100%;
       }
+
+      #options {
+        display: flex;
+        justify-content: space-between;
+        height: 22px;
+      }
+
+      #palette-select, #columns {
+        background-color: #232428;
+        border: none;
+        border-radius: 0.25rem;
+        color: white;
+      }
+
+      #palette-label {
+        color: white;
+        font-size: small;
+        margin-right: 0.25rem;
+      }
+
+      #palette {
+        flex-grow: 1;
+        height: 78px;
+        overflow: auto;
+      }
+
+      #colors {
+        display: grid;
+        grid-template-columns: repeat(var(--palette-width), 1fr);
+        gap: 0.125rem;
+      }
+
+      #columns {
+        width: 2.5rem;
+      }
+
       .color {
         all: unset;
         display: inline-block;
         cursor: pointer;
-        width: 1.25rem;
-        height: 1.25rem;
+        aspect-ratio: 1;
         border-radius: 0.125rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
@@ -41,14 +81,28 @@ class MainPaletteTab extends Tab {
   }
 
   render() {
-    const div = document.createElement("div");
-    div.id = "main";
+    const colorsDiv = document.createElement("div");
+    colorsDiv.id = "colors";
 
     this.colors.forEach(color => {
-      div.appendChild(this._createColor(color))
+      colorsDiv.appendChild(this._createColor(color))
     });
 
-    return div;
+    return html`
+      <div id="main">
+        <div id="palette">
+          ${colorsDiv}
+        </div>
+        <div id="options">
+          <input
+            id="columns" value="12" type="number"
+            title="Palette width"
+            @input=${this._onColumnsInput}
+            @wheel=${this._onColumnsWheel}
+          >
+        </div>
+      </div>
+    `;
   }
 
   addColor(color) {
@@ -88,6 +142,20 @@ class MainPaletteTab extends Tab {
 
       this.addColor(color.hex().toLowerCase())
     })
+  }
+
+  _onColumnsInput(event) {
+    if (event.target.value == "") { return; }
+
+    event.target.value = clamp(Number(event.target.value), 1, 30);
+    this.style.setProperty("--palette-width", event.target.value);
+  }
+
+  _onColumnsWheel(event) {
+    let dir = 1;
+    if (event.deltaY > 0) { dir = -1 }
+    event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
+    this.style.setProperty("--palette-width", event.target.value)
   }
 }
 
