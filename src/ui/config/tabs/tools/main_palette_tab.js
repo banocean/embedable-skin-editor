@@ -90,13 +90,14 @@ class MainPaletteTab extends Tab {
 
     return html`
       <div id="main">
-        <div id="palette">
+        <div id="palette" @wheel=${this._onPaletteWheel}>
           ${colorsDiv}
         </div>
         <div id="options">
           <input
             id="columns" value="12" type="number"
             title="Palette width"
+            inputmode="numeric"
             @input=${this._onColumnsInput}
             @wheel=${this._onColumnsWheel}
           >
@@ -156,6 +157,18 @@ class MainPaletteTab extends Tab {
     if (event.deltaY > 0) { dir = -1 }
     event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
     this.style.setProperty("--palette-width", event.target.value)
+  }
+
+  _onPaletteWheel(event) {
+    if (!event.ctrlKey) { return; }
+    event.preventDefault()
+
+    let dir = 1;
+    if (event.deltaY < 0) { dir = -1 }
+
+    const columns = this.shadowRoot.getElementById("columns");
+    columns.value = clamp(Number(columns.value) + dir, 1, 30);
+    this.style.setProperty("--palette-width", columns.value);
   }
 }
 
