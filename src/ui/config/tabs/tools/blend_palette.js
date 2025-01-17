@@ -1,4 +1,4 @@
-import { clamp, objectToColor } from "../../../../helpers";
+import { clamp } from "../../../../helpers";
 import Tab from "../../../misc/tab";
 import { css, html } from "lit";
 
@@ -74,6 +74,7 @@ class BlendPaletteTab extends Tab {
         background-color: #313436;
         color: white;
         text-align: center;
+        line-height: 1rem;
       }
     `
   ]

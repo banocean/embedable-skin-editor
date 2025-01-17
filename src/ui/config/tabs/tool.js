@@ -83,7 +83,7 @@ class ToolTab extends Tab {
       }
 
       #palettes::part(tab) {
-        height: 100%;
+        height: 112px;
         background-color: #131315;
       }
 
