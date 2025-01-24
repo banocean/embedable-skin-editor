@@ -1,6 +1,8 @@
+import Color from "color";
 import { clamp } from "../../../../helpers";
 import Tab from "../../../misc/tab";
 import { css, html } from "lit";
+import IconButton from "../../../misc/icon_button";
 
 class BlendPaletteTab extends Tab {
   static styles = [
@@ -70,14 +72,36 @@ class BlendPaletteTab extends Tab {
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
 
+      .color.selected {
+        border: 2px solid white;
+      }
+
+      .color.selected.light {
+        border: 2px solid #4F4F4F;
+      }
+
       #plus {
         background-color: #313436;
         color: white;
         text-align: center;
         line-height: 1rem;
       }
+
+      #remove {
+        width: 20px;
+        height: 20px;
+        --icon-height: 12px;
+      }
+
+      #remove::part(button) {
+        padding: 0.25rem;
+      }
     `
   ]
+
+  static properties = {
+    selected: {},
+  }
 
   constructor(editor, colorPicker) {
     super({name: "Blend Palette", buttonPart: "blend-palette"});
@@ -131,6 +155,7 @@ class BlendPaletteTab extends Tab {
             @input=${this._onColumnsInput}
             @wheel=${this._onColumnsWheel}
           >
+          <ncrs-icon-button id="remove" title="Remove selected color" icon="trash" @click=${this._removeSelected}></ncrs-icon-button>
         </div>
       </div>
     `;
@@ -147,7 +172,35 @@ class BlendPaletteTab extends Tab {
       colors.pop();
     }
 
+    this.selected = this.selected || color;
     this.editor.config.set("blend-palette", colors);
+  }
+
+  removeColor(color) {
+    const colors = [...this.editor.config.get("blend-palette", [])];
+
+    if (!colors.includes(color)) { return; }
+
+    const index = colors.indexOf(color);
+    const lastIndex = colors.length - 1;
+
+    let nextIndex = index;
+    if (index == lastIndex) {
+      nextIndex -= 1;
+    } else {
+      nextIndex += 1;
+    }
+
+    const nextColor = colors[nextIndex];
+    colors.splice(index, 1);
+
+    this.editor.config.set("blend-palette", colors);
+    this.selected = nextColor;
+    this.colors = color;
+  }
+
+  _removeSelected() {
+    this.removeColor(this.selected);
   }
 
   _loadColors() {
@@ -157,6 +210,13 @@ class BlendPaletteTab extends Tab {
   _createColor(color) {
     const button = document.createElement("button");
     button.classList.add("color", "palette-element");
+    if (color === this.selected) {
+      button.classList.add("selected")
+    }
+    if (new Color(color).isLight()) {
+      button.classList.add("light");
+    }
+
     button.title = `Set color to ${color}`
 
     button.style.backgroundColor = color;
@@ -164,6 +224,7 @@ class BlendPaletteTab extends Tab {
 
     button.addEventListener("click", () => {
       this.colorPicker.setColor(color);
+      this.selected = color;
     })
 
     return button;

@@ -7,6 +7,7 @@ import MainPaletteTab from "./tools/main_palette_tab";
 import ColorPicker from "../../misc/color_picker";
 import CustomPaletteTab from "./tools/custom_palette";
 import BlendPaletteTab from "./tools/blend_palette";
+import EraseToolConfig from "./tools/erase_tool_config";
 
 class ToolTab extends Tab {
   static styles = [
@@ -117,6 +118,7 @@ class ToolTab extends Tab {
 
     this.tool = editor.currentTool.properties.id;
     this.colorPicker = this._setupColorPicker();
+    this.palette = this._createPaletteTabs();
 
     this._setupToolConfigs();
     this._setupEvents();
@@ -124,15 +126,16 @@ class ToolTab extends Tab {
   toolConfigs;
 
   render() {
-    const palette = this._createPaletteTabs();
     const config = this.toolConfigs[this.tool];
-    config.id = "config";
+    if (config) {
+      config.id = "config";
+    }
 
     return html`
       <div id="main">
         <div id="colors">
           ${this.colorPicker}
-          ${palette}
+          ${this.palette}
         </div>
         ${config}
       </div>
@@ -156,6 +159,7 @@ class ToolTab extends Tab {
 
     this.toolConfigs = {
       pen: new PenToolConfig(config),
+      eraser: new EraseToolConfig(config),
     }
   }
 

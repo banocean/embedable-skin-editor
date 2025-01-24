@@ -50,15 +50,20 @@ class IconButton extends LitElement {
     icon: {reflect: true},
   }
 
-  constructor(icon, callback) {
+  constructor(icon = undefined, callback = undefined) {
     super();
 
-    this.icon = icon;
+    if (icon) {
+      this.icon = icon;
+    }
     this.callback = callback;
   }
 
   render() {
-    return html`<button @click="${this.callback}"><ncrs-icon icon=${this.icon} color="var(--icon-color)"></ncrs-icon></button>`
+    return html`
+      <button part="button" @click="${this.callback}">
+        <ncrs-icon part="icon" icon=${this.icon} color="var(--icon-color)"></ncrs-icon>
+      </button>`
   }
 }
 

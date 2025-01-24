@@ -1,4 +1,7 @@
+import Color from "color";
 import { BaseTool } from "../base_tool";
+
+const TRANSPARENT = new Color(0).alpha(0);
 
 class EraseTool extends BaseTool {
   constructor(config) {
@@ -24,7 +27,7 @@ class EraseTool extends BaseTool {
     const part = toolData.parts[0];
 
     this.cursor = toolData.getCoords();
-    this.draw(part, toolData.getCoords(), { r: 0, g: 0, b: 0, a: 0 });
+    this.draw(part, toolData.getCoords(), TRANSPARENT);
 
     return this.canvas.toTexture();
   }
@@ -32,7 +35,7 @@ class EraseTool extends BaseTool {
   move(toolData) {
     const part = toolData.parts[0];
 
-    this.draw(part, toolData.getCoords(), { r: 0, g: 0, b: 0, a: 0 });
+    this.draw(part, toolData.getCoords(), TRANSPARENT);
 
     return this.canvas.toTexture();
   }

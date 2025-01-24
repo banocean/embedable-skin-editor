@@ -1,14 +1,21 @@
 import Color from "color";
 import { getRandomInt, pickFromArray } from "../../helpers";
 
+const DEFAULTS = {
+  size: 1,
+  shape: "square",
+  color: new Color("#ffff00"),
+  camo: false,
+  blend: false,
+}
+
 class ToolConfig extends EventTarget {
   #config = {};
 
   constructor() {
     super();
 
-    this.set("size", 1);
-    this.set("color", new Color("#ff0000"));
+    this._setDefaults();
   }
 
   get(key, fallback = undefined) {
@@ -48,6 +55,12 @@ class ToolConfig extends EventTarget {
     }
 
     return color;
+  }
+
+  _setDefaults() {
+    Object.keys(DEFAULTS).forEach(key => {
+      this.set(key, DEFAULTS[key]);
+    })
   }
 }
 

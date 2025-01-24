@@ -86,20 +86,24 @@ class OptionControl extends LitElement {
     this._manageChildButtons();
     if (this._buttons.length > 0) {
       this.select(this.selected || this._buttons[0].name);
+      this._selectButton();
     }
   }
 
   render() {
-    this._buttons.forEach((button) => {
-      button.selected = button.name === this.selected;
-    });
-
+    this._selectButton();
     return html` <slot id="slot" @slotchange=${this._manageChildButtons}></slot> `;
   }
 
   select(name) {
     this.selected = name;
     this.dispatchEvent(new CustomEvent("select", { detail: { name: name } }));
+  }
+
+  _selectButton() {
+    this._buttons.forEach((button) => {
+      button.selected = (button.name === this.selected);
+    });
   }
 
   _manageChildButtons() {

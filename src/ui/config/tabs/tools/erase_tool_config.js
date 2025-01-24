@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 
-class PenToolConfig extends LitElement {
+class EraseToolConfig extends LitElement {
   static styles = css`
     #main {
       color: rgb(156 163 175);
@@ -34,15 +34,11 @@ class PenToolConfig extends LitElement {
   static properties = {
     size: {},
     shape: {},
-    camo: {},
-    blend: {},
   }
 
   constructor(config) {
     super();
     this.config = config;
-
-    this._setupCallbacks();
   }
 
   connectedCallback() {
@@ -50,14 +46,12 @@ class PenToolConfig extends LitElement {
 
     this.size = this.config.get("size");
     this.shape = this.config.get("shape");
-    this.camo = this.config.get("camo");
-    this.blend = this.config.get("blend");
   }
 
   render() {
     return html`
       <div id="main">
-        <h2>Brush Tool</h2>
+        <h2>Eraser Tool</h2>
         <div class="group">
           <div>
             <p class="title">Size</p>
@@ -75,15 +69,12 @@ class PenToolConfig extends LitElement {
             </ncrs-option-control>
           </div>
         </div>
-        <div>
-          <p class="title">Effects</p>
-          <div class="group-sm">
-            <ncrs-toggle-control id="camo" @toggle=${this._onCamoToggle} icon="checker" selected=${this.camo}></ncrs-toggle-control>
-            <ncrs-toggle-control id="blend" @toggle=${this._onBlendToggle} icon="palette" selected=${this.blend}></ncrs-toggle-control>
-          </div>
-        </div>
       </div>
     `;
+  }
+
+  firstUpdated() {
+    this._setupCallbacks();
   }
 
   _setupCallbacks() {
@@ -94,14 +85,6 @@ class PenToolConfig extends LitElement {
     this.config.addEventListener("shape-change", (event) => {
       this.shape = event.detail;
     });
-
-    this.config.addEventListener("camo-change", (event) => {
-      this.camo = event.detail;
-    });
-
-    this.config.addEventListener("blend-change", (event) => {
-      this.blend = event.detail;
-    });
   }
 
   _onSizeSelect(event) {
@@ -111,16 +94,8 @@ class PenToolConfig extends LitElement {
   _onShapeSelect(event) {
     this.config.set("shape", event.detail.name);
   }
-
-  _onCamoToggle(event) {
-    this.config.set("camo", event.detail.toggle);
-  }
-
-  _onBlendToggle(event) {
-    this.config.set("blend", event.detail.toggle);
-  }
 }
 
-customElements.define("ncrs-pen-tool-config", PenToolConfig);
+customElements.define("ncrs-erase-tool-config", EraseToolConfig);
 
-export default PenToolConfig;
+export default EraseToolConfig;
