@@ -139,10 +139,12 @@ class MainPaletteTab extends Tab {
 
   _setupEvents() {
     this.editor.addEventListener("tool-up", () => {
-      const color = objectToColor(this.editor.config.get("color"));
+      const color = this.editor.config.get("color");
 
       this.addColor(color.hex().toLowerCase())
     })
+
+    this.addEventListener("wheel", this._onPaletteWheel.bind(this));
   }
 
   _onColumnsInput(event) {
@@ -153,6 +155,7 @@ class MainPaletteTab extends Tab {
   }
 
   _onColumnsWheel(event) {
+    event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
     event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
@@ -161,7 +164,7 @@ class MainPaletteTab extends Tab {
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
-    event.preventDefault()
+    event.preventDefault();
 
     let dir = 1;
     if (event.deltaY < 0) { dir = -1 }

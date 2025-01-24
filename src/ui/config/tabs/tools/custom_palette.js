@@ -93,6 +93,8 @@ class CustomPaletteTab extends Tab {
 
     this.select = this._createSelect();
     this.select.id = "palette-select";
+
+    this._setupEvents();
   }
 
   render() {
@@ -167,6 +169,10 @@ class CustomPaletteTab extends Tab {
     return button;
   }
 
+  _setupEvents() {
+    this.addEventListener("wheel", this._onPaletteWheel.bind(this));
+  }
+
   _onColumnsInput(event) {
     if (event.target.value == "") { return; }
 
@@ -175,6 +181,7 @@ class CustomPaletteTab extends Tab {
   }
 
   _onColumnsWheel(event) {
+    event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
     event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
@@ -183,7 +190,7 @@ class CustomPaletteTab extends Tab {
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
-    event.preventDefault()
+    event.preventDefault();
 
     let dir = 1;
     if (event.deltaY < 0) { dir = -1 }

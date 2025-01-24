@@ -80,7 +80,7 @@ class BlendPaletteTab extends Tab {
   ]
 
   constructor(editor, colorPicker) {
-    super({name: "Blend Palette"});
+    super({name: "Blend Palette", buttonPart: "blend-palette"});
 
     this.editor = editor;
     this.colorPicker = colorPicker;
@@ -112,16 +112,15 @@ class BlendPaletteTab extends Tab {
 
     const colorsDiv = document.createElement("div");
     colorsDiv.id = "colors";
-
+    
+    colorsDiv.appendChild(plusButton);
     colors.forEach(color => {
       colorsDiv.appendChild(this._createColor(color))
     });
 
-    colorsDiv.appendChild(plusButton);
-
     return html`
       <div id="main">
-        <div id="palette" @wheel=${this._onPaletteWheel}>
+        <div id="palette">
           ${colorsDiv}
         </div>
         <div id="options">
@@ -178,6 +177,8 @@ class BlendPaletteTab extends Tab {
     this.editor.config.addEventListener("blend-palette-change", () => {
       this.requestUpdate();
     })
+
+    this.addEventListener("wheel", this._onPaletteWheel.bind(this));
   }
 
   _onColumnsInput(event) {
@@ -188,6 +189,7 @@ class BlendPaletteTab extends Tab {
   }
 
   _onColumnsWheel(event) {
+    event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
     event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
@@ -196,7 +198,7 @@ class BlendPaletteTab extends Tab {
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
-    event.preventDefault()
+    event.preventDefault();
 
     let dir = 1;
     if (event.deltaY < 0) { dir = -1 }

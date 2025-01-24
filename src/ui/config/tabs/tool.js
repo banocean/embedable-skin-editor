@@ -3,7 +3,6 @@ import "../../misc/color_picker";
 import { css, html } from "lit";
 import PenToolConfig from "./tools/pen_tool_config";
 import TabGroup from "../../misc/tab_group";
-import { colorToObject } from "../../../helpers";
 import MainPaletteTab from "./tools/main_palette_tab";
 import ColorPicker from "../../misc/color_picker";
 import CustomPaletteTab from "./tools/custom_palette";
@@ -13,6 +12,10 @@ class ToolTab extends Tab {
   static styles = [
     Tab.styles,
     css`
+      :host {
+        --blend-palette-color: #aaaaaa;
+      }
+
       ncrs-color-picker {
         width: 100%;
         height: 15rem;
@@ -78,6 +81,10 @@ class ToolTab extends Tab {
         background-color: #131315;
       }
 
+      #palettes::part(blend-palette) {
+        color: var(--blend-palette-color);
+      }
+
       #palettes::part(tabs) {
         flex-grow: 1;
       }
@@ -112,6 +119,7 @@ class ToolTab extends Tab {
     this.colorPicker = this._setupColorPicker();
 
     this._setupToolConfigs();
+    this._setupEvents();
   }
   toolConfigs;
 
@@ -161,8 +169,7 @@ class ToolTab extends Tab {
   }
 
   _onColorChange(event) {
-    const color = event.detail.color;
-    this.editor.config.set("color", colorToObject(color));
+    this.editor.config.set("color", event.detail.color);
   }
 
   _onEasterEgg(event) {
@@ -171,6 +178,17 @@ class ToolTab extends Tab {
 
   _onSelect(event) {
     console.log(event);
+  }
+
+  _setupEvents() {
+    this.editor.config.addEventListener("blend-change", event => {
+      console.log(event);
+      if (event.detail) {
+        this.style.setProperty("--blend-palette-color", "white");
+      } else {
+        this.style.removeProperty("--blend-palette-color");
+      }
+    })
   }
 }
 
