@@ -11,7 +11,8 @@ class EraseTool extends BaseTool {
         id: "eraser",
         icon: "eraser",
         name: "Erase",
-        description: "Simple tool for erasing."
+        description: "Simple tool for erasing.",
+        providesColor: false, // Whether or not drawing with this tool adds to recent colors.
       }
     );
   }

@@ -139,6 +139,8 @@ class MainPaletteTab extends Tab {
 
   _setupEvents() {
     this.editor.addEventListener("tool-up", () => {
+      if (!this.editor.currentTool.properties.providesColor) { return; }
+
       const color = this.editor.config.get("color");
 
       this.addColor(color.hex().toLowerCase())

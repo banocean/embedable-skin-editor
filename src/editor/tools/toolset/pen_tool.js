@@ -10,6 +10,7 @@ class PenTool extends BaseTool {
       icon: "brush",
       name: "Pen",
       description: "Simple tool for drawing.",
+      providesColor: true, // Whether or not drawing with this tool adds to recent colors.
     });
   }
 

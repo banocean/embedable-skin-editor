@@ -6,7 +6,8 @@ class SculptTool extends BaseTool {
       id: "sculpt",
       icon: "sculpt",
       name: "Sculpt",
-      description: "Copy pixels from base layer to overlay."
+      description: "Copy pixels from base layer to overlay.",
+      providesColor: false, // Whether or not drawing with this tool adds to recent colors.
     });
   }
 
