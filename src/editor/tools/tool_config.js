@@ -1,3 +1,6 @@
+import Color from "color";
+import { getRandomInt, pickFromArray } from "../../helpers";
+
 class ToolConfig extends EventTarget {
   #config = {};
 
@@ -5,7 +8,7 @@ class ToolConfig extends EventTarget {
     super();
 
     this.set("size", 1);
-    this.set("color", { r: 255, g: 0, b: 0, a: 255 });
+    this.set("color", new Color("#ff0000"));
   }
 
   get(key, fallback = undefined) {
@@ -25,6 +28,26 @@ class ToolConfig extends EventTarget {
     this.dispatchEvent(new CustomEvent(`${key}-change`, { detail: value }));
 
     return value;
+  }
+
+  getColor() {
+    let color = this.get("color");
+
+    if (this.get("blend")) {
+      const palette = this.get("blend-palette", [color.hex()]);
+
+      color = new Color(pickFromArray(palette));
+    }
+
+    if (this.get("camo")) {
+      let rand = getRandomInt(50);
+      rand -= 25;
+      rand /= 100;
+      
+      color = color.lighten(rand);
+    }
+
+    return color;
   }
 }
 

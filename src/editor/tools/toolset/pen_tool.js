@@ -1,4 +1,7 @@
+import Color from "color";
 import { BaseTool } from "../base_tool";
+
+const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
 
 class PenTool extends BaseTool {
   constructor(config) {
@@ -18,7 +21,7 @@ class PenTool extends BaseTool {
     const texture = toolData.texture;
     const part = toolData.parts[0];
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.get("color") : { r: 0, g: 0, b: 0, a: 0 };
+    const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
 
     this.cursor = point;
     this.draw(texture, part, point, color);
@@ -30,7 +33,7 @@ class PenTool extends BaseTool {
     const texture = toolData.texture;
     const part = toolData.parts[0];
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.get("color") : { r: 0, g: 0, b: 0, a: 0 };
+    const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
     this.draw(texture, part, point, color);
 
     return texture.toTexture();

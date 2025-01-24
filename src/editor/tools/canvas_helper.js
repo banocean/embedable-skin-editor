@@ -43,10 +43,10 @@ class CanvasHelper {
   }
 
   putPixel(point, color) {
-    this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4] = color.r;
-    this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4] = color.g;
-    this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4] = color.b;
-    this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4] = color.a;
+    this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4] = color.red();
+    this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4] = color.green();
+    this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4] = color.blue();
+    this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4] = color.alpha() * 255;
   }
 
   // https://zingl.github.io/bresenham.html

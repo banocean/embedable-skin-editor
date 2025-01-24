@@ -28,4 +28,13 @@ function objectToColor(object) {
   }).alpha(object.a / 255);
 }
 
-export {clamp, camelize, colorToObject, objectToColor};
+// https://stackoverflow.com/questions/4550505/getting-a-random-value-from-a-javascript-array
+function pickFromArray(array) {
+  return array[~~(Math.random() * array.length)];
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray};
