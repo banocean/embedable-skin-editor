@@ -290,6 +290,8 @@ class ColorPickerSlider extends LitElement {
       document.addEventListener("pointermove", pointerMove);
       document.addEventListener("pointerup", pointerUp);
     };
+
+    this._setupResizeObserver();
   }
 
   attributeChangedCallback(name, _old, value) {
@@ -374,6 +376,14 @@ class ColorPickerSlider extends LitElement {
   _getPos() {
     return this.clientWidth * this.progress;
   }
+
+  _setupResizeObserver() {
+    const resizeObserver = new ResizeObserver(() => {
+      this.requestUpdate();
+    })
+
+    resizeObserver.observe(this);
+  }
 }
 
 class ColorPickerRegion extends LitElement {
@@ -432,6 +442,8 @@ class ColorPickerRegion extends LitElement {
       document.addEventListener("pointermove", pointerMove);
       document.addEventListener("pointerup", pointerUp);
     };
+
+    this._setupResizeObserver();
   }
 
   render() {
@@ -506,6 +518,14 @@ class ColorPickerRegion extends LitElement {
       x: this.clientWidth * this.progressX,
       y: this.clientHeight * this.progressY,
     };
+  }
+
+  _setupResizeObserver() {
+    const resizeObserver = new ResizeObserver(() => {
+      this.requestUpdate();
+    })
+
+    resizeObserver.observe(this);
   }
 }
 
