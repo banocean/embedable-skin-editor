@@ -1,6 +1,6 @@
 import { clamp } from "three/src/math/MathUtils.js";
-import { objectToColor } from "../../../../helpers";
-import Tab from "../../../misc/tab";
+import { objectToColor } from "../../../../../helpers";
+import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
 
 const defaultPalettes = [

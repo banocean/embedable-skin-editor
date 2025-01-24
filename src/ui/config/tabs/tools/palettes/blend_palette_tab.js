@@ -1,8 +1,8 @@
 import Color from "color";
-import { clamp } from "../../../../helpers";
-import Tab from "../../../misc/tab";
+import { clamp } from "../../../../../helpers";
+import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
-import IconButton from "../../../misc/icon_button";
+import IconButton from "../../../../misc/icon_button";
 
 class BlendPaletteTab extends Tab {
   static styles = [

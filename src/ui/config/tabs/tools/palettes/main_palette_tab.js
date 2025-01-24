@@ -1,5 +1,5 @@
-import { clamp, objectToColor } from "../../../../helpers";
-import Tab from "../../../misc/tab";
+import { clamp, objectToColor } from "../../../../../helpers";
+import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
 
 const defaultColors = [

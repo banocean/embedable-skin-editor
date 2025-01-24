@@ -1,13 +1,12 @@
 import Tab from "../../misc/tab";
-import "../../misc/color_picker";
 import { css, html } from "lit";
-import PenToolConfig from "./tools/pen_tool_config";
+import PenToolConfig from "./tools/configs/pen_tool_config";
 import TabGroup from "../../misc/tab_group";
-import MainPaletteTab from "./tools/main_palette_tab";
+import MainPaletteTab from "./tools/palettes/main_palette_tab";
 import ColorPicker from "../../misc/color_picker";
-import CustomPaletteTab from "./tools/custom_palette";
-import BlendPaletteTab from "./tools/blend_palette";
-import EraseToolConfig from "./tools/erase_tool_config";
+import CustomPaletteTab from "./tools/palettes/custom_palette_tab";
+import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
+import EraseToolConfig from "./tools/configs/erase_tool_config";
 
 class ToolTab extends Tab {
   static styles = [
