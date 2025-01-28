@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
+import Color from "color";
 
 class CanvasHelper {
   constructor() {
@@ -37,9 +38,9 @@ class CanvasHelper {
     color.r = this.data[point.x * 4 + 0 + point.y * IMAGE_WIDTH * 4];
     color.g = this.data[point.x * 4 + 1 + point.y * IMAGE_WIDTH * 4];
     color.b = this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4];
-    color.a = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
+    const alpha = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
 
-    return color;
+    return new Color(color).alpha(alpha);
   }
 
   putPixel(point, color) {

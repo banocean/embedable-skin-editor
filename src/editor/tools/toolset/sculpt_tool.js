@@ -1,3 +1,4 @@
+import Color from "color";
 import { BaseTool } from "../base_tool";
 
 class SculptTool extends BaseTool {
@@ -38,7 +39,7 @@ class SculptTool extends BaseTool {
     }
 
     else if (toolData.button==2){
-      this.draw(texture, part, point, { r: 0, g: 0, b: 0, a: 0 });
+      this.draw(texture, part, point, new Color(0).alpha(0));
     }
 
     return texture.toTexture();
@@ -67,7 +68,7 @@ class SculptTool extends BaseTool {
     }
 
     else if (toolData.button==2){
-      this.draw(texture, part, point, { r: 0, g: 0, b: 0, a: 0 });
+      this.draw(texture, part, point, new Color(0).alpha(0));
     }
     
     return texture.toTexture();
