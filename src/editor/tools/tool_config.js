@@ -19,7 +19,7 @@ class ToolConfig extends EventTarget {
   }
 
   get(key, fallback = undefined) {
-    if (this.#config[key]) {
+    if (this.#config[key] !== undefined) {
       return this.#config[key];
     }
     
@@ -58,8 +58,8 @@ class ToolConfig extends EventTarget {
   }
 
   _setDefaults() {
-    Object.keys(DEFAULTS).forEach(key => {
-      this.set(key, DEFAULTS[key]);
+    Object.entries(DEFAULTS).map(([key, value]) => {
+      this.set(key, value);
     })
   }
 }

@@ -1,7 +1,7 @@
 import { html } from "lit";
 import BaseToolConfig from "./base_tool_config";
 
-class EraseToolConfig extends BaseToolConfig {
+class SculptToolConfig extends BaseToolConfig {
   static styles = [
     BaseToolConfig.styles
   ];
@@ -24,7 +24,7 @@ class EraseToolConfig extends BaseToolConfig {
   render() {
     return html`
       <div id="main">
-        <h2>Erase Tool</h2>
+        <h2>Sculpt Tool</h2>
         <div class="group">
           <div>
             <p class="title">Size</p>
@@ -51,6 +51,6 @@ class EraseToolConfig extends BaseToolConfig {
   }
 }
 
-customElements.define("ncrs-erase-tool-config", EraseToolConfig);
+customElements.define("ncrs-sculpt-tool-config", SculptToolConfig);
 
-export default EraseToolConfig;
+export default SculptToolConfig;

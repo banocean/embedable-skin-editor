@@ -80,6 +80,14 @@ class BlendPaletteTab extends Tab {
         border: 2px solid #4F4F4F;
       }
 
+      .color:focus {
+        border: 1px solid white;
+      }
+
+      .color.light:focus {
+        border: 1px solid #4F4F4F;
+      }
+
       #plus {
         background-color: #313436;
         color: white;
@@ -87,10 +95,18 @@ class BlendPaletteTab extends Tab {
         line-height: 1rem;
       }
 
+      #plus:focus {
+        border: 1px solid white;
+      }
+
       #remove {
         width: 20px;
         height: 20px;
         --icon-height: 12px;
+      }
+
+      #remove:focus {
+        border: 1px solid white;
       }
 
       #remove::part(button) {

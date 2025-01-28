@@ -102,6 +102,10 @@ class ColorPicker extends LitElement {
       cursor: pointer;
     }
 
+    #color-button:focus {
+      outline: white solid 1px;
+    }
+
     #color-input {
       display: none;
     }
@@ -116,7 +120,7 @@ class ColorPicker extends LitElement {
     }
 
     #text-input:focus {
-      border-color: #2563eb;
+      border-color: white;
       outline: none;
     }
   `;
@@ -248,6 +252,10 @@ class ColorPickerSlider extends LitElement {
       cursor: pointer;
     }
 
+    :host(:focus) {
+      outline: white solid 1px;
+    }
+
     #background {
       all: unset;
       display: block;
@@ -338,6 +346,9 @@ class ColorPickerSlider extends LitElement {
   }
 
   onKeyDown(event) {
+    if (event.key === "Tab") {
+      return;
+    }
     event.preventDefault();
 
     const key = event.key;
@@ -397,6 +408,10 @@ class ColorPickerRegion extends LitElement {
       display: block;
       position: relative;
       cursor: pointer;
+    }
+
+    :host(:focus) {
+      outline: white solid 1px;
     }
 
     #background {
@@ -476,6 +491,9 @@ class ColorPickerRegion extends LitElement {
   }
 
   onKeyDown(event) {
+    if (event.key === "Tab") {
+      return;
+    }
     event.preventDefault();
 
     const key = event.key;

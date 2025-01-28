@@ -7,6 +7,7 @@ import ColorPicker from "../../misc/color_picker";
 import CustomPaletteTab from "./tools/palettes/custom_palette_tab";
 import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
 import EraseToolConfig from "./tools/configs/erase_tool_config";
+import SculptToolConfig from "./tools/configs/sculpt_tool_config";
 
 class ToolTab extends Tab {
   static styles = [
@@ -79,6 +80,10 @@ class ToolTab extends Tab {
 
       #palettes::part(button selected) {
         background-color: #131315;
+      }
+
+      #palettes::part(button):focus {
+        border-color: #494d50;
       }
 
       #palettes::part(blend-palette) {
@@ -159,6 +164,7 @@ class ToolTab extends Tab {
     this.toolConfigs = {
       pen: new PenToolConfig(config),
       eraser: new EraseToolConfig(config),
+      sculpt: new SculptToolConfig(config),
     }
   }
 

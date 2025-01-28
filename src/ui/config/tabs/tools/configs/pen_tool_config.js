@@ -1,35 +1,10 @@
-import { css, html, LitElement } from "lit";
+import { html, nothing } from "lit";
+import BaseToolConfig from "./base_tool_config";
 
-class PenToolConfig extends LitElement {
-  static styles = css`
-    #main {
-      color: rgb(156 163 175);
-      padding: 0.5rem;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: small;
-      font-weight: normal;
-      margin-top: 0px;
-    }
-
-    .group {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .group-sm {
-      display: flex;
-      gap: 0.25rem;
-    }
-
-    .title {
-      padding: 0px;
-      font-size: x-small;
-      margin: 0px;
-    }
-  `;
+class PenToolConfig extends BaseToolConfig {
+  static styles = [
+    BaseToolConfig.styles
+  ];
 
   static properties = {
     size: {},
@@ -39,19 +14,15 @@ class PenToolConfig extends LitElement {
   }
 
   constructor(config) {
-    super();
+    super(config, {
+      size: {type: "select", number: true},
+      shape: {type: "select"},
+      camo: {type: "toggle"},
+      blend: {type: "toggle"},
+    });
     this.config = config;
 
     this._setupCallbacks();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.size = this.config.get("size");
-    this.shape = this.config.get("shape");
-    this.camo = this.config.get("camo");
-    this.blend = this.config.get("blend");
   }
 
   render() {
@@ -62,62 +33,33 @@ class PenToolConfig extends LitElement {
           <div>
             <p class="title">Size</p>
             <ncrs-option-control id="size" @select=${this._onSizeSelect} selected=${this.size}>
-              <ncrs-option-control-button icon="square" name="1"></ncrs-option-control-button>
-              <ncrs-option-control-button icon="foursquare" name="2"></ncrs-option-control-button>
-              <ncrs-option-control-button icon="grid" name="3"></ncrs-option-control-button>
+              <ncrs-option-control-button icon="square" name="1" title="Set size to 1">
+              </ncrs-option-control-button>
+              <ncrs-option-control-button icon="foursquare" name="2" title="Set size to 2">
+              </ncrs-option-control-button>
+              <ncrs-option-control-button icon="grid" name="3" title="Set size to 3">
+              </ncrs-option-control-button>
             </ncrs-option-control>
           </div>
           <div>
             <p class="title">Shape</p>
             <ncrs-option-control id="shape" @select=${this._onShapeSelect} selected=${this.shape}>
-              <ncrs-option-control-button icon="square" name="square"></ncrs-option-control-button>
-              <ncrs-option-control-button icon="circle" name="circle"></ncrs-option-control-button>
+              <ncrs-option-control-button icon="square" name="square" title="Set shape to square">
+              </ncrs-option-control-button>
+              <ncrs-option-control-button icon="circle" name="circle" title="Set shape to circle">
+              </ncrs-option-control-button>
             </ncrs-option-control>
           </div>
         </div>
         <div>
           <p class="title">Effects</p>
           <div class="group-sm">
-            <ncrs-toggle-control id="camo" @toggle=${this._onCamoToggle} icon="checker" selected=${this.camo}></ncrs-toggle-control>
-            <ncrs-toggle-control id="blend" @toggle=${this._onBlendToggle} icon="palette" selected=${this.blend}></ncrs-toggle-control>
+            <ncrs-toggle-control id="camo" @toggle=${this._onCamoToggle} icon="checker" selected=${this.camo || nothing} title="Toggle camo\nRandomly lightens and darkens the current color"></ncrs-toggle-control>
+            <ncrs-toggle-control id="blend" @toggle=${this._onBlendToggle} icon="palette" selected=${this.blend || nothing} title="Toggle blend\nRandomly selects colors from the blend palette"></ncrs-toggle-control>
           </div>
         </div>
       </div>
     `;
-  }
-
-  _setupCallbacks() {
-    this.config.addEventListener("size-change", (event) => {
-      this.size = event.detail;
-    });
-
-    this.config.addEventListener("shape-change", (event) => {
-      this.shape = event.detail;
-    });
-
-    this.config.addEventListener("camo-change", (event) => {
-      this.camo = event.detail;
-    });
-
-    this.config.addEventListener("blend-change", (event) => {
-      this.blend = event.detail;
-    });
-  }
-
-  _onSizeSelect(event) {
-    this.config.set("size", Number(event.detail.name));
-  }
-
-  _onShapeSelect(event) {
-    this.config.set("shape", event.detail.name);
-  }
-
-  _onCamoToggle(event) {
-    this.config.set("camo", event.detail.toggle);
-  }
-
-  _onBlendToggle(event) {
-    this.config.set("blend", event.detail.toggle);
   }
 }
 

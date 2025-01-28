@@ -2,6 +2,7 @@ import { clamp } from "three/src/math/MathUtils.js";
 import { objectToColor } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
+import Color from "color";
 
 const defaultPalettes = [
   {
@@ -80,6 +81,14 @@ class CustomPaletteTab extends Tab {
         aspect-ratio: 1;
         border-radius: 0.125rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
+      }
+
+      .color:focus {
+        border: white solid 1px;
+      }
+
+      .color.light:focus {
+        border: #4F4F4F solid 1px;
       }
     `
   ]
@@ -161,6 +170,10 @@ class CustomPaletteTab extends Tab {
 
     button.style.backgroundColor = color;
     button.setAttribute("color", color);
+
+    if (new Color(color).isLight()) {
+      button.classList.add("light");
+    }
 
     button.addEventListener("click", () => {
       this.colorPicker.setColor(color);

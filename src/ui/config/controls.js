@@ -3,7 +3,7 @@ import { css, html, LitElement } from "lit";
 class ToggleControl extends LitElement {
   static properties = {
     icon: { reflect: true },
-    selected: { reflect: true },
+    selected: { reflect: true, type: Boolean },
   }
 
   static styles = css`
@@ -38,7 +38,7 @@ class ToggleControl extends LitElement {
       text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
     }
 
-    :host([selected=true]) button {
+    :host([selected]) button {
       box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
       margin-bottom: 0.25rem;
       margin-top: 0.125rem;
@@ -53,6 +53,12 @@ class ToggleControl extends LitElement {
     }
   `
 
+  constructor() {
+    super();
+
+    this.selected = false;
+  }
+
   render() {
     return html`
       <button @click=${this._onClick}>
@@ -62,7 +68,9 @@ class ToggleControl extends LitElement {
   }
 
   _onClick() {
+    console.log(this.selected);
     this.selected = !this.selected;
+    console.log(this.selected);
     this.dispatchEvent(new CustomEvent("toggle", {detail: {toggle: this.selected}}));
   }
 
