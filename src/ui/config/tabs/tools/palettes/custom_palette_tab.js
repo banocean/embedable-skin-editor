@@ -209,7 +209,7 @@ class CustomPaletteTab extends Tab {
     if (event.deltaY < 0) { dir = -1 }
 
     const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 1, 30);
+    columns.value = clamp(Number(columns.value) + dir/2, 1, 30);
     this.style.setProperty("--palette-width", columns.value);
   }
 }
