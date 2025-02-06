@@ -2,8 +2,8 @@ import * as THREE from "three"
 import { BasePart } from "../base"
 
 class LeftLegPart extends BasePart {
-  constructor(texture) {
-    super(texture)
+  constructor(texture, variant) {
+    super(texture, variant)
   }
 
   name() { return "leg_left" }

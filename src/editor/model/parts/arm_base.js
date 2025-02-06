@@ -1,14 +1,17 @@
 import { BasePart } from "../base";
 
-class ArmBasePart extends BasePart {
-  static models = ["classic", "slim"];
+const WIDTHS = {
+  classic: 0.5,
+  slim: 0.375,
+}
 
-  constructor(texture) {
-    super(texture);
+class ArmBasePart extends BasePart {
+  constructor(texture, variant) {
+    super(texture, variant);
   }
 
   size() {
-    const width = 0.5;
+    const width = WIDTHS[this.variant];
 
     return {
       base: [width, 1.5, 0.5],

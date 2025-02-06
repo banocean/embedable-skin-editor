@@ -65,8 +65,10 @@ function setFaceUVs(face, uvs, uvAttribute) {
 }
 
 class BasePart {
-  constructor(texture) {
+  constructor(texture, variant) {
     this.texture = texture;
+    this.variant = variant;
+
     this.baseMesh = this._setupMesh(this.uvmap().base);
     this.baseGrid = this._setupGrid(false);
     this.overlayMesh = this._setupMesh(this.uvmap().overlay, true);

@@ -7,8 +7,10 @@ import { RightArmPart } from "./parts/arm_right";
 import { LeftArmPart } from "./parts/arm_left";
 
 class SkinModel {
-  constructor(texture) {
-    this._setupMesh(texture);
+  static variants = ["classic", "slim"]
+
+  constructor(texture, variant = "classic") {
+    this._setupMesh(texture, variant);
     this.mesh = new THREE.Group();
     this.mesh.add(this.baseMesh);
     this.mesh.add(this.baseGrid);
@@ -23,7 +25,11 @@ class SkinModel {
   overlayGrid;
   mesh;
 
-  _setupMesh(texture) {
+  _setupMesh(texture, variant) {
+    if (!SkinModel.variants.includes(variant)) {
+      throw "Invalid variant"
+    }
+
     const scope = this;
     this.baseMesh = new THREE.Group();
     this.baseGrid = new THREE.Group();
@@ -39,12 +45,12 @@ class SkinModel {
       scope.parts.push(part);
     }
 
-    const head = new HeadPart(texture);
-    const torso = new TorsoPart(texture);
-    const leftLeg = new LeftLegPart(texture);
-    const rightLeg = new RightLegPart(texture);
-    const leftArm = new LeftArmPart(texture);
-    const rightArm = new RightArmPart(texture);
+    const head = new HeadPart(texture, variant);
+    const torso = new TorsoPart(texture, variant);
+    const leftLeg = new LeftLegPart(texture, variant);
+    const rightLeg = new RightLegPart(texture, variant);
+    const leftArm = new LeftArmPart(texture, variant);
+    const rightArm = new RightArmPart(texture, variant);
 
     addPart(head);
     addPart(torso);
