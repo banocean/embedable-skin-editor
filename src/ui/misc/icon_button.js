@@ -2,7 +2,7 @@ import { css, html, LitElement } from "lit";
 
 class IconButton extends LitElement {
   static styles = css`
-      :host {
+    :host {
       --icon-color: white;
       --icon-height: 1.75rem;
 

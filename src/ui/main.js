@@ -1,4 +1,5 @@
 import "./misc/icon"
+import "./misc/button"
 
 import { css, html, LitElement } from "lit";
 import { Editor } from "../editor/main";
