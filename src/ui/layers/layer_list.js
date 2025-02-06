@@ -64,19 +64,32 @@ class LayerList extends LitElement {
       cursor: grabbing;
     }
 
-    ncrs-icon-button {
+    ncrs-button {
       --icon-height: 1rem;
       flex-grow: 1;
     }
 
-    ncrs-icon-button[icon="plus"] {
+    ncrs-button::part(button) {
+      padding: 0.25rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    #plus-button::part(button) {
       border-bottom-left-radius: 0.5rem;
       border-bottom-right-radius: 0px;
     }
 
-    ncrs-icon-button[icon="trash"] {
+    #trash-button::part(button) {
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0.5rem;
+    }
+
+    ncrs-icon {
+      display: block;
+      box-sizing: border-box;
+      height: 1rem;
+      width: auto;
     }
   `
 
@@ -103,7 +116,14 @@ class LayerList extends LitElement {
     return html`
       <div id="list">
         ${layersDiv}
-        ${buttonDiv}
+        <div id="buttons">
+          <ncrs-button id="plus-button" @click=${this._addLayer}>
+            <ncrs-icon part="icon" icon="plus" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
+          <ncrs-button id="trash-button" @click=${this._removeLayer}>
+            <ncrs-icon part="icon" icon="trash" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
+        </div>
       </div>
     `;
   }
@@ -162,6 +182,14 @@ class LayerList extends LitElement {
     );
 
     return div;
+  }
+
+  _addLayer() {
+    this.ui.editor.addLayer();
+  }
+
+  _removeLayer() {
+    this.ui.editor.removeLayer();
   }
 }
 
