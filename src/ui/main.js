@@ -17,6 +17,7 @@ class UI extends LitElement {
 
     ncrs-editor {
       background-color: #191919;
+      background-image: url("/images/grid-editor-dark.png");
       flex-grow: 1;
     }
   `;
