@@ -15,6 +15,10 @@ class RenderToggle extends LitElement {
     display: block;
   }
 
+  button:focus-visible {
+    outline: 1px white solid;
+  }
+
   ncrs-icon {
     width: 20px;
     height: 20px;

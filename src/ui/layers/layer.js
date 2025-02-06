@@ -42,12 +42,20 @@ class Layer extends LitElement {
       cursor: grabbing;
     }
 
+    #layer-button:focus-visible {
+      outline: 1px white solid;
+    }
+
     #visibility-toggle {
       cursor: pointer;
       width: 16px;
       height: 16px;
       right: 0.125rem;
       top: 16px;
+    }
+
+    #visibility-toggle:focus-visible {
+      outline: 1px white solid;
     }
 
     :host(.sortable-drag) #visibility-toggle {
