@@ -247,6 +247,8 @@ class Editor extends LitElement {
     this.skinMesh.position.y = yPos;
 
     this.baseGroup.add(this.skinMesh);
+
+    this.updateVisibility();
   }
 
   _createToolData(parts, button) {
