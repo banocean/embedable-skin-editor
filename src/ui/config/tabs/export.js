@@ -4,7 +4,11 @@ import { css, html } from "lit";
 class ExportTab extends Tab {
   static styles = [
     Tab.styles,
-    css``
+    css`
+      p {
+        margin: 0px;
+      }
+    `
   ]
 
   constructor() {
