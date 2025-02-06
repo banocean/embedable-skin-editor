@@ -256,7 +256,7 @@ class Editor extends LitElement {
   }
 
   _loadSkin() {
-    new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
+    new THREE.TextureLoader().load("noni.png", (texture) => {
       new GroupedEntry(
         new AddLayerEntry(this.layers, { texture }),
         new SelectLayerEntry(this.layers, {index: 0})
@@ -269,7 +269,7 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.model = new SkinModel(texture);
+    this.model = new SkinModel(texture, "classic");
 
     this.skinMesh = this.model.mesh;
     this.baseGroup = new THREE.Group();
