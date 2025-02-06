@@ -237,6 +237,14 @@ class Editor extends LitElement {
     }
   }
 
+  setVariant(variant) {
+    this.baseGroup.remove(this.skinMesh);
+    this.model = new SkinModel(this.layers.texture, variant);
+    this.skinMesh = this.model.mesh;
+    this.baseGroup.add(this.skinMesh);
+    this.centerModel();
+  }
+
   _createToolData(parts, button) {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
