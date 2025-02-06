@@ -238,11 +238,15 @@ class Editor extends LitElement {
   }
 
   setVariant(variant) {
+    const yPos = this.skinMesh.position.y;
+
     this.baseGroup.remove(this.skinMesh);
     this.model = new SkinModel(this.layers.texture, variant);
     this.skinMesh = this.model.mesh;
+
+    this.skinMesh.position.y = yPos;
+
     this.baseGroup.add(this.skinMesh);
-    this.centerModel();
   }
 
   _createToolData(parts, button) {
