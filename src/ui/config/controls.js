@@ -15,36 +15,25 @@ class ToggleControl extends LitElement {
       --icon-color: #f5f8cc;
     }
 
-    button {
-      all: unset;
+    ncrs-button::part(button) {
       width: 24px;
       height: 38px;
       box-sizing: border-box;
-      cursor: pointer;
-      margin-bottom: 0.375rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: 9999px;
-      border-width: 1px;
-      border-color: rgb(35 36 40);
-      border-bottom-color: rgb(31 35 38);
-      background-color: rgb(56 59 61);
-      background-image: linear-gradient(to top, #313436, rgb(49 52 54 / 0));
       padding: 0.25rem;
       text-align: center;
-      font-family: Roboto Slab, serif;
-      box-shadow: inset 0 0 0 1px #ffffff0d, 0 2px #262a2e, 0 4px #1f2326, 0 4px 3px #0003;
-      text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
     }
 
-    :host([selected]) button {
+    :host([selected]) ncrs-button::part(button), ncrs-button::part(button):active {
+      --text-color: var(--text-color-active);
       box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
-      margin-bottom: 0.25rem;
       margin-top: 0.125rem;
+      margin-bottom: 0.25rem;
       background-color: rgb(56 59 61);
       background-image: linear-gradient(to bottom, #313436, rgb(49 52 54 / 0));
-      --icon-color: rgb(170 170 170)
     }
 
     ncrs-icon {
@@ -61,16 +50,14 @@ class ToggleControl extends LitElement {
 
   render() {
     return html`
-      <button @click=${this._onClick}>
-        <ncrs-icon icon=${this.icon} color="var(--icon-color)"></ncrs-icon>
-      </button>
+      <ncrs-button @click=${this._onClick}>
+        <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
+      </ncrs-button>
     `
   }
 
   _onClick() {
-    console.log(this.selected);
     this.selected = !this.selected;
-    console.log(this.selected);
     this.dispatchEvent(new CustomEvent("toggle", {detail: {toggle: this.selected}}));
   }
 
@@ -151,43 +138,27 @@ class OptionControlButton extends LitElement {
       --icon-color: #f5f8cc;
     }
 
-    button {
-      all: unset;
+    ncrs-button::part(button) {
       width: 26px;
       height: 34px;
       box-sizing: border-box;
-      cursor: pointer;
-      margin-bottom: 0.375rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.25rem;
-      border-width: 1px;
-      border-color: rgb(35 36 40);
-      border-bottom-color: rgb(31 35 38);
-      background-color: rgb(56 59 61);
-      background-image: linear-gradient(to top, #313436, rgb(49 52 54 / 0));
       padding: 0.25rem;
-      text-align: center;
-      font-family: Roboto Slab, serif;
-      box-shadow: inset 0 0 0 1px #ffffff0d, 0 2px #262a2e, 0 4px #1f2326, 0 4px 3px #0003;
-      text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
     }
 
-    :host([selected=true]) button {
+    :host([selected=true]) ncrs-button::part(button), ncrs-button::part(button):active {
+      --text-color: var(--text-color-active);
       box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
-      margin-bottom: 0.25rem;
       margin-top: 0.125rem;
+      margin-bottom: 0.25rem;
       background-color: rgb(56 59 61);
       background-image: linear-gradient(to bottom, #313436, rgb(49 52 54 / 0));
-      --icon-color: rgb(170 170 170)
     }
 
-    :host(:first-child) button {
+    :host(:first-child) ncrs-button::part(button) {
       border-bottom-left-radius: 0.5rem;
     }
 
-    :host(:last-child) button {
+    :host(:last-child) ncrs-button::part(button) {
       border-bottom-right-radius: 0.5rem;
     }
 
@@ -204,9 +175,9 @@ class OptionControlButton extends LitElement {
 
   render() {
     return html`
-      <button part="button" @click=${this._onClick}>
-        <ncrs-icon icon=${this.icon} color="var(--icon-color)"></ncrs-icon>
-      </button>
+      <ncrs-button @click=${this._onClick}>
+        <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
+      </ncrs-button>
     `;
   }
 
