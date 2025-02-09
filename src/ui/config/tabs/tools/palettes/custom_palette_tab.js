@@ -116,7 +116,7 @@ class CustomPaletteTab extends Tab {
 
     return html`
       <div id="main">
-        <div id="palette" @wheel=${this._onPaletteWheel}>
+        <div id="palette">
           ${colorsDiv}
         </div>
         <div id="options">
@@ -155,7 +155,6 @@ class CustomPaletteTab extends Tab {
     });
 
     select.addEventListener("input", () => {
-      console.log(select.value);
       this.colors = this.palettes[select.value].palette;
       this.requestUpdate();
     });
@@ -209,7 +208,7 @@ class CustomPaletteTab extends Tab {
     if (event.deltaY < 0) { dir = -1 }
 
     const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir/2, 1, 30);
+    columns.value = clamp(Number(columns.value) + dir, 1, 30);
     this.style.setProperty("--palette-width", columns.value);
   }
 }
