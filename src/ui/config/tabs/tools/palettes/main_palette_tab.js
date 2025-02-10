@@ -1,5 +1,5 @@
 import Color from "color";
-import { clamp, objectToColor } from "../../../../../helpers";
+import { clamp } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
 
@@ -62,19 +62,32 @@ class MainPaletteTab extends Tab {
 
       .color {
         all: unset;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         aspect-ratio: 1;
         border-radius: 0.125rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
 
-      .color:focus {
+      .color.selected::after {
+        content: "";
+        position: absolute;
+        border: 4px solid white;
+        border-radius: 9999px;
+      }
+
+      .color.selected.light::after {
+        border-color: black;
+      }
+
+      .color:focus-visible {
         border: white solid 1px;
       }
 
-      .color.light:focus {
-        border: #4F4F4F solid 1px;
+      .color.light:focus-visible {
+        border: black solid 1px;
       }
     `
   ]
@@ -139,7 +152,14 @@ class MainPaletteTab extends Tab {
     button.style.backgroundColor = color;
     button.setAttribute("color", color);
 
-    if (new Color(color).isLight()) {
+    const thisColor = new Color(color);
+    const selectedColor = this.colorPicker.getColor();
+
+    if (thisColor.rgb().string() == selectedColor.rgb().string()) {
+      button.classList.add("selected");
+    }
+
+    if (thisColor.isLight()) {
       button.classList.add("light");
     }
 
@@ -160,6 +180,10 @@ class MainPaletteTab extends Tab {
     })
 
     this.addEventListener("wheel", this._onPaletteWheel.bind(this));
+
+    this.colorPicker.addEventListener("color-change", () => {
+      this.requestUpdate();
+    });
   }
 
   _onColumnsInput(event) {

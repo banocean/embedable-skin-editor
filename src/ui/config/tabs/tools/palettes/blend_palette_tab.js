@@ -2,7 +2,6 @@ import Color from "color";
 import { clamp } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
-import IconButton from "../../../../misc/icon_button";
 
 class BlendPaletteTab extends Tab {
   static styles = [
@@ -65,27 +64,43 @@ class BlendPaletteTab extends Tab {
 
       .palette-element {
         all: unset;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         aspect-ratio: 1;
         border-radius: 0.125rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
 
-      .color.selected {
-        border: 2px solid white;
+      .color.selected::after {
+        content: "";
+        position: absolute;
+        border: 4px solid white;
+        border-radius: 9999px;
       }
 
-      .color.selected.light {
-        border: 2px solid #4F4F4F;
+      .color.selected.light::after {
+        border-color: black;
       }
 
-      .color:focus {
-        border: 1px solid white;
+      .color.current::before {
+        content: "";
+        border: 4px solid transparent;
+        border-radius: 9999px;
+        outline: 2px solid white;
       }
 
-      .color.light:focus {
-        border: 1px solid #4F4F4F;
+      .color.current.light::before {
+        outline-color: black;
+      }
+
+      .color:focus-visible {
+        border: white solid 1px;
+      }
+
+      .color.light:focus-visible {
+        border: black solid 1px;
       }
 
       #plus {
@@ -95,7 +110,7 @@ class BlendPaletteTab extends Tab {
         line-height: 1rem;
       }
 
-      #plus:focus {
+      #plus:focus-visible {
         border: 1px solid white;
       }
 
@@ -105,12 +120,12 @@ class BlendPaletteTab extends Tab {
         --icon-height: 12px;
       }
 
-      #remove:focus {
-        border: 1px solid white;
-      }
-
       #remove::part(button) {
         padding: 0.25rem;
+      }
+
+      #remove::part(button):focus-visible {
+        border: 1px solid white;
       }
     `
   ]
@@ -226,9 +241,18 @@ class BlendPaletteTab extends Tab {
   _createColor(color) {
     const button = document.createElement("button");
     button.classList.add("color", "palette-element");
-    if (color === this.selected) {
-      button.classList.add("selected")
+
+    const thisColor = new Color(color);
+    const selectedColor = this.colorPicker.getColor();
+
+    if (thisColor.rgb().string() == selectedColor.rgb().string()) {
+      button.classList.add("selected");
     }
+
+    if (color === this.selected) {
+      button.classList.add("current")
+    }
+
     if (new Color(color).isLight()) {
       button.classList.add("light");
     }
@@ -256,6 +280,10 @@ class BlendPaletteTab extends Tab {
     })
 
     this.addEventListener("wheel", this._onPaletteWheel.bind(this));
+
+    this.colorPicker.addEventListener("color-change", () => {
+      this.requestUpdate();
+    });
   }
 
   _onColumnsInput(event) {
