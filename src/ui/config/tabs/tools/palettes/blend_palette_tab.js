@@ -289,7 +289,7 @@ class BlendPaletteTab extends Tab {
   _onColumnsInput(event) {
     if (event.target.value == "") { return; }
 
-    event.target.value = clamp(Number(event.target.value), 1, 30);
+    event.target.value = clamp(Number(event.target.value), 1, 14);
     this.style.setProperty("--palette-width", event.target.value);
   }
 
@@ -297,7 +297,7 @@ class BlendPaletteTab extends Tab {
     event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
+    event.target.value = clamp(Number(event.target.value) + dir, 1, 14);
     this.style.setProperty("--palette-width", event.target.value)
   }
 
@@ -309,7 +309,7 @@ class BlendPaletteTab extends Tab {
     if (event.deltaY < 0) { dir = -1 }
 
     const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 1, 30);
+    columns.value = clamp(Number(columns.value) + dir, 1, 14);
     this.style.setProperty("--palette-width", columns.value);
   }
 }

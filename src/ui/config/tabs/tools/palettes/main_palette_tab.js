@@ -3,10 +3,7 @@ import { clamp } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
 
-const defaultColors = [
-  "#ffffff", "#000000", "#c0c0c0", "#808080", "#ff0000", "#ffff00", "#808000", "#00ff00",
-  "#008000", "#00ffff", "#008080", "#0000ff", "#000080", "#ff00ff", "#800080"
-]
+const defaultColors = ["#e8453c"];
 
 class MainPaletteTab extends Tab {
   static styles = [

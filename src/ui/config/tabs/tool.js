@@ -151,8 +151,8 @@ class ToolTab extends Tab {
     tabGroup.id = "palettes";
     tabGroup.side = "top";
 
-    tabGroup.registerTab(new MainPaletteTab(this.editor, this.colorPicker));
     tabGroup.registerTab(new CustomPaletteTab(this.colorPicker));
+    tabGroup.registerTab(new MainPaletteTab(this.editor, this.colorPicker));
     tabGroup.registerTab(new BlendPaletteTab(this.editor, this.colorPicker));
 
     return tabGroup;
