@@ -70,7 +70,6 @@ class MainPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
-        position: absolute;
         border: 4px solid white;
         border-radius: 9999px;
       }

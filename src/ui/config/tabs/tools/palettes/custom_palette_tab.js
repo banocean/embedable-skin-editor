@@ -101,7 +101,6 @@ class CustomPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
-        position: absolute;
         border: 4px solid white;
         border-radius: 9999px;
       }
@@ -125,10 +124,16 @@ class CustomPaletteTab extends Tab {
 
     this.colorPicker = colorPicker;
     this.palettes = this._loadPalettes();
-    this.colors = this.palettes[0].palette;
+
+    const currentPalette = this.palettes[0];
+
+    this.colors = currentPalette.palette;
+    this.scale = currentPalette.scale;
 
     this.select = this._createSelect();
     this.select.id = "palette-select";
+
+    this.scaleInput = this._createScaleInput();
 
     this._setupEvents();
   }
@@ -141,19 +146,15 @@ class CustomPaletteTab extends Tab {
       colorsDiv.appendChild(this._createColor(color))
     });
 
+    this.style.setProperty("--palette-width", this.scale);
+
     return html`
       <div id="main">
         <div id="palette">
           ${colorsDiv}
         </div>
         <div id="options">
-          <input
-            id="columns" value="12" type="number"
-            title="Palette width"
-            inputmode="numeric"
-            @input=${this._onColumnsInput}
-            @wheel=${this._onColumnsWheel}
-          >
+          ${this.scaleInput}
           <div>
             <label id="palette-label" for="palette-select">Select palette</label>
             ${this.select}
@@ -182,11 +183,30 @@ class CustomPaletteTab extends Tab {
     });
 
     select.addEventListener("input", () => {
-      this.colors = this.palettes[select.value].palette;
+      const palette = this.palettes[select.value];
+
+      this.scale = palette.scale;
+      this.scaleInput.value = this.scale;
+      this.colors = palette.palette;
+
       this.requestUpdate();
     });
 
     return select;
+  }
+
+  _createScaleInput() {
+    const scaleInput = document.createElement("input");
+
+    scaleInput.id = "columns";
+    scaleInput.title = "Palette width";
+    scaleInput.type = "number";
+    scaleInput.inputmode = "numeric";
+    scaleInput.addEventListener("input", event => this._onColumnsInput(event));
+    scaleInput.addEventListener("wheel", event => this._onColumnsWheel(event));
+    scaleInput.value = this.scale;
+
+    return scaleInput;
   }
 
   _createColor(color) {
