@@ -8,6 +8,7 @@ import CustomPaletteTab from "./tools/palettes/custom_palette_tab";
 import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
 import EraseToolConfig from "./tools/configs/erase_tool_config";
 import SculptToolConfig from "./tools/configs/sculpt_tool_config";
+import Color from "color";
 
 class ToolTab extends Tab {
   static styles = [
@@ -144,6 +145,10 @@ class ToolTab extends Tab {
         ${config}
       </div>
     `
+  }
+
+  firstUpdated() {
+    this.colorPicker.setColor(this.editor.config.get("color", new Color("#ff0000")).string());
   }
 
   _createPaletteTabs() {

@@ -132,6 +132,10 @@ class ColorPicker extends LitElement {
     this.saturation = 0;
     this.lightness = 0;
     this.alpha = 1;
+
+    this.gradient = this._createGradient();
+    this.hueSlider = this._createHueSlider();
+    this.alphaSlider = this._createAlphaSlider();
   }
   picker;
 
@@ -163,10 +167,10 @@ class ColorPicker extends LitElement {
 
     return html`
       <div style=${styleMap(styles)}>
-        <ncrs-color-picker-region id="gradient" @region-change=${this._gradientChanged}></ncrs-color-picker-region>
+        ${this.gradient}
         <div id="sliders">
-          <ncrs-color-picker-slider id="hue-slider" @slider-change=${this._hueChanged}></ncrs-color-picker-slider>
-          <ncrs-color-picker-slider id="alpha-slider" @slider-change=${this._alphaChanged}></ncrs-color-picker-slider>
+          ${this.hueSlider}
+          ${this.alphaSlider}
         </div>
         <div id="input">
           <button @click=${showColorInput} id="color-button" aria-label="Open system color picker"></button>
@@ -183,20 +187,39 @@ class ColorPicker extends LitElement {
   setColor(color) {
     const newColor = Color(color).hsv();
 
-    const root = this.shadowRoot;
-    const gradient = root.getElementById("gradient");
-    const hueSlider = root.getElementById("hue-slider");
-    const alphaSlider = root.getElementById("alpha-slider");
+    this.gradient.progressX = newColor.saturationv() / 100;
+    this.gradient.progressY = (100 - newColor.value()) / 100;
 
-    gradient.progressX = newColor.saturationv() / 100;
-    gradient.progressY = (100 - newColor.value()) / 100;
-
-    hueSlider.progress = newColor.hue() / 360;
-    alphaSlider.progress = newColor.alpha();
+    this.hueSlider.progress = newColor.hue() / 360;
+    this.alphaSlider.progress = newColor.alpha();
   }
 
   getColorWithAlpha() {
     return this.getColor().alpha(this.alpha);
+  }
+
+  _createGradient() {
+    const gradient = new ColorPickerRegion();
+    gradient.id = "gradient";
+    gradient.addEventListener("region-change", event => { this._gradientChanged(event) });
+
+    return gradient;
+  }
+
+  _createHueSlider() {
+    const hueSlider = new ColorPickerSlider();
+    hueSlider.id = "hue-slider";
+    hueSlider.addEventListener("slider-change", event => { this._hueChanged(event) });
+
+    return hueSlider;
+  }
+
+  _createAlphaSlider() {
+    const alphaSlider = new ColorPickerSlider();
+    alphaSlider.id = "alpha-slider";
+    alphaSlider.addEventListener("slider-change", event => { this._alphaChanged(event) });
+
+    return alphaSlider;
   }
 
   _gradientChanged(event) {
