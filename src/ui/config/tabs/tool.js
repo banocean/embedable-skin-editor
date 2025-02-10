@@ -2,9 +2,9 @@ import Tab from "../../misc/tab";
 import { css, html } from "lit";
 import PenToolConfig from "./tools/configs/pen_tool_config";
 import TabGroup from "../../misc/tab_group";
-import MainPaletteTab from "./tools/palettes/main_palette_tab";
+import RecentColorPaletteTab from "./tools/palettes/recent_color_palette_tab";
 import ColorPicker from "../../misc/color_picker";
-import CustomPaletteTab from "./tools/palettes/custom_palette_tab";
+import PresetPaletteTab from "./tools/palettes/preset_palette_tab";
 import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
 import EraseToolConfig from "./tools/configs/erase_tool_config";
 import SculptToolConfig from "./tools/configs/sculpt_tool_config";
@@ -156,8 +156,8 @@ class ToolTab extends Tab {
     tabGroup.id = "palettes";
     tabGroup.side = "top";
 
-    tabGroup.registerTab(new CustomPaletteTab(this.colorPicker));
-    tabGroup.registerTab(new MainPaletteTab(this.editor, this.colorPicker));
+    tabGroup.registerTab(new PresetPaletteTab(this.colorPicker));
+    tabGroup.registerTab(new RecentColorPaletteTab(this.editor, this.colorPicker));
     tabGroup.registerTab(new BlendPaletteTab(this.editor, this.colorPicker));
 
     return tabGroup;

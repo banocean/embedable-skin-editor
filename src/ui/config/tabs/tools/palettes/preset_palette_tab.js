@@ -36,7 +36,7 @@ const defaultPalettes = [
   }
 ]
 
-class CustomPaletteTab extends Tab {
+class PresetPaletteTab extends Tab {
   static styles = [
     Tab.styles,
     css`
@@ -270,6 +270,6 @@ class CustomPaletteTab extends Tab {
   }
 }
 
-customElements.define("ncrs-custom-palette-tab", CustomPaletteTab);
+customElements.define("ncrs-preset-palette-tab", PresetPaletteTab);
 
-export default CustomPaletteTab;
+export default PresetPaletteTab;

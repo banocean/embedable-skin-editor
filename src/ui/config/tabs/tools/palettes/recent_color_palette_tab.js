@@ -5,7 +5,7 @@ import { css, html } from "lit";
 
 const defaultColors = ["#e8453c"];
 
-class MainPaletteTab extends Tab {
+class RecentColorPaletteTab extends Tab {
   static styles = [
     Tab.styles,
     css`
@@ -210,6 +210,6 @@ class MainPaletteTab extends Tab {
   }
 }
 
-customElements.define("ncrs-main-palette-tab", MainPaletteTab);
+customElements.define("ncrs-recent-color-palette-tab", RecentColorPaletteTab);
 
-export default MainPaletteTab;
+export default RecentColorPaletteTab;
