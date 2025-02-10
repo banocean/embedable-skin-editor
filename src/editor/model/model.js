@@ -9,6 +9,10 @@ import { LeftArmPart } from "./parts/arm_left";
 class SkinModel {
   static variants = ["classic", "slim"]
 
+  static isValidVariant(variant) {
+    return this.variants.includes(variant);
+  }
+
   constructor(texture, variant = "classic") {
     this._setupMesh(texture, variant);
     this.mesh = new THREE.Group();

@@ -51,6 +51,7 @@ class Editor extends LitElement {
   skinMesh;
   baseGroup;
   model;
+  variant;
 
   render() {
     this.stats.showPanel(0);
@@ -238,10 +239,14 @@ class Editor extends LitElement {
   }
 
   setVariant(variant) {
+    if (!SkinModel.isValidVariant(variant)) { return false; }
+
     const yPos = this.skinMesh.position.y;
 
     this.baseGroup.remove(this.skinMesh);
-    this.model = new SkinModel(this.layers.texture, variant);
+
+    this.variant = variant;
+    this.model = new SkinModel(this.layers.texture, this.variant);
     this.skinMesh = this.model.mesh;
 
     this.skinMesh.position.y = yPos;
@@ -255,7 +260,7 @@ class Editor extends LitElement {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
 
-    return new ToolData({ texture, parts, button });
+    return new ToolData({ texture, parts, button, variant: this.variant });
   }
 
   _setupResizeObserver() {
@@ -283,7 +288,8 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.model = new SkinModel(texture, "classic");
+    this.variant = "classic";
+    this.model = new SkinModel(texture, this.variant);
 
     this.skinMesh = this.model.mesh;
     this.baseGroup = new THREE.Group();

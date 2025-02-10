@@ -7,6 +7,7 @@ class ToolData {
     this.texture = this._setupCanvas(params.texture);
     this.parts = params.parts;
     this.button = params.button;
+    this.variant = params.variant;
   }
 
   hasOverlay() {
