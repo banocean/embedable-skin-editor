@@ -3,7 +3,7 @@ import { clamp } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
 
-const defaultColors = ["#e8453c"];
+const defaultColors = [];
 
 class RecentColorPaletteTab extends Tab {
   static styles = [
@@ -20,6 +20,13 @@ class RecentColorPaletteTab extends Tab {
         padding: 0.25rem;
         box-sizing: border-box;
         height: 100%;
+      }
+
+      p {
+        margin: 0px;
+        color: #aaaaaa;
+        font-size: small;
+        padding-bottom: 0.25rem;
       }
 
       #options {
@@ -101,6 +108,19 @@ class RecentColorPaletteTab extends Tab {
   render() {
     const colorsDiv = document.createElement("div");
     colorsDiv.id = "colors";
+
+    if (this.colors.length < 1) {
+      return html`
+        <div id="main">
+          <p>
+            No recent colors.
+          </p>
+          <p>
+            Colors you use in your skin will show up here.
+          </p>
+        </div>
+      `;
+    }
 
     this.colors.forEach(color => {
       colorsDiv.appendChild(this._createColor(color))

@@ -39,7 +39,7 @@ class ColorPicker extends LitElement {
     }
 
     #gradient::part(cursor) {
-      background-color: var(--current-color)
+      background-color: var(--current-color);
     }
 
     #sliders {
@@ -140,16 +140,19 @@ class ColorPicker extends LitElement {
   picker;
 
   render() {
+    const color = this.getColor();
+    const colorWithAlpha = this.getColorWithAlpha();
+
     const colorInput = document.createElement("input");
     colorInput.id = "color-input";
     colorInput.type = "color";
-    colorInput.value = this.getColorWithAlpha().string();
+    colorInput.value = colorWithAlpha.string();
     colorInput.addEventListener("change", (event) => this.setColor(event.target.value));
 
     const textInput = document.createElement("input");
     textInput.id = "text-input";
     textInput.type = "text";
-    textInput.value = this.getColorWithAlpha().hexa();
+    textInput.value = colorWithAlpha.hexa();
     textInput.oninput = this._onTextInput.bind(this);
     textInput.onchange = this._onTextChange.bind(this);
 
@@ -159,11 +162,17 @@ class ColorPicker extends LitElement {
 
     const styles = {
       "--current-hue": `${this.hue}deg`,
-      "--current-color": this.getColor().string(),
-      "--current-color-alpha": this.getColorWithAlpha().string(),
+      "--current-color": color.string(),
+      "--current-color-alpha": colorWithAlpha.string(),
     };
 
     this.dispatchEvent(new CustomEvent("color-change", { detail: { color: this.getColorWithAlpha() } }));
+
+    if (colorWithAlpha.isLight()) {
+      this.gradient.classList.add("light");
+    } else {
+      this.gradient.classList.remove("light");
+    }
 
     return html`
       <div style=${styleMap(styles)}>
@@ -454,8 +463,8 @@ class ColorPickerRegion extends LitElement {
       border-radius: 100%;
     }
 
-    :host(:hover) > #cursor {
-      outline: 0.125rem solid #f5f8cc;
+    :host(.light) #cursor {
+      outline-color: black;
     }
   `;
 

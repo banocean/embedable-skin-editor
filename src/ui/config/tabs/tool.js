@@ -196,7 +196,6 @@ class ToolTab extends Tab {
 
   _setupEvents() {
     this.editor.config.addEventListener("blend-change", event => {
-      console.log(event);
       if (event.detail) {
         this.style.setProperty("--blend-palette-color", "white");
       } else {

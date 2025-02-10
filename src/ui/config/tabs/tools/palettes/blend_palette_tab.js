@@ -14,7 +14,7 @@ class BlendPaletteTab extends Tab {
       p {
         margin: 0px;
         color: #aaaaaa;
-        font-size: x-small;
+        font-size: small;
         padding-bottom: 0.25rem;
       }
 
@@ -67,6 +67,7 @@ class BlendPaletteTab extends Tab {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         cursor: pointer;
         aspect-ratio: 1;
         border-radius: 0.125rem;
@@ -75,6 +76,7 @@ class BlendPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
+        position: absolute;
         border: 4px solid white;
         border-radius: 9999px;
       }
@@ -85,6 +87,7 @@ class BlendPaletteTab extends Tab {
 
       .color.current::before {
         content: "";
+        position: absolute;
         border: 4px solid transparent;
         border-radius: 9999px;
         outline: 2px solid white;
