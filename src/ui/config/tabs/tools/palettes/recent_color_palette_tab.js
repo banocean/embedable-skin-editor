@@ -77,12 +77,13 @@ class RecentColorPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
-        border: 4px solid white;
+        border: 4px solid transparent;
         border-radius: 9999px;
+        outline: 2px solid white;
       }
 
       .color.selected.light::after {
-        border-color: black;
+        outline-color: black;
       }
 
       .color:focus-visible {

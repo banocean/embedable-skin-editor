@@ -250,11 +250,11 @@ class BlendPaletteTab extends Tab {
     const selectedColor = this.colorPicker.getColor();
 
     if (thisColor.rgb().string() == selectedColor.rgb().string()) {
-      button.classList.add("selected");
+      button.classList.add("current");
     }
 
     if (color === this.selected) {
-      button.classList.add("current")
+      button.classList.add("selected")
     }
 
     if (new Color(color).isLight()) {
