@@ -31,8 +31,8 @@ const defaultPalettes = [
   },
   {
     name: "Ruby",
-    palette:["#160a1c","#2c152c","#472246","#772655","#b42552","#e8453c","#f27343","#fba948","#ffcb6d","#ffee94","#fdffcf","#fdffcf"],
-    "scale":12
+    palette:["#160a1c","#2c152c","#472246","#772655","#b42552","#e8453c","#f27343","#fba948","#ffcb6d","#ffee94","#fdffcf"],
+    scale: 11
   }
 ]
 
@@ -101,7 +101,9 @@ class PresetPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
-        border: 4px solid transparent;
+        display: block;
+        width: 50%;
+        height: 50%;
         border-radius: 9999px;
         outline: 2px solid white;
       }
@@ -246,7 +248,7 @@ class PresetPaletteTab extends Tab {
   _onColumnsInput(event) {
     if (event.target.value == "") { return; }
 
-    event.target.value = clamp(Number(event.target.value), 1, 30);
+    event.target.value = clamp(Number(event.target.value), 4, 16);
     this.scale = event.target.value;
     this.style.setProperty("--palette-width", event.target.value);
   }
@@ -255,7 +257,7 @@ class PresetPaletteTab extends Tab {
     event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
+    event.target.value = clamp(Number(event.target.value) + dir, 4, 16);
     this.scale = event.target.value;
     this.style.setProperty("--palette-width", event.target.value)
   }
@@ -268,7 +270,7 @@ class PresetPaletteTab extends Tab {
     if (event.deltaY < 0) { dir = -1 }
 
     const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 1, 30);
+    columns.value = clamp(Number(columns.value) + dir, 4, 16);
     this.scale = columns.value;
     this.style.setProperty("--palette-width", columns.value);
   }

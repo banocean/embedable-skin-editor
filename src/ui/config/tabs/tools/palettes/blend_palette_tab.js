@@ -74,27 +74,32 @@ class BlendPaletteTab extends Tab {
         box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
       }
 
-      .color.selected::after {
+      .color.current::after {
         content: "";
+        display: block;
         position: absolute;
-        border: 4px solid white;
-        border-radius: 9999px;
-      }
-
-      .color.selected.light::after {
-        border-color: black;
-      }
-
-      .color.current::before {
-        content: "";
-        position: absolute;
-        border: 4px solid transparent;
+        width: 50%;
+        height: 50%;
         border-radius: 9999px;
         outline: 2px solid white;
       }
 
-      .color.current.light::before {
+      .color.current.light::after {
         outline-color: black;
+      }
+
+      .color.selected::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        background-color: white;
+        border-radius: 9999px;
+      }
+
+      .color.selected.light::before {
+        background-color: black;
       }
 
       .color:focus-visible {

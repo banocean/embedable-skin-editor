@@ -77,7 +77,9 @@ class RecentColorPaletteTab extends Tab {
 
       .color.selected::after {
         content: "";
-        border: 4px solid transparent;
+        display: block;
+        width: 50%;
+        height: 50%;
         border-radius: 9999px;
         outline: 2px solid white;
       }
@@ -209,7 +211,7 @@ class RecentColorPaletteTab extends Tab {
   _onColumnsInput(event) {
     if (event.target.value == "") { return; }
 
-    event.target.value = clamp(Number(event.target.value), 1, 30);
+    event.target.value = clamp(Number(event.target.value), 4, 16);
     this.style.setProperty("--palette-width", event.target.value);
   }
 
@@ -217,7 +219,7 @@ class RecentColorPaletteTab extends Tab {
     event.preventDefault();
     let dir = 1;
     if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 1, 30);
+    event.target.value = clamp(Number(event.target.value) + dir, 4, 16);
     this.style.setProperty("--palette-width", event.target.value)
   }
 
@@ -229,7 +231,7 @@ class RecentColorPaletteTab extends Tab {
     if (event.deltaY < 0) { dir = -1 }
 
     const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 1, 30);
+    columns.value = clamp(Number(columns.value) + dir, 4, 16);
     this.style.setProperty("--palette-width", columns.value);
   }
 }
