@@ -14,10 +14,6 @@ class ToolTab extends Tab {
   static styles = [
     Tab.styles,
     css`
-      :host {
-        --blend-palette-color: #aaaaaa;
-      }
-
       ncrs-color-picker {
         width: 100%;
         height: 15rem;
@@ -87,8 +83,8 @@ class ToolTab extends Tab {
         border-color: #494d50;
       }
 
-      #palettes::part(blend-palette) {
-        color: var(--blend-palette-color);
+      #palettes::part(darkened) {
+        color: #aaaaaa;
       }
 
       #palettes::part(tabs) {
@@ -126,7 +122,6 @@ class ToolTab extends Tab {
     this.palette = this._createPaletteTabs();
 
     this._setupToolConfigs();
-    this._setupEvents();
   }
   toolConfigs;
 
@@ -192,16 +187,6 @@ class ToolTab extends Tab {
 
   _onSelect(event) {
     console.log(event);
-  }
-
-  _setupEvents() {
-    this.editor.config.addEventListener("blend-change", event => {
-      if (event.detail) {
-        this.style.setProperty("--blend-palette-color", "white");
-      } else {
-        this.style.removeProperty("--blend-palette-color");
-      }
-    })
   }
 }
 

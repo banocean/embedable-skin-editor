@@ -143,6 +143,8 @@ class BlendPaletteTab extends Tab {
     this.colorPicker = colorPicker;
     this.colors = this._loadColors();
 
+    this.setDarkened(!this.editor.config.get("blend"));
+
     this._setupEvents();
   }
 
@@ -277,8 +279,14 @@ class BlendPaletteTab extends Tab {
   }
 
   _setupEvents() {
-    this.editor.config.addEventListener("blend-palette-change", () => {
+    const cfg = this.editor.config;
+
+    cfg.addEventListener("blend-palette-change", () => {
       this.requestUpdate();
+    })
+
+    cfg.addEventListener("blend-change", event => {
+      this.setDarkened(!event.detail);
     })
 
     this.addEventListener("wheel", this._onPaletteWheel.bind(this));

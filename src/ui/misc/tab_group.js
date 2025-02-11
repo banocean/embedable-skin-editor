@@ -87,6 +87,18 @@ class TabGroup extends LitElement {
       this.select(tab);
     });
 
+    if (tab.darkened) {
+      button.part.add("darkened");
+    }
+
+    tab.addEventListener("set-darkened", event => {
+      if (event.detail) {
+        button.part.add("darkened");
+      } else {
+        button.part.remove("darkened");
+      }
+    })
+
     return button;
   }
 }

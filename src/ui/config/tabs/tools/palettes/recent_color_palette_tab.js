@@ -102,6 +102,8 @@ class RecentColorPaletteTab extends Tab {
     this.colorPicker = colorPicker;
     this.colors = this._loadColors();
 
+    this.setDarkened(this.colors.length < 1);
+
     this._setupEvents();
   }
 
@@ -125,6 +127,7 @@ class RecentColorPaletteTab extends Tab {
     this.colors.forEach(color => {
       colorsDiv.appendChild(this._createColor(color))
     });
+    this.setDarkened(this.colors.length < 1);
 
     return html`
       <div id="main">

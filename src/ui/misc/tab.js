@@ -6,13 +6,14 @@ class Tab extends LitElement {
       display: none;
     }
 
-    :host([visible=true]) {
+    :host([visible]) {
       display: block;
     }
   `;
 
   static properties = {
-    visible: {reflect: true}
+    visible: {reflect: true, type: Boolean},
+    darkened: {reflect: true, type: Boolean},
   }
 
   constructor(properties = {}) {
@@ -20,9 +21,17 @@ class Tab extends LitElement {
 
     this.properties = properties;
     this.visible = false;
+    this.darkened = this.darkened || false;
   }
+  tabButton;
 
   render() {}
+
+  setDarkened(value) {
+    console.log("DARK", value)
+    this.darkened = value;
+    this.dispatchEvent(new CustomEvent("set-darkened", {detail: this.darkened}));
+  }
 }
 
 export default Tab;
