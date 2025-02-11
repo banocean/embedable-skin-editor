@@ -102,13 +102,10 @@ class BasePart {
     this.baseMeshVisible();
   }
 
-  setVisible(hidden) {
-    if (!hidden) {
-      this.baseMesh.visible = false;
-      this.overlayMeshVisible = false;
-    } else {
-      this.updateMeshVisible();
-    }
+  setVisible(visible) {
+    this.baseMeshVisible = visible;
+    this.overlayMeshVisible = visible;
+    this.updateMeshVisible();
   }
 
   getSize(overlay) {

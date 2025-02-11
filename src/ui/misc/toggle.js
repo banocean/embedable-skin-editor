@@ -30,7 +30,7 @@ class BasicToggle extends LitElement {
 
   render() {
     return html`
-      <button @click=${this.toggle}>
+      <button part="button" @click=${this.toggle}>
         <slot name="before"></slot>
         <slot name="off"></slot>
         <slot name="on"></slot>
