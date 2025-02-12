@@ -23,7 +23,7 @@ class Controls {
     if (intersects.length > 0) {
       this.targetingModel = false;
 
-      const parts = intersects.filter((part) => part.object.type == "Mesh");
+      const parts = intersects.filter((part) => part.object.type == "Mesh" && part.object.visible);
 
       if (parts.length > 0) {
         this.targetingModel = true;
