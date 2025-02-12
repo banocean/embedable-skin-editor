@@ -5,7 +5,7 @@ class PartToggle extends LitElement {
     :host {
       display: block;
       --scale: 0.6;
-      --gap: 0.125rem;
+      --gap: 0.25rem;
     }
 
     #parts {
@@ -26,6 +26,7 @@ class PartToggle extends LitElement {
       display: block;
       background-size: contain;
       background-repeat: no-repeat;
+      outline: 1px solid white;
       background-image: var(--background-image-disabled);
     }
 
