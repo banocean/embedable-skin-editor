@@ -2,6 +2,7 @@ import { css, html, LitElement } from "lit";
 import { styleMap } from "lit/directives/style-map.js";
 import Color from "color";
 import { clamp } from "../../helpers";
+import NAMED_COLORS from "./named_colors";
 
 class ColorPicker extends LitElement {
   static properties = {
@@ -259,6 +260,11 @@ class ColorPicker extends LitElement {
 
     if (event.target.value === "#MOXVALLIX") {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
+    }
+
+    const colorName = event.target.value.toLowerCase().replace("#", "");
+    if (Object.keys(NAMED_COLORS).includes(colorName)) {
+      event.target.value = NAMED_COLORS[colorName];
     }
 
     try {
