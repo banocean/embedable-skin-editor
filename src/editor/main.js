@@ -52,6 +52,7 @@ class Editor extends LitElement {
   baseGroup;
   model;
   variant;
+  partVisibility = {};
 
   render() {
     this.stats.showPanel(0);
@@ -130,9 +131,14 @@ class Editor extends LitElement {
   }
 
   setPartVisible(name, visible) {
+    this.partVisibility[name] = visible;
+    this.updatePartsVisibility();
+  }
+
+  updatePartsVisibility() {
     this.model.parts.forEach((part) => {
-      if (part.name() == name) {
-        part.setVisible(visible);
+      if (Object.keys(this.partVisibility).includes(part.name())) {
+        part.setVisible(this.partVisibility[part.name()]);
       }
     });
   }
@@ -254,6 +260,7 @@ class Editor extends LitElement {
     this.baseGroup.add(this.skinMesh);
 
     this.updateVisibility();
+    this.updatePartsVisibility();
   }
 
   _createToolData(parts, button) {
