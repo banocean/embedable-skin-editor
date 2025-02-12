@@ -1,94 +1,134 @@
-import { css, html } from "lit";
+import { css, html, LitElement } from "lit";
 
-const PART_STYLES = css`
-  #parts {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.125rem;
-    --scale: 0.5;
-    margin-bottom: 0.5rem;
+class PartToggle extends LitElement {
+  static styles = css`
+    :host {
+      display: block;
+      --scale: 0.6;
+      --gap: 0.125rem;
+    }
+
+    #parts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      image-rendering: pixelated;
+      gap: var(--gap);
+    }
+
+    #parts > div {
+      display: flex;
+      justify-content: center;
+      gap: var(--gap);
+    }
+
+    #parts ncrs-toggle {
+      display: block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: var(--background-image-disabled);
+    }
+
+    #parts ncrs-toggle[toggled] {
+      background-image: var(--background-image-enabled);
+    }
+
+    #parts ncrs-toggle::part(button) {
+      width: 100%;
+      height: 100%;
+    }
+
+    #toggle-head {
+      width: calc(32px * var(--scale));
+      height: calc(32px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/head_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/head_disabled.png");
+    }
+
+    #toggle-rarm {
+      width: calc(16px * var(--scale));
+      height: calc(48px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/right_arm_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/right_arm_disabled.png");
+    }
+
+    #toggle-torso {
+      width: calc(32px * var(--scale));
+      height: calc(48px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/torso_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/torso_disabled.png");
+    }
+
+    #toggle-larm {
+      width: calc(16px * var(--scale));
+      height: calc(48px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/left_arm_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/left_arm_disabled.png");
+    }
+
+    #toggle-rleg {
+      width: calc(16px * var(--scale));
+      height: calc(48px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/right_leg_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/right_leg_disabled.png");
+    }
+
+    #toggle-lleg {
+      width: calc(16px * var(--scale));
+      height: calc(48px * var(--scale));
+      --background-image-enabled: url("/images/skin_parts/left_leg_enabled.png");
+      --background-image-disabled: url("/images/skin_parts/left_leg_disabled.png");
+    }
+  `
+
+  constructor(editor) {
+    super();
+    
+    this.editor = editor;
   }
 
-  #parts > div {
-    display: flex;
-    gap: 0.125rem;
-    justify-content: center;
+  render() {
+    return html`
+      <div id="parts">
+        <ncrs-toggle id="toggle-head" title="Toggle head." toggled @toggle=${this._toggleHeadPart}></ncrs-toggle>
+        <div>
+          <ncrs-toggle id="toggle-rarm" title="Toggle right arm." toggled @toggle=${this._toggleRArmPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-torso" title="Toggle torso." toggled @toggle=${this._toggleTorsoPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-larm" title="Toggle left arm." toggled @toggle=${this._toggleLArmPart}></ncrs-toggle>
+        </div>
+        <div>
+          <ncrs-toggle id="toggle-rleg" title="Toggle right leg." toggled @toggle=${this._toggleRLegPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-lleg" title="Toggle left leg." toggled @toggle=${this._toggleLLegPart}></ncrs-toggle>
+        </div>
+      </div>
+    `
   }
 
-  #parts ncrs-toggle {
-    display: block;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: var(--background-image-disabled);
+  _toggleHeadPart(event) {
+    this.editor.setPartVisible("head", event.detail);
   }
 
-  #parts ncrs-toggle[toggled] {
-    background-image: var(--background-image-enabled);
+  _toggleRArmPart(event) {
+    this.editor.setPartVisible("arm_right", event.detail);
   }
 
-  #parts ncrs-toggle::part(button) {
-    width: 100%;
-    height: 100%;
+  _toggleTorsoPart(event) {
+    this.editor.setPartVisible("torso", event.detail);
   }
 
-  #toggle-head {
-    width: calc(38px * var(--scale));
-    height: calc(38px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/head_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/head_disabled.png");
+  _toggleLArmPart(event) {
+    this.editor.setPartVisible("arm_left", event.detail);
   }
 
-  #toggle-rarm {
-    width: calc(22px * var(--scale));
-    height: calc(54px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/right_arm_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/right_arm_disabled.png");
+  _toggleRLegPart(event) {
+    this.editor.setPartVisible("leg_right", event.detail);
   }
 
-  #toggle-torso {
-    width: calc(38px * var(--scale));
-    height: calc(54px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/torso_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/torso_disabled.png");
+  _toggleLLegPart(event) {
+    this.editor.setPartVisible("leg_left", event.detail);
   }
+}
 
-  #toggle-larm {
-    width: calc(22px * var(--scale));
-    height: calc(54px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/left_arm_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/left_arm_disabled.png");
-  }
+customElements.define("ncrs-part-toggle", PartToggle)
 
-  #toggle-rleg {
-    width: calc(22px * var(--scale));
-    height: calc(54px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/right_leg_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/right_leg_disabled.png");
-  }
-
-  #toggle-lleg {
-    width: calc(22px * var(--scale));
-    height: calc(54px * var(--scale));
-    --background-image-enabled: url("/images/skin_parts/left_leg_enabled.png");
-    --background-image-disabled: url("/images/skin_parts/left_leg_disabled.png");
-  }
-`
-
-// Ignore this wild workaround lmao
-const PART_HTML = (scope) => html`
-  <div id="parts">
-    <ncrs-toggle id="toggle-head" title="Toggle head." toggled @toggle=${scope._toggleHeadPart}></ncrs-toggle>
-    <div>
-      <ncrs-toggle id="toggle-rarm" title="Toggle right arm." toggled @toggle=${scope._toggleRArmPart}></ncrs-toggle>
-      <ncrs-toggle id="toggle-torso" title="Toggle torso." toggled @toggle=${scope._toggleTorsoPart}></ncrs-toggle>
-      <ncrs-toggle id="toggle-larm" title="Toggle left arm." toggled @toggle=${scope._toggleLArmPart}></ncrs-toggle>
-    </div>
-    <div>
-      <ncrs-toggle id="toggle-rleg" title="Toggle right leg." toggled @toggle=${scope._toggleRLegPart}></ncrs-toggle>
-      <ncrs-toggle id="toggle-lleg" title="Toggle left leg." toggled @toggle=${scope._toggleLLegPart}></ncrs-toggle>
-    </div>
-  </div>
-`
-
-export {PART_STYLES, PART_HTML}
+export default PartToggle;
