@@ -249,8 +249,7 @@ class ColorPicker extends LitElement {
 
   _onTextInput(event) {
     let value = event.target.value.toUpperCase();
-    value = value.replaceAll(/[^0-9A-F]/gi, "");
-    value = value.slice(0, 8);
+    value = value.replaceAll("#", "");
 
     event.target.value = "#" + value;
   }
