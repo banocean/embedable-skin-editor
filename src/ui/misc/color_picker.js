@@ -152,7 +152,7 @@ class ColorPicker extends LitElement {
     const textInput = document.createElement("input");
     textInput.id = "text-input";
     textInput.type = "text";
-    textInput.value = colorWithAlpha.hexa();
+    textInput.value = this._colorString(colorWithAlpha);
     textInput.oninput = this._onTextInput.bind(this);
     textInput.onchange = this._onTextChange.bind(this);
 
@@ -249,12 +249,10 @@ class ColorPicker extends LitElement {
 
   _onTextInput(event) {
     let value = event.target.value.toUpperCase();
+    value = value.replaceAll(/[^0-9A-F]/gi, "");
+    value = value.slice(0, 8);
 
-    if (!event.target.value.startsWith("#")) {
-      value = "#" + value;
-    }
-
-    event.target.value = value;
+    event.target.value = "#" + value;
   }
 
   _onTextChange(event) {
@@ -269,6 +267,14 @@ class ColorPicker extends LitElement {
     } catch (_) {
       event.target.value = oldValue;
     }
+  }
+
+  _colorString(color) {
+    if (color.alpha() == 1) {
+      return color.hex();
+    }
+
+    return color.hexa();
   }
 }
 
