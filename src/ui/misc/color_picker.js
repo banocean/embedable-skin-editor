@@ -262,7 +262,7 @@ class ColorPicker extends LitElement {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
 
-    const colorName = event.target.value.toLowerCase().replace("#", "");
+    const colorName = event.target.value.toLowerCase().replaceAll("#", "").replaceAll(" ", "_");
     if (Object.keys(NAMED_COLORS).includes(colorName)) {
       event.target.value = NAMED_COLORS[colorName];
     }
