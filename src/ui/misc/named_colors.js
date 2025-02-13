@@ -263,14 +263,25 @@ const NAMED_COLORS = {
   yellow: '#ffff00',
   yellowgreen: '#9acd32',
   yellow_green: '#9acd32',
-  // Custom colors
+
+  // Non-css colors
+  /// Custom colors
   tennisball: '#ceff16',
   tennis_ball: '#ceff16',
   meowmeoworange: '#f69901',
   meowmeow_orange: '#f69901',
   meow_meow_orange: '#f69901',
-  // Easteregg colors
-    // insert them here mox
+  
+  /// Easteregg colors
+  pancake: '#ffda54',
+  mhorkuit: '#4e0047',
+  vilpat: '#679267',
+  nucc: '#03fc6b',
+  kyrius: '#000000',
+  szczur: '#734f96',
+  rustboro: '#27d8e2',
+  wulfian: '#ffbc03',
+  dragon: '#5a782a',
 };
 
 export default NAMED_COLORS;
