@@ -40,7 +40,7 @@ class CanvasHelper {
     color.b = this.data[point.x * 4 + 2 + point.y * IMAGE_WIDTH * 4];
     const alpha = this.data[point.x * 4 + 3 + point.y * IMAGE_WIDTH * 4];
 
-    return new Color(color).alpha(alpha);
+    return new Color(color).alpha(alpha / 255);
   }
 
   putPixel(point, color) {
