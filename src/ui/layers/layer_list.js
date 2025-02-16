@@ -48,6 +48,8 @@ class LayerList extends LitElement {
       flex-direction: column;
       gap: 0.25rem;
       overflow: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
     }
 
     #buttons {
