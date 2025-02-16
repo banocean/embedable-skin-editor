@@ -11,6 +11,7 @@ import ToolConfig from "./tools/tool_config";
 import UpdateLayerTexture from "./history/entries/update_layer_texture";
 import ToolData from "./tools/tool_data";
 import PenTool from "./tools/toolset/pen_tool";
+import BucketTool from "./tools/toolset/bucket_tool";
 import EraseTool from "./tools/toolset/erase_tool";
 import SculptTool from "./tools/toolset/sculpt_tool";
 import SelectLayerEntry from "./history/entries/select_layer_entry";
@@ -282,7 +283,7 @@ class Editor extends LitElement {
   }
 
   _loadSkin() {
-    new THREE.TextureLoader().load("noni.png", (texture) => {
+    new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
       new GroupedEntry(
         new AddLayerEntry(this.layers, { texture }),
         new SelectLayerEntry(this.layers, {index: 0})
@@ -318,6 +319,7 @@ class Editor extends LitElement {
   _setupTools() {
     return [
       new PenTool(this.config),
+      new BucketTool(this.config),
       new EraseTool(this.config),
       new SculptTool(this.config),
     ]
