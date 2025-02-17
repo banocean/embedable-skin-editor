@@ -96,6 +96,8 @@ class Layers extends EventTarget {
     this.layers.forEach((layer, idx) => {
       layer.select(this.selectedLayerIndex == idx);
     })
+
+    this.dispatchEvent(new CustomEvent("layers-select", {detail: {layer: index}}));
   }
 
   reorderLayers(fromIndex, toIndex) {

@@ -2,8 +2,8 @@ import BaseFilter from "./base_filter";
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from "../../main";
 
 class CssFilter extends BaseFilter {
-  constructor(filter) {
-    super();
+  constructor(filter, properties = {}) {
+    super(properties);
 
     this.filter = filter;
   }

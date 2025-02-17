@@ -2,6 +2,7 @@ import Color from "color";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
 import CssFilter from "../../../editor/layers/filters/css_filter";
+import Slider from "../../misc/slider";
 
 class LayersTab extends Tab {
   static styles = [
@@ -63,6 +64,9 @@ class LayersTab extends Tab {
     super({name: "Layer"})
     this.editor = editor;
     this.config = editor.config;
+
+    this._setupSliders();
+    this._setupEvents();
   }
 
   filters = {
@@ -76,16 +80,46 @@ class LayersTab extends Tab {
       <fieldset id="sliders">
         <legend>Filters</legend>
         <label for="hue-slider">Adjust Layer Hue</label>
-        <ncrs-slider id="hue-slider" progress="0.5" steps="360" @slider-change=${this._hueChange} @mousedown=${this._sliderReset}>
-        </ncrs-slider>
-        <label for="hue-slider">Adjust Layer Saturation</label>
-        <ncrs-slider id="saturation-slider" progress="0.5" @slider-change=${this._saturationChange} @mousedown=${this._sliderReset}>
-        </ncrs-slider>
-        <label for="hue-slider">Adjust Layer Brightness</label>
-        <ncrs-slider id="brightness-slider" progress="0.5" @slider-change=${this._brightnessChange} @mousedown=${this._sliderReset}>
-        </ncrs-slider>
+        ${this.hueSlider}
+        <label for="saturation-slider">Adjust Layer Saturation</label>
+        ${this.saturationSlider}
+        <label for="brightness-slider">Adjust Layer Brightness</label>
+        ${this.brightnessSlider}
       </fieldset>
     `
+  }
+
+  loadFromLayer(layer) {
+    const filters = layer.compositor.filters;
+    const sliderProgress = {h: 0.5, s: 0.5, b: 0.5};
+
+    filters.forEach(filter => {
+      const properties = filter.properties;
+      if (properties.name == "hue") {
+        let progress = properties.value / 360;
+        progress += 0.5;
+
+        if (progress > 1) {
+          progress -= 1;
+        }
+
+        sliderProgress.h = progress;
+      }
+
+      if (properties.name == "saturation") {
+        let progress = properties.value / 200;
+        sliderProgress.s = progress;
+      }
+
+      if (properties.name == "brightness") {
+        let progress = properties.value / 200;
+        sliderProgress.b = progress;
+      }
+    });
+
+    this.hueSlider.progress = sliderProgress.h;
+    this.saturationSlider.progress = sliderProgress.s;
+    this.brightnessSlider.progress = sliderProgress.b;
   }
 
   _hueChange(event) {
@@ -132,20 +166,48 @@ class LayersTab extends Tab {
     const newFilters = [];
 
     if (filters.h != 0 && filters.h != 360) {
-      newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`))
+      newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`, {name: "hue", value: filters.h}))
     }
 
     if (filters.s != 100) {
-      newFilters.push(new CssFilter(`saturate(${filters.s}%)`))
+      newFilters.push(new CssFilter(`saturate(${filters.s}%)`, {name: "saturation", value: filters.s}))
     }
 
     if (filters.b != 100) {
-      newFilters.push(new CssFilter(`brightness(${filters.b}%)`))
+      newFilters.push(new CssFilter(`brightness(${filters.b}%)`, {name: "brightness", value: filters.b}))
     }
     layer.compositor.filters = newFilters;
     console.log(layer.compositor.filters);
 
     this.editor.layers.renderTexture();    
+  }
+
+  _setupSliders() {
+    this.hueSlider = new Slider();
+    this.hueSlider.progress = 0.5;
+    this.hueSlider.steps = 360;
+    this.hueSlider.id = "hue-slider";
+    this.hueSlider.addEventListener("slider-change", event => this._hueChange(event));
+    this.hueSlider.addEventListener("mousedown", event => this._sliderReset(event));
+
+
+    this.saturationSlider = new Slider();
+    this.saturationSlider.progress = 0.5;
+    this.saturationSlider.id = "saturation-slider";
+    this.saturationSlider.addEventListener("slider-change", event => this._saturationChange(event));
+    this.saturationSlider.addEventListener("mousedown", event => this._sliderReset(event));
+    
+    this.brightnessSlider = new Slider();
+    this.brightnessSlider.progress = 0.5;
+    this.brightnessSlider.id = "brightness-slider";
+    this.brightnessSlider.addEventListener("slider-change", event => this._brightnessChange(event));
+    this.brightnessSlider.addEventListener("mousedown", event => this._sliderReset(event));
+  }
+
+  _setupEvents() {
+    this.editor.layers.addEventListener("layers-select", () => {
+      this.loadFromLayer(this.editor.layers.getSelectedLayer());
+    })
   }
 }
 
