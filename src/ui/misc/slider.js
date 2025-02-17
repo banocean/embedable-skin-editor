@@ -52,7 +52,7 @@ class Slider extends LitElement {
       scope.onMove(event);
     };
 
-    const pointerUp = function (event) {
+    const pointerUp = () => {
       document.removeEventListener("pointermove", pointerMove);
       document.removeEventListener("pointerup", pointerUp);
     };
@@ -81,6 +81,8 @@ class Slider extends LitElement {
   }
 
   onClick(event) {
+    if (event.button != 0) { return; }
+
     this.setProgress(event.layerX / this.clientWidth);
     this._onPointerDown();
   }
