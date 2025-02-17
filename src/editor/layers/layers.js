@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./main";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
+import Compositor from "./compositor";
+import CssFilter from "./filters/css_filter";
 
 class Layers extends EventTarget {
   constructor(width, height) {
@@ -117,7 +119,7 @@ class Layers extends EventTarget {
     this.layers.forEach((layer) => {
       if (!layer.visible) { return; }
 
-      ctx.drawImage(layer.texture.image, 0, 0);
+      ctx.drawImage(layer.render(), 0, 0);
     });
 
     this.texture.needsUpdate = true;
@@ -140,9 +142,15 @@ class Layer extends EventTarget {
     this.id = id;
     this.texture = texture;
     this.oldTexture = texture;
+    this.compositor = new Compositor();
   }
+  
   selected = false;
   visible = true;
+
+  render() {
+    return this.compositor.render(this.texture.image);
+  }
 
   flush() {
     this.oldTexture = this.texture;

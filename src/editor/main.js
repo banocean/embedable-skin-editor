@@ -1,7 +1,7 @@
 import { LitElement, css, html } from "lit";
 import * as THREE from "three";
 import { Controls } from "./controls";
-import { Layers } from "./layers";
+import { Layers } from "./layers/layers";
 import { SkinModel } from "./model/model";
 import { Renderer } from "./renderer";
 import Stats from "stats.js";

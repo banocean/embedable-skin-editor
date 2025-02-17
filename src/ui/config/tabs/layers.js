@@ -1,6 +1,7 @@
 import Color from "color";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
+import CssFilter from "../../../editor/layers/filters/css_filter";
 
 class LayersTab extends Tab {
   static styles = [
@@ -59,9 +60,15 @@ class LayersTab extends Tab {
   ]
 
   constructor(editor) {
-    super({name: "Layers"})
+    super({name: "Layer"})
     this.editor = editor;
     this.config = editor.config;
+  }
+
+  filters = {
+    h: 0,
+    s: 100,
+    b: 100,
   }
 
   render() {
@@ -69,11 +76,14 @@ class LayersTab extends Tab {
       <fieldset id="sliders">
         <legend>Filters</legend>
         <label for="hue-slider">Adjust Layer Hue</label>
-        <ncrs-slider id="hue-slider" progress="0.5" steps="360" @slider-change=${this._hueChange} @mousedown=${this._sliderReset}></ncrs-slider>
+        <ncrs-slider id="hue-slider" progress="0.5" steps="360" @slider-change=${this._hueChange} @mousedown=${this._sliderReset}>
+        </ncrs-slider>
         <label for="hue-slider">Adjust Layer Saturation</label>
-        <ncrs-slider id="saturation-slider" progress="0.5" @mousedown=${this._sliderReset}></ncrs-slider>
+        <ncrs-slider id="saturation-slider" progress="0.5" @slider-change=${this._saturationChange} @mousedown=${this._sliderReset}>
+        </ncrs-slider>
         <label for="hue-slider">Adjust Layer Brightness</label>
-        <ncrs-slider id="brightness-slider" progress="0.5" @mousedown=${this._sliderReset}></ncrs-slider>
+        <ncrs-slider id="brightness-slider" progress="0.5" @slider-change=${this._brightnessChange} @mousedown=${this._sliderReset}>
+        </ncrs-slider>
       </fieldset>
     `
   }
@@ -85,14 +95,57 @@ class LayersTab extends Tab {
       progress += 1;
     }
 
-    const color = new Color(`hsl(${progress * 360} 100% 50%)`);
+    progress *= 360;
+
+    const color = new Color(`hsl(${progress} 100% 50%)`);
     this.style.setProperty("--current-color", color.hex());
+
+    this.filters.h = progress;
+    this._syncFilters();
+  }
+
+  _saturationChange(event) {
+    let progress = Number(event.detail.progress) * 200;
+
+    this.filters.s = progress;
+    this._syncFilters();
+  }
+
+  _brightnessChange(event) {
+    let progress = Number(event.detail.progress) * 200;
+
+    this.filters.b = progress;
+    this._syncFilters();
   }
 
   _sliderReset(event) {
     if (event.button == 1) {
       event.target.progress = 0.5;
     }
+  }
+
+  _syncFilters() {
+    const layer = this.editor.layers.getSelectedLayer();
+    if (!layer) { return; }
+
+    const filters = this.filters;
+    const newFilters = [];
+
+    if (filters.h != 0 && filters.h != 360) {
+      newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`))
+    }
+
+    if (filters.s != 100) {
+      newFilters.push(new CssFilter(`saturate(${filters.s}%)`))
+    }
+
+    if (filters.b != 100) {
+      newFilters.push(new CssFilter(`brightness(${filters.b}%)`))
+    }
+    layer.compositor.filters = newFilters;
+    console.log(layer.compositor.filters);
+
+    this.editor.layers.renderTexture();    
   }
 }
 
