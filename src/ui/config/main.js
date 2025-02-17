@@ -76,10 +76,18 @@ class Config extends LitElement {
 
   render() {
     const tabs = new TabGroup();
-    tabs.registerTab(new ToolTab(this.editor));
-    tabs.registerTab(new LayersTab());
-    tabs.registerTab(new ImportTab());
-    tabs.registerTab(new ExportTab());
+
+    const toolTab = new ToolTab(this.editor);
+    const layersTab = new LayersTab(this.editor);
+    const importTab = new ImportTab();
+    const exportTab = new ExportTab();
+
+    tabs.registerTab(toolTab);
+    tabs.registerTab(layersTab);
+    tabs.registerTab(importTab);
+    tabs.registerTab(exportTab);
+
+    tabs.select(layersTab);
 
     return tabs;
   }

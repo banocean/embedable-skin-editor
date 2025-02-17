@@ -10,14 +10,12 @@ class BasicToggle extends LitElement {
       display: none;
     }
 
-    :host([toggled]) {
-      & slot[name=off] {
-        display: none;
-      }
+    :host([toggled]) slot[name=off] {
+      display: none;
+    }
 
-      & slot[name=on] {
-        display: initial;
-      }
+    :host([toggled]) slot[name=on] {
+      display: initial;
     }
 
     button {
