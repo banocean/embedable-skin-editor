@@ -3,7 +3,7 @@ import { css, html, LitElement } from "lit";
 class Layer extends LitElement {
   static styles = css`
     :host {
-      width: 64px;
+      width: 68px;
       height: 48px;
       image-rendering: pixelated;
       border-style: solid;

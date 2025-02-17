@@ -29,11 +29,10 @@ class ToggleControl extends LitElement {
 
     :host([selected]) ncrs-button::part(button), ncrs-button::part(button):active {
       --text-color: var(--text-color-active);
-      box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
+      box-shadow: #3d4042 0px 0px 0px 2px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       margin-top: 0.125rem;
       margin-bottom: 0.25rem;
-      background-color: rgb(56 59 61);
-      background-image: linear-gradient(to bottom, #313436, rgb(49 52 54 / 0));
+      background-image: linear-gradient(to top, #313436, #24272a);
     }
 
     ncrs-icon {
@@ -147,11 +146,10 @@ class OptionControlButton extends LitElement {
 
     :host([selected=true]) ncrs-button::part(button), ncrs-button::part(button):active {
       --text-color: var(--text-color-active);
-      box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
+      box-shadow: #3d4042 0px 0px 0px 2px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       margin-top: 0.125rem;
       margin-bottom: 0.25rem;
-      background-color: rgb(56 59 61);
-      background-image: linear-gradient(to bottom, #313436, rgb(49 52 54 / 0));
+      background-image: linear-gradient(to top, #313436, #24272a);
     }
 
     :host(:first-child) ncrs-button::part(button) {

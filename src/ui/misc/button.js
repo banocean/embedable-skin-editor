@@ -4,8 +4,8 @@ class Button extends LitElement {
   static styles = css`
     :host {
       --text-color: white;
-      --text-color-hover: #f5f8cc;
-      --text-color-active: #aaaaaa;
+      --text-color-hover: #ccc;
+      --text-color-active: #aaa;
       display: block;
     }
 
@@ -19,8 +19,8 @@ class Button extends LitElement {
       border-radius: 0.25rem;
       border-width: 1px;
       border-color: rgb(35, 36, 40) rgb(35, 36, 40) rgb(30, 35, 38);
-      background-image: linear-gradient(to top, rgb(49, 52, 54), rgb(63, 66, 68));
-      box-shadow: rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgb(38, 42, 46) 0px 2px, rgb(31, 35, 38) 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      background-image: linear-gradient(to top, #24272a, #313436);
+      box-shadow: #3d4042 0px 0px 0px 2px inset, #191a1c 0px 1px 3px, #1f2226 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       box-sizing: border-box;
 
       margin-bottom: 0.375rem;
@@ -29,11 +29,13 @@ class Button extends LitElement {
 
     button:hover {
       --text-color: var(--text-color-hover);
+      box-shadow: #505254 0px 0px 0px 2px inset, #191a1c 0px 0px 3px, #272a2d 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
     }
 
     button:active {
       --text-color: var(--text-color-active);
-      box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
+      background-image: linear-gradient(to top, #313436, #24272a);
+      box-shadow: #3d4042 0px 0px 0px 2px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       margin-top: 0.125rem;
       margin-bottom: 0.25rem;
     }
