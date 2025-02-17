@@ -96,7 +96,7 @@ class PresetPaletteTab extends Tab {
         cursor: pointer;
         aspect-ratio: 1;
         border-radius: 0.125rem;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(255, 255, 255, 0.25) 0px 1px 0px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px inset, rgba(0, 0, 0, 0.25) 0px -1px 0px inset;
       }
 
       .color.selected::after {

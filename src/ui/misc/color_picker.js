@@ -117,6 +117,9 @@ class ColorPicker extends LitElement {
       color: white;
       text-align: center;
       background-color: #131315;
+      border-style: solid;
+      border-width: 2px;
+      border-radius: 6px;
       border-color: #313436;
       box-shadow: none;
     }

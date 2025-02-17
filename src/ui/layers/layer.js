@@ -6,13 +6,14 @@ class Layer extends LitElement {
       width: 64px;
       height: 48px;
       image-rendering: pixelated;
-      border-style: dashed;
+      border-style: solid;
       border-width: 2px;
-      border-color: #2e3437;
+      border-radius: 4px;
+      border-color: #232428;
     }
 
     :host([active=true]) {
-      border-color: #5a6472;
+      border-color: #494c4e;
     }
 
     #layer {

@@ -5,7 +5,7 @@ import Color from "color";
 class CanvasHelper {
   constructor() {
     this.canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    this.context = this.canvas.getContext("2d");
+    this.context = this.canvas.getContext("2d", { willReadFrequently: true });
     this._refreshData();
   }
 

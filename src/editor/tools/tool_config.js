@@ -4,7 +4,7 @@ import { getRandomInt, pickFromArray } from "../../helpers";
 const DEFAULTS = {
   size: 1,
   shape: "square",
-  color: new Color("#ffff00"),
+  color: new Color("#E8453C"),
   camo: false,
   blend: false,
 }
