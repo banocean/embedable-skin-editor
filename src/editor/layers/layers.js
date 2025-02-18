@@ -69,10 +69,23 @@ class Layers extends EventTarget {
     this.addLayer(this.createBlank());
   }
 
-  insertLayer(layer, index) {
-    if (index < 0 || index > this.layers.length - 1) { return false }
+  cloneLayer(layer) {
+    const newLayer = this.createFromTexture(layer.texture.clone());
+    newLayer.compositor.filters = layer.compositor.filters;
 
-    this.layers.splice(index, 0, layer);
+    const idx = this.layerIndex(layer);
+    this.insertLayer(newLayer, idx + 1);
+    this.selectLayer(this.layerIndex(newLayer));
+  }
+
+  insertLayer(layer, index) {
+    if (index < 0) { return false; }
+    if (index > this.layers.length - 1) {
+      this.layers.push(layer);
+    } else {
+      this.layers.splice(index, 0, layer);
+    }
+
     this.renderTexture();
     this.dispatchEvent(new CustomEvent("layers-update"));
   }

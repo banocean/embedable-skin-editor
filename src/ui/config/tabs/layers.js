@@ -14,11 +14,18 @@ class LayersTab extends Tab {
         --current-color: #000;
       }
 
+      #container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
       #sliders {
         border: 1px white solid;
         border-radius: 0.25rem;
         padding: 0.25rem;
         padding-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
       }
 
       #sliders legend {
@@ -62,6 +69,15 @@ class LayersTab extends Tab {
           hsl(from var(--current-color) h s 100%)
         );
       }
+
+      ncrs-button {
+        margin-bottom: 0.25rem;
+        text-align: center;
+      }
+
+      ncrs-button::part(button) {
+        padding: 0.25rem;
+      }
     `
   ]
 
@@ -83,29 +99,32 @@ class LayersTab extends Tab {
 
   render() {
     return html`
-      <fieldset id="sliders">
-        <legend>Filters</legend>
-        <label for="hue-slider">Adjust Layer Hue</label>
-        ${this.hueSlider}
-        <label for="saturation-slider">Adjust Layer Saturation</label>
-        ${this.saturationSlider}
-        <label for="brightness-slider">Adjust Layer Brightness</label>
-        ${this.brightnessSlider}
-        <label for="opacity-slider">Adjust Layer Opacity</label>
-        ${this.opacitySlider}
-      </fieldset>
+      <div id="container">
+        <fieldset id="sliders">
+          <legend>Filters</legend>
+          <label for="hue-slider">Adjust Layer Hue</label>
+          ${this.hueSlider}
+          <label for="saturation-slider">Adjust Layer Saturation</label>
+          ${this.saturationSlider}
+          <label for="brightness-slider">Adjust Layer Brightness</label>
+          ${this.brightnessSlider}
+          <label for="opacity-slider">Adjust Layer Opacity</label>
+          ${this.opacitySlider}
+        </fieldset>
+        <ncrs-button @click=${this._cloneLayer}>Clone Layer</ncrs-button>
+      </div>
     `
   }
 
   loadFromLayer(layer) {
     const filters = layer.compositor.filters;
-    const sliderProgress = {a: 0, h: 0.5, s: 0.5, b: 0.5};
+    const sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
 
     filters.forEach(filter => {
       const properties = filter.properties;
       if (properties.name == "alpha") {
-        let progress = (100 - properties.value) / 100;
-        sliderProgress.s = progress;
+        let progress = properties.value / 100;
+        sliderProgress.a = progress;
       }
 
       if (properties.name == "hue") {
@@ -130,6 +149,7 @@ class LayersTab extends Tab {
       }
     });
 
+    this.opacitySlider.progress = sliderProgress.a;
     this.hueSlider.progress = sliderProgress.h;
     this.saturationSlider.progress = sliderProgress.s;
     this.brightnessSlider.progress = sliderProgress.b;
@@ -178,6 +198,10 @@ class LayersTab extends Tab {
     }
   }
 
+  _cloneLayer() {
+    this.editor.layers.cloneLayer(this.editor.layers.getSelectedLayer());
+  }
+
   _syncFilters() {
     const layer = this.editor.layers.getSelectedLayer();
     if (!layer) { return; }
@@ -185,7 +209,8 @@ class LayersTab extends Tab {
     const filters = this.filters;
     const newFilters = [];
 
-    if (filters.a >= 0) {
+    if (filters.a < 100) {
+      console.log(filters.a);
       newFilters.push(new CssFilter(`opacity(${filters.a}%)`, {name: "alpha", value: filters.a}))
     }
 
