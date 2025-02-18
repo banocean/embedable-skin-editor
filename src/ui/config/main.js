@@ -55,7 +55,7 @@ class Config extends LitElement {
     }
 
     ncrs-tab-group::part(button):hover {
-      color: #f5f8cc;
+      color: #ccc;
     }
 
     ncrs-tab-group::part(button selected),

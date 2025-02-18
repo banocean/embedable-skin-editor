@@ -67,7 +67,7 @@ class ToolTab extends Tab {
       }
 
       #palettes::part(button):hover {
-        color: #f5f8cc;
+        color: #ccc;
       }
 
       #palettes::part(button selected),

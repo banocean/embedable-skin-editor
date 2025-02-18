@@ -24,7 +24,7 @@ class LayerList extends LitElement {
     #layers-wrapper {
       position: relative;
       flex-grow: 1;
-      width: 68px;
+      width: 72px;
       overflow: auto;
     }
 
