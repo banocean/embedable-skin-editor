@@ -38,6 +38,11 @@ class LayersTab extends Tab {
         border-radius: 0.25rem;
       }
 
+      #opacity-slider {
+        background: linear-gradient(to right, transparent, var(--current-color)),
+        repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
+      }
+
       #hue-slider {
         background-image: linear-gradient(to right, rgb(0, 255, 255), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 255, 255));
       }
@@ -70,6 +75,7 @@ class LayersTab extends Tab {
   }
 
   filters = {
+    a: 0,
     h: 0,
     s: 100,
     b: 100,
@@ -85,16 +91,23 @@ class LayersTab extends Tab {
         ${this.saturationSlider}
         <label for="brightness-slider">Adjust Layer Brightness</label>
         ${this.brightnessSlider}
+        <label for="opacity-slider">Adjust Layer Opacity</label>
+        ${this.opacitySlider}
       </fieldset>
     `
   }
 
   loadFromLayer(layer) {
     const filters = layer.compositor.filters;
-    const sliderProgress = {h: 0.5, s: 0.5, b: 0.5};
+    const sliderProgress = {a: 0, h: 0.5, s: 0.5, b: 0.5};
 
     filters.forEach(filter => {
       const properties = filter.properties;
+      if (properties.name == "alpha") {
+        let progress = (100 - properties.value) / 100;
+        sliderProgress.s = progress;
+      }
+
       if (properties.name == "hue") {
         let progress = properties.value / 360;
         progress += 0.5;
@@ -120,6 +133,13 @@ class LayersTab extends Tab {
     this.hueSlider.progress = sliderProgress.h;
     this.saturationSlider.progress = sliderProgress.s;
     this.brightnessSlider.progress = sliderProgress.b;
+  }
+
+  _opacityChange(event) {
+    let progress = Number(event.detail.progress) * 100;
+
+    this.filters.a = progress;
+    this._syncFilters();
   }
 
   _hueChange(event) {
@@ -152,9 +172,9 @@ class LayersTab extends Tab {
     this._syncFilters();
   }
 
-  _sliderReset(event) {
+  _sliderReset(event, reset = 0.5) {
     if (event.button == 1) {
-      event.target.progress = 0.5;
+      event.target.progress = reset;
     }
   }
 
@@ -164,6 +184,10 @@ class LayersTab extends Tab {
 
     const filters = this.filters;
     const newFilters = [];
+
+    if (filters.a >= 0) {
+      newFilters.push(new CssFilter(`opacity(${filters.a}%)`, {name: "alpha", value: filters.a}))
+    }
 
     if (filters.h != 0 && filters.h != 360) {
       newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`, {name: "hue", value: filters.h}))
@@ -177,19 +201,23 @@ class LayersTab extends Tab {
       newFilters.push(new CssFilter(`brightness(${filters.b}%)`, {name: "brightness", value: filters.b}))
     }
     layer.compositor.filters = newFilters;
-    console.log(layer.compositor.filters);
 
     this.editor.layers.renderTexture();    
   }
 
   _setupSliders() {
+    this.opacitySlider = new Slider();
+    this.opacitySlider.progress = 1;
+    this.opacitySlider.id = "opacity-slider";
+    this.opacitySlider.addEventListener("slider-change", event => this._opacityChange(event));
+    this.opacitySlider.addEventListener("mousedown", event => this._sliderReset(event, 1));
+
     this.hueSlider = new Slider();
     this.hueSlider.progress = 0.5;
     this.hueSlider.steps = 360;
     this.hueSlider.id = "hue-slider";
     this.hueSlider.addEventListener("slider-change", event => this._hueChange(event));
     this.hueSlider.addEventListener("mousedown", event => this._sliderReset(event));
-
 
     this.saturationSlider = new Slider();
     this.saturationSlider.progress = 0.5;
