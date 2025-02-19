@@ -4,6 +4,7 @@ import { css, html } from "lit";
 import CssFilter from "../../../editor/layers/filters/css_filter";
 import Slider from "../../misc/slider";
 import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry";
+import CloneLayerEntry from "../../../editor/history/entries/clone_layer_entry";
 
 class LayersTab extends Tab {
   static styles = [
@@ -128,14 +129,12 @@ class LayersTab extends Tab {
   loadFromLayer(layer) {
     if (this.currentLayer == layer) { return; }
 
-    if (layer != this.currentLayer) {
-      if (this.currentLayer) {
-        this.currentLayer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
-      }
-
-      this.currentLayer = layer;
-      this.currentLayer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
+    if (this.currentLayer) {
+      this.currentLayer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
     }
+
+    this.currentLayer = layer;
+    this.currentLayer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
 
     this.loadFromCurrentLayer();
   }
@@ -250,7 +249,9 @@ class LayersTab extends Tab {
   }
 
   _cloneLayer() {
-    this.editor.layers.cloneLayer(this.editor.layers.getSelectedLayer());
+    this.editor.history.add(
+      new CloneLayerEntry(this.editor.layers, this.editor.layers.getSelectedLayer())
+    );
   }
 
   _syncFilters() {

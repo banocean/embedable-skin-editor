@@ -57,6 +57,13 @@ class Layers extends EventTarget {
     return new Layer(this.lastLayerId++, texture);
   }
 
+  createFromLayer(layer) {
+    const newLayer = this.createFromTexture(layer.texture.clone());
+    newLayer.compositor.applyFilters(layer.compositor.getFilters());
+
+    return newLayer;
+  }
+
   layerIndex(layer) {
     return this.layers.findIndex((element) => {
       return layer.id == element.id;
@@ -74,15 +81,6 @@ class Layers extends EventTarget {
     this.addLayer(this.createBlank());
   }
 
-  cloneLayer(layer) {
-    const newLayer = this.createFromTexture(layer.texture.clone());
-    newLayer.compositor.filters = layer.compositor.filters;
-
-    const idx = this.layerIndex(layer);
-    this.insertLayer(newLayer, idx + 1);
-    this.selectLayer(this.layerIndex(newLayer));
-  }
-
   insertLayer(layer, index) {
     if (index < 0) { return false; }
     if (index > this.layers.length - 1) {
@@ -90,6 +88,8 @@ class Layers extends EventTarget {
     } else {
       this.layers.splice(index, 0, layer);
     }
+
+    layer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
 
     this.renderTexture();
     this._sendUpdateEvent();
