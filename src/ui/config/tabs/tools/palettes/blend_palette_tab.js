@@ -92,8 +92,8 @@ class BlendPaletteTab extends Tab {
         content: "";
         display: block;
         position: absolute;
-        width: 50%;
-        height: 50%;
+        width: 45%;
+        height: 45%;
         background-color: white;
         border-radius: 9999px;
       }

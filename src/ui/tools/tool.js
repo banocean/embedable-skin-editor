@@ -4,8 +4,8 @@ class Tool extends LitElement {
   static styles = css`
     :host(:active) ncrs-button::part(button), :host([active=true]) ncrs-button::part(button) {
       --text-color: var(--text-color-active);
-      background-image: linear-gradient(to top, #313436, #24272a);
-      box-shadow: #3d4042 0px 0px 0px 2px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      background-image: linear-gradient(to top, #313436, #202225);
+      box-shadow: #3d4042 0px 0px 0px 1px inset, #333638 0px 0px 5px 1px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       margin-top: 0.125rem;
       margin-bottom: 0.25rem;
     }
