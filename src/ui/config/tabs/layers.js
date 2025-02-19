@@ -3,6 +3,7 @@ import Tab from "../../misc/tab";
 import { css, html } from "lit";
 import CssFilter from "../../../editor/layers/filters/css_filter";
 import Slider from "../../misc/slider";
+import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry";
 
 class LayersTab extends Tab {
   static styles = [
@@ -11,7 +12,7 @@ class LayersTab extends Tab {
       :host {
         padding: 0.25rem;
         box-sizing: border-box;
-        --current-color: #000;
+        --current-color: #ff0000;
       }
 
       #container {
@@ -88,14 +89,22 @@ class LayersTab extends Tab {
 
     this._setupSliders();
     this._setupEvents();
+
+    const scope = this;
+    this.filtersUpdateCallback = function () {
+      scope.loadFromCurrentLayer();
+    }
   }
+  currentLayer;
 
   filters = {
-    a: 0,
+    a: 100,
     h: 0,
     s: 100,
     b: 100,
   }
+
+  sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
 
   render() {
     return html`
@@ -117,8 +126,30 @@ class LayersTab extends Tab {
   }
 
   loadFromLayer(layer) {
-    const filters = layer.compositor.filters;
-    const sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
+    if (this.currentLayer == layer) { return; }
+
+    if (layer != this.currentLayer) {
+      if (this.currentLayer) {
+        this.currentLayer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
+      }
+
+      this.currentLayer = layer;
+      this.currentLayer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
+    }
+
+    this.loadFromCurrentLayer();
+  }
+
+  loadFromCurrentLayer() {
+    const layer = this.currentLayer;
+
+    const filters = layer.compositor.getFilters();
+    if (filters.length < 1) {
+      this.sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
+    }
+
+    const sliderProgress = this.sliderProgress;
+
 
     filters.forEach(filter => {
       const properties = filter.properties;
@@ -156,14 +187,21 @@ class LayersTab extends Tab {
   }
 
   _opacityChange(event) {
-    let progress = Number(event.detail.progress) * 100;
+    const value = Number(event.detail.progress);
+
+    let progress = value * 100;
 
     this.filters.a = progress;
+
+    if (value == this.sliderProgress.a) { return; }
+
     this._syncFilters();
   }
 
   _hueChange(event) {
-    let progress = Number(event.detail.progress) - 0.5;
+    const value = Number(event.detail.progress);
+
+    let progress = value - 0.5;
 
     if (progress < 0) {
       progress += 1;
@@ -175,20 +213,33 @@ class LayersTab extends Tab {
     this.style.setProperty("--current-color", color.hex());
 
     this.filters.h = progress;
+
+    if (value == this.sliderProgress.h) { return; }
+
     this._syncFilters();
   }
 
   _saturationChange(event) {
-    let progress = Number(event.detail.progress) * 200;
+    const value = Number(event.detail.progress);
+
+    let progress = value * 200;
 
     this.filters.s = progress;
+
+    if (value == this.sliderProgress.s) { return; }
+
     this._syncFilters();
   }
 
   _brightnessChange(event) {
-    let progress = Number(event.detail.progress) * 200;
+    const value = Number(event.detail.progress);
+
+    let progress = value * 200;
 
     this.filters.b = progress;
+
+    if (value == this.sliderProgress.b) { return; }
+
     this._syncFilters();
   }
 
@@ -210,7 +261,6 @@ class LayersTab extends Tab {
     const newFilters = [];
 
     if (filters.a < 100) {
-      console.log(filters.a);
       newFilters.push(new CssFilter(`opacity(${filters.a}%)`, {name: "alpha", value: filters.a}))
     }
 
@@ -225,9 +275,10 @@ class LayersTab extends Tab {
     if (filters.b != 100) {
       newFilters.push(new CssFilter(`brightness(${filters.b}%)`, {name: "brightness", value: filters.b}))
     }
-    layer.compositor.filters = newFilters;
 
-    this.editor.layers.renderTexture();    
+    this.editor.history.add(
+      new UpdateLayerFiltersEntry(this.editor.layers, layer, newFilters)
+    );
   }
 
   _setupSliders() {

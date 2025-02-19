@@ -1,0 +1,30 @@
+import { BaseEntry } from "../base_entry";
+
+class UpdateLayerFiltersEntry extends BaseEntry {
+  constructor(layers, layer, filters = []) {
+    super();
+
+    this.layers = layers;
+    this.layer = layer;
+    this.filters = filters;
+  }
+
+  stacking = true;
+  oldFilters;
+
+  onPerform() {
+    this.oldFilters = this.oldFilters || this.layer.compositor.getFilters();
+    this.layer.compositor.applyFilters(this.filters);
+  }
+
+  onStack(entry) {
+    this.filters = entry.filters;
+    this.onPerform();
+  }
+
+  onRevert() {
+    this.layer.compositor.applyFilters(this.oldFilters);
+  }
+}
+
+export default UpdateLayerFiltersEntry;

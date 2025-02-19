@@ -1,11 +1,22 @@
-import BaseFilter from "./filters/base_filter";
+class Compositor extends EventTarget {
+  _filters = [];
 
-class Compositor {
-  filters = [];
+  getFilters() {
+    return this._filters;
+  }
+
+  applyFilters(filters) {
+    this._filters = filters;
+    this.dispatchEvent(new CustomEvent("update-filters", {detail: {filters: filters}}));
+  }
+
+  clearFilters() {
+    this.applyFilters([]);
+  }
 
   render(input) {
     let texture = input;
-    this.filters.forEach(filter => {
+    this.getFilters().forEach(filter => {
       texture = filter.apply(texture);
     })
 

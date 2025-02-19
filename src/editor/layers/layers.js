@@ -3,7 +3,6 @@ import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import Compositor from "./compositor";
-import CssFilter from "./filters/css_filter";
 
 class Layers extends EventTarget {
   constructor(width, height) {
@@ -11,6 +10,11 @@ class Layers extends EventTarget {
 
     this.canvas = new OffscreenCanvas(width, height);
     this.texture = this._setupTexture();
+
+    const scope = this;
+    this.filtersUpdateCallback = function () {
+      scope.renderTexture();
+    }
   }
   lastLayerId = 0;
   selectedLayerIndex = 0;
@@ -61,8 +65,9 @@ class Layers extends EventTarget {
 
   addLayer(layer) {
     this.layers.push(layer);
+    layer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
     this.renderTexture();
-    this.dispatchEvent(new CustomEvent("layers-update"));
+    this._sendUpdateEvent();
   }
 
   addBlankLayer() {
@@ -87,18 +92,19 @@ class Layers extends EventTarget {
     }
 
     this.renderTexture();
-    this.dispatchEvent(new CustomEvent("layers-update"));
+    this._sendUpdateEvent();
   }
 
   removeLayer(layer) {
     const index = this.layerIndex(layer);
 
     if (index < 0) { return false; }
+    layer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
 
     this.layers.splice(index, 1);
 
     this.renderTexture();
-    this.dispatchEvent(new CustomEvent("layers-update"));
+    this._sendUpdateEvent();
   }
 
   selectLayer(index) {
@@ -124,7 +130,7 @@ class Layers extends EventTarget {
     this.selectLayer(idx);
 
     this.renderTexture();
-    this.dispatchEvent(new CustomEvent("layers-update"));
+    this._sendUpdateEvent();
   }
 
   renderTexture() {
@@ -147,6 +153,10 @@ class Layers extends EventTarget {
     texture.colorSpace = THREE.SRGBColorSpace;
 
     return texture;
+  }
+
+  _sendUpdateEvent() {
+    this.dispatchEvent(new CustomEvent("layers-update"));
   }
 }
 
