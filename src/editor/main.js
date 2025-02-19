@@ -14,6 +14,7 @@ import PenTool from "./tools/toolset/pen_tool";
 import BucketTool from "./tools/toolset/bucket_tool";
 import EraseTool from "./tools/toolset/erase_tool";
 import SculptTool from "./tools/toolset/sculpt_tool";
+import ShadeTool from "./tools/toolset/shade_tool";
 import SelectLayerEntry from "./history/entries/select_layer_entry";
 import GroupedEntry from "./history/entries/grouped_entry";
 import DeleteLayerEntry from "./history/entries/delete_layer_entry";
@@ -322,6 +323,7 @@ class Editor extends LitElement {
       new BucketTool(this.config),
       new EraseTool(this.config),
       new SculptTool(this.config),
+      new ShadeTool(this.config),
     ]
   }
 }
