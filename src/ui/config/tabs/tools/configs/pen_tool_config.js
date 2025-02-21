@@ -15,14 +15,17 @@ class PenToolConfig extends BaseToolConfig {
 
   constructor(config) {
     super(config, {
-      size: {type: "select", number: true},
-      shape: {type: "select"},
-      camo: {type: "toggle"},
-      blend: {type: "toggle"},
+      size: {
+        type: "select", number: true,
+        options: [{icon: "square", value: 1}, {icon: "foursquare", value: 2}, {icon: "grid", value: 3}]
+      },
+      shape: {
+        type: "select",
+        options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}],
+      },
+      camo: {type: "toggle", icon: "checker", title: "Toggle camo\nRandomly lightens and darkens the current color"},
+      blend: {type: "toggle", icon: "palette", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
-    this.config = config;
-
-    this._setupCallbacks();
   }
 
   render() {
@@ -32,30 +35,18 @@ class PenToolConfig extends BaseToolConfig {
         <div class="group">
           <div>
             <p class="title">Size</p>
-            <ncrs-option-control id="size" @select=${this._onSizeSelect} selected=${this.size}>
-              <ncrs-option-control-button icon="square" name="1" title="Set size to 1">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="foursquare" name="2" title="Set size to 2">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="grid" name="3" title="Set size to 3">
-              </ncrs-option-control-button>
-            </ncrs-option-control>
+            ${this._sizeControl()}
           </div>
           <div>
             <p class="title">Shape</p>
-            <ncrs-option-control id="shape" @select=${this._onShapeSelect} selected=${this.shape}>
-              <ncrs-option-control-button icon="square" name="square" title="Set shape to square">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="circle" name="circle" title="Set shape to circle">
-              </ncrs-option-control-button>
-            </ncrs-option-control>
+            ${this._shapeControl()}
           </div>
         </div>
         <div>
           <p class="title">Effects</p>
           <div class="group-sm">
-            <ncrs-toggle-control id="camo" @toggle=${this._onCamoToggle} icon="checker" selected=${this.camo || nothing} title="Toggle camo\nRandomly lightens and darkens the current color"></ncrs-toggle-control>
-            <ncrs-toggle-control id="blend" @toggle=${this._onBlendToggle} icon="palette" selected=${this.blend || nothing} title="Toggle blend\nRandomly selects colors from the blend palette"></ncrs-toggle-control>
+            ${this._camoControl()}
+            ${this._blendControl()}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { camelize } from "../../../../../helpers";
+import { OptionControl, OptionControlButton, ToggleControl } from "../../../controls";
 
 class BaseToolConfig extends LitElement {
   static styles = css`
@@ -59,17 +60,64 @@ class BaseToolConfig extends LitElement {
 
   _setupMethods() {
     Object.entries(this.properties).map(([property, options]) => {
-      const name = camelize(`on ${property} ${options.type}`);
-      this[`_${name}`] = function (event) {
-        if (options.type === "toggle") {
-          this.config.set(property, event.detail.toggle);
-        } else if (options.number) {
-          this.config.set(property, Number(event.detail.name));
-        } else {
-          this.config.set(property, event.detail.name);
-        }
-      }
+      this._setupCallbackMethod(property, options);
+      this._setupControlMethod(property, options);
     })
+  }
+
+  _setupCallbackMethod(property, options) {
+    const name = camelize(`on ${property} ${options.type}`);
+    this[`_${name}`] = function (event) {
+      if (options.type === "toggle") {
+        this.config.set(property, event.detail.toggle);
+      } else if (options.number) {
+        this.config.set(property, Number(event.detail.name));
+      } else {
+        this.config.set(property, event.detail.name);
+      }
+    }
+  }
+
+  _setupControlMethod(property, options) {
+    const name = camelize(`${property} control`);
+    this[`_${name}`] = function () {
+      if (options.type === "toggle") {
+        return this._setupToggleControl(property, options);
+      } else if (options.type == "select") {
+        return this._setupSelectControl(property, options);
+      }
+    }
+  }
+
+  _setupToggleControl(property, options) {
+    const callbackName = camelize(`on ${property} ${options.type}`);
+    const toggle = new ToggleControl();
+    toggle.id = property;
+    toggle.addEventListener("toggle", event => this[`_${callbackName}`](event));
+    toggle.icon = options.icon;
+    toggle.title = options.title;
+    toggle.selected = this[property];
+
+    return toggle;
+  }
+
+  _setupSelectControl(property, options) {
+    const callbackName = camelize(`on ${property} ${options.type}`);
+    const control = new OptionControl();
+    control.id = property;
+    control.addEventListener("select", event => this[`_${callbackName}`](event));
+    control.selected = this[property];
+
+    options.options.forEach(entry => {
+      const button = new OptionControlButton();
+      button.icon = entry.icon;
+      button.name = entry.value;
+      button.title = `Set ${property} to ${entry.value}`
+
+      control.appendChild(button);
+    })
+
+    return control;
   }
 
   _setupCallbacks() {

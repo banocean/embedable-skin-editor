@@ -13,12 +13,15 @@ class ShadeToolConfig extends BaseToolConfig {
 
   constructor(config) {
     super(config, {
-      size: {type: "select", number: true},
-      shape: {type: "select"},
+      size: {
+        type: "select", number: true,
+        options: [{icon: "square", value: 1}, {icon: "foursquare", value: 2}, {icon: "grid", value: 3}]
+      },
+      shape: {
+        type: "select",
+        options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
+      },
     });
-    this.config = config;
-
-    this._setupCallbacks();
   }
 
   render() {
@@ -28,24 +31,13 @@ class ShadeToolConfig extends BaseToolConfig {
         <div class="group">
           <div>
             <p class="title">Size</p>
-            <ncrs-option-control id="size" @select=${this._onSizeSelect} selected=${this.size}>
-              <ncrs-option-control-button icon="square" name="1" title="Set size to 1">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="foursquare" name="2" title="Set size to 2">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="grid" name="3" title="Set size to 3">
-              </ncrs-option-control-button>
-            </ncrs-option-control>
+            ${this._sizeControl()}
           </div>
           <div>
             <p class="title">Shape</p>
-            <ncrs-option-control id="shape" @select=${this._onShapeSelect} selected=${this.shape}>
-              <ncrs-option-control-button icon="square" name="square" title="Set shape to square">
-              </ncrs-option-control-button>
-              <ncrs-option-control-button icon="circle" name="circle" title="Set shape to circle">
-              </ncrs-option-control-button>
-            </ncrs-option-control>
+            ${this._shapeControl()}
           </div>
+        </div>
       </div>
     `;
   }

@@ -12,18 +12,20 @@ class BucketToolConfig extends BaseToolConfig {
 
   constructor(config) {
     super(config, {
-      contiguous: {type: "toggle"},
+      contiguous: {
+        type: "toggle", icon: "square",
+        title: "Toggle contiguous\nIf disabled, will replace all pixels in the same color, on the whole canvas ignoring boundaries"
+      },
     });
-    this.config = config;
-
-    this._setupCallbacks();
   }
 
   render() {
     return html`
     <div id="main">
         <h2>Bucket Tool</h2>
-        <ncrs-toggle-control id="contiguous" @toggle=${this._onContiguousToggle} icon="square" selected=${this.contiguous || nothing} title="Toggle contiguous\nIf disabled, will replace all pixels in the same color, on the whole canvas ignoring boundaries"></ncrs-toggle-control>
+        <div class="group">
+          ${this._contiguousControl()}
+        </div>
     </div>
     `;
   }
