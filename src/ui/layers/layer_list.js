@@ -122,16 +122,16 @@ class LayerList extends LitElement {
       <div id="list">
         ${layersDiv}
         <div id="buttons">
-          <ncrs-button id="plus-button" @click=${this._addLayer}>
+          <ncrs-button id="plus-button" @click=${this._addLayer} title="Add layer">
             <ncrs-icon part="icon" icon="plus" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
-          <ncrs-button id="trash-button" @click=${this._removeLayer}>
+          <ncrs-button id="trash-button" @click=${this._removeLayer} title="Remove current layer">
             <ncrs-icon part="icon" icon="trash" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
-          <ncrs-button id="clone-button" @click=${this._cloneLayer}>
+          <ncrs-button id="clone-button" @click=${this._cloneLayer} title="Clone current layer">
             <ncrs-icon part="icon" icon="clone" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
-          <ncrs-button id="merge-button" @click=${this._mergeLayer}>
+          <ncrs-button id="merge-button" @click=${this._mergeLayer} title="Merge current layer with below">
             <ncrs-icon part="icon" icon="merge" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
