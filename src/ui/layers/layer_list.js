@@ -73,8 +73,8 @@ class LayerList extends LitElement {
 
     ncrs-button::part(button) {
       padding: 0.125rem;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
+      padding-top: 0.42rem;
+      padding-bottom: 0.42rem;
     }
 
     #plus-button, #trash-button {
@@ -94,7 +94,7 @@ class LayerList extends LitElement {
     ncrs-icon {
       display: block;
       box-sizing: border-box;
-      height: 0.75rem;
+      height: 0.8rem;
       width: auto;
     }
   `

@@ -2,12 +2,12 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="725"
-   height="726"
-   viewBox="0 0 191.82291 192.0875"
+   width="750"
+   height="750"
+   viewBox="0 0 198.43749 198.4375"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    sodipodi:docname="plus.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,25 +23,39 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#4f4f4f"
      inkscape:document-units="px"
-     inkscape:zoom="0.092708333"
-     inkscape:cx="-711.91011"
-     inkscape:cy="523.14607"
+     inkscape:zoom="0.74166666"
+     inkscape:cx="328.31461"
+     inkscape:cy="440.89888"
      inkscape:window-width="1920"
-     inkscape:window-height="1052"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-height="1137"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
      id="defs1" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-115.35833,-97.895832)">
-    <path
-       d="m 302.41874,166.42291 c 2.64584,0 4.7625,2.64584 4.7625,5.29167 v 44.45 c 0,1.5875 -0.52916,2.64583 -1.5875,3.70417 -1.05833,1.05833 -1.5875,1.32291 -3.175,1.32291 h -64.02916 v 63.76459 c 0,1.05833 -0.52917,2.64583 -1.5875,3.43958 -1.05833,0.79375 -2.11667,1.5875 -3.175,1.5875 h -44.97917 c -1.05833,0 -1.85208,-0.52917 -2.91041,-1.5875 -1.05834,-1.05833 -1.5875,-2.38125 -1.5875,-3.43958 v -63.76459 h -64.02917 c -1.05833,0 -2.11667,-0.26458 -3.175,-1.32291 -1.05833,-1.05834 -1.5875,-2.64584 -1.5875,-3.70417 v -44.45 c 0,-2.64583 2.11667,-5.29167 4.7625,-5.29167 H 184.15 v -63.5 c 0,-2.64583 2.11666,-5.027078 4.49791,-5.027078 h 44.97917 c 2.64583,0 4.7625,2.381248 4.7625,5.027078 v 63.5 z"
-       id="path46"
-       style="stroke-width:0.264583" />
+     transform="translate(-112.05103,-94.720833)">
+    <rect
+       style="stroke:none;stroke-width:78.5227;paint-order:stroke fill markers"
+       id="rect3511"
+       width="52.916664"
+       height="198.4375"
+       x="184.81145"
+       y="94.720833"
+       rx="16.826302" />
+    <rect
+       style="stroke:none;stroke-width:78.5227;paint-order:stroke fill markers"
+       id="rect6104"
+       width="52.916664"
+       height="198.4375"
+       x="167.48125"
+       y="-310.48853"
+       rx="16.826302"
+       transform="rotate(90)" />
   </g>
 </svg>
