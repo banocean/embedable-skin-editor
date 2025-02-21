@@ -14,6 +14,7 @@ class Layers extends EventTarget {
     const scope = this;
     this.filtersUpdateCallback = function () {
       scope.renderTexture();
+      scope.dispatchEvent(new CustomEvent("update-filters"));
     }
   }
   lastLayerId = 0;
@@ -193,6 +194,10 @@ class Layer extends EventTarget {
 
   toPreview() {
     return imageToPreview(this.texture.image);
+  }
+
+  hasFilters() {
+    return this.compositor.getFilters().length > 0;
   }
 }
 
