@@ -4,10 +4,11 @@ import { css, html } from "lit";
 import CssFilter from "../../../editor/layers/filters/css_filter";
 import Slider from "../../misc/slider";
 import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry";
-import CloneLayerEntry from "../../../editor/history/entries/clone_layer_entry";
-import MergeLayersEntry from "../../../editor/history/entries/merge_layers_entry";
+import MergeFiltersEntry from "../../../editor/history/entries/merge_filters_entry";
 
-const getSliderDefaults = () => {return {a: 1, h: 0.5, s: 0.5, b: 0.5}};
+const getSliderDefaults = () => {
+  return { a: 1, h: 0.5, s: 0.5, b: 0.5 };
+};
 
 class LayersTab extends Tab {
   static styles = [
@@ -18,7 +19,7 @@ class LayersTab extends Tab {
       }
 
       #container {
-        background-color: #1A1A1A;
+        background-color: #1a1a1a;
         padding: 0.25rem;
         box-sizing: border-box;
       }
@@ -48,15 +49,25 @@ class LayersTab extends Tab {
 
       #opacity-slider {
         background: linear-gradient(to right, transparent, var(--current-color)),
-        repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
+          repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
       }
 
       #hue-slider {
-        background-image: linear-gradient(to right, rgb(0, 255, 255), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 255, 255));
+        background-image: linear-gradient(
+          to right,
+          rgb(0, 255, 255),
+          rgb(0, 0, 255),
+          rgb(255, 0, 255),
+          rgb(255, 0, 0),
+          rgb(255, 255, 0),
+          rgb(0, 255, 0),
+          rgb(0, 255, 255)
+        );
       }
 
       #saturation-slider {
-        background: linear-gradient(to right,
+        background: linear-gradient(
+          to right,
           hsl(from var(--current-color) h 0% l),
           hsl(from var(--current-color) h 100% l),
           hsl(from var(--current-color) h 200% l)
@@ -64,7 +75,8 @@ class LayersTab extends Tab {
       }
 
       #brightness-slider {
-        background: linear-gradient(to right,
+        background: linear-gradient(
+          to right,
           hsl(from var(--current-color) h s 0%),
           hsl(from var(--current-color) h s l),
           hsl(from var(--current-color) h s 100%)
@@ -88,11 +100,11 @@ class LayersTab extends Tab {
       ncrs-button::part(button) {
         padding: 0.25rem;
       }
-    `
-  ]
+    `,
+  ];
 
   constructor(editor) {
-    super({name: "Layer"})
+    super({ name: "Layer" });
     this.editor = editor;
     this.config = editor.config;
 
@@ -102,7 +114,7 @@ class LayersTab extends Tab {
     const scope = this;
     this.filtersUpdateCallback = function () {
       scope.loadFromCurrentLayer();
-    }
+    };
   }
   currentLayer;
 
@@ -111,7 +123,7 @@ class LayersTab extends Tab {
     h: 0,
     s: 100,
     b: 100,
-  }
+  };
 
   sliderProgress = getSliderDefaults();
 
@@ -133,16 +145,21 @@ class LayersTab extends Tab {
           <ncrs-button @click=${this._resetSliders} title="Clear all active filters on the current layer.">
             Clear Filters
           </ncrs-button>
-          <ncrs-button @click=${this._mergeFilters} title="Applies the current filters to the pixels of the current layer.">
+          <ncrs-button
+            @click=${this._mergeFilters}
+            title="Applies the current filters to the pixels of the current layer."
+          >
             Merge in to Layer
           </ncrs-button>
         </div>
       </div>
-    `
+    `;
   }
 
   loadFromLayer(layer) {
-    if (this.currentLayer == layer) { return; }
+    if (this.currentLayer == layer) {
+      return;
+    }
 
     if (this.currentLayer) {
       this.currentLayer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
@@ -164,8 +181,7 @@ class LayersTab extends Tab {
 
     const sliderProgress = this.sliderProgress;
 
-
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       const properties = filter.properties;
       if (properties.name == "alpha") {
         let progress = properties.value / 100;
@@ -207,7 +223,9 @@ class LayersTab extends Tab {
 
     this.filters.a = progress;
 
-    if (value == this.sliderProgress.a) { return; }
+    if (value == this.sliderProgress.a) {
+      return;
+    }
 
     this._syncFilters();
   }
@@ -228,7 +246,9 @@ class LayersTab extends Tab {
 
     this.filters.h = progress;
 
-    if (value == this.sliderProgress.h) { return; }
+    if (value == this.sliderProgress.h) {
+      return;
+    }
 
     this._syncFilters();
   }
@@ -240,7 +260,9 @@ class LayersTab extends Tab {
 
     this.filters.s = progress;
 
-    if (value == this.sliderProgress.s) { return; }
+    if (value == this.sliderProgress.s) {
+      return;
+    }
 
     this._syncFilters();
   }
@@ -252,7 +274,9 @@ class LayersTab extends Tab {
 
     this.filters.b = progress;
 
-    if (value == this.sliderProgress.b) { return; }
+    if (value == this.sliderProgress.b) {
+      return;
+    }
 
     this._syncFilters();
   }
@@ -265,74 +289,81 @@ class LayersTab extends Tab {
 
   _resetSliders() {
     const layer = this.editor.layers.getSelectedLayer();
-    if (!layer.hasFilters()) { return; }
+    if (!layer.hasFilters()) {
+      return;
+    }
 
-    this.editor.history.add(
-      new UpdateLayerFiltersEntry(this.editor.layers, layer, [], false)
-    );
+    this.editor.history.add(new UpdateLayerFiltersEntry(this.editor.layers, layer, [], false));
   }
 
-  _mergeFilters() {}
+  _mergeFilters() {
+    const layer = this.editor.layers.getSelectedLayer();
+    if (!layer.hasFilters()) {
+      return;
+    }
+
+    this.editor.history.add(new MergeFiltersEntry(this.editor.layers, layer));
+  }
 
   _syncFilters() {
     const layer = this.editor.layers.getSelectedLayer();
-    if (!layer) { return; }
+    if (!layer) {
+      return;
+    }
 
     const filters = this.filters;
     const newFilters = [];
 
     if (filters.a < 100) {
-      newFilters.push(new CssFilter(`opacity(${filters.a}%)`, {name: "alpha", value: filters.a}))
+      newFilters.push(new CssFilter(`opacity(${filters.a}%)`, { name: "alpha", value: filters.a }));
     }
 
     if (filters.h != 0 && filters.h != 360) {
-      newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`, {name: "hue", value: filters.h}))
+      newFilters.push(new CssFilter(`hue-rotate(${filters.h}deg)`, { name: "hue", value: filters.h }));
     }
 
     if (filters.s != 100) {
-      newFilters.push(new CssFilter(`saturate(${filters.s}%)`, {name: "saturation", value: filters.s}))
+      newFilters.push(new CssFilter(`saturate(${filters.s}%)`, { name: "saturation", value: filters.s }));
     }
 
     if (filters.b != 100) {
-      newFilters.push(new CssFilter(`brightness(${filters.b}%)`, {name: "brightness", value: filters.b}))
+      newFilters.push(new CssFilter(`brightness(${filters.b}%)`, { name: "brightness", value: filters.b }));
     }
 
-    this.editor.history.add(
-      new UpdateLayerFiltersEntry(this.editor.layers, layer, newFilters)
-    );
+    this.editor.history.add(new UpdateLayerFiltersEntry(this.editor.layers, layer, newFilters));
   }
 
   _setupSliders() {
     this.opacitySlider = new Slider();
     this.opacitySlider.progress = 1;
     this.opacitySlider.id = "opacity-slider";
-    this.opacitySlider.addEventListener("slider-change", event => this._opacityChange(event));
-    this.opacitySlider.addEventListener("mousedown", event => this._sliderReset(event, 1));
+    this.opacitySlider.addEventListener("slider-change", (event) => this._opacityChange(event));
+    this.opacitySlider.addEventListener("mousedown", (event) => this._sliderReset(event, 1));
 
     this.hueSlider = new Slider();
     this.hueSlider.progress = 0.5;
     this.hueSlider.steps = 360;
     this.hueSlider.id = "hue-slider";
-    this.hueSlider.addEventListener("slider-change", event => this._hueChange(event));
-    this.hueSlider.addEventListener("mousedown", event => this._sliderReset(event));
+    this.hueSlider.addEventListener("slider-change", (event) => this._hueChange(event));
+    this.hueSlider.addEventListener("mousedown", (event) => this._sliderReset(event));
 
     this.saturationSlider = new Slider();
     this.saturationSlider.progress = 0.5;
     this.saturationSlider.id = "saturation-slider";
-    this.saturationSlider.addEventListener("slider-change", event => this._saturationChange(event));
-    this.saturationSlider.addEventListener("mousedown", event => this._sliderReset(event));
-    
+    this.saturationSlider.addEventListener("slider-change", (event) => this._saturationChange(event));
+    this.saturationSlider.addEventListener("mousedown", (event) => this._sliderReset(event));
+
     this.brightnessSlider = new Slider();
     this.brightnessSlider.progress = 0.5;
     this.brightnessSlider.id = "brightness-slider";
-    this.brightnessSlider.addEventListener("slider-change", event => this._brightnessChange(event));
-    this.brightnessSlider.addEventListener("mousedown", event => this._sliderReset(event));
+    this.brightnessSlider.addEventListener("slider-change", (event) => this._brightnessChange(event));
+    this.brightnessSlider.addEventListener("mousedown", (event) => this._sliderReset(event));
   }
 
   _setupEvents() {
     this.editor.layers.addEventListener("layers-select", () => {
       this.loadFromLayer(this.editor.layers.getSelectedLayer());
-    })
+    });
   }
 }
 

@@ -4,6 +4,7 @@ import * as THREE from "three";
 import GroupedEntry from "./grouped_entry";
 import UpdateLayerTexture from "./update_layer_texture";
 import DeleteLayerEntry from "./delete_layer_entry";
+import SelectLayerEntry from "./select_layer_entry";
 
 class MergeLayersEntry extends BaseEntry {
   constructor(layers, target, source) {
@@ -32,6 +33,7 @@ class MergeLayersEntry extends BaseEntry {
     return new GroupedEntry(
       new UpdateLayerTexture(layers, target, texture),
       new DeleteLayerEntry(layers, source),
+      new SelectLayerEntry(layers, {layer: target}),
     );
   }
 }
