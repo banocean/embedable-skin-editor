@@ -19,6 +19,8 @@ import SelectLayerEntry from "./history/entries/select_layer_entry";
 import GroupedEntry from "./history/entries/grouped_entry";
 import DeleteLayerEntry from "./history/entries/delete_layer_entry";
 import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
+import MergeLayersEntry from "./history/entries/merge_layers_entry";
+import CloneLayerEntry from "./history/entries/clone_layer_entry";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -223,6 +225,24 @@ class Editor extends LitElement {
     }
 
     this.history.add(entry);
+  }
+
+  cloneLayer() {
+    this.history.add(
+      new CloneLayerEntry(this.layers, this.layers.getSelectedLayer())
+    );
+  }
+
+  mergeLayer() {
+    const layers = this.layers;
+
+    if (layers.selectedLayerIndex < 1) { return false; }
+    const source = layers.getSelectedLayer();
+    const target = layers.getLayerAtIndex(layers.selectedLayerIndex - 1);
+
+    this.history.add(
+      new MergeLayersEntry(this.layers, target, source)
+    );
   }
 
   reorderLayers(fromIndex, toIndex) {

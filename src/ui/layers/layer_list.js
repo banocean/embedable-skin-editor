@@ -53,7 +53,8 @@ class LayerList extends LitElement {
     }
 
     #buttons {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 0.125rem;
       width: 100%;
     }
@@ -67,22 +68,25 @@ class LayerList extends LitElement {
     }
 
     ncrs-button {
-      --icon-height: 1rem;
       flex-grow: 1;
     }
 
     ncrs-button::part(button) {
-      padding: 0.25rem;
+      padding: 0.125rem;
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
     }
 
-    #plus-button::part(button) {
+    #plus-button, #trash-button {
+      margin-bottom: -0.25rem;
+    }
+
+    #clone-button::part(button) {
       border-bottom-left-radius: 0.5rem;
       border-bottom-right-radius: 0px;
     }
 
-    #trash-button::part(button) {
+    #merge-button::part(button) {
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0.5rem;
     }
@@ -90,7 +94,7 @@ class LayerList extends LitElement {
     ncrs-icon {
       display: block;
       box-sizing: border-box;
-      height: 1rem;
+      height: 0.75rem;
       width: auto;
     }
   `
@@ -113,7 +117,6 @@ class LayerList extends LitElement {
 
   render() {
     const layersDiv = this._setupLayers();
-    const buttonDiv = this._setupLayerButtons();
 
     return html`
       <div id="list">
@@ -124,6 +127,12 @@ class LayerList extends LitElement {
           </ncrs-button>
           <ncrs-button id="trash-button" @click=${this._removeLayer}>
             <ncrs-icon part="icon" icon="trash" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
+          <ncrs-button id="clone-button" @click=${this._cloneLayer}>
+            <ncrs-icon part="icon" icon="clone" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
+          <ncrs-button id="merge-button" @click=${this._mergeLayer}>
+            <ncrs-icon part="icon" icon="merge" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
       </div>
@@ -167,31 +176,20 @@ class LayerList extends LitElement {
     return sortable;
   }
 
-  _setupLayerButtons() {
-    const div = document.createElement("div");
-    div.id = "buttons";
-
-    div.appendChild(
-      new IconButton("plus", () => {
-        this.ui.editor.addLayer();
-      })
-    );
-
-    div.appendChild(
-      new IconButton("trash", () => {
-        this.ui.editor.removeLayer();
-      })
-    );
-
-    return div;
-  }
-
   _addLayer() {
     this.ui.editor.addLayer();
   }
 
   _removeLayer() {
     this.ui.editor.removeLayer();
+  }
+
+  _cloneLayer() {
+    this.ui.editor.cloneLayer();
+  }
+
+  _mergeLayer() {
+    this.ui.editor.mergeLayer();
   }
 }
 

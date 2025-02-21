@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="961.56177"
+   height="941.22095"
+   viewBox="0 0 254.4132 249.03137"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="merge.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#4f4f4f"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#4f4f4f"
+     inkscape:document-units="px"
+     inkscape:zoom="0.24781474"
+     inkscape:cx="-764.68413"
+     inkscape:cy="883.72467"
+     inkscape:window-width="1920"
+     inkscape:window-height="1136"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1"
+     showguides="true" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-96.572915,-84.137497)">
+    <g
+       id="g1"
+       transform="matrix(0.96715517,0,0,0.96715517,9.90897,-39.207178)">
+      <rect
+         style="fill:#000000;stroke-width:0.273569"
+         id="rect1"
+         width="211.14377"
+         height="64.17627"
+         x="115.56176"
+         y="320.84576"
+         ry="9.4005976" />
+      <path
+         d="m 238.67994,127.53349 -17.42233,-0.021 -17.42581,-0.0247 -0.0915,64.39478 -0.0296,23.33959 -18.09222,-0.0255 -18.08499,-0.0258 26.61641,46.21736 26.6309,46.23173 0.12319,0.13759 0.12396,0.12991 0.13429,-0.20617 0.13071,-0.2026 26.72233,-46.07995 26.71864,-46.07633 -18.08495,-0.0258 -18.09229,-0.0258 0.0332,-23.33598 z"
+         style="fill:#000000;stroke-width:6.76679;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="path1" />
+    </g>
+  </g>
+</svg>
