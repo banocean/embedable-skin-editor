@@ -1,15 +1,14 @@
 import { BaseEntry } from "../base_entry";
 
 class UpdateLayerFiltersEntry extends BaseEntry {
-  constructor(layers, layer, filters = []) {
+  constructor(layers, layer, filters = [], stack = true) {
     super();
 
     this.layers = layers;
     this.layer = layer;
     this.filters = filters;
+    this.stacking = stack;
   }
-
-  stacking = true;
   oldFilters;
 
   onPerform() {

@@ -7,31 +7,29 @@ import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_laye
 import CloneLayerEntry from "../../../editor/history/entries/clone_layer_entry";
 import MergeLayersEntry from "../../../editor/history/entries/merge_layers_entry";
 
+const getSliderDefaults = () => {return {a: 1, h: 0.5, s: 0.5, b: 0.5}};
+
 class LayersTab extends Tab {
   static styles = [
     Tab.styles,
     css`
       :host {
-        padding: 0.25rem;
-        box-sizing: border-box;
         --current-color: #ff0000;
       }
 
       #container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        background-color: #1A1A1A;
+        padding: 0.25rem;
+        box-sizing: border-box;
       }
 
       #sliders {
-        border: 1px white solid;
-        border-radius: 0.25rem;
         padding: 0.25rem;
         padding-bottom: 0.5rem;
         margin-bottom: 0.25rem;
       }
 
-      #sliders legend {
+      #sliders h2 {
         margin: 0px;
         font-size: medium;
         color: white;
@@ -73,9 +71,18 @@ class LayersTab extends Tab {
         );
       }
 
-      ncrs-button {
+      #filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 0.25rem;
+      }
+
+      #filter-buttons ncrs-button {
+        flex-grow: 1;
+        flex-basis: 0;
         margin-bottom: 0.25rem;
         text-align: center;
+        font-size: small;
       }
 
       ncrs-button::part(button) {
@@ -106,13 +113,13 @@ class LayersTab extends Tab {
     b: 100,
   }
 
-  sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
+  sliderProgress = getSliderDefaults();
 
   render() {
     return html`
       <div id="container">
-        <fieldset id="sliders">
-          <legend>Filters</legend>
+        <div id="sliders">
+          <h2>Filters</h2>
           <label for="hue-slider">Adjust Layer Hue</label>
           ${this.hueSlider}
           <label for="saturation-slider">Adjust Layer Saturation</label>
@@ -121,9 +128,15 @@ class LayersTab extends Tab {
           ${this.brightnessSlider}
           <label for="opacity-slider">Adjust Layer Opacity</label>
           ${this.opacitySlider}
-        </fieldset>
-        <ncrs-button @click=${this._cloneLayer}>Clone Layer</ncrs-button>
-        <ncrs-button @click=${this._mergeLayer}>Merge Layer</ncrs-button>
+        </div>
+        <div id="filter-buttons">
+          <ncrs-button @click=${this._resetSliders} title="Clear all active filters on the current layer.">
+            Clear Filters
+          </ncrs-button>
+          <ncrs-button @click=${this._mergeFilters} title="Applies the current filters to the pixels of the current layer.">
+            Merge in to Layer
+          </ncrs-button>
+        </div>
       </div>
     `
   }
@@ -146,7 +159,7 @@ class LayersTab extends Tab {
 
     const filters = layer.compositor.getFilters();
     if (filters.length < 1) {
-      this.sliderProgress = {a: 1, h: 0.5, s: 0.5, b: 0.5};
+      this.sliderProgress = getSliderDefaults();
     }
 
     const sliderProgress = this.sliderProgress;
@@ -250,23 +263,16 @@ class LayersTab extends Tab {
     }
   }
 
-  _cloneLayer() {
+  _resetSliders() {
+    const layer = this.editor.layers.getSelectedLayer();
+    if (!layer.hasFilters()) { return; }
+
     this.editor.history.add(
-      new CloneLayerEntry(this.editor.layers, this.editor.layers.getSelectedLayer())
+      new UpdateLayerFiltersEntry(this.editor.layers, layer, [], false)
     );
   }
 
-  _mergeLayer() {
-    const layers = this.editor.layers;
-
-    if (layers.selectedLayerIndex < 1) { return false; }
-    const source = layers.getSelectedLayer();
-    const target = layers.getLayerAtIndex(layers.selectedLayerIndex - 1);
-
-    this.editor.history.add(
-      new MergeLayersEntry(this.editor.layers, target, source)
-    );
-  }
+  _mergeFilters() {}
 
   _syncFilters() {
     const layer = this.editor.layers.getSelectedLayer();

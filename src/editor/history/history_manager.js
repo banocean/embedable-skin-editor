@@ -6,7 +6,7 @@ class HistoryManager {
 
   add(entry) {
     const lastEntry = this.undoStack.at(-1);
-    if (lastEntry?.stacking && lastEntry.constructor == entry.constructor) {
+    if (entry.stacking && lastEntry?.stacking && lastEntry.constructor == entry.constructor) {
       return lastEntry.onStack(entry);
     } else if (entry.perform()) {
       this.undoStack.push(entry);
