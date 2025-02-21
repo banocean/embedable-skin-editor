@@ -8,6 +8,8 @@ import PresetPaletteTab from "./tools/palettes/preset_palette_tab";
 import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
 import EraseToolConfig from "./tools/configs/erase_tool_config";
 import SculptToolConfig from "./tools/configs/sculpt_tool_config";
+import ShadeToolConfig from "./tools/configs/shade_tool_config";
+import BucketToolConfig from "./tools/configs/bucket_tool_config";
 import Color from "color";
 
 class ToolTab extends Tab {
@@ -164,6 +166,8 @@ class ToolTab extends Tab {
     this.toolConfigs = {
       pen: new PenToolConfig(config),
       eraser: new EraseToolConfig(config),
+      bucket: new BucketToolConfig(config),
+      shade: new ShadeToolConfig(config),
       sculpt: new SculptToolConfig(config),
     }
   }
