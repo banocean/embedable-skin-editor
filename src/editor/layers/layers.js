@@ -178,6 +178,10 @@ class Layer extends EventTarget {
     return this.compositor.render(this.texture.image);
   }
 
+  getBaseCanvas() {
+    return this.texture.image;
+  }
+
   flush() {
     this.oldTexture = this.texture;
   }

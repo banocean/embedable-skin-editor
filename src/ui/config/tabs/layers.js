@@ -5,6 +5,7 @@ import CssFilter from "../../../editor/layers/filters/css_filter";
 import Slider from "../../misc/slider";
 import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry";
 import CloneLayerEntry from "../../../editor/history/entries/clone_layer_entry";
+import MergeLayersEntry from "../../../editor/history/entries/merge_layers_entry";
 
 class LayersTab extends Tab {
   static styles = [
@@ -122,6 +123,7 @@ class LayersTab extends Tab {
           ${this.opacitySlider}
         </fieldset>
         <ncrs-button @click=${this._cloneLayer}>Clone Layer</ncrs-button>
+        <ncrs-button @click=${this._mergeLayer}>Merge Layer</ncrs-button>
       </div>
     `
   }
@@ -251,6 +253,18 @@ class LayersTab extends Tab {
   _cloneLayer() {
     this.editor.history.add(
       new CloneLayerEntry(this.editor.layers, this.editor.layers.getSelectedLayer())
+    );
+  }
+
+  _mergeLayer() {
+    const layers = this.editor.layers;
+
+    if (layers.selectedLayerIndex < 1) { return false; }
+    const source = layers.getSelectedLayer();
+    const target = layers.getLayerAtIndex(layers.selectedLayerIndex - 1);
+
+    this.editor.history.add(
+      new MergeLayersEntry(this.editor.layers, target, source)
     );
   }
 
