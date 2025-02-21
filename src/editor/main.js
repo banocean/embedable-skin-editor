@@ -320,10 +320,10 @@ class Editor extends LitElement {
   _setupTools() {
     return [
       new PenTool(this.config),
-      new BucketTool(this.config),
       new EraseTool(this.config),
-      new SculptTool(this.config),
+      new BucketTool(this.config),
       new ShadeTool(this.config),
+      new SculptTool(this.config),
     ]
   }
 }
