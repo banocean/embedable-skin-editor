@@ -157,9 +157,6 @@ class LayersTab extends Tab {
   }
 
   _syncFilters() {
-    const color = new Color(`hsl(${this.hueSlider.getValue()} 100% 50%)`);
-    this.style.setProperty("--current-color", color.hex());
-
     const layer = this.editor.layers.getSelectedLayer();
     if (!layer) {
       return;
@@ -181,6 +178,10 @@ class LayersTab extends Tab {
 
     this.hueSlider = new HueFilterSlider(layers);
     this.hueSlider.slider.id = "hue-slider"
+    this.hueSlider.slider.addEventListener("slider-change", () => {
+      const color = new Color(`hsl(${this.hueSlider.getValue()} 100% 50%)`);
+      this.style.setProperty("--current-color", color.hex());
+    })
 
     this.saturationSlider = new SaturationFilterSlider(layers);
     this.saturationSlider.slider.id = "saturation-slider"
