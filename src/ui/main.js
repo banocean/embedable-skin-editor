@@ -58,7 +58,10 @@ class UI extends LitElement {
   currentLayer;
 
   firstUpdated() {
+    const ignoredElements = ["TEXTAREA", "INPUT", "SELECT"];
     document.addEventListener("keypress", event => {
+      if (ignoredElements.includes(event.originalTarget.nodeName)) { return; }
+
       if (event.key == "z") {
         this.editor.history.undo();
       }
