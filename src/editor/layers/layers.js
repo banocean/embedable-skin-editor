@@ -203,6 +203,10 @@ class Layer extends EventTarget {
   hasFilters() {
     return this.compositor.getFilters().length > 0;
   }
+
+  findFilter(condition) {
+    return this.compositor.getFilters().find(filter => condition(filter.properties));
+  }
 }
 
 export { Layers, Layer };
