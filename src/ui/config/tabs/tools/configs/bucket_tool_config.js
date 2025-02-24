@@ -13,7 +13,7 @@ class BucketToolConfig extends BaseToolConfig {
   constructor(config) {
     super(config, {
       contiguous: {
-        type: "toggle", icon: "square",
+        type: "toggle", icon: "contiguous", 
         title: "Toggle contiguous\nIf disabled, will replace all pixels in the same color, on the whole canvas ignoring boundaries"
       },
     });
@@ -24,7 +24,10 @@ class BucketToolConfig extends BaseToolConfig {
     <div id="main">
         <h2>Bucket Tool</h2>
         <div class="group">
-          ${this._contiguousControl()}
+          <div>
+            <p class="title">Contiguous</p>
+            ${this._contiguousControl()}
+          </div>
         </div>
     </div>
     `;

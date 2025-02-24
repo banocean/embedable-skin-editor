@@ -15,6 +15,7 @@ class BucketTool extends BaseTool {
   }
 
   cursor = { x: 0, y: 0 };
+  contiguous = false;
   lastPart;
   lastFace;
 
@@ -24,58 +25,65 @@ class BucketTool extends BaseTool {
     const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
     const old_color = toolData.texture.getPixel({ x: point.x, y: point.y });
 
+    this.contiguous = this.config.get("contiguous");
+
     this.cursor = point;
-    if (this.isInArea(point,0,8,31,15)||this.isInArea(point,8,0,23,7)) {
-      this.draw_head_inner(texture, point, color, old_color);
-    }
-    if (this.isInArea(point,32,8,63,15)||this.isInArea(point,40,0,55,7)) {
-      this.draw_head_outer(texture, point, color, old_color);
-    }
-    if (this.isInArea(point,20,16,35,19)||this.isInArea(point,16,20,39,31)) {
-      this.draw_torso_inner(texture, point, color, old_color);
-    }
-    if (this.isInArea(point,20,32,35,35)||this.isInArea(point,16,36,39,47)) {
-      this.draw_torso_outer(texture, point, color, old_color);
+    if (!this.contiguous) {
+      if (this.isInArea(point,0,8,31,15)||this.isInArea(point,8,0,23,7)) {
+        this.draw_head_inner(texture, point, color, old_color);
+      }
+      if (this.isInArea(point,32,8,63,15)||this.isInArea(point,40,0,55,7)) {
+        this.draw_head_outer(texture, point, color, old_color);
+      }
+      if (this.isInArea(point,20,16,35,19)||this.isInArea(point,16,20,39,31)) {
+        this.draw_torso_inner(texture, point, color, old_color);
+      }
+      if (this.isInArea(point,20,32,35,35)||this.isInArea(point,16,36,39,47)) {
+        this.draw_torso_outer(texture, point, color, old_color);
+      }
+
+      if (toolData.variant=='classic'&&(this.isInArea(point,44,16,51,19)||this.isInArea(point,40,20,55,31))) {
+        this.draw_right_arm_inner_classic(texture, point, color, old_color);
+      }
+      if (toolData.variant=='classic'&&(this.isInArea(point,44,32,51,35)||this.isInArea(point,40,36,55,47))) {
+        this.draw_right_arm_outer_classic(texture, point, color, old_color);
+      }
+      if (toolData.variant=='classic'&&(this.isInArea(point,36,48,43,51)||this.isInArea(point,32,52,47,63))) {
+        this.draw_left_arm_inner_classic(texture, point, color, old_color);
+      }
+      if (toolData.variant=='classic'&&(this.isInArea(point,52,48,59,51)||this.isInArea(point,48,52,63,63))) {
+        this.draw_left_arm_outer_classic(texture, point, color, old_color);
+      }
+
+      if (toolData.variant=='slim'&&(this.isInArea(point,44,16,49,19)||this.isInArea(point,40,20,53,31))) {
+        this.draw_right_arm_inner_slim(texture, point, color, old_color);
+      }
+      if (toolData.variant=='slim'&&(this.isInArea(point,44,32,49,35)||this.isInArea(point,40,36,53,47))) {
+        this.draw_right_arm_outer_slim(texture, point, color, old_color);
+      }
+      if (toolData.variant=='slim'&&(this.isInArea(point,36,48,41,51)||this.isInArea(point,32,52,45,63))) {
+        this.draw_left_arm_inner_slim(texture, point, color, old_color);
+      }
+      if (toolData.variant=='slim'&&(this.isInArea(point,52,48,57,51)||this.isInArea(point,48,52,61,63))) {
+        this.draw_left_arm_outer_slim(texture, point, color, old_color);
+      }
+
+      if ((this.isInArea(point,4,16,11,19)||this.isInArea(point,0,20,15,31))) {
+        this.draw_right_leg_inner(texture, point, color, old_color);
+      }
+      if ((this.isInArea(point,4,32,11,35)||this.isInArea(point,0,36,15,47))) {
+        this.draw_right_leg_outer(texture, point, color, old_color);
+      }
+      if ((this.isInArea(point,20,48,27,61)||this.isInArea(point,16,52,31,63))) {
+        this.draw_left_leg_inner(texture, point, color, old_color);
+      }
+      if ((this.isInArea(point,4,48,11,61)||this.isInArea(point,0,52,15,63))) {
+        this.draw_left_leg_outer(texture, point, color, old_color);
+      }
+    } else {
+        this.draw_contiguous_off(texture, color, old_color);
     }
 
-    if (toolData.variant=='classic'&&(this.isInArea(point,44,16,51,19)||this.isInArea(point,40,20,55,31))) {
-      this.draw_right_arm_inner_classic(texture, point, color, old_color);
-    }
-    if (toolData.variant=='classic'&&(this.isInArea(point,44,32,51,35)||this.isInArea(point,40,36,55,47))) {
-      this.draw_right_arm_outer_classic(texture, point, color, old_color);
-    }
-    if (toolData.variant=='classic'&&(this.isInArea(point,36,48,43,51)||this.isInArea(point,32,52,47,63))) {
-      this.draw_left_arm_inner_classic(texture, point, color, old_color);
-    }
-    if (toolData.variant=='classic'&&(this.isInArea(point,52,48,59,51)||this.isInArea(point,48,52,63,63))) {
-      this.draw_left_arm_outer_classic(texture, point, color, old_color);
-    }
-
-    if (toolData.variant=='slim'&&(this.isInArea(point,44,16,49,19)||this.isInArea(point,40,20,53,31))) {
-      this.draw_right_arm_inner_slim(texture, point, color, old_color);
-    }
-    if (toolData.variant=='slim'&&(this.isInArea(point,44,32,49,35)||this.isInArea(point,40,36,53,47))) {
-      this.draw_right_arm_outer_slim(texture, point, color, old_color);
-    }
-    if (toolData.variant=='slim'&&(this.isInArea(point,36,48,41,51)||this.isInArea(point,32,52,45,63))) {
-      this.draw_left_arm_inner_slim(texture, point, color, old_color);
-    }
-    if (toolData.variant=='slim'&&(this.isInArea(point,52,48,57,51)||this.isInArea(point,48,52,61,63))) {
-      this.draw_left_arm_outer_slim(texture, point, color, old_color);
-    }
-
-    if ((this.isInArea(point,4,16,11,19)||this.isInArea(point,0,20,15,31))) {
-      this.draw_right_leg_inner(texture, point, color, old_color);
-    }
-    if ((this.isInArea(point,4,32,11,35)||this.isInArea(point,0,36,15,47))) {
-      this.draw_right_leg_outer(texture, point, color, old_color);
-    }
-    if ((this.isInArea(point,20,48,27,61)||this.isInArea(point,16,52,31,63))) {
-      this.draw_left_leg_inner(texture, point, color, old_color);
-    }
-    if ((this.isInArea(point,4,48,11,61)||this.isInArea(point,0,52,15,63))) {
-      this.draw_left_leg_outer(texture, point, color, old_color);
-    }
     return texture.toTexture();
   }
 
@@ -117,6 +125,18 @@ class BucketTool extends BaseTool {
   //     texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
   //   }
   // }
+
+  draw_contiguous_off(texture, color, old_color){
+    const width = 64;
+    const height = 64;
+    for (let x = 0; x < width; x++) {
+      for (let y = 0; y < height; y++) {
+        if (this.colorsMatch(texture.getPixel({ x, y }), old_color)) {
+          texture.putPixel({ x, y }, color);
+        }
+      }
+    }
+  }
 
   draw_head_inner(texture, point, color, old_color) {
     const queue = [point];
