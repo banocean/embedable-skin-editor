@@ -20,10 +20,18 @@ class Controls {
   handleIntersects() {
     const intersects = this.raycast();
 
+    function isValidIntersect(part) {
+      if (part.object.type != "Mesh") { return false; }
+      if (!part.object.visible) { return false; }
+      if (!part.object.userData?.part?.isPart) { return false; }
+
+      return true;
+    }
+
     if (intersects.length > 0) {
       this.targetingModel = false;
 
-      const parts = intersects.filter((part) => part.object.type == "Mesh" && part.object.visible);
+      const parts = intersects.filter(part => isValidIntersect(part));
 
       if (parts.length > 0) {
         this.targetingModel = true;

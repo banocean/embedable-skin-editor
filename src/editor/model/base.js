@@ -78,6 +78,7 @@ class BasePart {
     this.overlayMeshVisible = true;
     this.updateMeshVisible()
   }
+  isPart = true;
 
   name() {
     return "";

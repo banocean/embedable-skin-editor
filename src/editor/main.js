@@ -340,6 +340,32 @@ class Editor extends LitElement {
     });
   }
 
+  _createIndicatorMesh() {
+    const size = 0.25;
+    const yPos = -2.175; // + Up / - Down
+    const zPos = 0.5; // + Forward / - Backward
+
+    const geometry = new THREE.PlaneGeometry(size, size);
+    const texture = new THREE.TextureLoader().load("/images/facing-indicator.png", newTexture => {
+      newTexture.magFilter = THREE.NearestFilter;
+      newTexture.minFilter = THREE.NearestFilter;
+    })
+
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.6,
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y = yPos;
+    mesh.position.z = zPos;
+    mesh.rotateX(Math.PI / 2);
+
+    return mesh;
+  }
+
   _setupMesh(texture) {
     this.variant = "classic";
     this.model = new SkinModel(texture, this.variant);
@@ -347,6 +373,7 @@ class Editor extends LitElement {
     this.skinMesh = this.model.mesh;
     this.baseGroup = new THREE.Group();
     this.baseGroup.add(this.skinMesh);
+    this.baseGroup.add(this._createIndicatorMesh());
     this.scene.add(this.baseGroup);
   }
 
