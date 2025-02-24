@@ -343,10 +343,10 @@ class Editor extends LitElement {
   _createIndicatorMesh() {
     const size = 0.25;
     const yPos = -2.175; // + Up / - Down
-    const zPos = 0.5; // + Forward / - Backward
+    const zPos = 0.6; // + Forward / - Backward
 
     const geometry = new THREE.PlaneGeometry(size, size);
-    const texture = new THREE.TextureLoader().load("/images/facing-indicator.png", newTexture => {
+    const texture = new THREE.TextureLoader().load("/images/facing-indicator.svg", newTexture => {
       newTexture.magFilter = THREE.NearestFilter;
       newTexture.minFilter = THREE.NearestFilter;
     })
