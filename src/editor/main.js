@@ -22,6 +22,7 @@ import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
 import MergeLayersEntry from "./history/entries/merge_layers_entry";
 import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
+import Color from "color";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -38,6 +39,7 @@ class Editor extends LitElement {
 
   constructor() {
     super();
+    this.persistence = new PersistenceManager("ncrs-editor");
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, this.clientWidth / this.clientHeight, 0.1, 1000);
     this.renderer = new Renderer(this.scene, this.camera);
@@ -47,7 +49,6 @@ class Editor extends LitElement {
     this.stats = new Stats();
     this.config = new ToolConfig();
     this.tools = this._setupTools();
-    this.persistence = new PersistenceManager("ncrs-editor");
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -73,7 +74,15 @@ class Editor extends LitElement {
 
   firstUpdated() {
     this.updateVisibility();
-    this.selectTool(this.tools[0]);
+
+    const toolId = this.persistence.get("selectedTool", undefined);
+    const tool = this.tools.find(tool => tool.properties.id == toolId);
+
+    this.selectTool(tool || this.tools[0]);
+
+    if (this.persistence.has("selectedColor")) {
+      this.config.set("color", new Color(this.persistence.get("selectedColor", "#000000")));
+    }
   }
 
   sceneRender() {
@@ -189,6 +198,7 @@ class Editor extends LitElement {
     if (!this.tools.includes(tool)) { return false; }
 
     this.currentTool = tool;
+    this.persistence.set("selectedTool", tool.properties.id);
     this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool: tool}}));
   }
 
@@ -362,12 +372,15 @@ class Editor extends LitElement {
   }
 
   _setupEvents() {
-    this.layers.addEventListener("layers-update", () => {
-      this.persistence.set("layers", this.layers.serializeLayers());
-    })
+    const persistenceListeners = ["layers-update", "layers-render", "layers-select"];
+    persistenceListeners.forEach(listener => {
+      this.layers.addEventListener(listener, () => {
+        this.persistence.set("layers", this.layers.serializeLayers());
+      })
+    });
 
-    this.layers.addEventListener("layers-render", () => {
-      this.persistence.set("layers", this.layers.serializeLayers());
+    this.config.addEventListener("color-change", event => {
+      this.persistence.set("selectedColor", event.detail.hexa());
     })
   }
 }

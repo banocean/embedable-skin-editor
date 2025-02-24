@@ -11,7 +11,7 @@ class PersistenceManager {
 
   get(key, defaultValue = {}) {
     const data = this._data[key];
-    if (data) {
+    if (this.has(key)) {
       return data;
     } else {
       return defaultValue;
@@ -19,7 +19,7 @@ class PersistenceManager {
   }
 
   has(key) {
-    Object.keys(this._data).includes(key);
+    return Object.keys(this._data).includes(key);
   }
 
   sync() {
