@@ -52,6 +52,7 @@ class UI extends LitElement {
     this.toolbar = new Toolbar(this);
     this.layers = new LayerList(this);
     this.config = new Config(this.editor);
+    this.persistence = new PersistenceManager("ncrs-ui");
 
     this._setupEvents();
   }

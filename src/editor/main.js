@@ -46,6 +46,7 @@ class Editor extends LitElement {
     this.stats = new Stats();
     this.config = new ToolConfig();
     this.tools = this._setupTools();
+    this.persistence = new PersistenceManager("ncrs-editor");
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
