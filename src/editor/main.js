@@ -21,6 +21,7 @@ import DeleteLayerEntry from "./history/entries/delete_layer_entry";
 import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
 import MergeLayersEntry from "./history/entries/merge_layers_entry";
 import CloneLayerEntry from "./history/entries/clone_layer_entry";
+import PersistenceManager from "../persistence";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -51,6 +52,7 @@ class Editor extends LitElement {
     this._setupMesh(this.layers.texture);
     this._startRender();
     this._setupResizeObserver();
+    this._setupEvents();
   }
 
   skinMesh;
@@ -70,7 +72,6 @@ class Editor extends LitElement {
   }
 
   firstUpdated() {
-    this.layers.selectLayer(0);
     this.updateVisibility();
     this.selectTool(this.tools[0]);
   }
@@ -305,16 +306,28 @@ class Editor extends LitElement {
   }
 
   _loadSkin() {
+    const layerData = this.persistence.get("layers", []);
+    if (layerData.length > 0) {
+      this._loadSkinFromData(layerData);
+    } else {
+      this._loadDefaultSkin();
+    }
+  }
+
+  _loadSkinFromData(layerData) {
+    layerData.forEach(data => {
+      const layer = this.layers.deserializeLayer(data);
+      this.layers.addLayer(layer);
+    });
+  }
+
+  _loadDefaultSkin() {
     new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
       new GroupedEntry(
         new AddLayerEntry(this.layers, { texture }),
         new SelectLayerEntry(this.layers, {index: 0})
       ).perform()
     });
-
-    // new THREE.TextureLoader().load("overlay.png", (texture) => {
-    //   this.history.add(new AddLayerEntry(this.layers, {texture}));
-    // });
   }
 
   _setupMesh(texture) {
@@ -346,6 +359,16 @@ class Editor extends LitElement {
       new ShadeTool(this.config),
       new SculptTool(this.config),
     ]
+  }
+
+  _setupEvents() {
+    this.layers.addEventListener("layers-update", () => {
+      this.persistence.set("layers", this.layers.serializeLayers());
+    })
+
+    this.layers.addEventListener("layers-render", () => {
+      this.persistence.set("layers", this.layers.serializeLayers());
+    })
   }
 }
 

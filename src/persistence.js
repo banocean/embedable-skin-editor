@@ -1,7 +1,7 @@
 class PersistenceManager {
   constructor(key) {
     this.key = key;
-    this._data = _loadData();
+    this._data = this._loadData();
   }
 
   set(key, value) {
@@ -18,12 +18,16 @@ class PersistenceManager {
     }
   }
 
+  has(key) {
+    Object.keys(this._data).includes(key);
+  }
+
   sync() {
     localStorage.setItem(this.key, this.serialize());
   }
 
   serialize() {
-    JSON.stringify(this._data);
+    return JSON.stringify(this._data);
   }
 
   _loadData() {
@@ -35,3 +39,5 @@ class PersistenceManager {
     }
   }
 }
+
+export default PersistenceManager;

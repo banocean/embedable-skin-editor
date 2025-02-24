@@ -65,6 +65,32 @@ class Layers extends EventTarget {
     return newLayer;
   }
 
+  createFromCanvas(canvas) {
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+    return this.createFromTexture(texture);
+  }
+
+  deserializeLayer(serializedLayer) {
+    const data = atob(serializedLayer.data);
+    const array = Uint8ClampedArray.from([...data].map(ch => ch.charCodeAt()));
+    const imgData = new ImageData(array, IMAGE_WIDTH, IMAGE_HEIGHT);
+    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(imgData, 0, 0);
+
+    const layer = this.createFromCanvas(canvas);
+    layer.compositor.deserializeFilters(serializedLayer.filters);
+    layer.selected = serializedLayer.selected;
+
+    return layer;
+  }
+
+  serializeLayers() {
+    const output = [];
+    this.layers.forEach(layer => output.push(layer.serialize()));
+    return output;
+  }
+
   layerIndex(layer) {
     return this.layers.findIndex((element) => {
       return layer.id == element.id;
@@ -74,6 +100,11 @@ class Layers extends EventTarget {
   addLayer(layer) {
     this.layers.push(layer);
     layer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
+
+    if (layer.selected) {
+      this.selectLayer(this.layerIndex(layer));
+    }
+
     this.renderTexture();
     this._sendUpdateEvent();
   }
@@ -144,6 +175,7 @@ class Layers extends EventTarget {
       ctx.drawImage(layer.render(), 0, 0);
     });
 
+    this._sendRenderEvent();
     this.texture.needsUpdate = true;
   }
 
@@ -158,6 +190,10 @@ class Layers extends EventTarget {
 
   _sendUpdateEvent() {
     this.dispatchEvent(new CustomEvent("layers-update"));
+  }
+
+  _sendRenderEvent() {
+    this.dispatchEvent(new CustomEvent("layers-render"));
   }
 }
 
@@ -179,7 +215,16 @@ class Layer extends EventTarget {
   }
 
   getBaseCanvas() {
-    return this.texture.image;
+    const img = this.texture.image;
+    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    return canvas;
+  }
+
+  getBaseImageData() {
+    return this.getBaseCanvas().getContext("2d").getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
   }
 
   flush() {
@@ -206,6 +251,16 @@ class Layer extends EventTarget {
 
   findFilter(condition) {
     return this.compositor.getFilters().find(filter => condition(filter.properties));
+  }
+  
+  // https://stackoverflow.com/questions/51371648/converting-from-a-uint8array-to-a-string-and-back
+  serialize() {
+    const binString = String.fromCharCode(...this.getBaseImageData().data);
+    return {
+      filters: this.compositor.serializeFilters(),
+      data: btoa(binString),
+      selected: this.selected,
+    }
   }
 }
 

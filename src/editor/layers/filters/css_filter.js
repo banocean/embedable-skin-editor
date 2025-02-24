@@ -2,6 +2,14 @@ import BaseFilter from "./base_filter";
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from "../../main";
 
 class CssFilter extends BaseFilter {
+  static filterId = "css";
+
+  static deserialize(data) {
+    if (data.id != this.filterId) { throw "Cannot deserialize filter!"; }
+
+    return new CssFilter(data.filter, data.properties);
+  }
+
   constructor(filter, properties = {}) {
     super(properties);
 
@@ -16,6 +24,14 @@ class CssFilter extends BaseFilter {
     ctx.drawImage(input, 0, 0);
 
     return canvas;
+  }
+
+  serialize() {
+    return {
+      id: CssFilter.filterId,
+      filter: this.filter,
+      properties: this.properties,
+    };
   }
 }
 

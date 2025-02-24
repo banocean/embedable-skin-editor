@@ -15,6 +15,7 @@ class BaseFilterSlider extends EventTarget {
     }
 
     this._setupEvents();
+    this._syncFromCurrentLayer();
   }
   currentLayer;
 
@@ -52,11 +53,10 @@ class BaseFilterSlider extends EventTarget {
   }
 
   _syncFromCurrentLayer() {
-    console.log("SYNC CURRENT")
     const layer = this.layers.getSelectedLayer();
     
     this.currentValue = this.defaultValue;
-    if (layer.hasFilters()) {
+    if (layer && layer.hasFilters()) {
       const filter = layer.findFilter(filter => filter.name == this.name);
 
       if (filter) {

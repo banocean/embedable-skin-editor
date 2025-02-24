@@ -7,6 +7,7 @@ import { Editor } from "../editor/main";
 import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
+import PersistenceManager from "../persistence";
 
 class UI extends LitElement {
   static styles = css`
