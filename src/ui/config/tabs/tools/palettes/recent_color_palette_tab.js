@@ -98,10 +98,11 @@ class RecentColorPaletteTab extends Tab {
     `
   ]
 
-  constructor(editor, colorPicker) {
+  constructor(ui, colorPicker) {
     super({name: "Recent Colors"});
 
-    this.editor = editor;
+    this.ui = ui;
+    this.editor = this.ui.editor;
     this.colorPicker = colorPicker;
     this.colors = this._loadColors();
 
@@ -159,11 +160,12 @@ class RecentColorPaletteTab extends Tab {
       this.colors.pop();
     }
 
+    this.ui.persistence.set("recentPalette", this.colors);
     this.requestUpdate();
   }
 
   _loadColors() {
-    return defaultColors;
+    return this.ui.persistence.get("recentPalette", defaultColors);
   }
 
   _createColor(color) {

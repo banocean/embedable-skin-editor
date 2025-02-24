@@ -110,16 +110,18 @@ class ToolTab extends Tab {
     tool: {}
   }
 
-  constructor(editor) {
+  constructor(ui) {
     super({name: "Tools"});
-    this.editor = editor;
 
-    editor.addEventListener("select-tool", event => {
+    this.ui = ui;
+    this.editor = this.ui.editor;
+
+    this.editor.addEventListener("select-tool", event => {
       const tool = event.detail.tool;
       this.tool = tool.properties.id;
     })
 
-    this.tool = editor.currentTool.properties.id;
+    this.tool = this.editor.currentTool.properties.id;
     this.colorPicker = this._setupColorPicker();
     this.palette = this._createPaletteTabs();
 
@@ -154,8 +156,8 @@ class ToolTab extends Tab {
     tabGroup.side = "top";
 
     tabGroup.registerTab(new PresetPaletteTab(this.colorPicker));
-    tabGroup.registerTab(new RecentColorPaletteTab(this.editor, this.colorPicker));
-    tabGroup.registerTab(new BlendPaletteTab(this.editor, this.colorPicker));
+    tabGroup.registerTab(new RecentColorPaletteTab(this.ui, this.colorPicker));
+    tabGroup.registerTab(new BlendPaletteTab(this.ui, this.colorPicker));
 
     return tabGroup;
   }

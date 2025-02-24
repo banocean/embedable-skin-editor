@@ -92,8 +92,8 @@ class BlendPaletteTab extends Tab {
         content: "";
         display: block;
         position: absolute;
-        width: 45%;
-        height: 45%;
+        width: 50%;
+        height: 50%;
         background-color: white;
         border-radius: 9999px;
       }
@@ -141,10 +141,11 @@ class BlendPaletteTab extends Tab {
     selected: {},
   }
 
-  constructor(editor, colorPicker) {
+  constructor(ui, colorPicker) {
     super({name: "Blend Palette", buttonPart: "blend-palette"});
 
-    this.editor = editor;
+    this.ui = ui;
+    this.editor = this.ui.editor;
     this.colorPicker = colorPicker;
     this.colors = this._loadColors();
 
@@ -214,6 +215,7 @@ class BlendPaletteTab extends Tab {
 
     this.selected = this.selected || color;
     this.editor.config.set("blend-palette", colors);
+    this.ui.persistence.set("blendPalette", colors);
   }
 
   removeColor(color) {
@@ -235,8 +237,9 @@ class BlendPaletteTab extends Tab {
     colors.splice(index, 1);
 
     this.editor.config.set("blend-palette", colors);
+    this.ui.persistence.set("blendPalette", colors);
     this.selected = nextColor;
-    this.colors = color;
+    this.colors = colors;
   }
 
   _removeSelected() {
@@ -244,7 +247,10 @@ class BlendPaletteTab extends Tab {
   }
 
   _loadColors() {
-    return this.editor.config.get("blend-palette", []);
+    const colors = this.ui.persistence.get("blendPalette", []);
+    this.editor.config.set("blend-palette", colors);
+
+    return colors;
   }
 
   _createColor(color) {
