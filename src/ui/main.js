@@ -8,6 +8,7 @@ import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
+import { getFocusedElement } from "../helpers";
 
 class UI extends LitElement {
   static styles = css`
@@ -61,8 +62,11 @@ class UI extends LitElement {
 
   firstUpdated() {
     const ignoredElements = ["TEXTAREA", "INPUT", "SELECT"];
-    document.addEventListener("keypress", event => {
-      if (ignoredElements.includes(event.originalTarget.nodeName)) { return; }
+
+    document.addEventListener("keydown", event => {
+      const element = getFocusedElement();
+
+      if (ignoredElements.includes(element.nodeName)) { return; }
 
       if (event.key == "z") {
         this.editor.history.undo();

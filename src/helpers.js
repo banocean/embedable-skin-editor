@@ -37,4 +37,16 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray};
+function getFocusedElement() {
+  let element = document.activeElement;
+
+  while (true) {
+    if (!element.shadowRoot) { break; }
+    if (!element.shadowRoot.activeElement) { break; }
+    element = element.shadowRoot.activeElement;
+  }
+
+  return element;
+}
+
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement};
