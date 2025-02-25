@@ -64,7 +64,7 @@ class UI extends LitElement {
     const ignoredElements = ["TEXTAREA", "INPUT", "SELECT"];
 
     document.addEventListener("keydown", event => {
-      const element = getFocusedElement();
+      const element = event.originalTarget || getFocusedElement();
 
       if (ignoredElements.includes(element.nodeName)) { return; }
 
