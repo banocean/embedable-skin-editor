@@ -38,7 +38,25 @@ class SculptTool extends BaseTool {
       this.draw(texture, part, point, toolData.texture.getPixel({ x: point.x-16, y: point.y }));
     }
 
-    else if (toolData.button==2){
+
+    else if (point.x >= 32 && point.x <= 64 && point.y >= 0 && point.y <= 15 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Head
+      this.draw(texture, part, { x: point.x-32, y: point.y }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 0 && point.x <= 55 && point.y >= 32 && point.y <= 47 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Right Arm, Right Leg and Torso
+      this.draw(texture, part, { x: point.x, y: point.y-16 }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 0 && point.x <= 15 && point.y >= 48 && point.y <= 63 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Left Leg
+      this.draw(texture, part, { x: point.x+16, y: point.y }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 48 && point.x <= 63 && point.y >= 48 && point.y <= 63 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Left Arm
+      this.draw(texture, part, { x: point.x-16, y: point.y }, toolData.texture.getPixel(point));
       this.draw(texture, part, point, new Color(0).alpha(0));
     }
 
@@ -67,7 +85,25 @@ class SculptTool extends BaseTool {
       this.draw(texture, part, point, toolData.texture.getPixel({ x: point.x-16, y: point.y }));
     }
 
-    else if (toolData.button==2){
+
+    else if (point.x >= 32 && point.x <= 64 && point.y >= 0 && point.y <= 15 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Head
+      this.draw(texture, part, { x: point.x-32, y: point.y }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 0 && point.x <= 55 && point.y >= 32 && point.y <= 47 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Right Arm, Right Leg and Torso
+      this.draw(texture, part, { x: point.x, y: point.y-16 }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 0 && point.x <= 15 && point.y >= 48 && point.y <= 63 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Left Leg
+      this.draw(texture, part, { x: point.x+16, y: point.y }, toolData.texture.getPixel(point));
+      this.draw(texture, part, point, new Color(0).alpha(0));
+    }
+    else if (point.x >= 48 && point.x <= 63 && point.y >= 48 && point.y <= 63 && toolData.button==2 && texture.getPixel({ x: point.x, y: point.y }).valpha!=0) {
+      // Left Arm
+      this.draw(texture, part, { x: point.x-16, y: point.y }, toolData.texture.getPixel(point));
       this.draw(texture, part, point, new Color(0).alpha(0));
     }
     
