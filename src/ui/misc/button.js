@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 
 class Button extends LitElement {
   static styles = css`
@@ -6,6 +6,7 @@ class Button extends LitElement {
       --text-color: white;
       --text-color-hover: #ccc;
       --text-color-active: #aaa;
+      --text-color-disabled: #838383;
       display: block;
     }
 
@@ -27,12 +28,12 @@ class Button extends LitElement {
       color: var(--text-color);
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       --text-color: var(--text-color-hover);
       box-shadow: #505254 0px 0px 0px 1px inset, #191a1c 0px 0px 3px, #272a2d 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
     }
 
-    button:active {
+    button:active:not(:disabled), :host([active]) button {
       --text-color: var(--text-color-active);
       background-image: linear-gradient(to top, #313436, #24272a);
       box-shadow: #3d4042, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
@@ -43,11 +44,23 @@ class Button extends LitElement {
     button:focus-visible {
       outline: 1px white solid;
     }
+
+    button:disabled {
+      --text-color: var(--text-color-disabled);
+      margin-top: 0.0625rem;
+      margin-bottom: 0.3125rem;
+      cursor: initial
+    }
   `
+
+  static properties = {
+    active: {type: Boolean, reflect: true},
+    disabled: {type: Boolean, reflect: true},
+  }
 
   render() {
     return html`
-      <button part="button">
+      <button part="button" ?disabled=${this.disabled}>
         <slot></slot>
       </button>
     `

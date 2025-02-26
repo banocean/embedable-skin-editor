@@ -27,14 +27,6 @@ class ToggleControl extends LitElement {
       text-align: center;
     }
 
-    :host([selected]) ncrs-button::part(button), ncrs-button::part(button):active {
-      --text-color: var(--text-color-active);
-      box-shadow: #3d4042 0px 0px 0px 1px inset, #333638 0px 0px 5px 1px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
-      margin-top: 0.125rem;
-      margin-bottom: 0.25rem;
-      background-image: linear-gradient(to top, #313436, #202225);
-    }
-
     ncrs-icon {
       width: 100%;
       height: 100%;
@@ -49,7 +41,7 @@ class ToggleControl extends LitElement {
 
   render() {
     return html`
-      <ncrs-button @click=${this._onClick}>
+      <ncrs-button @click=${this._onClick} ?active=${this.selected}>
         <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `
@@ -144,14 +136,6 @@ class OptionControlButton extends LitElement {
       padding: 0.25rem;
     }
 
-    :host([selected=true]) ncrs-button::part(button), ncrs-button::part(button):active {
-      --text-color: var(--text-color-active);
-      box-shadow: #3d4042 0px 0px 0px 1px inset, #333638 0px 0px 5px 1px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
-      margin-top: 0.125rem;
-      margin-bottom: 0.25rem;
-      background-image: linear-gradient(to top, #313436, #202225);
-    }
-
     :host(:first-child) ncrs-button::part(button) {
       border-bottom-left-radius: 0.5rem;
     }
@@ -173,7 +157,7 @@ class OptionControlButton extends LitElement {
 
   render() {
     return html`
-      <ncrs-button @click=${this._onClick}>
+      <ncrs-button @click=${this._onClick} ?active=${this.selected}>
         <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `;
