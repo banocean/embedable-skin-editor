@@ -112,11 +112,16 @@ class LayerList extends LitElement {
   firstUpdated() {
     this.ui.editor.layers.addEventListener("layers-update", () => {
       this.requestUpdate();
-    })
+    });
+
+    this.ui.editor.layers.addEventListener("layers-select", () => {
+      this.requestUpdate();
+    });
   }
 
   render() {
     const layersDiv = this._setupLayers();
+    const mergeDisabled = this.ui.editor.layers.selectedLayerIndex == 0;
 
     return html`
       <div id="list">
@@ -131,7 +136,7 @@ class LayerList extends LitElement {
           <ncrs-button id="clone-button" @click=${this._cloneLayer} title="Clone current layer">
             <ncrs-icon part="icon" icon="clone" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
-          <ncrs-button id="merge-button" @click=${this._mergeLayer} title="Merge current layer with below">
+          <ncrs-button id="merge-button" @click=${this._mergeLayer} title="Merge current layer with below" ?disabled=${mergeDisabled}>
             <ncrs-icon part="icon" icon="merge" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
