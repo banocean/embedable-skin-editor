@@ -6,7 +6,7 @@ class Button extends LitElement {
       --text-color: white;
       --text-color-hover: #ccc;
       --text-color-active: #aaa;
-      --text-color-disabled: #838383;
+      --text-color-disabled: #565758;
       display: block;
     }
 
@@ -47,8 +47,8 @@ class Button extends LitElement {
 
     button:disabled {
       --text-color: var(--text-color-disabled);
-      margin-top: 0.0625rem;
-      margin-bottom: 0.3125rem;
+      background-image: linear-gradient(to top, #222528, #2a2d2f);
+      box-shadow: #35383a 0px 0px 0px 1px inset, #1e1f23 0px 0px 4px 1px inset ,#191a1c 0px 1px 3px, #1f2226 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       cursor: initial
     }
   `
