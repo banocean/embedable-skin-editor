@@ -9,6 +9,7 @@ class ShadeToolConfig extends BaseToolConfig {
   static properties = {
     size: {},
     shape: {},
+    force: {},
   }
 
   constructor(config) {
@@ -20,6 +21,10 @@ class ShadeToolConfig extends BaseToolConfig {
       shape: {
         type: "select",
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
+      },
+      force: {
+        type: "select",
+        options: [{icon: "force_1", value: 1}, {icon: "force_2", value: 2}, {icon: "force_3", value: 3}, {icon: "force_4", value: 4}, {icon: "force_5", value: 5}]
       },
     });
   }
@@ -36,6 +41,12 @@ class ShadeToolConfig extends BaseToolConfig {
           <div>
             <p class="title">Shape</p>
             ${this._shapeControl()}
+          </div>
+        </div>
+        <div>
+          <div>
+            <p class="title">Force</p>
+            ${this._forceControl()}
           </div>
         </div>
       </div>

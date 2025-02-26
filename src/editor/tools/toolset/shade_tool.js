@@ -13,7 +13,7 @@ class ShadeTool extends BaseTool {
   }
 
   cursor = { x: 0, y: 0 };
-  shade_steps = 5;
+  shade_steps = 1;
   lastPart;
   lastFace;
 
@@ -22,9 +22,12 @@ class ShadeTool extends BaseTool {
     const part = toolData.parts[0];
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });
-    color.color[0] = toolData.button == 1 ? color.color[0]-this.shade_steps : color.color[0]+this.shade_steps;
-    color.color[1] = toolData.button == 1 ? color.color[1]-this.shade_steps : color.color[1]+this.shade_steps;
-    color.color[2] = toolData.button == 1 ? color.color[2]-this.shade_steps : color.color[2]+this.shade_steps;
+    
+    this.force = this.config.get("force");
+
+    color.color[0] = toolData.button == 1 ? color.color[0]-this.force : color.color[0]+this.force;
+    color.color[1] = toolData.button == 1 ? color.color[1]-this.force : color.color[1]+this.force;
+    color.color[2] = toolData.button == 1 ? color.color[2]-this.force : color.color[2]+this.force;
     this.cursor = point;
     this.draw(texture, part, point, color);
 
@@ -36,9 +39,12 @@ class ShadeTool extends BaseTool {
     const part = toolData.parts[0];
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });
-    color.color[0] = toolData.button == 1 ? color.color[0]-this.shade_steps : color.color[0]+this.shade_steps;
-    color.color[1] = toolData.button == 1 ? color.color[1]-this.shade_steps : color.color[1]+this.shade_steps;
-    color.color[2] = toolData.button == 1 ? color.color[2]-this.shade_steps : color.color[2]+this.shade_steps;
+
+    this.force = this.config.get("force");
+
+    color.color[0] = toolData.button == 1 ? color.color[0]-this.force : color.color[0]+this.force;
+    color.color[1] = toolData.button == 1 ? color.color[1]-this.force : color.color[1]+this.force;
+    color.color[2] = toolData.button == 1 ? color.color[2]-this.force : color.color[2]+this.force;
     this.draw(texture, part, point, color);
 
     return texture.toTexture();
