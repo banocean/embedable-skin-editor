@@ -135,9 +135,9 @@ class LayersTab extends Tab {
 
   render() {
     const layer = this._getLayer();
-    const hasFilters = layer.hasFilters();
+    const hasFilters = layer?.hasFilters() || false;
     const hasClipboard = this.clipboardFilters && this.clipboardFilters.length > 0;
-    const clipboardMatch = this.clipboardFilters == layer.compositor.getFilters();
+    const clipboardMatch = this.clipboardFilters == layer?.compositor?.getFilters();
 
     return html`
       <div id="container">
