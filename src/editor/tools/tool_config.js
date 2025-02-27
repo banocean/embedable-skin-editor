@@ -7,6 +7,7 @@ const DEFAULTS = {
   color: new Color("#E8453C"),
   camo: false,
   blend: false,
+  force: 5,
 }
 
 class ToolConfig extends EventTarget {
