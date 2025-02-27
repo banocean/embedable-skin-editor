@@ -98,6 +98,27 @@ class LayersTab extends Tab {
       ncrs-button::part(button) {
         padding: 0.25rem;
       }
+
+      #header {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.25rem;
+      }
+
+      #clipboard {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      #clipboard ncrs-button {
+        width: 26px;
+        height: 20px;
+      }
+
+      #clipboard ncrs-icon {
+        width: 100%;
+        height: 18px;
+      }
     `,
   ];
 
@@ -107,13 +128,31 @@ class LayersTab extends Tab {
     this.config = editor.config;
 
     this.sliders = this._setupSliders();
+
+    this._setupEvents();
   }
+  clipboardFilters = [];
 
   render() {
+    const layer = this._getLayer();
+    const hasFilters = layer.hasFilters();
+    const hasClipboard = this.clipboardFilters && this.clipboardFilters.length > 0;
+    const clipboardMatch = this.clipboardFilters == layer.compositor.getFilters();
+
     return html`
       <div id="container">
         <div id="sliders">
-          <h2>Filters</h2>
+          <div id="header">
+            <h2>Filters</h2>
+            <div id="clipboard">
+              <ncrs-button @click=${this._copyFilters} title="Copy filters" ?disabled=${!hasFilters}>
+                <ncrs-icon icon="copy" color="var(--text-color)"></ncrs-icon>
+              </ncrs-button>
+              <ncrs-button @click=${this._pasteFilters} title="Paste filters" ?disabled=${!hasClipboard || clipboardMatch}>
+                <ncrs-icon icon="paste" color="var(--text-color)"></ncrs-icon>
+              </ncrs-button>
+            </div>
+          </div>
           <label for="hue-slider">Adjust Layer Hue</label>
           ${this.hueSlider.slider}
           <label for="saturation-slider">Adjust Layer Saturation</label>
@@ -138,26 +177,32 @@ class LayersTab extends Tab {
     `;
   }
 
+  _getLayer() {
+    return this.editor.layers.getSelectedLayer();
+  }
+
   _resetSliders() {
-    const layer = this.editor.layers.getSelectedLayer();
+    const layer = this._getLayer();
     if (!layer.hasFilters()) {
       return;
     }
 
+    this.requestUpdate();
     this.editor.history.add(new UpdateLayerFiltersEntry(this.editor.layers, layer, [], false));
   }
 
   _mergeFilters() {
-    const layer = this.editor.layers.getSelectedLayer();
+    const layer = this._getLayer();
     if (!layer.hasFilters()) {
       return;
     }
 
+    this.requestUpdate();
     this.editor.history.add(new MergeFiltersEntry(this.editor.layers, layer));
   }
 
   _syncFilters() {
-    const layer = this.editor.layers.getSelectedLayer();
+    const layer = this._getLayer();
     if (!layer) {
       return;
     }
@@ -168,7 +213,27 @@ class LayersTab extends Tab {
       newFilters.push(slider.toFilter());
     });
 
+    this.requestUpdate();
     this.editor.history.add(new UpdateLayerFiltersEntry(this.editor.layers, layer, newFilters));
+  }
+
+  _copyFilters() {
+    const layer = this._getLayer();
+    if (!layer.hasFilters()) {
+      return;
+    }
+    this.clipboardFilters = layer.compositor.getFilters();
+    this.requestUpdate();
+  }
+
+  _pasteFilters() {
+    if (!this.clipboardFilters) { return; }
+
+    const layer = this._getLayer();
+    if (this.clipboardFilters == layer.compositor.getFilters()) { return; }
+
+    this.requestUpdate();
+    this.editor.history.add(new UpdateLayerFiltersEntry(this.editor.layers, layer, this.clipboardFilters, false));
   }
 
   _setupSliders() {
@@ -196,6 +261,12 @@ class LayersTab extends Tab {
     })
 
     return sliders;
+  }
+
+  _setupEvents() {
+    this.editor.layers.addEventListener("layers-select", () => {
+      this.requestUpdate();
+    })
   }
 }
 

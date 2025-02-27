@@ -68,6 +68,10 @@ class BaseFilterSlider extends EventTarget {
   }
 
   _setupEvents() {
+    this.layers.addEventListener("update-filters", () => {
+      this._syncFromCurrentLayer();
+    });
+
     this.layers.addEventListener("layers-select", () => {
       if (this.currentLayer) {
         this.currentLayer.compositor.removeEventListener("update-filters", this.filtersUpdateCallback);
@@ -76,7 +80,7 @@ class BaseFilterSlider extends EventTarget {
       this.currentLayer.compositor.addEventListener("update-filters", this.filtersUpdateCallback);
 
       this._syncFromCurrentLayer();
-    })
+    });
   }
 }
 
