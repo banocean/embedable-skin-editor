@@ -30,6 +30,11 @@ class PersistenceManager {
     return JSON.stringify(this._data);
   }
 
+  reset() {
+    this._data = {};
+    localStorage.removeItem(this.key);
+  }
+
   _loadData() {
     const data = localStorage.getItem(this.key);
     if (data) {

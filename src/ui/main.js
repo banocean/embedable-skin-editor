@@ -75,6 +75,12 @@ class UI extends LitElement {
       if (event.key == "y") {
         this.editor.history.redo();
       }
+
+      if (event.key == "x" && event.ctrlKey) {
+        this.editor.persistence.reset();
+        this.persistence.reset();
+        location.reload();
+      }
     })
   }
 
