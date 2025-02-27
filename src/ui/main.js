@@ -53,6 +53,11 @@ class UI extends LitElement {
   `;
 
   static keybinds = {
+    "b": "pen",
+    "e": "eraser",
+    "g": "bucket",
+    "s": "shade",
+    "+s": "sculpt",
     "^z": "undo",
     "^y": "redo",
     "^r": "reset",
@@ -80,6 +85,21 @@ class UI extends LitElement {
       if (ignoredElements.includes(element.nodeName)) { return; }
 
       switch(this.checkKeybinds(event)){
+        case "pen":
+          this.editor.selectTool(this.editor.tools[0]);
+          break;
+        case "eraser":
+          this.editor.selectTool(this.editor.tools[1]);
+          break;
+        case "bucket":
+          this.editor.selectTool(this.editor.tools[2]);
+          break;
+        case "shade":
+          this.editor.selectTool(this.editor.tools[3]);
+          break;
+        case "sculpt":
+          this.editor.selectTool(this.editor.tools[4]);
+          break;
         case "undo":
           this.editor.history.undo();
           break;
@@ -106,7 +126,7 @@ class UI extends LitElement {
     if (event.shiftKey) {
       key+='+';
     }
-    key+=event.key;
+    key+=event.key.toLowerCase();
     if (key in this.constructor.keybinds) {
       return this.constructor.keybinds[key];
     }
