@@ -86,6 +86,9 @@ class PartToggle extends LitElement {
     super();
     
     this.editor = editor;
+    this.isShift = false;
+
+    this._setupEvents();
   }
 
   render() {
@@ -106,27 +109,119 @@ class PartToggle extends LitElement {
   }
 
   _toggleHeadPart(event) {
-    this.editor.setPartVisible("head", event.detail);
+    if (this.isShift){
+    this.toggleOnly("head");
+    } else {
+      this.editor.setPartVisible("head", event.detail);
+    }
   }
 
   _toggleRArmPart(event) {
-    this.editor.setPartVisible("arm_right", event.detail);
+    if (this.isShift){
+    this.toggleOnly("arm_right");
+    } else {
+      this.editor.setPartVisible("arm_right", event.detail);
+    }
   }
 
   _toggleTorsoPart(event) {
-    this.editor.setPartVisible("torso", event.detail);
+    if (this.isShift){
+    this.toggleOnly("torso");
+    } else {
+      this.editor.setPartVisible("torso", event.detail);
+    }
   }
 
   _toggleLArmPart(event) {
-    this.editor.setPartVisible("arm_left", event.detail);
+    if (this.isShift){
+    this.toggleOnly("arm_left");
+    } else {
+      this.editor.setPartVisible("arm_left", event.detail);
+    }
   }
 
   _toggleRLegPart(event) {
-    this.editor.setPartVisible("leg_right", event.detail);
+    if (this.isShift){
+    this.toggleOnly("leg_right");
+    } else {
+      this.editor.setPartVisible("leg_right", event.detail);
+    }
   }
 
   _toggleLLegPart(event) {
-    this.editor.setPartVisible("leg_left", event.detail);
+    if (this.isShift){
+      this.toggleOnly("leg_left");
+    } else {
+      this.editor.setPartVisible("leg_left", event.detail);
+    }
+  }
+
+  toggleOnly(part) {
+    const toggleHead = this.shadowRoot.getElementById("toggle-head");
+    const toggleRArm = this.shadowRoot.getElementById("toggle-rarm");
+    const toggleTorso = this.shadowRoot.getElementById("toggle-torso");
+    const toggleLArm = this.shadowRoot.getElementById("toggle-larm");
+    const toggleRLeg = this.shadowRoot.getElementById("toggle-rleg");
+    const toggleLLeg = this.shadowRoot.getElementById("toggle-lleg");
+
+    let isOnlyPart = this.defaultToTrue(this.editor.partVisibility[part]);
+    isOnlyPart = part != "head" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["head"]) : isOnlyPart;
+    isOnlyPart = part != "arm_right" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["arm_right"]) : isOnlyPart;
+    isOnlyPart = part != "torso" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["torso"]) : isOnlyPart;
+    isOnlyPart = part != "arm_left" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["arm_left"]) : isOnlyPart;
+    isOnlyPart = part != "leg_right" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["leg_right"]) : isOnlyPart;
+    isOnlyPart = part != "leg_left" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["leg_left"]) : isOnlyPart;
+    if (isOnlyPart) {
+      this.editor.setPartVisible("head", true);
+      this.editor.setPartVisible("arm_right", true);
+      this.editor.setPartVisible("torso", true);
+      this.editor.setPartVisible("arm_left", true);
+      this.editor.setPartVisible("leg_right", true);
+      this.editor.setPartVisible("leg_left", true);
+      toggleHead.setAttribute("toggled", "");
+      toggleRArm.setAttribute("toggled", "");
+      toggleTorso.setAttribute("toggled", "");
+      toggleLArm.setAttribute("toggled", "");
+      toggleRLeg.setAttribute("toggled", "");
+      toggleLLeg.setAttribute("toggled", "");
+
+    } else {
+      this.editor.setPartVisible("head", part == "head");
+      this.editor.setPartVisible("arm_right", part == "arm_right");
+      this.editor.setPartVisible("torso", part == "torso");
+      this.editor.setPartVisible("arm_left", part == "arm_left");
+      this.editor.setPartVisible("leg_right", part == "leg_right");
+      this.editor.setPartVisible("leg_left", part == "leg_left");
+      toggleHead.removeAttribute("toggled");
+      toggleRArm.removeAttribute("toggled");
+      toggleTorso.removeAttribute("toggled");
+      toggleLArm.removeAttribute("toggled");
+      toggleRLeg.removeAttribute("toggled");
+      toggleLLeg.removeAttribute("toggled");
+      if (part == "head") {toggleHead.setAttribute("toggled", "");}
+      if (part == "arm_right") {toggleRArm.setAttribute("toggled", "");}
+      if (part == "torso") {toggleTorso.setAttribute("toggled", "");}
+      if (part == "arm_left") {toggleLArm.setAttribute("toggled", "");}
+      if (part == "leg_right") {toggleRLeg.setAttribute("toggled", "");}
+      if (part == "leg_left") {toggleLLeg.setAttribute("toggled", "");}
+    }
+  }
+
+  defaultToTrue(value) {
+    return value == null ? true : value;
+  }
+
+  _setupEvents() {
+    document.addEventListener("keydown", event => {
+      if (event.key == "Shift") {
+        this.isShift = true;
+      }
+    });
+    document.addEventListener("keyup", event => {
+      if (event.key == "Shift") {
+        this.isShift = false;
+      }
+    });
   }
 }
 
