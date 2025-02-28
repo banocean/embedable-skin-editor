@@ -8,7 +8,7 @@ class PenTool extends BaseTool {
     super(config, {
       id: "pen",
       icon: "brush",
-      name: "Brush",
+      name: "Brush [B]",
       description: "Simple tool for drawing.",
       providesColor: true, // Whether or not drawing with this tool adds to recent colors.
     });

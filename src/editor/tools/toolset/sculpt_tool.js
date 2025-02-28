@@ -6,7 +6,7 @@ class SculptTool extends BaseTool {
     super(config, {
       id: "sculpt",
       icon: "sculpt",
-      name: "Sculpt",
+      name: "Sculpt [Shift+S]",
       description: "Copy pixels from base layer to overlay.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.
     });

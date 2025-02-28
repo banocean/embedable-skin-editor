@@ -8,7 +8,7 @@ class BucketTool extends BaseTool {
     super(config, {
       id: "bucket",
       icon: "bucket",
-      name: "Paint Bucket",
+      name: "Paint Bucket [G]",
       description: "Simple tool for filling large closed areas with a specific color.",
       providesColor: true, // Whether or not drawing with this tool adds to recent colors.
     });
