@@ -9,18 +9,28 @@ class Slider extends LitElement {
 
   static styles = css`
     :host {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
       position: relative;
       cursor: pointer;
+      box-sizing: border-box;
     }
 
-    :host(:focus) {
+    #slider {
+      position: relative;
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    :host(:focus) #slider {
       outline: white solid 1px;
     }
 
     #background {
       all: unset;
       display: block;
+      cursor: pointer;
       width: 100%;
       height: 100%;
     }
@@ -35,6 +45,13 @@ class Slider extends LitElement {
       border-radius: 0.25rem;
     }
 
+    #input {
+      width: 1.75rem;
+      font-size: x-small;
+      box-sizing: border-box;
+      overflow-y: hidden;
+    }
+
     :host(:hover) > #cursor {
       outline: 0.125rem solid #f5f8cc;
     }
@@ -44,7 +61,9 @@ class Slider extends LitElement {
     super();
 
     this.progress = this.progress || 1;
-    this.steps = this.steps || 256;
+    this.steps = this.steps || 255;
+
+    this.input = this._setupInput();
 
     const scope = this;
 
@@ -64,32 +83,42 @@ class Slider extends LitElement {
 
     this._setupResizeObserver();
   }
+  _sliderDiv;
 
   attributeChangedCallback(name, _old, value) {
     super.attributeChangedCallback(name, _old, value);
 
     if (name === "progress") {
-      this.dispatchEvent(new CustomEvent("slider-change", { detail: { progress: this.progress } }));
+      this.dispatchEvent(new CustomEvent("slider-change", { detail: { progress: this.progress, value: this.getValue() } }));
     }
   }
 
   render() {
+    this.input.value = this.getValue();
+
     return html`
-      <button @pointerdown=${this.onClick} @keydown=${this.onKeyDown} @wheel=${this.onWheel} id="background"></button>
-      <div id="cursor" part="cursor" style="left: ${this._getPos() - 2}px;"></div>
+      <div id="slider" part="slider">
+        <button @pointerdown=${this.onClick} @keydown=${this.onKeyDown} @wheel=${this.onWheel} id="background"></button>
+        <div id="cursor" part="cursor" style="left: ${this._getPos() - 2}px;"></div>
+      </div>
+      ${this.input}
     `;
+  }
+
+  getValue() {
+    return Math.floor(this.progress * this.steps);
   }
 
   onClick(event) {
     if (event.button != 0) { return; }
 
-    this.setProgress(event.layerX / this.clientWidth);
+    this.setProgress(event.layerX / this._clientWidth());
     this._onPointerDown();
   }
 
   onMove(event) {
     const rect = this.getBoundingClientRect();
-    this.setProgress((event.clientX - rect.x) / this.clientWidth);
+    this.setProgress((event.clientX - rect.x) / this._clientWidth());
   }
 
   onWheel(event) {
@@ -150,7 +179,36 @@ class Slider extends LitElement {
   }
 
   _getPos() {
-    return this.clientWidth * this.progress;
+    return this._clientWidth() * this.progress;
+  }
+
+  _clientWidth() {
+    this._sliderDiv = this._sliderDiv || this.shadowRoot.getElementById("slider");
+
+    if (!this._sliderDiv) { return 0; }
+
+    return this._sliderDiv.clientWidth;
+  }
+
+  _setupInput() {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = "input";
+    input.part = "input";
+
+    input.addEventListener("change", () => {
+      const value = Number(input.value);
+
+      if (isNaN(value)) {
+        input.value = 0;
+        this.setProgress(0);
+        return;
+      }
+
+      this.setProgress(value / this.steps);
+    });
+
+    return input;
   }
 
   _setupResizeObserver() {

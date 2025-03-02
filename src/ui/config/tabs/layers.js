@@ -39,18 +39,18 @@ class LayersTab extends Tab {
         color: white;
       }
 
-      #sliders ncrs-slider {
+      #sliders ncrs-slider::part(slider) {
         width: 100%;
         height: 1rem;
         border-radius: 0.25rem;
       }
 
-      #opacity-slider {
+      #opacity-slider::part(slider) {
         background: linear-gradient(to right, transparent, var(--current-color)),
           repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
       }
 
-      #hue-slider {
+      #hue-slider::part(slider) {
         background-image: linear-gradient(
           to right,
           rgb(0, 255, 255),
@@ -63,7 +63,7 @@ class LayersTab extends Tab {
         );
       }
 
-      #saturation-slider {
+      #saturation-slider::part(slider) {
         background: linear-gradient(
           to right,
           hsl(from var(--current-color) h 0% l),
@@ -72,7 +72,7 @@ class LayersTab extends Tab {
         );
       }
 
-      #brightness-slider {
+      #brightness-slider::part(slider) {
         background: linear-gradient(
           to right,
           hsl(from var(--current-color) h s 0%),
@@ -119,6 +119,29 @@ class LayersTab extends Tab {
         width: 100%;
         height: 18px;
       }
+
+      .slider {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      .slider ncrs-slider {
+        flex-grow: 1;
+      }
+
+      .reset {
+        --icon-color: white;
+        all: unset;
+        display: block;
+        cursor: pointer;
+        flex-basis: 0;
+      }
+
+      .reset ncrs-icon {
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+      }
     `,
   ];
 
@@ -154,13 +177,33 @@ class LayersTab extends Tab {
             </div>
           </div>
           <label for="hue-slider">Adjust Layer Hue</label>
-          ${this.hueSlider.slider}
+          <div class="slider">
+            ${this.hueSlider.slider}
+            <button class="reset" title="Reset hue." data-slider="hue" @click=${this._resetSlider}>
+              <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+            </button>
+          </div>
           <label for="saturation-slider">Adjust Layer Saturation</label>
-          ${this.saturationSlider.slider}
+          <div class="slider">
+            ${this.saturationSlider.slider}
+            <button class="reset" title="Reset saturation." data-slider="saturation" @click=${this._resetSlider}>
+              <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+            </button>
+          </div>
           <label for="brightness-slider">Adjust Layer Brightness</label>
-          ${this.brightnessSlider.slider}
+          <div class="slider">
+            ${this.brightnessSlider.slider}
+            <button class="reset" title="Reset brightness." data-slider="brightness" @click=${this._resetSlider}>
+              <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+            </button>
+          </div>
           <label for="opacity-slider">Adjust Layer Opacity</label>
-          ${this.opacitySlider.slider}
+          <div class="slider">
+            ${this.opacitySlider.slider}
+            <button class="reset" title="Reset opacity." data-slider="opacity" @click=${this._resetSlider}>
+              <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+            </button>
+          </div>
         </div>
         <div id="filter-buttons">
           <ncrs-button @click=${this._resetSliders} title="Clear all active filters on the current layer.">
@@ -179,6 +222,17 @@ class LayersTab extends Tab {
 
   _getLayer() {
     return this.editor.layers.getSelectedLayer();
+  }
+
+  _resetSlider(event) {
+    const slider = event.target.dataset.slider;
+
+    switch (slider) {
+      case "hue": { this.hueSlider.reset(); break; }
+      case "saturation": { this.saturationSlider.reset(); break; }
+      case "brightness": { this.brightnessSlider.reset(); break; }
+      case "opacity": { this.opacitySlider.reset(); break; }
+    }
   }
 
   _resetSliders() {

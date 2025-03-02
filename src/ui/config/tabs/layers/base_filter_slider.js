@@ -31,6 +31,10 @@ class BaseFilterSlider extends EventTarget {
 
   toFilter() {}
 
+  reset() {
+    this.slider.progress = this.defaultValue;
+  }
+
   _createSlider() {
     const slider = new Slider();
     slider.addEventListener("slider-change", event => this._onSliderChange(event));
@@ -48,7 +52,7 @@ class BaseFilterSlider extends EventTarget {
 
   _onSliderMousedown(event) {
     if (event.button == 1) {
-      this.slider.progress = this.defaultValue;
+      this.reset();
     }
   }
 

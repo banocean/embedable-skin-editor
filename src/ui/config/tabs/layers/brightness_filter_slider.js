@@ -14,7 +14,7 @@ class BrightnessFilterSlider extends BaseFilterSlider {
   }
 
   toFilter() {
-    return new CssFilter(`saturate(${this.getValue()}%)`, {name: this.name, value: this.getProgress()});
+    return new CssFilter(`brightness(${this.getValue()}%)`, {name: this.name, value: this.getProgress()});
   }
 }
 

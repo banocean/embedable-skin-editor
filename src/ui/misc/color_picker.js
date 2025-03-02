@@ -52,7 +52,7 @@ class ColorPicker extends LitElement {
       padding-right: 0.75rem;
     }
 
-    #hue-slider {
+    #hue-slider::part(slider) {
       width: 100%;
       height: 0.75rem;
       border-radius: 0.25rem;
@@ -74,6 +74,9 @@ class ColorPicker extends LitElement {
 
     #alpha-slider {
       margin-top: 0.5rem;
+    }
+
+    #alpha-slider::part(slider) {
       width: 100%;
       height: 0.75rem;
       border-radius: 0.25rem;
@@ -83,6 +86,11 @@ class ColorPicker extends LitElement {
 
     #alpha-slider::part(cursor) {
       background-color: var(--current-color-alpha);
+    }
+
+    ncrs-slider::part(input) {
+      height: 0.75rem;
+      padding: 0px;
     }
 
     #input {
