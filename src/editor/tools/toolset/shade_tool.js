@@ -6,7 +6,7 @@ class ShadeTool extends BaseTool {
     super(config, {
       id: "shade",
       icon: "shading",
-      name: "Shade",
+      name: "Shade [S]",
       description: "Makes pixels lighter/darker or adjusts their color based on the palette.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.
     });

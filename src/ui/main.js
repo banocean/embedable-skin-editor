@@ -52,6 +52,17 @@ class UI extends LitElement {
     }
   `;
 
+  static keybinds = {
+    "b": "pen",
+    "e": "eraser",
+    "g": "bucket",
+    "s": "shade",
+    "+s": "sculpt",
+    "^z": "undo",
+    "^y": "redo",
+    "^r": "reset",
+  }
+
   constructor() {
     super();
 
@@ -73,20 +84,52 @@ class UI extends LitElement {
 
       if (ignoredElements.includes(element.nodeName)) { return; }
 
-      if (event.key == "z") {
-        this.editor.history.undo();
-      }
-    
-      if (event.key == "y") {
-        this.editor.history.redo();
-      }
-
-      if (event.key == "x" && event.ctrlKey) {
-        this.editor.persistence.reset();
-        this.persistence.reset();
-        location.reload();
+      switch(this.checkKeybinds(event)){
+        case "pen":
+          this.editor.selectTool(this.editor.tools[0]);
+          break;
+        case "eraser":
+          this.editor.selectTool(this.editor.tools[1]);
+          break;
+        case "bucket":
+          this.editor.selectTool(this.editor.tools[2]);
+          break;
+        case "shade":
+          this.editor.selectTool(this.editor.tools[3]);
+          break;
+        case "sculpt":
+          this.editor.selectTool(this.editor.tools[4]);
+          break;
+        case "undo":
+          this.editor.history.undo();
+          break;
+        case "redo":
+          this.editor.history.redo();
+          break;
+        case "reset":
+          this.editor.persistence.reset();
+          this.persistence.reset();
+          location.reload();
+          break;
       }
     })
+  }
+
+  checkKeybinds(event) {
+    let key = '';
+    if (event.ctrlKey) {
+      key+='^';
+    }
+    if (event.altKey) {
+      key+='!';
+    }
+    if (event.shiftKey) {
+      key+='+';
+    }
+    key+=event.key.toLowerCase();
+    if (key in this.constructor.keybinds) {
+      return this.constructor.keybinds[key];
+    }
   }
 
   render() {
