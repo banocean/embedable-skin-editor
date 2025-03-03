@@ -50,6 +50,14 @@ class Slider extends LitElement {
       font-size: x-small;
       box-sizing: border-box;
       overflow-y: hidden;
+      color: white;
+      text-align: center;
+      background-color: #131315;
+      border-style: solid;
+      border-width: 0px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 2px #313436;
+      border-color: #313436;
     }
 
     :host(:hover) > #cursor {
