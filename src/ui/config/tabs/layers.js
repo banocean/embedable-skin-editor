@@ -32,11 +32,13 @@ class LayersTab extends Tab {
         margin: 0px;
         font-size: medium;
         color: white;
+        text-align: center;
+        width: 100%;
       }
 
       #sliders label {
         font-size: x-small;
-        color: white;
+        color: rgb(134 137 139);
       }
 
       #sliders ncrs-slider::part(slider) {
