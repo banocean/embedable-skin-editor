@@ -57,7 +57,7 @@ class Slider extends LitElement {
       border-width: 0px;
       border-radius: 4px;
       box-shadow: 0 0 0 2px #313436;
-      border-color: #313436;
+      margin-left: 3px;
     }
 
     :host(:hover) > #cursor {
