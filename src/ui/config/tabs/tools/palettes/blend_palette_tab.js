@@ -51,7 +51,7 @@ class BlendPaletteTab extends Tab {
         height: 78px;
         overflow: auto;
         padding-right: 2px;
-        scrollbar-color: #3d4042 #232428;
+        scrollbar-color: #3d4042 #1a1a1a;
         scrollbar-width: thin;
       }
 
