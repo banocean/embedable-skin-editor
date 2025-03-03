@@ -121,7 +121,6 @@ class ColorPicker extends LitElement {
     }
 
     #text-input {
-      border-radius: 4px;
       color: white;
       text-align: center;
       background-color: #131315;
