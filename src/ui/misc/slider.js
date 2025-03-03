@@ -205,6 +205,7 @@ class Slider extends LitElement {
         return;
       }
 
+      input.value = clamp(value, 0, this.steps);
       this.setProgress(value / this.steps);
     });
 
