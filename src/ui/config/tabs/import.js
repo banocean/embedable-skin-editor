@@ -12,7 +12,7 @@ class ImportTab extends Tab {
   ]
 
   constructor() {
-    super({name: "Import"})
+    super({name: "Project"})
   }
 
   render() {

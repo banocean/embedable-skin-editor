@@ -165,6 +165,19 @@ class Layers extends EventTarget {
     this._sendUpdateEvent();
   }
 
+  render() {
+    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+    const ctx = canvas.getContext("2d");
+
+    this.layers.forEach((layer) => {
+      if (!layer.visible) { return; }
+
+      ctx.drawImage(layer.render(), 0, 0);
+    });
+
+    return canvas;
+  }
+
   renderTexture() {
     const ctx = this.canvas.getContext("2d");
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

@@ -1,3 +1,4 @@
+import { download } from "../../../helpers";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
 
@@ -5,18 +6,90 @@ class ExportTab extends Tab {
   static styles = [
     Tab.styles,
     css`
-      p {
-        margin: 0px;
+      #main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      #buttons {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 0;
+        padding: 0.5rem;
+      }
+
+      #buttons ncrs-button {
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+      }
+
+      #buttons ncrs-button::part(button) {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
+
+      #form {
+        flex-grow: 1;
+        background-color: #1A1A1A;
+      }
+
+      hr {
+        width: 100%;
+        border-color: #494C4E;
+        margin-bottom: 0.75rem;
+        box-sizing: border-box;
       }
     `
   ]
 
-  constructor() {
-    super({name: "Export"})
+  constructor(editor) {
+    super({name: "Export"});
+
+    this.editor = editor;
   }
 
   render() {
-    return html`<p>Export</p>`
+    return html`
+      <div id="main">
+        <div id="buttons">
+          <ncrs-button @click=${this.downloadPNG} title="Export current skin as a PNG image file.">Export Image (.png)</ncrs-button>
+          <ncrs-button @click=${this.downloadNCRS} title="Export current skin project, including layers.">Export Project (.ncrs)</ncrs-button>
+          <hr>
+          <ncrs-button>Share to Gallery</ncrs-button>
+        </div>
+        <div id="form"></div>
+      </div>
+    `
+  }
+
+  downloadPNG() {
+    const layers = this.editor.layers;
+    const texture = layers.render();
+
+    texture.convertToBlob().then(blob => {
+      download(`${this._filename()}.png`, URL.createObjectURL(blob));
+    });
+
+    console.log(texture);
+  }
+
+  downloadNCRS() {
+
+  }
+
+  _filename() {
+    const date = new Date();
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `ncrs_skin_${year}${month}${day}_${hours}${minutes}`;
   }
 }
 
