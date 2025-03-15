@@ -143,8 +143,18 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
+        <ncrs-toggle title="Blow Up Model" @toggle=${this._toggleBlowUp}>
+          <ncrs-icon slot="before" icon="blow-up-model" color="white"></ncrs-icon>
+          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
+          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
+        </ncrs-toggle>
         <ncrs-toggle title="Toggle grid" toggled @toggle=${this._toggleGrid}>
           <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
+          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
+          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
+        </ncrs-toggle>
+        <ncrs-toggle title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
+          <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
