@@ -71,12 +71,13 @@ class ExportTab extends Tab {
     texture.convertToBlob().then(blob => {
       download(`${this._filename()}.png`, URL.createObjectURL(blob));
     });
-
-    console.log(texture);
   }
 
   downloadNCRS() {
+    const data = this.editor.serialize();
+    const blob = new Blob([JSON.stringify(data)], {type: "text/plain"});
 
+    download(`${this._filename()}.ncrs`, URL.createObjectURL(blob));
   }
 
   _filename() {

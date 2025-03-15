@@ -26,6 +26,7 @@ import Color from "color";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
+const FORMAT = -1;
 
 class Editor extends LitElement {
   static styles = css`
@@ -40,6 +41,8 @@ class Editor extends LitElement {
   constructor() {
     super();
     this.persistence = new PersistenceManager("ncrs-editor");
+    this.persistence.setDefault("format", FORMAT);
+
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, this.clientWidth / this.clientHeight, 0.1, 1000);
     this.renderer = new Renderer(this.scene, this.camera);
@@ -295,6 +298,14 @@ class Editor extends LitElement {
 
     this.updateVisibility();
     this.updatePartsVisibility();
+  }
+
+  serialize() {
+    return {
+      format: FORMAT,
+      layers: this.layers.serializeLayers(),
+      blendPalette: this.config.get("blend-palette"),
+    };
   }
 
   _createToolData(parts, button) {

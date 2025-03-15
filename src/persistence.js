@@ -9,6 +9,15 @@ class PersistenceManager {
     this.sync();
   }
 
+  setDefault(key, defaultValue) {
+    if (!this.has(key)) {
+      this.set(key, defaultValue);
+      return defaultValue;
+    }
+
+    this.get(key);
+  }
+
   get(key, defaultValue = {}) {
     const data = this._data[key];
     if (this.has(key)) {
@@ -16,6 +25,18 @@ class PersistenceManager {
     } else {
       return defaultValue;
     }
+  }
+
+  getData(filterFunction = () => true) {
+    const data = {};
+
+    const keys = Object.keys(this._data).filter(filterFunction);
+
+    keys.forEach(key => {
+      data[key] = this._data[key];
+    })
+
+    return data;
   }
 
   has(key) {
