@@ -33,6 +33,10 @@ class Toolbar extends LitElement {
         display: inline-block
     }
 
+    .hidden {
+      display: none;
+    }
+
     #toggle-variant > div {
       padding-left: 0.25rem;
       width: 48px;
@@ -143,7 +147,7 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle title="Blow Up Model" @toggle=${this._toggleBlowUp}>
+        <ncrs-toggle class="hidden" title="Blow Up Model" @toggle=${this._toggleBlowUp}>
           <ncrs-icon slot="before" icon="blow-up-model" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
@@ -153,7 +157,7 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
+        <ncrs-toggle class="hidden" title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
           <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
