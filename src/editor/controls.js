@@ -11,7 +11,7 @@ class Controls {
 
   pointer = new THREE.Vector2(100000, 100000);
   pointerDown = false;
-  pointerButton = 0;
+  pointerEvent;
   panning = false;
   firstClickOutside = false;
   targetingModel = false;
@@ -37,7 +37,7 @@ class Controls {
         this.targetingModel = true;
 
         if (this.pointerDown && !this.firstClickOutside) {
-          this.toolAction(parts, this.pointerButton);
+          this.toolAction(parts, this.pointerEvent);
         }
       }
     } else {
@@ -54,26 +54,27 @@ class Controls {
     return raycaster.intersectObjects(this.parent.scene.children);
   }
 
-  toolAction(parts, button) {
+  toolAction(parts, event) {
     const parent = this.parent;
 
     if (!this.drawing) {
-      if (!parent.toolCheck(parts, button)) { return; }
+      if (!parent.toolCheck(parts, event)) { return; }
       
-      parent.toolDown(parts, button)
+      parent.toolDown(parts, event);
       this.drawing = true;
     } else {
-      parent.toolMove(parts, button)
+      parent.toolMove(parts, event);
     }
   }
 
   onMouseDown(event) {
     this.setPointer(event.offsetX, event.offsetY);
+    this.pointerEvent = event;
+
     switch (event.buttons) {
       case 1:
       case 2: {
         this.pointerDown = true;
-        this.pointerButton = event.buttons;
         if (this.targetingModel) {
           this.orbit.enabled = false;
         } else {
@@ -91,6 +92,7 @@ class Controls {
 
   onMouseMove(event) {
     this.setPointer(event.offsetX, event.offsetY);
+    this.pointerEvent = event;
     this.handleIntersects();
   }
 
@@ -101,6 +103,7 @@ class Controls {
 
     this.drawing = false;
     this.pointerDown = false;
+    this.pointerEvent = undefined;
     this.panning = false;
     this.firstClickOutside = false;
     this.orbit.enabled = true;

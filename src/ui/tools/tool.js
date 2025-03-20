@@ -2,14 +2,6 @@ import { css, html, LitElement } from "lit";
 
 class Tool extends LitElement {
   static styles = css`
-    :host(:active) ncrs-button::part(button), :host([active=true]) ncrs-button::part(button) {
-      --text-color: var(--text-color-active);
-      background-image: linear-gradient(to top, #313436, #202225);
-      box-shadow: #3d4042 0px 0px 0px 1px inset, #333638 0px 0px 5px 1px inset, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
-      margin-top: 0.125rem;
-      margin-bottom: 0.25rem;
-    }
-
     ncrs-button::part(button) {
       padding: 0.25rem;
       padding-top: 0.5rem;
@@ -43,7 +35,7 @@ class Tool extends LitElement {
     const title = properties.name + "\n" + properties.description;
 
     return html`
-      <ncrs-button title="${title}" @click=${this.select}>
+      <ncrs-button ?active=${this.active} title="${title}" @click=${this.select}>
         <ncrs-icon icon="${icon}" color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `

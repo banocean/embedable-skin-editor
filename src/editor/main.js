@@ -112,11 +112,11 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
-  toolCheck(parts, pointerButton) {
-    if (this.config.get("pick-color", false)) {
+  toolCheck(parts, pointerEvent) {
+    if (this.config.get("pick-color", false) || pointerEvent.ctrlKey) {
       this.config.set("pick-color", false);
       
-      const toolData = this._createSkinToolData(parts, pointerButton);
+      const toolData = this._createSkinToolData(parts, pointerEvent.buttons);
       this._pickColor(toolData);
 
       return false;
@@ -125,8 +125,8 @@ class Editor extends LitElement {
     return true;
   }
 
-  toolDown(parts, pointerButton) {
-    const toolData = this._createLayerToolData(parts, pointerButton);
+  toolDown(parts, pointerEvent) {
+    const toolData = this._createLayerToolData(parts, pointerEvent.buttons);
     const texture = this.currentTool.down(toolData);
 
     const layer = this.layers.getSelectedLayer();
@@ -137,8 +137,8 @@ class Editor extends LitElement {
     this.dispatchEvent(new CustomEvent("tool-down"));
   }
 
-  toolMove(parts, pointerButton) {
-    const toolData = this._createLayerToolData(parts, pointerButton);
+  toolMove(parts, pointerEvent) {
+    const toolData = this._createLayerToolData(parts, pointerEvent.buttons);
     const texture = this.currentTool.move(toolData);
 
     this.layers.getSelectedLayer().replaceTexture(texture);

@@ -218,7 +218,7 @@ class ColorPicker extends LitElement {
         <div id="input">
           <button @click=${showColorInput} id="color-button" aria-label="Open system color picker"></button>
           ${colorInput} ${textInput}
-          <ncrs-button id="eyedropper" title="Toggle eyedropper." @click=${this.enableEyedropper} ?active=${this._eyedropper}>
+          <ncrs-button id="eyedropper" title="Toggle eyedropper." @click=${this.toggleEyedropper} ?active=${this._eyedropper}>
             <ncrs-icon icon="eyedropper" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
@@ -244,8 +244,8 @@ class ColorPicker extends LitElement {
     return this.getColor().alpha(this.alpha);
   }
 
-  enableEyedropper() {
-    this.editor.config.set("pick-color", true);
+  toggleEyedropper() {
+    this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
   }
 
   _isColorDifferent() {
