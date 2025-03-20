@@ -112,8 +112,21 @@ class Editor extends LitElement {
     orbit.reset();
   }
 
+  toolCheck(parts, pointerButton) {
+    if (this.config.get("pick-color", false)) {
+      this.config.set("pick-color", false);
+      
+      const toolData = this._createSkinToolData(parts, pointerButton);
+      this._pickColor(toolData);
+
+      return false;
+    }
+
+    return true;
+  }
+
   toolDown(parts, pointerButton) {
-    const toolData = this._createToolData(parts, pointerButton);
+    const toolData = this._createLayerToolData(parts, pointerButton);
     const texture = this.currentTool.down(toolData);
 
     const layer = this.layers.getSelectedLayer();
@@ -125,7 +138,7 @@ class Editor extends LitElement {
   }
 
   toolMove(parts, pointerButton) {
-    const toolData = this._createToolData(parts, pointerButton);
+    const toolData = this._createLayerToolData(parts, pointerButton);
     const texture = this.currentTool.move(toolData);
 
     this.layers.getSelectedLayer().replaceTexture(texture);
@@ -308,9 +321,27 @@ class Editor extends LitElement {
     };
   }
 
-  _createToolData(parts, button) {
+  _pickColor(toolData) {
+    const point = toolData.getCoords();
+    let color = toolData.texture.getPixel({ x: point.x, y: point.y });
+
+    if (color.alpha() <= 0 && toolData.hasOverlay()) {
+      const point2 = toolData.getCoords(1);
+      color = toolData.texture.getPixel({ x: point2.x, y: point2.y });
+    }
+
+    this.config.set("color", color);
+  }
+
+  _createLayerToolData(parts, button) {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
+
+    return new ToolData({ texture, parts, button, variant: this.variant });
+  }
+
+  _createSkinToolData(parts, button) {
+    const texture = this.layers.render();
 
     return new ToolData({ texture, parts, button, variant: this.variant });
   }

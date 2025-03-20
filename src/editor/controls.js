@@ -37,10 +37,7 @@ class Controls {
         this.targetingModel = true;
 
         if (this.pointerDown && !this.firstClickOutside) {
-          this.drawing
-            ? this.parent.toolMove(parts, this.pointerButton)
-            : this.parent.toolDown(parts, this.pointerButton);
-          this.drawing = true;
+          this.toolAction(parts, this.pointerButton);
         }
       }
     } else {
@@ -55,6 +52,19 @@ class Controls {
     raycaster.setFromCamera(this.pointer, this.parent.camera);
 
     return raycaster.intersectObjects(this.parent.scene.children);
+  }
+
+  toolAction(parts, button) {
+    const parent = this.parent;
+
+    if (!this.drawing) {
+      if (!parent.toolCheck(parts, button)) { return; }
+      
+      parent.toolDown(parts, button)
+      this.drawing = true;
+    } else {
+      parent.toolMove(parts, button)
+    }
   }
 
   onMouseDown(event) {

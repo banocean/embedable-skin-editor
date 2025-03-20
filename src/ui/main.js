@@ -57,6 +57,7 @@ class UI extends LitElement {
     "e": "eraser",
     "g": "bucket",
     "s": "shade",
+    "i": "eyedropper",
     "+s": "sculpt",
     "^z": "undo",
     "^y": "redo",
@@ -99,6 +100,9 @@ class UI extends LitElement {
           break;
         case "sculpt":
           this.editor.selectTool(this.editor.tools[4]);
+          break;
+        case "eyedropper":
+          this.editor.config.set("pick-color", true);
           break;
         case "undo":
           this.editor.history.undo();

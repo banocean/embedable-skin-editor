@@ -178,7 +178,9 @@ class ColorPicker extends LitElement {
       "--current-color-alpha": colorWithAlpha.string(),
     };
 
-    this.dispatchEvent(new CustomEvent("color-change", { detail: { color: this.getColorWithAlpha() } }));
+    if (this.hasUpdated) {
+      this.dispatchEvent(new CustomEvent("color-change", { detail: { color: this.getColorWithAlpha() } }));
+    }
 
     if (colorWithAlpha.isLight()) {
       this.gradient.classList.add("light");

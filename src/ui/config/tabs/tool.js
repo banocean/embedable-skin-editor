@@ -148,6 +148,10 @@ class ToolTab extends Tab {
 
   firstUpdated() {
     this.colorPicker.setColor(this.editor.config.get("color", new Color("#ff0000")).string());
+
+    this.editor.config.addEventListener("color-change", event => {
+      this.colorPicker.setColor(event.detail.string());
+    });
   }
 
   _createPaletteTabs() {
