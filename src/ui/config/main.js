@@ -88,7 +88,7 @@ class Config extends LitElement {
     tabs.registerTab(importTab);
     tabs.registerTab(exportTab);
 
-    tabs.select(exportTab)
+    tabs.select(toolTab)
 
     return tabs;
   }

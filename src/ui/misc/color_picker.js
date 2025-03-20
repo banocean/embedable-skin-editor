@@ -11,6 +11,7 @@ class ColorPicker extends LitElement {
     saturation: {},
     lightness: {},
     alpha: {},
+    _eyedropper: {state: true}
   };
 
   static styles = css`
@@ -97,9 +98,9 @@ class ColorPicker extends LitElement {
       margin-top: 0.5rem;
       display: flex;
       justify-content: center;
-      gap: 0.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      gap: 0.25rem;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
     }
 
     #color-button {
@@ -135,19 +136,38 @@ class ColorPicker extends LitElement {
       border-color: white;
       outline: none;
     }
+
+    #eyedropper {
+      padding: 0.125rem;
+      width: 34px;
+      height: 34px;
+      box-sizing: border-box;
+    }
+
+    ncrs-icon {
+      padding: 0.25rem;
+      height: 26px;
+      width: 100%;
+      box-sizing: border-box;
+    }
   `;
 
-  constructor() {
+  constructor(editor) {
     super();
 
+    this.editor = editor;
     this.hue = 0;
     this.saturation = 0;
     this.lightness = 0;
     this.alpha = 1;
 
+    this.oldValues = {hue: 0, saturation: 0, lightness: 0, alpha: 1};
+
     this.gradient = this._createGradient();
     this.hueSlider = this._createHueSlider();
     this.alphaSlider = this._createAlphaSlider();
+
+    this._setupEvents();
   }
   picker;
 
@@ -178,7 +198,7 @@ class ColorPicker extends LitElement {
       "--current-color-alpha": colorWithAlpha.string(),
     };
 
-    if (this.hasUpdated) {
+    if (this._isColorDifferent()) {
       this.dispatchEvent(new CustomEvent("color-change", { detail: { color: this.getColorWithAlpha() } }));
     }
 
@@ -198,6 +218,9 @@ class ColorPicker extends LitElement {
         <div id="input">
           <button @click=${showColorInput} id="color-button" aria-label="Open system color picker"></button>
           ${colorInput} ${textInput}
+          <ncrs-button id="eyedropper" title="Toggle eyedropper." @click=${this.enableEyedropper} ?active=${this._eyedropper}>
+            <ncrs-icon icon="eyedropper" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
         </div>
       </div>
     `;
@@ -219,6 +242,28 @@ class ColorPicker extends LitElement {
 
   getColorWithAlpha() {
     return this.getColor().alpha(this.alpha);
+  }
+
+  enableEyedropper() {
+    this.editor.config.set("pick-color", true);
+  }
+
+  _isColorDifferent() {
+    if (
+      this.hue == this.oldValues.hue
+      && this.saturation == this.oldValues.saturation
+      && this.lightness == this.oldValues.lightness
+      && this.alpha == this.oldValues.alpha
+    ) { return false; }
+
+    this.oldValues = {
+      hue: this.hue,
+      saturation: this.saturation,
+      lightness: this.lightness,
+      alpha: this.alpha,
+    }
+
+    return true;
   }
 
   _createGradient() {
@@ -293,6 +338,13 @@ class ColorPicker extends LitElement {
     }
 
     return color.hexa();
+  }
+
+  _setupEvents() {
+    this.editor.config.addEventListener("pick-color-change", event => {
+      console.log(event);
+      this._eyedropper = event.detail;
+    })
   }
 }
 

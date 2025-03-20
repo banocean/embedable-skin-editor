@@ -179,7 +179,7 @@ class ToolTab extends Tab {
   }
 
   _setupColorPicker() {
-    const colorPicker = new ColorPicker();
+    const colorPicker = new ColorPicker(this.editor);
 
     colorPicker.addEventListener("color-change", this._onColorChange.bind(this));
     colorPicker.addEventListener("easteregg", this._onEasterEgg.bind(this));
