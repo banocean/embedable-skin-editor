@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "./orbit";
 
+const CURSOR_EYEDROPPER = 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
+
 class Controls {
   constructor(parent) {
     this.parent = parent;
@@ -16,6 +18,8 @@ class Controls {
   firstClickOutside = false;
   targetingModel = false;
   drawing = false;
+  ctrlKey = false;
+  shiftKey = false;
 
   handleIntersects() {
     const intersects = this.raycast();
@@ -72,7 +76,11 @@ class Controls {
     this.pointerEvent = event;
 
     switch (event.buttons) {
-      case 1:
+      case 1: {
+        if (event.ctrlKey || event.shiftKey) {
+          this.panning = true;
+        }
+      }
       case 2: {
         this.pointerDown = true;
         if (this.targetingModel) {
@@ -109,24 +117,52 @@ class Controls {
     this.orbit.enabled = true;
   }
 
+  onKeyDown(event) {
+    this.ctrlKey = event.ctrlKey;
+    this.shiftKey = event.shiftKey;
+
+    if (this.ctrlKey) {
+      this.parent.config.set("pick-color", true);
+    }
+  }
+
+  onKeyUp(event) {
+    if (event.key == "Control" && this.ctrlKey) {
+      this.parent.config.set("pick-color", false);
+      this.ctrlKey = false;
+    }
+
+    if (event.key == "Shift" && this.shiftKey) {
+      this.shiftKey = false;
+    }
+  }
+
   setPointer(x, y) {
     const domElement = this.parent.renderer.canvas();
     (this.pointer.x = (x / domElement.clientWidth) * 2 - 1), (this.pointer.y = -(y / domElement.clientHeight) * 2 + 1);
   }
 
   getCursorStyle() {
-    if (this.parent.config.get("pick-color", false)) {
-      return 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
-    }
     if (this.panning) {
       return "all-scroll";
     }
+
     if ((this.targetingModel || this.pointerDown) && !this.firstClickOutside) {
+      if (this.parent.config.get("pick-color", false) || this.ctrlKey) {
+        return CURSOR_EYEDROPPER;
+      }
+
       return "crosshair";
     }
+
     if (this.pointerDown) {
       return "grabbing";
     }
+
+    if (this.ctrlKey || this.shiftKey) {
+      return "all-scroll";
+    }
+    
     return "grab";
   }
 
@@ -144,6 +180,9 @@ class Controls {
     parent.addEventListener("mousedown", this.onMouseDown.bind(this));
     parent.addEventListener("mousemove", this.onMouseMove.bind(this));
     parent.addEventListener("mouseup", this.onMouseUp.bind(this));
+
+    document.addEventListener("keydown", this.onKeyDown.bind(this));
+    document.addEventListener("keyup", this.onKeyUp.bind(this));
   }
 }
 

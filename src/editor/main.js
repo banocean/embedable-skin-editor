@@ -113,9 +113,7 @@ class Editor extends LitElement {
   }
 
   toolCheck(parts, pointerEvent) {
-    if (this.config.get("pick-color", false) || pointerEvent.ctrlKey) {
-      this.config.set("pick-color", false);
-      
+    if (this.config.get("pick-color", false)) {
       const toolData = this._createSkinToolData(parts, pointerEvent.buttons);
       this._pickColor(toolData);
 
