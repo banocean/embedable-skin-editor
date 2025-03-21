@@ -76,11 +76,7 @@ class Controls {
     this.pointerEvent = event;
 
     switch (event.buttons) {
-      case 1: {
-        if (event.ctrlKey || event.shiftKey) {
-          this.panning = true;
-        }
-      }
+      case 1:
       case 2: {
         this.pointerDown = true;
         if (this.targetingModel) {
@@ -155,12 +151,12 @@ class Controls {
       return "crosshair";
     }
 
-    if (this.pointerDown) {
-      return "grabbing";
-    }
-
     if (this.ctrlKey || this.shiftKey) {
       return "all-scroll";
+    }
+
+    if (this.pointerDown) {
+      return "grabbing";
     }
     
     return "grab";
