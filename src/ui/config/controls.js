@@ -15,6 +15,10 @@ class ToggleControl extends LitElement {
       --icon-color: #f5f8cc;
     }
 
+    ncrs-button {
+      width: fit-content;
+    }
+
     ncrs-button::part(button) {
       width: 24px;
       height: 38px;

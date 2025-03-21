@@ -102,7 +102,7 @@ class UI extends LitElement {
           this.editor.selectTool(this.editor.tools[4]);
           break;
         case "eyedropper":
-          this.editor.config.set("pick-color", true);
+          this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
           break;
         case "undo":
           this.editor.history.undo();

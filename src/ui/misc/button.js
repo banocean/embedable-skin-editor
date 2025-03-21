@@ -28,7 +28,7 @@ class Button extends LitElement {
       color: var(--text-color);
     }
 
-    button:hover:not(:disabled) {
+    button:not(:disabled):hover {
       --text-color: var(--text-color-hover);
       box-shadow: #505254 0px 0px 0px 1px inset, #191a1c 0px 0px 3px, #272a2d 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
     }

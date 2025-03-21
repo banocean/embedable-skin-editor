@@ -218,7 +218,7 @@ class ColorPicker extends LitElement {
         <div id="input">
           <button @click=${showColorInput} id="color-button" aria-label="Open system color picker"></button>
           ${colorInput} ${textInput}
-          <ncrs-button id="eyedropper" title="Toggle eyedropper." @click=${this.toggleEyedropper} ?active=${this._eyedropper}>
+          <ncrs-button id="eyedropper" title="Toggle eyedropper [I]" @click=${this.toggleEyedropper} ?active=${this._eyedropper}>
             <ncrs-icon icon="eyedropper" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
@@ -226,22 +226,30 @@ class ColorPicker extends LitElement {
     `;
   }
 
+  checkColor(color) {
+    const currentColor = this.getColorWithAlpha();
+    return color.hexa() == currentColor.hexa();
+  }
+
   getColor() {
     return Color({ h: this.hue, s: this.saturation, v: this.lightness });
   }
 
+  getColorWithAlpha() {
+    return this.getColor().alpha(this.alpha);
+  }
+
   setColor(color) {
+    const currentColor = this.getColor();
     const newColor = Color(color).hsv();
+    
+    if (newColor.hexa() == currentColor.hexa()) { return false; }
 
     this.gradient.progressX = newColor.saturationv() / 100;
     this.gradient.progressY = (100 - newColor.value()) / 100;
 
     this.hueSlider.progress = newColor.hue() / 360;
     this.alphaSlider.progress = newColor.alpha();
-  }
-
-  getColorWithAlpha() {
-    return this.getColor().alpha(this.alpha);
   }
 
   toggleEyedropper() {
@@ -342,7 +350,6 @@ class ColorPicker extends LitElement {
 
   _setupEvents() {
     this.editor.config.addEventListener("pick-color-change", event => {
-      console.log(event);
       this._eyedropper = event.detail;
     })
   }

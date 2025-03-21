@@ -147,10 +147,12 @@ class ToolTab extends Tab {
   }
 
   firstUpdated() {
-    this.colorPicker.setColor(this.editor.config.get("color", new Color("#ff0000")).string());
+    this.colorPicker.setColor(this.editor.config.get("color", new Color("#000000")).string());
 
     this.editor.config.addEventListener("color-change", event => {
-      this.colorPicker.setColor(event.detail.string());
+      if (this.colorPicker.checkColor(event.detail)) { return; }
+
+      this.colorPicker.setColor(event.detail.hexa());
     });
   }
 
@@ -188,6 +190,11 @@ class ToolTab extends Tab {
   }
 
   _onColorChange(event) {
+    const currentColor = this.editor.config.get("color", new Color("#000000"));
+    const newColor = event.detail.color;
+
+    if (newColor.hexa() == currentColor.hexa()) { return false; }
+
     this.editor.config.set("color", event.detail.color);
   }
 

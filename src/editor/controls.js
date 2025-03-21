@@ -115,6 +115,9 @@ class Controls {
   }
 
   getCursorStyle() {
+    if (this.parent.config.get("pick-color", false)) {
+      return 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
+    }
     if (this.panning) {
       return "all-scroll";
     }

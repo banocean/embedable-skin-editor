@@ -17,6 +17,7 @@ class ExportTab extends Tab {
         flex-direction: column;
         flex-basis: 0;
         padding: 0.5rem;
+        background-color: #1A1A1A;
       }
 
       #buttons ncrs-button {
@@ -32,7 +33,6 @@ class ExportTab extends Tab {
 
       #form {
         flex-grow: 1;
-        background-color: #1A1A1A;
       }
 
       hr {
