@@ -8,6 +8,8 @@ class BucketToolConfig extends BaseToolConfig {
 
   static properties = {
     contiguous: {},
+    camo: {},
+    blend: {},
   }
 
   constructor(config) {
@@ -16,6 +18,8 @@ class BucketToolConfig extends BaseToolConfig {
         type: "toggle", icon: "contiguous", 
         title: "Toggle contiguous\nIf disabled, will replace all pixels in the same color, on the whole canvas ignoring boundaries"
       },
+      camo: {type: "toggle", icon: "checker", title: "Toggle camo\nRandomly lightens and darkens the current color"},
+      blend: {type: "toggle", icon: "palette", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
   }
 
@@ -25,8 +29,12 @@ class BucketToolConfig extends BaseToolConfig {
         <h2>Bucket Tool</h2>
         <div class="group">
           <div>
-            <p class="title">Contiguous</p>
-            ${this._contiguousControl()}
+            <p class="title">Effects</p>
+            <div class="group-sm">
+              ${this._contiguousControl()}
+              ${this._camoControl()}
+              ${this._blendControl()}
+            </div>
           </div>
         </div>
     </div>

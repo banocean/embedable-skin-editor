@@ -22,7 +22,7 @@ class BucketTool extends BaseTool {
   down(toolData) {
     const texture = toolData.texture;
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
+    const color = toolData.button == 1 ? this.config.getColor.bind(this.config) : () => TRANSPARENT_COLOR;
     const old_color = toolData.texture.getPixel({ x: point.x, y: point.y });
 
     this.contiguous = this.config.get("contiguous");
@@ -132,7 +132,7 @@ class BucketTool extends BaseTool {
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
         if (this.colorsMatch(texture.getPixel({ x, y }), old_color)) {
-          texture.putPixel({ x, y }, color);
+          texture.putPixel({ x, y }, color());
         }
       }
     }
@@ -183,7 +183,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -232,7 +232,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -280,7 +280,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -329,7 +329,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -377,7 +377,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -425,7 +425,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -473,7 +473,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -521,7 +521,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -569,7 +569,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -618,7 +618,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -667,7 +667,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -716,7 +716,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -764,7 +764,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -812,7 +812,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -860,7 +860,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
@@ -908,7 +908,7 @@ class BucketTool extends BaseTool {
       }
     }
     for (let i = 0; i < queue.length; i++) {
-      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color);
+      texture.putPixel({ x:queue[i].x, y:queue[i].y }, color());
     }
   }
 
