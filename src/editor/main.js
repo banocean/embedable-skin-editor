@@ -173,7 +173,7 @@ class Editor extends LitElement {
   }
 
   baseVisible = true;
-  overlayVisible = true;
+  overlayVisible = false;
   gridVisible = true;
 
   setBaseVisible(visible) {
@@ -300,6 +300,8 @@ class Editor extends LitElement {
     this.baseGroup.remove(this.skinMesh);
 
     this.variant = variant;
+    this.persistence.set("variant", this.variant);
+
     this.model = new SkinModel(this.layers.texture, this.variant);
     this.skinMesh = this.model.mesh;
 
@@ -314,6 +316,7 @@ class Editor extends LitElement {
   serialize() {
     return {
       format: FORMAT,
+      variant: this.variant,
       layers: this.layers.serializeLayers(),
       blendPalette: this.config.get("blend-palette"),
     };
@@ -361,7 +364,7 @@ class Editor extends LitElement {
       this._loadSkinFromData(layerData);
     } else {
       this._loadDefaultSkin();
-    }
+    }    
   }
 
   _loadSkinFromData(layerData) {
@@ -407,7 +410,7 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.variant = "classic";
+    this.variant = this.persistence.get("variant", "classic");;
     this.model = new SkinModel(texture, this.variant);
 
     this.skinMesh = this.model.mesh;

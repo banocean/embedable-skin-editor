@@ -128,16 +128,19 @@ class Toolbar extends LitElement {
   }
 
   _renderToggles() {
+    const isSlim = this.ui.editor.variant == "slim";
+    const overlayVisible = this.ui.editor.overlayVisible;
+
     return html`
       <div>
         ${this.partToggles}
-        <ncrs-toggle title="Toggle skin model" id="toggle-variant" @toggle=${this._toggleSkinModel}>
+        <ncrs-toggle title="Toggle skin model" id="toggle-variant" ?toggled=${isSlim} @toggle=${this._toggleSkinModel}>
           <div id="toggle-classic" slot="off">
           </div>
           <div id="toggle-slim" slot="on">
           </div>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle overlay" toggled @toggle=${this._toggleOverlay}>
+        <ncrs-toggle title="Toggle overlay" ?toggled=${overlayVisible} @toggle=${this._toggleOverlay}>
           <ncrs-icon slot="before" icon="armor" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
