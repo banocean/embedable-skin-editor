@@ -297,17 +297,17 @@ class Editor extends LitElement {
 
     const yPos = this.skinMesh.position.y;
 
-    this.baseGroup.remove(this.skinMesh);
-
     this.variant = variant;
     this.persistence.set("variant", this.variant);
 
     this.model = new SkinModel(this.layers.texture, this.variant);
     this.skinMesh = this.model.mesh;
 
-    this.skinMesh.position.y = yPos;
+    this.scene.remove(this.baseGroup);
+    this.baseGroup = this._setupBaseGroup(this.skinMesh);
+    this.scene.add(this.baseGroup);
 
-    this.baseGroup.add(this.skinMesh);
+    this.skinMesh.position.y = yPos;
 
     this.updateVisibility();
     this.updatePartsVisibility();
@@ -398,7 +398,6 @@ class Editor extends LitElement {
       map: texture,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.6,
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -414,10 +413,16 @@ class Editor extends LitElement {
     this.model = new SkinModel(texture, this.variant);
 
     this.skinMesh = this.model.mesh;
-    this.baseGroup = new THREE.Group();
-    this.baseGroup.add(this.skinMesh);
-    this.baseGroup.add(this._createIndicatorMesh());
+    this.baseGroup = this._setupBaseGroup(this.skinMesh);
     this.scene.add(this.baseGroup);
+  }
+
+  _setupBaseGroup(mesh) {
+    const group = new THREE.Group();
+    group.add(mesh);
+    group.add(this._createIndicatorMesh());
+
+    return group;
   }
 
   _startRender() {
