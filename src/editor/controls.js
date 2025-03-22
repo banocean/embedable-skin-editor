@@ -117,14 +117,18 @@ class Controls {
     this.ctrlKey = event.ctrlKey;
     this.shiftKey = event.shiftKey;
 
-    if (this.ctrlKey) {
+    if (event.key == "Control" || event.key == "Alt") {
       this.parent.config.set("pick-color", true);
     }
   }
 
   onKeyUp(event) {
-    if (event.key == "Control" && this.ctrlKey) {
+    if (event.key == "Control" || event.key == "Alt") {
+      event.preventDefault();
       this.parent.config.set("pick-color", false);
+    }
+
+    if (event.key == "Control" && this.ctrlKey) {
       this.ctrlKey = false;
     }
 
@@ -144,7 +148,7 @@ class Controls {
     }
 
     if ((this.targetingModel || this.pointerDown) && !this.firstClickOutside) {
-      if (this.parent.config.get("pick-color", false) || this.ctrlKey) {
+      if (this.parent.config.get("pick-color", false)) {
         return CURSOR_EYEDROPPER;
       }
 
