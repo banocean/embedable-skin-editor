@@ -169,4 +169,4 @@ function getUVMap(variant, part) {
   return Object.fromEntries(entries);
 }
 
-export {UVMAP_CLASSIC, UVMAP_SLIM, getUVMap}
+export {MODEL_MAP, UVMAP_CLASSIC, UVMAP_SLIM, getUVMap}

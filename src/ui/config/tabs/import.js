@@ -68,7 +68,8 @@ class ImportTab extends Tab {
   ]
 
   constructor() {
-    super({name: "Project"})
+    super({name: "Project"});
+    this.fileInput = document.createElement("input");
   }
 
   render() {

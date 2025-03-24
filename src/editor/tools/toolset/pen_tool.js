@@ -1,5 +1,6 @@
 import Color from "color";
 import { BaseTool } from "../base_tool";
+import { getMirroredCoords } from "../../layers/texture_utils";
 
 const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
 
@@ -25,7 +26,7 @@ class PenTool extends BaseTool {
     const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
 
     this.cursor = point;
-    this.draw(texture, part, point, color);
+    this.draw(texture, part, point, color, toolData.variant);
 
     return texture.toTexture();
   }
@@ -35,14 +36,14 @@ class PenTool extends BaseTool {
     const part = toolData.parts[0];
     const point = toolData.getCoords();
     const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
-    this.draw(texture, part, point, color);
+    this.draw(texture, part, point, color, toolData.variant);
 
     return texture.toTexture();
   }
 
   up() {}
 
-  draw(texture, part, point, color) {
+  draw(texture, part, point, color, variant) {
     if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
       this.cursor = point;
     }
@@ -51,6 +52,15 @@ class PenTool extends BaseTool {
     this.lastFace = part.normal;
 
     texture.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
+
+    if (true) {
+      this.cursor = this.cursor || point;
+
+      const mirroredCursor = getMirroredCoords(variant, this.cursor);
+      const mirroredPoint = getMirroredCoords(variant, point);
+
+      texture.putLine(color, mirroredCursor.x, mirroredCursor.y, mirroredPoint.x, mirroredPoint.y);
+    }
 
     this.cursor = point;
   }

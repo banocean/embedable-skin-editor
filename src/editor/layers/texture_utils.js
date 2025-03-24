@@ -1,5 +1,7 @@
+import * as THREE from "three";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
-import { getUVMap } from "../model/uv";
+import { getUVMap, MODEL_MAP } from "../model/uv";
+import MIRROR_MAP from "./mirror_map";
 
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 
@@ -72,4 +74,65 @@ function swapFrontBack(inputCanvas, variant = "classic") {
   return canvas;
 }
 
-export {remapUV, swapBodyOverlay, swapFrontBack}
+function getPartFromCoords(variant, point) {
+  const uv = MODEL_MAP[variant];
+
+  function inBox(point, x, y, w, h) {
+    // Account for negative uv width / height
+    const checkX = w >= 0 ? (point.x >= x && point.x < x + w) : (point.x >= x + w && point.x < x);
+    const checkY = h >= 0 ? (point.y >= y && point.y < y + h) : (point.y >= y + h && point.y < y);
+    return checkX && checkY;
+  }
+
+  let part;
+  Object.entries(uv).find(([key, value]) => {
+    if (inBox(point, ...value)) {
+      part = key;
+      return true;
+    }
+
+    return false;
+  })
+
+  return part;
+}
+
+function getMirroredCoords(variant, point) {
+  const pairedParts = {
+    arm_left: "arm_right",
+    arm_right: "arm_left",
+    leg_left: "leg_right",
+    leg_right: "leg_left",
+  }
+
+  const uv = MODEL_MAP[variant];
+  const part = getPartFromCoords(variant, point);
+
+  function mirrorAlternate(currentPart, newPart, point) {
+    const currentUV = uv[currentPart];
+    const newUV = uv[newPart];
+    
+    const offsetX = point.x - currentUV[0];
+    const offsetY = point.y - currentUV[1];
+
+    return new THREE.Vector2((newUV[0] + newUV[2]) - (offsetX + 1), newUV[1] + offsetY);
+  }
+
+  function mirrorSame(currentPart, point) {
+    const currentUV = uv[currentPart];
+
+    const offsetX = point.x - currentUV[0];
+
+    return new THREE.Vector2((currentUV[0] + currentUV[2]) - (offsetX + 1), point.y);
+  }
+
+  let alternatePart = MIRROR_MAP[part];
+
+  if (alternatePart) {
+    return mirrorAlternate(part, alternatePart, point);
+  } else {
+    return mirrorSame(part, point);
+  }
+}
+
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack}
