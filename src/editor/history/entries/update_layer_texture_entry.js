@@ -1,6 +1,6 @@
 import { BaseEntry } from "../base_entry";
 
-class UpdateLayerTexture extends BaseEntry {
+class UpdateLayerTextureEntry extends BaseEntry {
   constructor(layers, layer, texture) {
     super();
 
@@ -25,4 +25,4 @@ class UpdateLayerTexture extends BaseEntry {
   }
 }
 
-export default UpdateLayerTexture;
+export default UpdateLayerTextureEntry;

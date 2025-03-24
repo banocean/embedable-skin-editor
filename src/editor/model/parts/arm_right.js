@@ -49,13 +49,6 @@ class RightArmPart extends ArmBasePart {
   position() {
     return new THREE.Vector3(-this.positionOffset(), -1.25, 0)
   }
-
-  uvmap() {
-    return {
-      base: UVMAP_BASE[this.variant],
-      overlay: UVMAP_OVERLAY[this.variant],
-    }
-  }
 }
 
 export {RightArmPart}

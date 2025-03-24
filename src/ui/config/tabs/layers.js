@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import Color from "color";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
@@ -7,6 +8,8 @@ import BrightnessFilterSlider from "./layers/brightness_filter_slider";
 import AlphaFilterSlider from "./layers/alpha_filter_slider";
 import HueFilterSlider from "./layers/hue_filter_slider";
 import SaturationFilterSlider from "./layers/saturation_filter_slider";
+import UpdateLayerTextureEntry from "../../../editor/history/entries/update_layer_texture_entry";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
 
 class LayersTab extends Tab {
   static styles = [
@@ -144,6 +147,24 @@ class LayersTab extends Tab {
         height: 18px;
         pointer-events: none;
       }
+
+      #layer-buttons {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 0;
+        padding: 0.5rem;
+      }
+
+      #layer-buttons ncrs-button {
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+      }
+
+      #layer-buttons ncrs-button::part(button) {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
     `,
   ];
 
@@ -219,7 +240,33 @@ class LayersTab extends Tab {
           </ncrs-button>
         </div>
       </div>
+      <div id="layer-buttons">
+        <ncrs-button @click=${this.swapBodyOverlay} title="Swap body of the skin with the overlay.">Swap Body / Overlay</ncrs-button>
+        <ncrs-button @click=${this.swapFrontBack} title="Flip skin front and back.">Flip Front / Back</ncrs-button>
+      </div>
     `;
+  }
+
+  swapBodyOverlay() {
+    const layers = this.editor.layers;
+    const layer = this._getLayer();
+    const canvas = layer.swapBodyOverlayTexture("classic");
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    this.editor.history.add(
+      new UpdateLayerTextureEntry(layers, layer, texture)
+    );
+  }
+
+  swapFrontBack() {
+    const layers = this.editor.layers;
+    const layer = this._getLayer();
+    const canvas = layer.swapFrontBackTexture("classic");
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    this.editor.history.add(
+      new UpdateLayerTextureEntry(layers, layer, texture)
+    );
   }
 
   _getLayer() {

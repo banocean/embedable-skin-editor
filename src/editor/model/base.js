@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from "../main";
 import { SkinGridBox } from "./grid";
+import { getUVMap } from "./uv";
 
 const FACES = {
   front: 4,
@@ -83,12 +84,18 @@ class BasePart {
   name() {
     return "";
   }
+
   uvmap() {
-    return {};
+    return {
+      base: getUVMap(this.variant, this.name() + "_base"),
+      overlay: getUVMap(this.variant, this.name() + "_overlay"),
+    }
   }
+
   size() {
     return {};
   }
+
   position() {
     return {};
   }

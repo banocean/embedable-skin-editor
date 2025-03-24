@@ -18,27 +18,6 @@ class HeadPart extends BasePart {
       overlay: [1.125, 1.125, 1.125]
     }
   }
-
-  uvmap() {
-    return {
-      base: {
-        front: [8, 8, 8, 8],
-        bottom: [16, 8, 8, -8],
-        left: [0, 8, 8, 8],
-        right: [16, 8, 8, 8],
-        top: [8, 0, 8, 8],
-        back: [24, 8, 8, 8],
-      },
-      overlay: {
-        front: [40, 8, 8, 8],
-        bottom: [48, 8, 8, -8],
-        left: [32, 8, 8, 8],
-        right: [48, 8, 8, 8],
-        top: [40, 0, 8, 8],
-        back: [56, 8, 8, 8],
-      }
-    }
-  }
 }
 
 export {HeadPart}

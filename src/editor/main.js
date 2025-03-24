@@ -8,7 +8,7 @@ import Stats from "stats.js";
 import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
-import UpdateLayerTexture from "./history/entries/update_layer_texture";
+import UpdateLayerTextureEntry from "./history/entries/update_layer_texture_entry";
 import ToolData from "./tools/tool_data";
 import PenTool from "./tools/toolset/pen_tool";
 import BucketTool from "./tools/toolset/bucket_tool";
@@ -149,7 +149,7 @@ class Editor extends LitElement {
     this.currentTool.up();
     const layer = this.layers.getSelectedLayer();
 
-    this.history.add(new UpdateLayerTexture(this.layers, layer, layer.texture));
+    this.history.add(new UpdateLayerTextureEntry(this.layers, layer, layer.texture));
 
     this.dispatchEvent(new CustomEvent("tool-up"));
   }

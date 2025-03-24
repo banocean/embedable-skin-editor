@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { ArmBasePart } from "./arm_base"
+import { getUVMap } from "../uv"
 
 const UVMAP_BASE = {
   classic: {
@@ -48,13 +49,6 @@ class LeftArmPart extends ArmBasePart {
 
   position() {
     return new THREE.Vector3(this.positionOffset(), -1.25, 0)
-  }
-
-  uvmap() {
-    return {
-      base: UVMAP_BASE[this.variant],
-      overlay: UVMAP_OVERLAY[this.variant],
-    }
   }
 }
 

@@ -18,27 +18,6 @@ class TorsoPart extends BasePart {
       overlay: [1.0625, 1.5625, 0.5625]
     }
   }
-
-  uvmap() {
-    return {
-      base: {
-        front: [20, 20, 8, 12],
-        bottom: [28, 20, 8, -4],
-        left: [16, 20, 4, 12],
-        right: [28, 20, 4, 12],
-        top: [20, 16, 8, 4],
-        back: [32, 20, 8, 12],
-      },
-      overlay: {
-        front: [20, 36, 8, 12],
-        bottom: [28, 36, 8, -4],
-        left: [16, 36, 4, 12],
-        right: [28, 36, 4, 12],
-        top: [20, 32, 8, 4],
-        back: [32, 36, 8, 12],
-      }
-    }
-  }
 }
 
 export {TorsoPart}

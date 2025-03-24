@@ -18,27 +18,6 @@ class LeftLegPart extends BasePart {
       overlay: [0.5625, 1.5625, 0.5625]
     }
   }
-
-  uvmap() {
-    return {
-      base: {
-        front: [20, 52, 4, 12],
-        bottom: [24, 52, 4, -4],
-        left: [16, 52, 4, 12],
-        right: [24, 52, 4, 12],
-        top: [20, 48, 4, 4],
-        back: [28, 52, 4, 12],
-      },
-      overlay: {
-        front: [4, 52, 4, 12],
-        bottom: [8, 52, 4, -4],
-        left: [0, 52, 4, 12],
-        right: [8, 52, 4, 12],
-        top: [4, 48, 4, 4],
-        back: [12, 52, 4, 12],
-      }
-    }
-  }
 }
 
 export {LeftLegPart}

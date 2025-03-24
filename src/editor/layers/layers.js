@@ -3,6 +3,7 @@ import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import Compositor from "./compositor";
+import { swapBodyOverlay, swapFrontBack } from "./texture_utils";
 
 class Layers extends EventTarget {
   constructor(width, height) {
@@ -223,8 +224,8 @@ class Layer extends EventTarget {
   selected = false;
   visible = true;
 
-  render() {
-    return this.compositor.render(this.texture.image);
+  render(canvas = this.texture.image) {
+    return this.compositor.render(canvas);
   }
 
   getBaseCanvas() {
@@ -274,6 +275,14 @@ class Layer extends EventTarget {
       data: btoa(binString),
       selected: this.selected,
     }
+  }
+
+  swapBodyOverlayTexture(variant) {
+    return swapBodyOverlay(this.getBaseCanvas(), variant);
+  }
+
+  swapFrontBackTexture(variant) {
+    return swapFrontBack(this.getBaseCanvas(), variant);
   }
 }
 

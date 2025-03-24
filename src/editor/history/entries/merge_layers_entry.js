@@ -2,7 +2,7 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../main";
 import { BaseEntry } from "../base_entry";
 import * as THREE from "three";
 import GroupedEntry from "./grouped_entry";
-import UpdateLayerTexture from "./update_layer_texture";
+import UpdateLayerTextureEntry from "./update_layer_texture_entry";
 import DeleteLayerEntry from "./delete_layer_entry";
 import SelectLayerEntry from "./select_layer_entry";
 
@@ -31,7 +31,7 @@ class MergeLayersEntry extends BaseEntry {
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     return new GroupedEntry(
-      new UpdateLayerTexture(layers, target, texture),
+      new UpdateLayerTextureEntry(layers, target, texture),
       new DeleteLayerEntry(layers, source),
       new SelectLayerEntry(layers, {layer: target}),
     );

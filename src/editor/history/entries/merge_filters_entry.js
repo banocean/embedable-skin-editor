@@ -2,7 +2,7 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../main";
 import { BaseEntry } from "../base_entry";
 import GroupedEntry from "./grouped_entry";
 import UpdateLayerFiltersEntry from "./update_layer_filters_entry";
-import UpdateLayerTexture from "./update_layer_texture";
+import UpdateLayerTextureEntry from "./update_layer_texture_entry";
 import * as THREE from "three";
 
 class MergeFiltersEntry extends BaseEntry {
@@ -25,7 +25,7 @@ class MergeFiltersEntry extends BaseEntry {
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     return new GroupedEntry(
-      new UpdateLayerTexture(layers, layer, texture),
+      new UpdateLayerTextureEntry(layers, layer, texture),
       new UpdateLayerFiltersEntry(layers, layer, [], false)
     )
   }
