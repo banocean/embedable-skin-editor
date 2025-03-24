@@ -193,6 +193,13 @@ class Layers extends EventTarget {
     this.texture.needsUpdate = true;
   }
 
+  isBlank() {
+    const canvas = this.render();
+    const ctx = canvas.getContext("2d");
+
+    return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
+  }
+
   _setupTexture() {
     const texture = new THREE.CanvasTexture(this.canvas);
     texture.magFilter = THREE.NearestFilter;
