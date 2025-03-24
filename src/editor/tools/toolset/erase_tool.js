@@ -1,5 +1,6 @@
 import Color from "color";
 import { BaseTool } from "../base_tool";
+import { getMirroredCoords } from "../../layers/texture_utils";
 
 const TRANSPARENT = new Color(0).alpha(0);
 
@@ -28,7 +29,7 @@ class EraseTool extends BaseTool {
     const part = toolData.parts[0];
 
     this.cursor = toolData.getCoords();
-    this.draw(part, toolData.getCoords(), TRANSPARENT);
+    this.draw(part, toolData.getCoords(), TRANSPARENT, toolData.variant);
 
     return this.canvas.toTexture();
   }
@@ -36,7 +37,7 @@ class EraseTool extends BaseTool {
   move(toolData) {
     const part = toolData.parts[0];
 
-    this.draw(part, toolData.getCoords(), TRANSPARENT);
+    this.draw(part, toolData.getCoords(), TRANSPARENT, toolData.variant);
 
     return this.canvas.toTexture();
   }
@@ -45,7 +46,7 @@ class EraseTool extends BaseTool {
     return this.canvas.toTexture();
   }
 
-  draw(part, point, color) {
+  draw(part, point, color, variant) {
     if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
       this.cursor = point;
     }
@@ -54,6 +55,15 @@ class EraseTool extends BaseTool {
     this.lastFace = part.faceIndex;
 
     this.canvas.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
+
+    if (this.config.get("mirror", false)) {
+      this.cursor = this.cursor || point;
+
+      const mirroredCursor = getMirroredCoords(variant, this.cursor);
+      const mirroredPoint = getMirroredCoords(variant, point);
+
+      this.canvas.putLine(color, mirroredCursor.x, mirroredCursor.y, mirroredPoint.x, mirroredPoint.y);
+    }
 
     this.cursor = point;
   }

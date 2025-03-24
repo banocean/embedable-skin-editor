@@ -53,7 +53,7 @@ class PenTool extends BaseTool {
 
     texture.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
 
-    if (true) {
+    if (this.config.get("mirror", false)) {
       this.cursor = this.cursor || point;
 
       const mirroredCursor = getMirroredCoords(variant, this.cursor);

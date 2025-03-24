@@ -9,6 +9,7 @@ class PenToolConfig extends BaseToolConfig {
   static properties = {
     size: {},
     shape: {},
+    mirror: {},
     camo: {},
     blend: {},
   }
@@ -23,6 +24,7 @@ class PenToolConfig extends BaseToolConfig {
         type: "select",
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}],
       },
+      mirror: {type: "toggle", icon: "shield", title: "Toggle mirror\nMirrors the stroke across the skin"},
       camo: {type: "toggle", icon: "checker", title: "Toggle camo\nRandomly lightens and darkens the current color"},
       blend: {type: "toggle", icon: "palette", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
@@ -45,6 +47,7 @@ class PenToolConfig extends BaseToolConfig {
         <div>
           <p class="title">Effects</p>
           <div class="group-sm">
+            ${this._mirrorControl()}
             ${this._camoControl()}
             ${this._blendControl()}
           </div>
