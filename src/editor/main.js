@@ -296,6 +296,7 @@ class Editor extends LitElement {
     if (!SkinModel.isValidVariant(variant)) { return false; }
 
     const yPos = this.skinMesh.position.y;
+    const rotation = this.baseGroup.rotation;
 
     this.variant = variant;
     this.persistence.set("variant", this.variant);
@@ -305,6 +306,7 @@ class Editor extends LitElement {
 
     this.scene.remove(this.baseGroup);
     this.baseGroup = this._setupBaseGroup(this.skinMesh);
+    this.baseGroup.setRotationFromEuler(rotation);
     this.scene.add(this.baseGroup);
 
     this.skinMesh.position.y = yPos;
