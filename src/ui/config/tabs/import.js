@@ -1,5 +1,8 @@
+import * as THREE from "three";
+import AddLayerEntry from "../../../editor/history/entries/add_layer_entry";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
 
 class ImportTab extends Tab {
   static styles = [
@@ -64,19 +67,28 @@ class ImportTab extends Tab {
         top: -5px;
         margin-left: calc(var(--height) * -1);
       }
+
+      #file-input {
+        display: none;
+      }
     `
   ]
 
-  constructor() {
+  constructor(editor) {
     super({name: "Project"});
+    this.editor = editor;
     this.fileInput = document.createElement("input");
+    this.fileInput.id = "file-input";
+    this.fileInput.type = "file";
+    this.fileInput.addEventListener("change", this._fileRead.bind(this));
   }
 
   render() {
     return html`
       <div id="main">
         <div id="buttons">
-          <ncrs-button title="Import a skin file as a new layer.">Import Skin from File</ncrs-button>
+          ${this.fileInput}
+          <ncrs-button @click=${this.pngOpen} title="Import a skin file as a new layer.">Import Skin from File</ncrs-button>
           <ncrs-button title="Import a .ncrs project file.">Import Project from File</ncrs-button>
           <hr>
           <input id="username" type="text" placeholder="Steve">
@@ -85,6 +97,30 @@ class ImportTab extends Tab {
         <div id="spacer"></div>
       </div>
     `
+  }
+
+  pngOpen() {
+    this.fileInput.accept = "image/png";
+    this.fileInput.click();
+  }
+
+  _fileRead(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        this.editor.history.add(
+          new AddLayerEntry(this.editor.layers, {texture: new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT)})
+        )
+      }
+
+      img.src = reader.result;
+    }
+
+    reader.readAsDataURL(file);
   }
 }
 
