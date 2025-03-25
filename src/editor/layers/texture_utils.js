@@ -6,11 +6,8 @@ import MIRROR_MAP from "./mirror_map";
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 
 function remapUV(texture, ctx, source, destination) {
-  const s = source;
-  const d = destination;
-
-  ctx.clearRect(s[0], s[1], d[2], d[3]);
-  ctx.drawImage(texture, d[0], d[1], s[2], s[3], s[0], s[1], d[2], d[3]);
+  ctx.clearRect(...destination);
+  ctx.drawImage(texture, ...source, ...destination);
 }
 
 function swapBodyOverlay(inputCanvas, variant = "classic") {
@@ -58,6 +55,22 @@ function swapFrontBack(inputCanvas, variant = "classic") {
       remapUV(inputCanvas, ctx, faceC, faceD);
       remapUV(inputCanvas, ctx, faceD, faceC);
     });
+
+    function flip(src, dest) {
+      ctx.save();
+      ctx.translate(src[2] + (dest[0] * 2), src[3] + (dest[1] * 2));
+      ctx.scale(-1, -1);
+      remapUV(inputCanvas, ctx, src, dest);
+      ctx.restore();
+    }
+
+    // Flip top
+    flip(source.top, destination.top);
+    flip(destination.top, source.top);
+
+    // Flip bottom
+    flip(source.bottom, destination.bottom);
+    flip(destination.bottom, source.bottom);
   }
 
   partPairs.forEach(pair => {
@@ -67,7 +80,9 @@ function swapFrontBack(inputCanvas, variant = "classic") {
     const baseB = getUVMap(variant, pair[1] + "_base");
     const overlayB = getUVMap(variant, pair[1] + "_overlay");
 
+    console.log(pair[0]);
     flipUV(baseA, baseB);
+    console.log(pair[1]);
     flipUV(overlayA, overlayB);
   })
 
@@ -98,13 +113,6 @@ function getPartFromCoords(variant, point) {
 }
 
 function getMirroredCoords(variant, point) {
-  const pairedParts = {
-    arm_left: "arm_right",
-    arm_right: "arm_left",
-    leg_left: "leg_right",
-    leg_right: "leg_left",
-  }
-
   const uv = MODEL_MAP[variant];
   const part = getPartFromCoords(variant, point);
 
