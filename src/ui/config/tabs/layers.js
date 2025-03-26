@@ -171,7 +171,7 @@ class LayersTab extends Tab {
   constructor(editor) {
     super({ name: "Layer" });
     this.editor = editor;
-    this.config = editor.config;
+    this.config = editor.toolConfig;
 
     this.sliders = this._setupSliders();
 

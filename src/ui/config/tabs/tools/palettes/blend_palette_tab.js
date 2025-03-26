@@ -152,13 +152,13 @@ class BlendPaletteTab extends Tab {
     this.colorPicker = colorPicker;
     this.colors = this._loadColors();
 
-    this.setDarkened(!this.editor.config.get("blend"));
+    this.setDarkened(!this.editor.toolConfig.get("blend"));
 
     this._setupEvents();
   }
 
   render() {
-    const colors = this.editor.config.get("blend-palette", []);
+    const colors = this.editor.toolConfig.get("blend-palette", []);
 
     const plusButton = document.createElement("button");
     plusButton.id = "plus";
@@ -206,7 +206,7 @@ class BlendPaletteTab extends Tab {
   }
 
   addColor(color) {
-    const colors = [...this.editor.config.get("blend-palette", [])];
+    const colors = [...this.editor.toolConfig.get("blend-palette", [])];
 
     if (colors.includes(color)) { return; }
 
@@ -217,12 +217,12 @@ class BlendPaletteTab extends Tab {
     }
 
     this.selected = this.selected || color;
-    this.editor.config.set("blend-palette", colors);
+    this.editor.toolConfig.set("blend-palette", colors);
     this.ui.persistence.set("blendPalette", colors);
   }
 
   removeColor(color) {
-    const colors = [...this.editor.config.get("blend-palette", [])];
+    const colors = [...this.editor.toolConfig.get("blend-palette", [])];
 
     if (!colors.includes(color)) { return; }
 
@@ -239,7 +239,7 @@ class BlendPaletteTab extends Tab {
     const nextColor = colors[nextIndex];
     colors.splice(index, 1);
 
-    this.editor.config.set("blend-palette", colors);
+    this.editor.toolConfig.set("blend-palette", colors);
     this.ui.persistence.set("blendPalette", colors);
     this.selected = nextColor;
     this.colors = colors;
@@ -251,7 +251,7 @@ class BlendPaletteTab extends Tab {
 
   _loadColors() {
     const colors = this.ui.persistence.get("blendPalette", []);
-    this.editor.config.set("blend-palette", colors);
+    this.editor.toolConfig.set("blend-palette", colors);
 
     return colors;
   }
@@ -293,7 +293,7 @@ class BlendPaletteTab extends Tab {
   }
 
   _setupEvents() {
-    const cfg = this.editor.config;
+    const cfg = this.editor.toolConfig;
 
     cfg.addEventListener("blend-palette-change", () => {
       this.requestUpdate();

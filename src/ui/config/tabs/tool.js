@@ -147,9 +147,9 @@ class ToolTab extends Tab {
   }
 
   firstUpdated() {
-    this.colorPicker.setColor(this.editor.config.get("color", new Color("#000000")).string());
+    this.colorPicker.setColor(this.editor.toolConfig.get("color", new Color("#000000")).string());
 
-    this.editor.config.addEventListener("color-change", event => {
+    this.editor.toolConfig.addEventListener("color-change", event => {
       if (this.colorPicker.checkColor(event.detail)) { return; }
 
       this.colorPicker.setColor(event.detail.hexa());
@@ -169,7 +169,7 @@ class ToolTab extends Tab {
   }
 
   _setupToolConfigs() {
-    const config = this.editor.config;
+    const config = this.editor.toolConfig;
 
     this.toolConfigs = {
       pen: new PenToolConfig(config),
@@ -190,12 +190,12 @@ class ToolTab extends Tab {
   }
 
   _onColorChange(event) {
-    const currentColor = this.editor.config.get("color", new Color("#000000"));
+    const currentColor = this.editor.toolConfig.get("color", new Color("#000000"));
     const newColor = event.detail.color;
 
     if (newColor.hexa() == currentColor.hexa()) { return false; }
 
-    this.editor.config.set("color", event.detail.color);
+    this.editor.toolConfig.set("color", event.detail.color);
   }
 
   _onEasterEgg(event) {

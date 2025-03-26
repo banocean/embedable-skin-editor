@@ -23,6 +23,7 @@ import MergeLayersEntry from "./history/entries/merge_layers_entry";
 import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
 import Color from "color";
+import Config from "./config";
 
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
@@ -50,7 +51,8 @@ class Editor extends LitElement {
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this.history = new HistoryManager();
     this.stats = new Stats();
-    this.config = new ToolConfig();
+    this.config = new Config();
+    this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -84,7 +86,7 @@ class Editor extends LitElement {
     this.selectTool(tool || this.tools[0]);
 
     if (this.persistence.has("selectedColor")) {
-      this.config.set("color", new Color(this.persistence.get("selectedColor", "#000000")));
+      this.toolConfig.set("color", new Color(this.persistence.get("selectedColor", "#000000")));
     }
   }
 
@@ -320,7 +322,7 @@ class Editor extends LitElement {
       format: FORMAT,
       variant: this.variant,
       layers: this.layers.serializeLayers(),
-      blendPalette: this.config.get("blend-palette"),
+      blendPalette: this.toolConfig.get("blend-palette"),
     };
   }
 
@@ -333,7 +335,7 @@ class Editor extends LitElement {
       color = toolData.texture.getPixel({ x: point2.x, y: point2.y });
     }
 
-    this.config.set("color", color);
+    this.toolConfig.set("color", color);
   }
 
   _createLayerToolData(parts, button) {
@@ -440,11 +442,11 @@ class Editor extends LitElement {
 
   _setupTools() {
     return [
-      new PenTool(this.config),
-      new EraseTool(this.config),
-      new BucketTool(this.config),
-      new ShadeTool(this.config),
-      new SculptTool(this.config),
+      new PenTool(this.toolConfig),
+      new EraseTool(this.toolConfig),
+      new BucketTool(this.toolConfig),
+      new ShadeTool(this.toolConfig),
+      new SculptTool(this.toolConfig),
     ]
   }
 
@@ -456,7 +458,7 @@ class Editor extends LitElement {
       })
     });
 
-    this.config.addEventListener("color-change", event => {
+    this.toolConfig.addEventListener("color-change", event => {
       this.persistence.set("selectedColor", event.detail.hexa());
     })
   }

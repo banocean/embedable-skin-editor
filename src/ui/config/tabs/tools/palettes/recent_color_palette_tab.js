@@ -201,7 +201,7 @@ class RecentColorPaletteTab extends Tab {
     this.editor.addEventListener("tool-up", () => {
       if (!this.editor.currentTool.properties.providesColor) { return; }
 
-      const color = this.editor.config.get("color");
+      const color = this.editor.toolConfig.get("color");
 
       this.addColor(color.hex().toLowerCase())
     })
