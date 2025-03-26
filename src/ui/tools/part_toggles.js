@@ -92,17 +92,19 @@ class PartToggle extends LitElement {
   }
 
   render() {
+    const toggled = this.editor.config.get("partVisibility");
+
     return html`
       <div id="parts">
-        <ncrs-toggle id="toggle-head" title="Toggle head." toggled @toggle=${this._toggleHeadPart}></ncrs-toggle>
+        <ncrs-toggle id="toggle-head" title="Toggle head." ?toggled=${toggled.head} @toggle=${this._toggleHeadPart}></ncrs-toggle>
         <div>
-          <ncrs-toggle id="toggle-rarm" title="Toggle right arm." toggled @toggle=${this._toggleRArmPart}></ncrs-toggle>
-          <ncrs-toggle id="toggle-torso" title="Toggle torso." toggled @toggle=${this._toggleTorsoPart}></ncrs-toggle>
-          <ncrs-toggle id="toggle-larm" title="Toggle left arm." toggled @toggle=${this._toggleLArmPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-rarm" title="Toggle right arm." ?toggled=${toggled.arm_right} @toggle=${this._toggleRArmPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-torso" title="Toggle torso." ?toggled=${toggled.torso} @toggle=${this._toggleTorsoPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-larm" title="Toggle left arm." ?toggled=${toggled.arm_left} @toggle=${this._toggleLArmPart}></ncrs-toggle>
         </div>
         <div>
-          <ncrs-toggle id="toggle-rleg" title="Toggle right leg." toggled @toggle=${this._toggleRLegPart}></ncrs-toggle>
-          <ncrs-toggle id="toggle-lleg" title="Toggle left leg." toggled @toggle=${this._toggleLLegPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-rleg" title="Toggle right leg." ?toggled=${toggled.leg_right} @toggle=${this._toggleRLegPart}></ncrs-toggle>
+          <ncrs-toggle id="toggle-lleg" title="Toggle left leg." ?toggled=${toggled.leg_left} @toggle=${this._toggleLLegPart}></ncrs-toggle>
         </div>
       </div>
     `
@@ -164,13 +166,15 @@ class PartToggle extends LitElement {
     const toggleRLeg = this.shadowRoot.getElementById("toggle-rleg");
     const toggleLLeg = this.shadowRoot.getElementById("toggle-lleg");
 
-    let isOnlyPart = this.defaultToTrue(this.editor.partVisibility[part]);
-    isOnlyPart = part != "head" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["head"]) : isOnlyPart;
-    isOnlyPart = part != "arm_right" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["arm_right"]) : isOnlyPart;
-    isOnlyPart = part != "torso" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["torso"]) : isOnlyPart;
-    isOnlyPart = part != "arm_left" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["arm_left"]) : isOnlyPart;
-    isOnlyPart = part != "leg_right" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["leg_right"]) : isOnlyPart;
-    isOnlyPart = part != "leg_left" ? isOnlyPart && !this.defaultToTrue(this.editor.partVisibility["leg_left"]) : isOnlyPart;
+    const partVisibility = this.editor.config.get("partVisibility", {});
+
+    let isOnlyPart = this.defaultToTrue(partVisibility[part]);
+    isOnlyPart = part != "head" ? isOnlyPart && !this.defaultToTrue(partVisibility["head"]) : isOnlyPart;
+    isOnlyPart = part != "arm_right" ? isOnlyPart && !this.defaultToTrue(partVisibility["arm_right"]) : isOnlyPart;
+    isOnlyPart = part != "torso" ? isOnlyPart && !this.defaultToTrue(partVisibility["torso"]) : isOnlyPart;
+    isOnlyPart = part != "arm_left" ? isOnlyPart && !this.defaultToTrue(partVisibility["arm_left"]) : isOnlyPart;
+    isOnlyPart = part != "leg_right" ? isOnlyPart && !this.defaultToTrue(partVisibility["leg_right"]) : isOnlyPart;
+    isOnlyPart = part != "leg_left" ? isOnlyPart && !this.defaultToTrue(partVisibility["leg_left"]) : isOnlyPart;
     if (isOnlyPart) {
       this.editor.setPartVisible("head", true);
       this.editor.setPartVisible("arm_right", true);

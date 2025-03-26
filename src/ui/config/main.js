@@ -78,17 +78,27 @@ class Config extends LitElement {
   render() {
     const tabs = new TabGroup();
 
-    const toolTab = new ToolTab(this.ui);
-    const layersTab = new LayersTab(this.editor);
-    const importTab = new ImportTab(this.editor);
-    const exportTab = new ExportTab(this.editor);
+    const t = {
+      tool: new ToolTab(this.ui),
+      layers: new LayersTab(this.editor),
+      import: new ImportTab(this.editor),
+      export: new ExportTab(this.editor),
+    }
 
-    tabs.registerTab(toolTab);
-    tabs.registerTab(layersTab);
-    tabs.registerTab(importTab);
-    tabs.registerTab(exportTab);
 
-    tabs.select(toolTab);
+    tabs.registerTab(t.tool);
+    tabs.registerTab(t.layers);
+    tabs.registerTab(t.import);
+    tabs.registerTab(t.export);
+
+    tabs.addEventListener("select", event => {
+      const tabName = Object.keys(t).find(key => t[key] === event.detail);
+      if (!tabName) { return; }
+      this.ui.persistence.set("selectedTab", tabName);
+    })
+
+    const selectedTab = this.ui.persistence.get("selectedTab", "tool");
+    tabs.select(t[selectedTab]);
 
     return tabs;
   }

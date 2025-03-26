@@ -29,6 +29,23 @@ const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
 const FORMAT = -1;
 
+const CONFIG_VALUES = {
+  variant: {default: "classic", persistence: true},
+  partVisibility: {
+    default: {
+      head: true,
+      arm_left: true,
+      torso: true,
+      arm_right: true,
+      leg_left: true,
+      leg_right: true,
+    },
+    persistence: true},
+    baseVisible: {default: true, persistence: true},
+    overlayVisible: {default: false, persistence: true},
+    gridVisible: {default: true, persistence: true},
+}
+
 class Editor extends LitElement {
   static styles = css`
     :host {
@@ -51,7 +68,7 @@ class Editor extends LitElement {
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this.history = new HistoryManager();
     this.stats = new Stats();
-    this.config = new Config();
+    this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
     this._loadSkin();
@@ -64,8 +81,6 @@ class Editor extends LitElement {
   skinMesh;
   baseGroup;
   model;
-  variant;
-  partVisibility = {};
 
   render() {
     this.stats.showPanel(0);
@@ -84,10 +99,6 @@ class Editor extends LitElement {
     const tool = this.tools.find(tool => tool.properties.id == toolId);
 
     this.selectTool(tool || this.tools[0]);
-
-    if (this.persistence.has("selectedColor")) {
-      this.toolConfig.set("color", new Color(this.persistence.get("selectedColor", "#000000")));
-    }
   }
 
   sceneRender() {
@@ -162,52 +173,57 @@ class Editor extends LitElement {
   }
 
   setPartVisible(name, visible) {
-    this.partVisibility[name] = visible;
+    const partVisibility = this.config.get("partVisibility", {});
+    partVisibility[name] = visible;
+    this.config.set("partVisibility", partVisibility, true);
+
     this.updatePartsVisibility();
   }
 
   updatePartsVisibility() {
+    const partVisibility = this.config.get("partVisibility", {});
+
     this.model.parts.forEach((part) => {
-      if (Object.keys(this.partVisibility).includes(part.name())) {
-        part.setVisible(this.partVisibility[part.name()]);
+      if (Object.keys(partVisibility).includes(part.name())) {
+        part.setVisible(partVisibility[part.name()]);
       }
     });
   }
 
-  baseVisible = true;
-  overlayVisible = false;
-  gridVisible = true;
-
   setBaseVisible(visible) {
-    this.baseVisible = visible;
+    this.config.set("baseVisible", visible);
     this.updateVisibility();
   }
 
   setOverlayVisible(visible) {
-    this.overlayVisible = visible;
+    this.config.set("overlayVisible", visible);
     this.updateVisibility();
   }
 
   setGridVisible(visible) {
-    this.gridVisible = visible;
+    this.config.set("gridVisible", visible);
     this.updateVisibility();
   }
 
   updateVisibility() {
-    if (this.baseVisible) {
+    const baseVisible = this.config.get("baseVisible");
+    const overlayVisible = this.config.get("overlayVisible");
+    const gridVisible = this.config.get("gridVisible");
+
+    if (baseVisible) {
       this.camera.layers.enable(1);
     } else {
       this.camera.layers.disable(1);
     }
 
-    if (this.overlayVisible) {
+    if (overlayVisible) {
       this.camera.layers.enable(2);
     } else {
       this.camera.layers.disable(2);
     }
 
-    this.model.baseGrid.visible = this.gridVisible && this.baseVisible && !this.overlayVisible;
-    this.model.overlayGrid.visible = this.gridVisible && this.overlayVisible;
+    this.model.baseGrid.visible = gridVisible && baseVisible && !overlayVisible;
+    this.model.overlayGrid.visible = gridVisible && overlayVisible;
   }
 
   selectTool(tool) {
@@ -300,10 +316,9 @@ class Editor extends LitElement {
     const yPos = this.skinMesh.position.y;
     const r = this.baseGroup.rotation.clone();
 
-    this.variant = variant;
-    this.persistence.set("variant", this.variant);
+    this.config.set("variant", variant);
 
-    this.model = new SkinModel(this.layers.texture, this.variant);
+    this.model = new SkinModel(this.layers.texture, this.config.get("variant"));
     this.skinMesh = this.model.mesh;
 
     this.scene.remove(this.baseGroup);
@@ -320,7 +335,7 @@ class Editor extends LitElement {
   serialize() {
     return {
       format: FORMAT,
-      variant: this.variant,
+      variant: this.config.get("variant"),
       layers: this.layers.serializeLayers(),
       blendPalette: this.toolConfig.get("blend-palette"),
     };
@@ -342,13 +357,13 @@ class Editor extends LitElement {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
 
-    return new ToolData({ texture, parts, button, variant: this.variant });
+    return new ToolData({ texture, parts, button, variant: this.config.get("variant") });
   }
 
   _createSkinToolData(parts, button) {
     const texture = this.layers.render();
 
-    return new ToolData({ texture, parts, button, variant: this.variant });
+    return new ToolData({ texture, parts, button, variant: this.config.get("variant") });
   }
 
   _setupResizeObserver() {
@@ -413,12 +428,14 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.variant = this.persistence.get("variant", "classic");;
-    this.model = new SkinModel(texture, this.variant);
+    this.config.set("variant", this.persistence.get("variant", "classic"));
+    this.model = new SkinModel(texture, this.config.get("variant", "classic"));
 
     this.skinMesh = this.model.mesh;
     this.baseGroup = this._setupBaseGroup(this.skinMesh);
     this.scene.add(this.baseGroup);
+
+    this.updatePartsVisibility();
   }
 
   _setupBaseGroup(mesh) {
@@ -457,10 +474,6 @@ class Editor extends LitElement {
         this.persistence.set("layers", this.layers.serializeLayers());
       })
     });
-
-    this.toolConfig.addEventListener("color-change", event => {
-      this.persistence.set("selectedColor", event.detail.hexa());
-    })
   }
 }
 

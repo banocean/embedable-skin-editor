@@ -128,8 +128,11 @@ class Toolbar extends LitElement {
   }
 
   _renderToggles() {
-    const isSlim = this.ui.editor.variant == "slim";
-    const overlayVisible = this.ui.editor.overlayVisible;
+    const cfg = this.ui.editor.config;
+    const isSlim = cfg.get("variant") == "slim";
+    const baseVisible = cfg.get("baseVisible");
+    const overlayVisible = cfg.get("overlayVisible");
+    const gridVisible = cfg.get("gridVisible");
 
     return html`
       <div>
@@ -145,7 +148,7 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle base" toggled @toggle=${this._toggleBase}>
+        <ncrs-toggle title="Toggle base" ?toggled=${baseVisible} @toggle=${this._toggleBase}>
           <ncrs-icon slot="before" icon="player" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
@@ -155,7 +158,7 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle grid" toggled @toggle=${this._toggleGrid}>
+        <ncrs-toggle title="Toggle grid" ?toggled=${gridVisible} @toggle=${this._toggleGrid}>
           <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>

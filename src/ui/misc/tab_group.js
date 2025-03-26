@@ -45,6 +45,7 @@ class TabGroup extends LitElement {
       tab.visible = (tab == selectedTab);
     })
 
+    this.dispatchEvent(new CustomEvent("select", {detail: selectedTab}));
     this.requestUpdate();
   }
 

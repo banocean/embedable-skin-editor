@@ -80,9 +80,7 @@ function swapFrontBack(inputCanvas, variant = "classic") {
     const baseB = getUVMap(variant, pair[1] + "_base");
     const overlayB = getUVMap(variant, pair[1] + "_overlay");
 
-    console.log(pair[0]);
     flipUV(baseA, baseB);
-    console.log(pair[1]);
     flipUV(overlayA, overlayB);
   })
 

@@ -1,7 +1,16 @@
 class PersistenceManager {
+  static instances = [];
+
+  static resetAll() {
+    this.instances.forEach(instance => {
+      instance.reset();
+    })
+  }
+
   constructor(key) {
     this.key = key;
     this._data = this._loadData();
+    PersistenceManager.instances.push(this);
   }
 
   set(key, value) {

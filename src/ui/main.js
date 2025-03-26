@@ -111,8 +111,7 @@ class UI extends LitElement {
           this.editor.history.redo();
           break;
         case "reset":
-          this.editor.persistence.reset();
-          this.persistence.reset();
+          PersistenceManager.resetAll();
           location.reload();
           break;
       }

@@ -2,18 +2,27 @@ import Config from "../config";
 import Color from "color";
 import { getRandomInt, pickFromArray } from "../../helpers";
 
-const DEFAULTS = {
-  size: 1,
-  shape: "square",
-  color: new Color("#E8453C"),
-  camo: false,
-  blend: false,
-  force: 5,
+function saveColor(color) {
+  return color.hexa();
+}
+
+function loadColor(color) {
+  return new Color(color);
+}
+
+const VALUE_MAP = {
+  size: {default: 1, persistence: true},
+  shape: {default: "square", persistence: true},
+  color: {default: new Color("#E8453C"), persistence: {save: saveColor, load: loadColor}},
+  camo: {default: false, persistence: true},
+  blend: {default: false, persistence: true},
+  force: {default: 5, persistence: true},
+  mirror: {default: true, persistence: true},
 }
 
 class ToolConfig extends Config {
   constructor() {
-    super(DEFAULTS);
+    super("ncrs-tool-config", VALUE_MAP);
   }
 
   getColor() {
