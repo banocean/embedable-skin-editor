@@ -281,6 +281,7 @@ class Layer extends EventTarget {
       filters: this.compositor.serializeFilters(),
       data: btoa(binString),
       selected: this.selected,
+      visible: this.visible,
     }
   }
 
