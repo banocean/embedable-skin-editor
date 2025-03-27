@@ -17,7 +17,7 @@ const VALUE_MAP = {
   camo: {default: false, persistence: true},
   blend: {default: false, persistence: true},
   force: {default: 5, persistence: true},
-  mirror: {default: true, persistence: true},
+  mirror: {default: false, persistence: true},
 }
 
 class ToolConfig extends Config {
