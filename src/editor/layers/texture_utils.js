@@ -141,4 +141,4 @@ function getMirroredCoords(variant, point) {
   }
 }
 
-export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack}
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords}
