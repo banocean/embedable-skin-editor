@@ -628,6 +628,7 @@ class OrbitControls extends EventDispatcher {
             }
 
         }
+        this.dollyOut = dollyOut;
 
         function dollyIn( dollyScale ) {
 
@@ -643,6 +644,7 @@ class OrbitControls extends EventDispatcher {
             }
 
         }
+        this.dollyIn = dollyIn;
 
         function updateZoomParameters( x, y ) {
 
