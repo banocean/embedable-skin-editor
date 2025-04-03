@@ -349,7 +349,7 @@ class ColorPicker extends LitElement {
   }
 
   _setupEvents() {
-    this.editor.toolConfig.addEventListener("pick-color-change", event => {
+    this.editor.config.addEventListener("pick-color-change", event => {
       this._eyedropper = event.detail;
     })
   }
