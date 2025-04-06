@@ -32,7 +32,7 @@ class Config extends LitElement {
       display: flex;
       gap: 0.25rem;
       background-color: #131315;
-      padding-bottom: 0.25rem;
+      padding-top: 0.25rem;
     }
 
     ncrs-tab-group::part(button) {
@@ -45,13 +45,15 @@ class Config extends LitElement {
       color: white;
       user-select: none;
       padding: 0.25rem;
-      border-bottom-left-radius: 0.25rem;
-      border-bottom-right-radius: 0.25rem;
+      padding-top: 0px;
+      margin-top: 0.25rem;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
       border-width: 0px;
-      border-bottom-width: 2px;
+      border-top-width: 2px;
       border-color: #232428;
       border-style: solid;
-      background-color: #1a1a1a;
+      background-color: #232428;
     }
 
     ncrs-tab-group::part(button):hover {
@@ -59,12 +61,15 @@ class Config extends LitElement {
     }
 
     ncrs-tab-group::part(button selected),
-    ncrs-tab-group::part(button):active {
+    ncrs-tab-group::part(button):active,
+    ncrs-tab-group::part(button):focus {
       border-color: #313436;
     }
 
     ncrs-tab-group::part(button selected) {
-      background-color: #232428;
+      margin-top: 0px;
+      background-color: #1a1a1a;
+      font-weight: bold;
     }
   `
 
@@ -77,6 +82,7 @@ class Config extends LitElement {
 
   render() {
     const tabs = new TabGroup();
+    tabs.side = "top";
 
     const t = {
       tool: new ToolTab(this.ui),

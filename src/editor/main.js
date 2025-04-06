@@ -22,7 +22,6 @@ import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
 import MergeLayersEntry from "./history/entries/merge_layers_entry";
 import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
-import Color from "color";
 import Config from "./config";
 
 const IMAGE_WIDTH = 64;
@@ -71,6 +70,7 @@ class Editor extends LitElement {
     this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
+    this.currentTool = this.tools[0];
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -448,7 +448,7 @@ class Editor extends LitElement {
 
   _startRender() {
     this.camera.position.z = 3;
-    this.zoom(0.455);
+    this.zoom(0.55);
 
     this.centerModel();
 
