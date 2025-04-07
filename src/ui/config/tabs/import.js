@@ -110,6 +110,7 @@ class ImportTab extends Tab {
   }
 
   referenceImageOpen() {
+    this.referenceFileInput.value = null;
     this.referenceFileInput.accept = "image/png";
     this.referenceFileInput.click();
   }
