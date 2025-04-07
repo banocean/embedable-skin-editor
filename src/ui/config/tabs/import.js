@@ -3,6 +3,7 @@ import AddLayerEntry from "../../../editor/history/entries/add_layer_entry";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
+import createReferenceImage from "./import/reference_image";
 
 class ImportTab extends Tab {
   static styles = [
@@ -68,7 +69,7 @@ class ImportTab extends Tab {
         margin-left: calc(var(--height) * -1);
       }
 
-      #file-input {
+      .hidden {
         display: none;
       }
     `
@@ -77,22 +78,26 @@ class ImportTab extends Tab {
   constructor(editor) {
     super({name: "Project"});
     this.editor = editor;
-    this.fileInput = document.createElement("input");
-    this.fileInput.id = "file-input";
-    this.fileInput.type = "file";
-    this.fileInput.addEventListener("change", this._fileRead.bind(this));
+    this.pngFileInput = this._createFileInput();
+    this.referenceFileInput = this._createFileInput();
+
+    this.pngFileInput.addEventListener("change", this._pngFileRead.bind(this));
+    this.referenceFileInput.addEventListener("change", this._referenceFileRead.bind(this));
   }
 
   render() {
     return html`
       <div id="main">
         <div id="buttons">
-          ${this.fileInput}
+          ${this.pngFileInput}
+          ${this.referenceFileInput}
+          <input id="username" type="text" placeholder="Steve">
+          <ncrs-button id="import-username">Import Skin from Username</ncrs-button>
+          <hr>
           <ncrs-button @click=${this.pngOpen} title="Import a skin file as a new layer.">Import Skin from File</ncrs-button>
           <ncrs-button title="Import a .ncrs project file.">Import Project from File</ncrs-button>
           <hr>
-          <input id="username" type="text" placeholder="Steve">
-          <ncrs-button id="import-username">Import Skin from Username</ncrs-button>
+          <ncrs-button @click=${this.referenceImageOpen} title="Add a reference image.">Add Reference Image</ncrs-button>
         </div>
         <div id="spacer"></div>
       </div>
@@ -100,11 +105,16 @@ class ImportTab extends Tab {
   }
 
   pngOpen() {
-    this.fileInput.accept = "image/png";
-    this.fileInput.click();
+    this.pngFileInput.accept = "image/png";
+    this.pngFileInput.click();
   }
 
-  _fileRead(event) {
+  referenceImageOpen() {
+    this.referenceFileInput.accept = "image/png";
+    this.referenceFileInput.click();
+  }
+
+  _pngFileRead(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
@@ -121,6 +131,33 @@ class ImportTab extends Tab {
     }
 
     reader.readAsDataURL(file);
+  }
+
+  _referenceFileRead(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        document.body.appendChild(
+          createReferenceImage(this.editor, img)
+        );
+      }
+
+      img.src = reader.result;
+    }
+
+    reader.readAsDataURL(file);
+  }
+
+  _createFileInput() {
+    const input = document.createElement("input");
+    input.classList.add("hidden");
+    input.type = "file";
+
+    return input;
   }
 }
 

@@ -2,6 +2,7 @@ import "./misc/icon";
 import "./misc/button";
 import "./misc/toggle";
 import "./misc/modal";
+import "./misc/window";
 
 import { css, html, LitElement } from "lit";
 import { Editor } from "../editor/main";

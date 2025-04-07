@@ -186,4 +186,4 @@ class Controls {
   }
 }
 
-export { Controls };
+export { Controls, CURSOR_EYEDROPPER };
