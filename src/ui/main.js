@@ -43,7 +43,7 @@ class UI extends LitElement {
     :host(.has-filters) #filters-warning {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.5rem;
       pointer-events: none;
     }
 
@@ -54,15 +54,28 @@ class UI extends LitElement {
       position: relative;
     }
 
+    #layers {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    #layers ncrs-layer-list {
+      flex-grow: 1;
+    }
+
     #editor ncrs-editor {
       width: 100%;
       height: 100%;
     }
 
     #history {
-      position: absolute;
-      top: 8px;
-      right: 8px; 
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem;
+      gap: 0.25rem;
+      background-color: rgb(19, 19, 21);
     }
 
     #history button {
@@ -168,9 +181,11 @@ class UI extends LitElement {
         <div id="editor">
           ${this.editor}
           ${this._filtersWarning()}
-          ${this._historyButtons()}
         </div>
-        ${this.layers}
+        <div id="layers">
+          ${this._historyButtons()}
+          ${this.layers}
+        </div>
       </div>
       <slot name="footer"></slot>
     `;
