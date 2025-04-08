@@ -190,10 +190,10 @@ class UI extends LitElement {
   _historyButtons() {
     return html`
       <div id="history">
-        <button title="Undo" @click=${this._undo}>
+        <button title="Undo [Ctrl + Z]" @click=${this._undo}>
           <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
         </button>
-        <button title="Redo" @click=${this._redo}>
+        <button title="Redo [Ctrl + Y]" @click=${this._redo}>
           <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
         </button>
       </div>
