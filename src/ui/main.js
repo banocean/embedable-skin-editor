@@ -30,7 +30,7 @@ class UI extends LitElement {
       display: none;
       position: absolute;
       top: 8px;
-      left: 64px;
+      left: 8px;
       color: #aaaaaa;
       font-size: small;
     }
@@ -47,10 +47,33 @@ class UI extends LitElement {
       pointer-events: none;
     }
 
-    ncrs-editor {
+    #editor {
       background-color: #191919;
       background-image: url("/images/grid-editor-dark.png");
       flex-grow: 1;
+      position: relative;
+    }
+
+    #editor ncrs-editor {
+      width: 100%;
+      height: 100%;
+    }
+
+    #history {
+      position: absolute;
+      top: 8px;
+      right: 8px; 
+    }
+
+    #history button {
+      all: unset;
+      cursor: pointer;
+    }
+
+    #history ncrs-icon {
+      --icon-color: white;
+      width: 24px;
+      height: 24px;
     }
   `;
 
@@ -142,17 +165,47 @@ class UI extends LitElement {
       <div>
         ${this.config}
         ${this.toolbar}
-        ${this.editor}
-        ${this.layers}
-        <div id="filters-warning">
-          <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          Colors drawn on the current layer will be altered by filters.
+        <div id="editor">
+          ${this.editor}
+          ${this._filtersWarning()}
+          ${this._historyButtons()}
         </div>
+        ${this.layers}
       </div>
       <slot name="footer"></slot>
     `;
+  }
+
+  _filtersWarning() {
+    return html`
+      <div id="filters-warning">
+        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Colors drawn on the current layer will be altered by filters.
+      </div>
+    `
+  }
+
+  _historyButtons() {
+    return html`
+      <div id="history">
+        <button title="Undo" @click=${this._undo}>
+          <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+        </button>
+        <button title="Redo" @click=${this._redo}>
+          <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
+        </button>
+      </div>
+    `
+  }
+
+  _undo() {
+    this.editor.history.undo();
+  }
+
+  _redo() {
+    this.editor.history.redo();
   }
 
   _setupEvents() {
