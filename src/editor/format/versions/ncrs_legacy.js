@@ -1,4 +1,5 @@
 import Color from "color";
+import BaseVersion from "../base_version";
 
 const IMAGE_WIDTH = 64, IMAGE_HEIGHT = 64
 
@@ -6,7 +7,7 @@ class NCRSLegacyVersion extends BaseVersion {
   constructor(data) {
     super(undefined, data);
 
-    this.format = 3;
+    this.format = 2;
   }
 
   // Hard code version check to true, as old NCRS files are not consistent.

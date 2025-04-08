@@ -38,3 +38,5 @@ class BaseVersion {
     }
   }
 }
+
+export default BaseVersion;
