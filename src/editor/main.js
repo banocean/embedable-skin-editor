@@ -222,7 +222,7 @@ class Editor extends LitElement {
       this.camera.layers.disable(2);
     }
 
-    this.model.baseGrid.visible = gridVisible && baseVisible && !overlayVisible;
+    this.model.baseGrid.visible = gridVisible && baseVisible;
     this.model.overlayGrid.visible = gridVisible && overlayVisible;
   }
 
