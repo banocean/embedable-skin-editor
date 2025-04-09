@@ -48,6 +48,11 @@ function setupCanvasEvents(editor, canvas) {
     const imgData = ctx.getImageData(event.offsetX, event.offsetY, 1, 1).data
     const color = new Color({r: imgData[0], g: imgData[1], b: imgData[2]}).alpha(imgData[3] / 255);
 
+    if (editor.config.get("pick-color-toggle")) {
+      editor.config.set("pick-color-toggle", false);
+      editor.config.set("pick-color", false);
+    }
+
     editor.toolConfig.set("color", color);
   });
 

@@ -49,6 +49,12 @@ function getFocusedElement() {
   return element;
 }
 
+function isKeybindIgnored(element) {
+  const ignoredElements = ["TEXTAREA", "INPUT", "SELECT"];
+  
+  return ignoredElements.includes(element.nodeName);
+}
+
 function download(filename, url) {
   const link = document.createElement("a");
   link.href = url;
@@ -57,4 +63,4 @@ function download(filename, url) {
   link.remove();
 }
 
-export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download};
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored};

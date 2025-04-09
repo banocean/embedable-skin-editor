@@ -156,6 +156,8 @@ class ColorPicker extends LitElement {
     super();
 
     this.editor = editor;
+    this.config = editor.config;
+
     this.hue = 0;
     this.saturation = 0;
     this.lightness = 0;
@@ -168,8 +170,7 @@ class ColorPicker extends LitElement {
     this.alphaSlider = this._createAlphaSlider();
 
     this._setupEvents();
-  }
-  picker;
+  }  
 
   render() {
     const color = this.getColor();
@@ -253,7 +254,13 @@ class ColorPicker extends LitElement {
   }
 
   toggleEyedropper() {
-    this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
+    const eyedropperEnabled = this.config.get("pick-color", false);
+
+    if (!eyedropperEnabled) {
+      this.config.set("pick-color-toggle", true);
+    }
+
+    this.config.set("pick-color", !eyedropperEnabled);
   }
 
   _isColorDifferent() {
@@ -349,9 +356,13 @@ class ColorPicker extends LitElement {
   }
 
   _setupEvents() {
-    this.editor.config.addEventListener("pick-color-change", event => {
+    this.config.addEventListener("pick-color-change", event => {
       this._eyedropper = event.detail;
-    })
+
+      if (!this._eyedropper) {
+        this.config.set("pick-color-toggle", false);
+      }
+    });
   }
 }
 
