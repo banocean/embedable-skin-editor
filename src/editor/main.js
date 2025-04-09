@@ -428,7 +428,6 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.config.set("variant", this.persistence.get("variant", "classic"));
     this.model = new SkinModel(texture, this.config.get("variant", "classic"));
 
     this.skinMesh = this.model.mesh;
