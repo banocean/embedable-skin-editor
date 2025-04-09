@@ -10,7 +10,7 @@ import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
-import { getFocusedElement } from "../helpers";
+import { getFocusedElement, isKeybindIgnored } from "../helpers";
 
 class UI extends LitElement {
   static styles = css`
@@ -74,7 +74,7 @@ class UI extends LitElement {
       display: flex;
       justify-content: center;
       padding: 0.5rem;
-      gap: 0.25rem;
+      gap: 0.5rem;
       background-color: rgb(19, 19, 21);
     }
 
@@ -116,12 +116,9 @@ class UI extends LitElement {
   currentLayer;
 
   firstUpdated() {
-    const ignoredElements = ["TEXTAREA", "INPUT", "SELECT"];
-
     document.addEventListener("keydown", event => {
       const element = event.originalTarget || getFocusedElement();
-
-      if (ignoredElements.includes(element.nodeName)) { return; }
+      if (isKeybindIgnored(element)) { return; }
 
       switch(this.checkKeybinds(event)){
         case "pen":
@@ -140,6 +137,7 @@ class UI extends LitElement {
           this.editor.selectTool(this.editor.tools[4]);
           break;
         case "eyedropper":
+          this.editor.config.set("pick-color-toggle", true);
           this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
           break;
         case "undo":

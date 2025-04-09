@@ -649,14 +649,14 @@ class BucketTool extends BaseTool {
         this.UV(x>=39&&x<=42&&y==52, { x: 38, y: 90-x },texture,old_color,queue);
         this.UV(y>=48&&y<=51&&x==38, { x: 90-y, y: 52 },texture,old_color,queue);
         // 3rd Top UV
-        this.UV(y==52&&x>=42&&x<=45, { x: 81-x, y: 48 },texture,old_color,queue);
+        this.UV(y==52&&x>=43&&x<=45, { x: 81-x, y: 48 },texture,old_color,queue);
         this.UV(y==48&&x>=36&&x<=37, { x: 81-x, y: 52 },texture,old_color,queue);
         // 1st Bottom UV
         this.UV(y==63&&x>=32&&x<=35, { x: 39, y: x+16 },texture,old_color,queue);
         this.UV(x==39&&y>=48&&y<=51, { x: y-16, y: 63 },texture,old_color,queue);
         // 2nd Bottom UV
         this.UV(y==63&&x>=36&&x<=38, { x: x+3, y: 51 },texture,old_color,queue);
-        this.UV(y==51&&x>=38&&x<=41, { x: x-3, y: 63 },texture,old_color,queue);
+        this.UV(y==51&&x>=39&&x<=41, { x: x-3, y: 63 },texture,old_color,queue);
         // 3rd Bottom UV
         this.UV(y==63&&x>=39&&x<=42, { x: 41, y: 90-x },texture,old_color,queue);
         this.UV(x==41&&y>=48&&y<=51, { x: 90-y, y: 63 },texture,old_color,queue);
@@ -698,14 +698,14 @@ class BucketTool extends BaseTool {
         this.UV(x>=55&&x<=58&&y==52, { x: 54, y: 106-x },texture,old_color,queue);
         this.UV(y>=48&&y<=51&&x==54, { x: 106-y, y: 52 },texture,old_color,queue);
         // 3rd Top UV
-        this.UV(y==52&&x>=58&&x<=61, { x: 113-x, y: 48 },texture,old_color,queue);
-        this.UV(y==48&&x>=52&&x<=53, { x: 113-x, y: 52 },texture,old_color,queue);
+        this.UV(y==52&&x>=59&&x<=61, { x: 113-x, y: 48 },texture,old_color,queue);
+        this.UV(y==48&&x>=52&&x<=54, { x: 113-x, y: 52 },texture,old_color,queue);
         // 1st Bottom UV
         this.UV(y==63&&x>=48&&x<=51, { x: 55, y: x },texture,old_color,queue);
         this.UV(x==55&&y>=48&&y<=51, { x: y, y: 63 },texture,old_color,queue);
         // 2nd Bottom UV
         this.UV(y==63&&x>=52&&x<=54, { x: x+3, y: 51 },texture,old_color,queue);
-        this.UV(y==51&&x>=54&&x<=57, { x: x-3, y: 63 },texture,old_color,queue);
+        this.UV(y==51&&x>=55&&x<=57, { x: x-3, y: 63 },texture,old_color,queue);
         // 3rd Bottom UV
         this.UV(y==63&&x>=55&&x<=58, { x: 57, y: 106-x },texture,old_color,queue);
         this.UV(x==57&&y>=48&&y<=51, { x: 106-y, y: 63 },texture,old_color,queue);

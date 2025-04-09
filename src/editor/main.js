@@ -349,6 +349,11 @@ class Editor extends LitElement {
       const point2 = toolData.getCoords(1);
       color = toolData.texture.getPixel({ x: point2.x, y: point2.y });
     }
+    
+    if (this.config.get("pick-color-toggle")) {
+      this.config.set("pick-color-toggle", false);
+      this.config.set("pick-color", false);
+    }
 
     this.toolConfig.set("color", color);
   }
@@ -428,7 +433,6 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.config.set("variant", this.persistence.get("variant", "classic"));
     this.model = new SkinModel(texture, this.config.get("variant", "classic"));
 
     this.skinMesh = this.model.mesh;
@@ -448,7 +452,7 @@ class Editor extends LitElement {
 
   _startRender() {
     this.camera.position.z = 3;
-    this.zoom(0.55);
+    this.zoom(0.45);
 
     this.centerModel();
 

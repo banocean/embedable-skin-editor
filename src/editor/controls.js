@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "./orbit";
+import { isKeybindIgnored } from "../helpers";
 
 const CURSOR_EYEDROPPER = 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
 
@@ -114,6 +115,9 @@ class Controls {
   }
 
   onKeyDown(event) {
+    const element = event.originalTarget || getFocusedElement();
+    if (isKeybindIgnored(element)) { return; }
+
     this.ctrlKey = event.ctrlKey;
     this.shiftKey = event.shiftKey;
 

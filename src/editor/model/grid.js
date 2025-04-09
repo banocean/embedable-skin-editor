@@ -65,37 +65,37 @@ class SkinGrid extends THREE.LineSegments {
 }
 
 class SkinGridBox {
-  constructor(boxSize, boxDim, epsilon) {
+  constructor(boxSize, boxDim, epsilon, color = DEFAULT_GRID_COLOR) {
     this.grids = [];
     this.visible = true;
 
-    var gridHelper = new SkinGrid(boxSize.x, boxSize.y, boxDim.x, boxDim.y);
+    var gridHelper = new SkinGrid(boxSize.x, boxSize.y, boxDim.x, boxDim.y, color);
     gridHelper.rotation.x = THREE.MathUtils.degToRad(90);
     gridHelper.position.z += boxSize.z / 2 + epsilon;
     this.grids.push(gridHelper);
     // back
-    gridHelper = new SkinGrid(boxSize.x, boxSize.y, boxDim.x, boxDim.y);
+    gridHelper = new SkinGrid(boxSize.x, boxSize.y, boxDim.x, boxDim.y, color);
     gridHelper.rotation.x = THREE.MathUtils.degToRad(90);
     gridHelper.position.z -= boxSize.z / 2 + epsilon;
     this.grids.push(gridHelper);
     // left
-    gridHelper = new SkinGrid(boxSize.z, boxSize.y, boxDim.z, boxDim.y);
+    gridHelper = new SkinGrid(boxSize.z, boxSize.y, boxDim.z, boxDim.y, color);
     gridHelper.rotation.x = THREE.MathUtils.degToRad(90);
     gridHelper.rotation.z = THREE.MathUtils.degToRad(90);
     gridHelper.position.x -= boxSize.x / 2 + epsilon;
     this.grids.push(gridHelper);
     // right
-    gridHelper = new SkinGrid(boxSize.z, boxSize.y, boxDim.z, boxDim.y);
+    gridHelper = new SkinGrid(boxSize.z, boxSize.y, boxDim.z, boxDim.y, color);
     gridHelper.rotation.x = THREE.MathUtils.degToRad(90);
     gridHelper.rotation.z = THREE.MathUtils.degToRad(90);
     gridHelper.position.x += boxSize.x / 2 + epsilon;
     this.grids.push(gridHelper);
     // bottom
-    gridHelper = new SkinGrid(boxSize.x, boxSize.z, boxDim.x, boxDim.z);
+    gridHelper = new SkinGrid(boxSize.x, boxSize.z, boxDim.x, boxDim.z, color);
     gridHelper.position.y -= boxSize.y / 2 + epsilon;
     this.grids.push(gridHelper);
     // top
-    gridHelper = new SkinGrid(boxSize.x, boxSize.z, boxDim.x, boxDim.z);
+    gridHelper = new SkinGrid(boxSize.x, boxSize.z, boxDim.x, boxDim.z, color);
     gridHelper.position.y += boxSize.y / 2 + epsilon;
     this.grids.push(gridHelper);
   }

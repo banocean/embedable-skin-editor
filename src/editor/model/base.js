@@ -169,7 +169,8 @@ class BasePart {
     const size = this.getSize(overlay);
     const dim = new THREE.Vector3(...this.getSize(false)).multiplyScalar(8);
 
-    const grid = new SkinGridBox(new THREE.Vector3(...size), dim, 0.0001);
+    const gridColor = overlay ? new THREE.Color("#373737") : new THREE.Color("#575757");
+    const grid = new SkinGridBox(new THREE.Vector3(...size), dim, 0.0001, gridColor);
 
     grid.grids.forEach(face => {
       face.position.add(this.position());

@@ -105,6 +105,7 @@ class ImportTab extends Tab {
   }
 
   pngOpen() {
+    this.pngFileInput.value = null;
     this.pngFileInput.accept = "image/png";
     this.pngFileInput.click();
   }
