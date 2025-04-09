@@ -74,7 +74,7 @@ class UI extends LitElement {
       display: flex;
       justify-content: center;
       padding: 0.5rem;
-      gap: 0.25rem;
+      gap: 0.5rem;
       background-color: rgb(19, 19, 21);
     }
 

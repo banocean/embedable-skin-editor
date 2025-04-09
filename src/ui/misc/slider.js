@@ -140,7 +140,7 @@ class Slider extends LitElement {
       step *= shiftMultiplier;
     }
 
-    if (event.deltaY < 0) {
+    if (event.deltaY > 0) {
       step *= -1;
     }
 
@@ -184,6 +184,7 @@ class Slider extends LitElement {
 
   setProgress(x) {
     this.progress = clamp(x, 0, 1);
+    this.dispatchEvent(new CustomEvent("slider-set", {detail: { progress: this.progress, value: this.getValue() }}));
   }
 
   _getPos() {
@@ -216,6 +217,8 @@ class Slider extends LitElement {
       input.value = clamp(value, 0, this.steps);
       this.setProgress(value / this.steps);
     });
+
+    input.addEventListener("wheel", this.onWheel.bind(this));
 
     return input;
   }

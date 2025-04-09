@@ -54,9 +54,6 @@ class ColorPicker extends LitElement {
     }
 
     #hue-slider::part(slider) {
-      width: 100%;
-      height: 0.75rem;
-      border-radius: 0.25rem;
       background-image: linear-gradient(
         to right,
         hsl(0, 100%, 50%),
@@ -73,25 +70,41 @@ class ColorPicker extends LitElement {
       background-color: hsl(var(--current-hue) 100% 50%);
     }
 
-    #alpha-slider {
-      margin-top: 0.5rem;
+    #saturation-slider::part(slider) {
+      background: linear-gradient(to right, hsl(var(--current-hue) 0% var(--current-lightness)), hsl(var(--current-hue) 100% var(--current-lightness)));
+    }
+
+    #saturation-slider::part(cursor), #lightness-slider::part(cursor) {
+      background-color: var(--current-color);
+    }
+
+    #lightness-slider::part(slider) {
+      background: linear-gradient(to right, hsl(var(--current-hue) var(--current-saturation) 0%), hsl(var(--current-hue) var(--current-saturation) 50%));
     }
 
     #alpha-slider::part(slider) {
-      width: 100%;
-      height: 0.75rem;
-      border-radius: 0.25rem;
       background: linear-gradient(to right, transparent, var(--current-color)),
         repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
     }
 
     #alpha-slider::part(cursor) {
-      background-color: var(--current-color-alpha);
+      background: linear-gradient(var(--current-color-alpha), var(--current-color-alpha)),
+        repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
     }
 
     ncrs-slider::part(input) {
       height: 0.75rem;
       padding: 0px;
+    }
+
+    ncrs-slider::part(slider) {
+      width: 100%;
+      height: 0.75rem;
+      border-radius: 0.25rem;
+    }
+
+    ncrs-slider:not(:first-of-type)::part(slider) {
+      margin-top: 0.375rem;
     }
 
     #input {
@@ -161,12 +174,14 @@ class ColorPicker extends LitElement {
     this.hue = 0;
     this.saturation = 0;
     this.lightness = 0;
-    this.alpha = 1;
+    this.alpha = 100;
 
-    this.oldValues = {hue: 0, saturation: 0, lightness: 0, alpha: 1};
+    this.oldValues = {hue: 0, saturation: 0, lightness: 0, alpha: 100};
 
     this.gradient = this._createGradient();
     this.hueSlider = this._createHueSlider();
+    this.saturationSlider = this._createSaturationSlider();
+    this.lightnessSlider = this._createLightnessSlider();
     this.alphaSlider = this._createAlphaSlider();
 
     this._setupEvents();
@@ -175,6 +190,8 @@ class ColorPicker extends LitElement {
   render() {
     const color = this.getColor();
     const colorWithAlpha = this.getColorWithAlpha();
+
+    this.syncSliders(colorWithAlpha);
 
     const colorInput = document.createElement("input");
     colorInput.id = "color-input";
@@ -195,6 +212,8 @@ class ColorPicker extends LitElement {
 
     const styles = {
       "--current-hue": `${this.hue}deg`,
+      "--current-saturation": `${this.saturation}%`,
+      "--current-lightness": `${this.lightness / 2}%`,
       "--current-color": color.string(),
       "--current-color-alpha": colorWithAlpha.string(),
     };
@@ -214,6 +233,8 @@ class ColorPicker extends LitElement {
         ${this.gradient}
         <div id="sliders">
           ${this.hueSlider}
+          ${this.saturationSlider}
+          ${this.lightnessSlider}
           ${this.alphaSlider}
         </div>
         <div id="input">
@@ -246,11 +267,22 @@ class ColorPicker extends LitElement {
     
     if (newColor.hexa() == currentColor.hexa()) { return false; }
 
-    this.gradient.progressX = newColor.saturationv() / 100;
-    this.gradient.progressY = (100 - newColor.value()) / 100;
+    this.hue = newColor.hue();
+    this.saturation = newColor.saturationv();
+    this.lightness = newColor.value();
+    this.alpha = newColor.alpha();
 
-    this.hueSlider.progress = newColor.hue() / 360;
-    this.alphaSlider.progress = newColor.alpha();
+    console.log(this.hue, this.saturation, this.lightness, this.alpha);
+  }
+
+  syncSliders(color) {
+    this.gradient.progressX = color.saturationv() / 100;
+    this.gradient.progressY = (100 - color.value()) / 100;
+
+    this.hueSlider.progress = color.hue() / 360;
+    this.saturationSlider.progress = color.saturationv() / 100;
+    this.lightnessSlider.progress = color.value() / 100;
+    this.alphaSlider.progress = color.alpha();
   }
 
   toggleEyedropper() {
@@ -284,7 +316,7 @@ class ColorPicker extends LitElement {
   _createGradient() {
     const gradient = new ColorPickerRegion();
     gradient.id = "gradient";
-    gradient.addEventListener("region-change", event => { this._gradientChanged(event) });
+    gradient.addEventListener("region-set", event => { this._gradientChanged(event) });
 
     return gradient;
   }
@@ -292,15 +324,31 @@ class ColorPicker extends LitElement {
   _createHueSlider() {
     const hueSlider = new Slider();
     hueSlider.id = "hue-slider";
-    hueSlider.addEventListener("slider-change", event => { this._hueChanged(event) });
+    hueSlider.addEventListener("slider-set", event => { this._hueChanged(event) });
 
     return hueSlider;
+  }
+
+  _createSaturationSlider() {
+    const saturationSlider = new Slider();
+    saturationSlider.id = "saturation-slider";
+    saturationSlider.addEventListener("slider-set", event => { this._saturationChanged(event) });
+
+    return saturationSlider;
+  }
+
+  _createLightnessSlider() {
+    const lightnessSlider = new Slider();
+    lightnessSlider.id = "lightness-slider";
+    lightnessSlider.addEventListener("slider-set", event => { this._lightnessChanged(event) });
+
+    return lightnessSlider;
   }
 
   _createAlphaSlider() {
     const alphaSlider = new Slider();
     alphaSlider.id = "alpha-slider";
-    alphaSlider.addEventListener("slider-change", event => { this._alphaChanged(event) });
+    alphaSlider.addEventListener("slider-set", event => { this._alphaChanged(event) });
 
     return alphaSlider;
   }
@@ -315,6 +363,14 @@ class ColorPicker extends LitElement {
 
   _hueChanged(event) {
     this.hue = event.detail.progress * 360;
+  }
+
+  _saturationChanged(event) {
+    this.saturation = event.detail.progress * 100;
+  }
+
+  _lightnessChanged(event) {
+    this.lightness = event.detail.progress * 100;
   }
 
   _alphaChanged(event) {
@@ -498,6 +554,10 @@ class ColorPickerRegion extends LitElement {
   setProgress(x, y) {
     this.progressX = clamp(x, 0, 1);
     this.progressY = clamp(y, 0, 1);
+
+    this.dispatchEvent(
+      new CustomEvent("region-set", { detail: { progressX: this.progressX, progressY: this.progressY } })
+    );
   }
 
   _getPos() {
