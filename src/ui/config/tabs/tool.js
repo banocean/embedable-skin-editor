@@ -99,7 +99,6 @@ class ToolTab extends Tab {
       }
 
       #config {
-        max-height: 200px;
         flex-grow: 1;
         flex-basis: 0;
       }
