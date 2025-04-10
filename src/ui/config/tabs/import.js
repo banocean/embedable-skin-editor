@@ -152,6 +152,13 @@ class ImportTab extends Tab {
     const reader = new FileReader();
 
     reader.onload = () => {
+      let confirmText = "Load new Project?";
+      confirmText += "\nThis will replace your current project, and you will lose your history.";
+      confirmText += "\nMake sure you have saved the current project."
+
+      const check = confirm(confirmText);
+      if (!check) { return; }
+
       const text = reader.result;
       const json = JSON.parse(text);
 
