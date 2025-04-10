@@ -1,3 +1,4 @@
+import ProjectLoader from "../../../editor/format/project_loader";
 import { download } from "../../../helpers";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
@@ -74,7 +75,7 @@ class ExportTab extends Tab {
   }
 
   downloadNCRS() {
-    const data = this.editor.serialize();
+    const data = ProjectLoader.export(this.editor);
     const blob = new Blob([JSON.stringify(data)], {type: "text/plain"});
 
     download(`${this._filename()}.ncrs`, URL.createObjectURL(blob));

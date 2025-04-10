@@ -41,6 +41,11 @@ class HistoryManager {
 
     return true;
   }
+
+  wipe() {
+    this.undoStack = [];
+    this.redoStack = [];
+  }
 }
 
 export { HistoryManager };

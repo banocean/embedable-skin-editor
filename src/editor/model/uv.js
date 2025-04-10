@@ -153,8 +153,18 @@ const MODEL_MAP = {
   slim: UVMAP_SLIM
 }
 
+function getUV(variant) {
+  return MODEL_MAP[variant];
+}
+
+function uvLookup(variant, layer, part, face) {
+  const uv = getUV(variant);
+
+  return uv[`${part}_${layer}_${face}`];
+}
+
 function getUVMap(variant, part) {
-  const uvMap = MODEL_MAP[variant];
+  const uvMap = getUV(variant);
   const entries = [];
 
   Object.entries(uvMap).filter(([key, value]) => {
@@ -169,4 +179,4 @@ function getUVMap(variant, part) {
   return Object.fromEntries(entries);
 }
 
-export {MODEL_MAP, UVMAP_CLASSIC, UVMAP_SLIM, getUVMap}
+export {MODEL_MAP, UVMAP_CLASSIC, UVMAP_SLIM, getUV, getUVMap, uvLookup}

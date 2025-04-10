@@ -332,15 +332,6 @@ class Editor extends LitElement {
     this.updatePartsVisibility();
   }
 
-  serialize() {
-    return {
-      format: FORMAT,
-      variant: this.config.get("variant"),
-      layers: this.layers.serializeLayers(),
-      blendPalette: this.toolConfig.get("blend-palette"),
-    };
-  }
-
   _pickColor(toolData) {
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });

@@ -4,6 +4,7 @@ import Tab from "../../misc/tab";
 import { css, html } from "lit";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
 import createReferenceImage from "./import/reference_image";
+import ProjectLoader from "../../../editor/format/project_loader";
 
 class ImportTab extends Tab {
   static styles = [
@@ -79,9 +80,16 @@ class ImportTab extends Tab {
     super({name: "Project"});
     this.editor = editor;
     this.pngFileInput = this._createFileInput();
+    this.ncrsFileInput = this._createFileInput();
     this.referenceFileInput = this._createFileInput();
 
     this.pngFileInput.addEventListener("change", this._pngFileRead.bind(this));
+    this.pngFileInput.accept = "image/png";
+
+    this.ncrsFileInput.accept = ".ncrs"
+    this.ncrsFileInput.addEventListener("change", this._ncrsFileRead.bind(this));
+    
+    this.referenceFileInput.accept = "image/*";
     this.referenceFileInput.addEventListener("change", this._referenceFileRead.bind(this));
   }
 
@@ -90,12 +98,13 @@ class ImportTab extends Tab {
       <div id="main">
         <div id="buttons">
           ${this.pngFileInput}
+          ${this.ncrsFileInput}
           ${this.referenceFileInput}
           <input id="username" type="text" placeholder="Steve">
           <ncrs-button id="import-username">Import Skin from Username</ncrs-button>
           <hr>
           <ncrs-button @click=${this.pngOpen} title="Import a skin file as a new layer.">Import Skin from File</ncrs-button>
-          <ncrs-button title="Import a .ncrs project file.">Import Project from File</ncrs-button>
+          <ncrs-button @click=${this.ncrsOpen} title="Import a .ncrs project file.">Import Project from File</ncrs-button>
           <hr>
           <ncrs-button @click=${this.referenceImageOpen} title="Add a reference image.">Add Reference Image</ncrs-button>
         </div>
@@ -106,13 +115,16 @@ class ImportTab extends Tab {
 
   pngOpen() {
     this.pngFileInput.value = null;
-    this.pngFileInput.accept = "image/png";
     this.pngFileInput.click();
+  }
+
+  ncrsOpen() {
+    this.ncrsFileInput.value = null;
+    this.ncrsFileInput.click();
   }
 
   referenceImageOpen() {
     this.referenceFileInput.value = null;
-    this.referenceFileInput.accept = "image/png";
     this.referenceFileInput.click();
   }
 
@@ -133,6 +145,21 @@ class ImportTab extends Tab {
     }
 
     reader.readAsDataURL(file);
+  }
+
+  _ncrsFileRead(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const text = reader.result;
+      const json = JSON.parse(text);
+
+      const projectLoader = new ProjectLoader(json);
+      projectLoader.load(this.editor);
+    }
+
+    reader.readAsText(file);
   }
 
   _referenceFileRead(event) {

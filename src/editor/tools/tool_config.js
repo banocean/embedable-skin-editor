@@ -16,6 +16,7 @@ const VALUE_MAP = {
   color: {default: new Color("#E8453C"), persistence: {save: saveColor, load: loadColor}},
   camo: {default: false, persistence: true},
   blend: {default: false, persistence: true},
+  "blend-palette": {default: [], persistence: true},
   force: {default: 5, persistence: true},
   mirror: {default: false, persistence: true},
 }

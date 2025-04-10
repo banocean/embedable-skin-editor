@@ -271,8 +271,6 @@ class ColorPicker extends LitElement {
     this.saturation = newColor.saturationv();
     this.lightness = newColor.value();
     this.alpha = newColor.alpha();
-
-    console.log(this.hue, this.saturation, this.lightness, this.alpha);
   }
 
   syncSliders(color) {

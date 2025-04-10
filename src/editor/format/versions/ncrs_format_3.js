@@ -15,7 +15,7 @@ const schema3 = {
       items: {
         type: "object",
         properties: {
-          filters: {type: "object"},
+          filters: {type: "array"},
           data: {type: "string"},
           selected: {type: "boolean"},
           visible: {type: "boolean"},
@@ -35,14 +35,55 @@ const schema3 = {
 const validate = AJV.compile(schema3);
 
 class NCRSFormat3 extends BaseVersion {
-  constructor(data) {
-    super(NCRSLegacyVersion, data);
+  static exportEditor(editor) {
+    return {
+      format: 3,
+      variant: editor.config.get("variant"),
+      layers: editor.layers.serializeLayers(),
+      blendPalette: editor.toolConfig.get("blend-palette"),
+    };
+  }
 
-    this.format = 3;
+  constructor(data) {
+    super(NCRSLegacyVersion, data, 3);
+  }
+
+  checkData(data) {
+    if (this.versionCheck(data)) {
+      return data;
+    } else if (!!data.format) {
+      return this.convert(data);
+    } else {
+      const transformedData = this.transformData(data);
+      return transformedData;
+    }
+  }
+
+  convert(data) {
+    data.format = this.format;
+
+    return data;
   }
 
   validateData(data) {
-    return validate(data);
+    const valid = validate(data);
+
+    if (!valid) { console.log(validate.errors, data); }
+
+    return valid;
+  }
+
+  loadEditor(editor) {
+    editor.history.wipe();
+
+    editor.config.set("variant", this.data.variant);
+    editor.toolConfig.set("blend-palette", this.data.blendPalette);
+
+    editor.layers.layers = [];
+    this.data.layers.forEach(layer => {
+      const deserializedLayer = editor.layers.deserializeLayer(layer);
+      editor.layers.addLayer(deserializedLayer);
+    });
   }
 }
 

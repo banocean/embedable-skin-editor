@@ -1,11 +1,12 @@
 class BaseVersion {
-  constructor(lastVersionClass, data) {
-    if (this.versionCheck(data)) {
-      this.loadData(data);
-    } else {
-      const transformedData = this.transformData(lastVersionClass, data);
-      this.loadData(transformedData);
-    }
+  static exportEditor(_editor) {
+    throw new Error("exportEditor not implemented!");
+  }
+
+  constructor(lastVersionClass, data, format) {
+    this.lastVersion = lastVersionClass;
+    this.format = format;
+    this.loadData(this.checkData(data));
   }
   data;
 
@@ -23,9 +24,22 @@ class BaseVersion {
     return this.format == data.format;
   }
 
+  loadEditor(_editor) {
+    throw new Error("loadEditor not implemented!");
+  }
+
   // Don't extend these functions unless necessary
-  transformData(lastVersionClass, data) {
-    const lastVersion = new lastVersionClass(data);
+  checkData(data) {
+    if (this.versionCheck(data)) {
+      return data;
+    } else {
+      const transformedData = this.transformData(data);
+      return transformedData;
+    }
+  }
+
+  transformData(data) {
+    const lastVersion = new this.lastVersion(data);
     const newData = lastVersion.data;
     return this.convert(newData);
   }
