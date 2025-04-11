@@ -27,6 +27,10 @@ class ShadeToolConfig extends BaseToolConfig {
         type: "select",
         options: [{icon: "force_1", value: 1}, {icon: "force_2", value: 2}, {icon: "force_3", value: 3}, {icon: "force_4", value: 4}, {icon: "force_5", value: 5}]
       },
+      shadeStyle: {
+        type: "select",
+        options: [{icon: "sun", value: "lighten"}, {icon: "palette", value: "saturate"}]
+      },
       shadeOnce: {type: "toggle", icon: "jitter", title: "Shade only once\nShade any pixel only once in a stroke."},
     });
   }
@@ -45,10 +49,8 @@ class ShadeToolConfig extends BaseToolConfig {
             ${this._shapeControl()}
           </div>
           <div>
-            <p class="title">Effects</p>
-            <div class="group-sm">
-              ${this._shadeOnceControl()}
-            </div>
+            <p class="title">Style</p>
+            ${this._shadeStyleControl()}
           </div>
         </div>
         <div>
@@ -57,6 +59,12 @@ class ShadeToolConfig extends BaseToolConfig {
             ${this._forceControl()}
           </div>
         </div>
+        <div>
+            <p class="title">Effects</p>
+            <div class="group-sm">
+              ${this._shadeOnceControl()}
+            </div>
+          </div>
       </div>
     `;
   }

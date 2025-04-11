@@ -39,17 +39,23 @@ class ShadeTool extends BrushBaseTool {
     
     const force = this.config.get("force");
     const shadeOnce = this.config.get("shadeOnce", false);
+    const shadeStyle = this.config.get("shadeStyle", "lighten");
 
     const pointStr = `${point.x}:${point.y}`;
     if (shadeOnce && this._visited.has(pointStr)) { return; }
     if (this._lastPixel === pointStr) { return; }
 
     function getColor(point) {
-      const color = texture.getPixel(point);
+      let color = texture.getPixel(point);
       
-      color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
-      color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
-      color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
+      if (shadeStyle === "saturate") {
+        const scalar = 0.01;
+        color = toolData.button == 1 ? color.saturate(force * scalar) : color.desaturate(force * scalar);
+      } else {
+        color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
+        color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
+        color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
+      }
 
       return color;
     }
