@@ -103,8 +103,9 @@ class ColorPicker extends LitElement {
       border-radius: 0.25rem;
     }
 
-    ncrs-slider:not(:first-of-type)::part(slider) {
-      margin-top: 0.375rem;
+    ncrs-slider::part(slider) {
+      margin-bottom: 0.375rem;
+      top:3px;
     }
 
     #input {
@@ -115,6 +116,8 @@ class ColorPicker extends LitElement {
       padding-left: 0.25rem;
       padding-right: 0.25rem;
     }
+
+    #saturation-slider 
 
     #color-button {
       display: block;
