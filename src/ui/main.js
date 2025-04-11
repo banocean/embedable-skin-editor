@@ -26,8 +26,11 @@ class UI extends LitElement {
       position: relative;
     }
 
-    #filters-warning {
+    .warning {
       display: none;
+      align-items: center;
+      gap: 0.5rem;
+      pointer-events: none;
       position: absolute;
       top: 8px;
       left: 8px;
@@ -35,16 +38,17 @@ class UI extends LitElement {
       font-size: small;
     }
 
-    #filters-warning svg {
+    .warning svg {
       width: 1.25rem;
       height: auto;
     }
 
     :host(.has-filters) #filters-warning {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      pointer-events: none;
+    }
+
+    :host(.layer-invisible) #layer-warning {
+      display: flex;
     }
 
     #editor {
@@ -151,7 +155,9 @@ class UI extends LitElement {
           location.reload();
           break;
       }
-    })
+    });
+
+    this._updateWarning();
   }
 
   checkKeybinds(event) {
@@ -190,14 +196,27 @@ class UI extends LitElement {
   }
 
   _filtersWarning() {
+    const filterIcon = html`
+      <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    `;
+    const eyeIcon = html`
+      <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    `
+
     return html`
-      <div id="filters-warning">
-        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
+      <div id="filters-warning" class="warning">
+        ${filterIcon}
         Colors drawn on the current layer will be altered by filters.
       </div>
-    `
+      <div id="layer-warning" class="warning">
+        ${eyeIcon}
+        Current layer is hidden, and cannot be edited.
+      </div>
+    `;
   }
 
   _historyButtons() {
@@ -221,16 +240,26 @@ class UI extends LitElement {
     this.editor.history.redo();
   }
 
+  _updateWarning() {
+    const layer = this.editor.layers.getSelectedLayer();
+
+    this.classList.remove("has-filters", "layer-invisible");
+    
+    if (!layer.visible) {
+      return this.classList.add("layer-invisible");
+    } else if (layer.hasFilters()) {
+      return this.classList.add("has-filters");
+    }
+  }
+
   _setupEvents() {
     const layers = this.editor.layers;
-    layers.addEventListener("layers-select", () => {
-      const layer = layers.getSelectedLayer();
-      layer.hasFilters() ? this.classList.add("has-filters") : this.classList.remove("has-filters");
+    layers.addEventListener("layers-render", () => {
+      this._updateWarning();
     });
 
     layers.addEventListener("update-filters", () => {
-      const layer = layers.getSelectedLayer();
-      layer.hasFilters() ? this.classList.add("has-filters") : this.classList.remove("has-filters");
+      this._updateWarning();
     });
   }
 }

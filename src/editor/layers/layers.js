@@ -82,6 +82,7 @@ class Layers extends EventTarget {
     const layer = this.createFromCanvas(canvas);
     layer.compositor.deserializeFilters(serializedLayer.filters);
     layer.selected = serializedLayer.selected;
+    layer.visible = serializedLayer.visible;
 
     return layer;
   }
