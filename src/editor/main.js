@@ -42,7 +42,8 @@ const CONFIG_VALUES = {
     persistence: true},
     baseVisible: {default: true, persistence: true},
     overlayVisible: {default: false, persistence: true},
-    gridVisible: {default: true, persistence: true},
+    baseGridVisible: {default: true, persistence: true},
+    overlayGridVisible: {default: true, persistence: true},
 }
 
 class Editor extends LitElement {
@@ -205,15 +206,21 @@ class Editor extends LitElement {
     this.updateVisibility();
   }
 
-  setGridVisible(visible) {
-    this.config.set("gridVisible", visible);
+  setBaseGridVisible(visible) {
+    this.config.set("baseGridVisible", visible);
+    this.updateVisibility();
+  }
+
+  setOverlayGridVisible(visible) {
+    this.config.set("overlayGridVisible", visible);
     this.updateVisibility();
   }
 
   updateVisibility() {
     const baseVisible = this.config.get("baseVisible");
     const overlayVisible = this.config.get("overlayVisible");
-    const gridVisible = this.config.get("gridVisible");
+    const baseGridVisible = this.config.get("baseGridVisible");
+    const overlayGridVisible = this.config.get("overlayGridVisible");
 
     if (baseVisible) {
       this.camera.layers.enable(1);
@@ -227,8 +234,8 @@ class Editor extends LitElement {
       this.camera.layers.disable(2);
     }
 
-    this.model.baseGrid.visible = gridVisible && baseVisible;
-    this.model.overlayGrid.visible = gridVisible && overlayVisible;
+    this.model.baseGrid.visible = baseGridVisible && baseVisible;
+    this.model.overlayGrid.visible = overlayGridVisible && overlayVisible;
   }
 
   selectTool(tool) {

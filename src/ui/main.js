@@ -1,6 +1,7 @@
 import "./misc/icon";
 import "./misc/button";
 import "./misc/toggle";
+import "./misc/troggle";
 import "./misc/modal";
 import "./misc/window";
 

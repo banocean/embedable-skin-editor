@@ -27,7 +27,7 @@ class Toolbar extends LitElement {
       gap: 0.25rem;
     }
 
-    ncrs-toggle ncrs-icon {
+    ncrs-toggle ncrs-icon, ncrs-troggle ncrs-icon {
         width: 20px;
         height: 20px;
         display: inline-block
@@ -132,7 +132,15 @@ class Toolbar extends LitElement {
     const isSlim = cfg.get("variant") == "slim";
     const baseVisible = cfg.get("baseVisible");
     const overlayVisible = cfg.get("overlayVisible");
-    const gridVisible = cfg.get("gridVisible");
+    const baseGridVisible = cfg.get("baseGridVisible", false);
+    const overlayGridVisible = cfg.get("overlayGridVisible", false);
+
+    let gridState = "off";
+    if (overlayGridVisible) {
+      gridState = "on";
+    } else if (baseGridVisible) {
+      gridState = "half";
+    }
 
     return html`
       <div>
@@ -158,11 +166,12 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle grid" ?toggled=${gridVisible} @toggle=${this._toggleGrid}>
+        <ncrs-troggle title="Toggle grid" state=${gridState} @troggle=${this._toggleGrid}>
           <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-        </ncrs-toggle>
+          <ncrs-icon slot="half" icon="box-halfchecked" color="white"></ncrs-icon>
+        </ncrs-troggle>
         <ncrs-toggle class="hidden" title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
           <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
@@ -186,7 +195,16 @@ class Toolbar extends LitElement {
   }
 
   _toggleGrid(event) {
-    this.ui.editor.setGridVisible(event.detail);
+    if (event.detail === "on") {
+      this.ui.editor.setBaseGridVisible(true);
+      this.ui.editor.setOverlayGridVisible(true);
+    } else if (event.detail === "half") {
+      this.ui.editor.setBaseGridVisible(true);
+      this.ui.editor.setOverlayGridVisible(false);
+    } else {
+      this.ui.editor.setBaseGridVisible(false);
+      this.ui.editor.setOverlayGridVisible(false);
+    }
   }
 }
 
