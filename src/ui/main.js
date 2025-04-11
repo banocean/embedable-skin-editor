@@ -210,7 +210,7 @@ class UI extends LitElement {
     return html`
       <div id="filters-warning" class="warning">
         ${filterIcon}
-        Colors drawn on the current layer will be altered by filters.
+        Colors drawn on the current layer will appear altered by filters.
       </div>
       <div id="layer-warning" class="warning">
         ${eyeIcon}
@@ -242,6 +242,7 @@ class UI extends LitElement {
 
   _updateWarning() {
     const layer = this.editor.layers.getSelectedLayer();
+    if (!layer) { return; }
 
     this.classList.remove("has-filters", "layer-invisible");
     
@@ -259,6 +260,10 @@ class UI extends LitElement {
     });
 
     layers.addEventListener("update-filters", () => {
+      this._updateWarning();
+    });
+
+    layers.addEventListener("layers-select", () => {
       this._updateWarning();
     });
   }

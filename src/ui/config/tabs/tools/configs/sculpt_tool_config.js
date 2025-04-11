@@ -9,6 +9,7 @@ class SculptToolConfig extends BaseToolConfig {
   static properties = {
     size: {},
     shape: {},
+    mirror: {},
   }
 
   constructor(config) {
@@ -21,6 +22,7 @@ class SculptToolConfig extends BaseToolConfig {
         type: "select",
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
       },
+      mirror: {type: "toggle", icon: "shield", title: "Toggle mirror\nMirrors the stroke across the skin"},
     });
   }
 
@@ -36,6 +38,12 @@ class SculptToolConfig extends BaseToolConfig {
           <div>
             <p class="title">Shape</p>
             ${this._shapeControl()}
+          </div>
+        </div>
+        <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._mirrorControl()}
           </div>
         </div>
       </div>

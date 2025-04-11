@@ -141,4 +141,18 @@ function getMirroredCoords(variant, point) {
   }
 }
 
-export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords}
+function getUV(variant, part) {
+  const uv = MODEL_MAP[variant][part];
+
+  return {
+    x: uv[0], y: uv[1], width: uv[2], height: uv[3],
+  }
+}
+
+function getUVFromCoords(variant, point) {
+  const part = getPartFromCoords(variant, point);
+
+  return getUV(variant, part);
+}
+
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords}

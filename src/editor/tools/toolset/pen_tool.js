@@ -1,10 +1,6 @@
-import Color from "color";
-import { BaseTool } from "../base_tool";
-import { getMirroredCoords } from "../../layers/texture_utils";
+import BrushBaseTool from "../brush_tool";
 
-const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
-
-class PenTool extends BaseTool {
+class PenTool extends BrushBaseTool {
   constructor(config) {
     super(config, {
       id: "pen",
@@ -15,15 +11,11 @@ class PenTool extends BaseTool {
     });
   }
 
-  cursor = { x: 0, y: 0 };
-  lastPart;
-  lastFace;
-
   down(toolData) {
     const texture = toolData.texture;
     const part = toolData.parts[0];
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
+    const color = toolData.button == 1 ? this._getColor : this._transparentColor;
 
     this.cursor = point;
     this.draw(texture, part, point, color, toolData.variant);
@@ -35,35 +27,13 @@ class PenTool extends BaseTool {
     const texture = toolData.texture;
     const part = toolData.parts[0];
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.getColor() : TRANSPARENT_COLOR;
+    const color = toolData.button == 1 ? this._getColor : this._transparentColor;
     this.draw(texture, part, point, color, toolData.variant);
 
     return texture.toTexture();
   }
 
   up() {}
-
-  draw(texture, part, point, color, variant) {
-    if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
-      this.cursor = point;
-    }
-
-    this.lastPart = part.object.id;
-    this.lastFace = part.normal;
-
-    texture.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
-
-    if (this.config.get("mirror", false)) {
-      this.cursor = this.cursor || point;
-
-      const mirroredCursor = getMirroredCoords(variant, this.cursor);
-      const mirroredPoint = getMirroredCoords(variant, point);
-
-      texture.putLine(color, mirroredCursor.x, mirroredCursor.y, mirroredPoint.x, mirroredPoint.y);
-    }
-
-    this.cursor = point;
-  }
 }
 
 export default PenTool;

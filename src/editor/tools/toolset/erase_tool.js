@@ -1,10 +1,6 @@
-import Color from "color";
-import { BaseTool } from "../base_tool";
-import { getMirroredCoords } from "../../layers/texture_utils";
+import BrushBaseTool from "../brush_tool";
 
-const TRANSPARENT = new Color(0).alpha(0);
-
-class EraseTool extends BaseTool {
+class EraseTool extends BrushBaseTool {
   constructor(config) {
     super(
       config,
@@ -18,55 +14,29 @@ class EraseTool extends BaseTool {
     );
   }
 
-  canvas;
-  cursor = { x: 0, y: 0 };
-  lastPart;
-  lastFace;
-
   down(toolData) {
-    this.canvas = toolData.texture;
-
+    const texture = toolData.texture;
     const part = toolData.parts[0];
+    const point = toolData.getCoords();
+    const color = this._transparentColor;
 
-    this.cursor = toolData.getCoords();
-    this.draw(part, toolData.getCoords(), TRANSPARENT, toolData.variant);
+    this.cursor = point;
+    this.draw(texture, part, point, color, toolData.variant);
 
-    return this.canvas.toTexture();
+    return texture.toTexture();
   }
 
   move(toolData) {
+    const texture = toolData.texture;
     const part = toolData.parts[0];
+    const point = toolData.getCoords();
+    const color = this._transparentColor;
+    this.draw(texture, part, point, color, toolData.variant);
 
-    this.draw(part, toolData.getCoords(), TRANSPARENT, toolData.variant);
-
-    return this.canvas.toTexture();
+    return texture.toTexture();
   }
 
-  up() {
-    return this.canvas.toTexture();
-  }
-
-  draw(part, point, color, variant) {
-    if (part.object.id != this.lastPart || part.faceIndex != this.lastFace) {
-      this.cursor = point;
-    }
-
-    this.lastPart = part.object.id;
-    this.lastFace = part.faceIndex;
-
-    this.canvas.putLine(color, this.cursor.x, this.cursor.y, point.x, point.y);
-
-    if (this.config.get("mirror", false)) {
-      this.cursor = this.cursor || point;
-
-      const mirroredCursor = getMirroredCoords(variant, this.cursor);
-      const mirroredPoint = getMirroredCoords(variant, point);
-
-      this.canvas.putLine(color, mirroredCursor.x, mirroredCursor.y, mirroredPoint.x, mirroredPoint.y);
-    }
-
-    this.cursor = point;
-  }
+  up() {}
 }
 
 export default EraseTool;

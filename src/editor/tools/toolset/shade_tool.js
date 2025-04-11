@@ -1,13 +1,14 @@
-import { BaseTool } from "../base_tool";
+import BrushBaseTool from "../brush_tool";
 
-class ShadeTool extends BaseTool {
+class ShadeTool extends BrushBaseTool {
   constructor(config) {
     super(config, {
       id: "shade",
       icon: "shading",
       name: "Shade [S]",
       description: "Makes pixels lighter/darker or adjusts their color based on the palette.",
-      providesColor: false, // Whether or not drawing with this tool adds to recent colors.
+      providesColor: false, // Whether or not drawing with this tool adds to recent colors.,
+      disableMirror: true, // Whether to disable the mirror.
     });
   }
 
@@ -34,7 +35,7 @@ class ShadeTool extends BaseTool {
   shade(toolData) {
     const texture = toolData.texture;
     const point = toolData.getCoords();
-    const color = texture.getPixel({ x: point.x, y: point.y });
+    this.cursor = point;
     
     const force = this.config.get("force");
     const shadeOnce = this.config.get("shadeOnce", false);
@@ -43,17 +44,18 @@ class ShadeTool extends BaseTool {
     if (shadeOnce && this._visited.has(pointStr)) { return; }
     if (this._lastPixel === pointStr) { return; }
 
-    color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
-    color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
-    color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
+    function getColor(point) {
+      const color = texture.getPixel(point);
+      
+      color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
+      color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
+      color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
 
-    this.draw(texture, point, color);
-  }
+      return color;
+    }
 
-  draw(texture, point, color) {
-    texture.putPixel(point, color);
+    this.draw(texture, toolData.parts[0], point, getColor, toolData.variant);
 
-    const pointStr = `${point.x}:${point.y}`;
     this._visited.add(pointStr);
     this._lastPixel = pointStr;
   }
