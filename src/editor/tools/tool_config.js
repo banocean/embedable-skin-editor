@@ -19,6 +19,7 @@ const VALUE_MAP = {
   "blend-palette": {default: [], persistence: true},
   force: {default: 5, persistence: true},
   mirror: {default: false, persistence: true},
+  shadeOnce: {default: false, persistence: true},
 }
 
 class ToolConfig extends Config {

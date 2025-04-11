@@ -10,6 +10,7 @@ class ShadeToolConfig extends BaseToolConfig {
     size: {},
     shape: {},
     force: {},
+    shadeOnce: {},
   }
 
   constructor(config) {
@@ -26,6 +27,7 @@ class ShadeToolConfig extends BaseToolConfig {
         type: "select",
         options: [{icon: "force_1", value: 1}, {icon: "force_2", value: 2}, {icon: "force_3", value: 3}, {icon: "force_4", value: 4}, {icon: "force_5", value: 5}]
       },
+      shadeOnce: {type: "toggle", icon: "grid", title: "Shade only once\nShade any pixel only once in a stroke."},
     });
   }
 
@@ -41,6 +43,12 @@ class ShadeToolConfig extends BaseToolConfig {
           <div>
             <p class="title">Shape</p>
             ${this._shapeControl()}
+          </div>
+          <div>
+            <p class="title">Effects</p>
+            <div class="group-sm">
+              ${this._shadeOnceControl()}
+            </div>
           </div>
         </div>
         <div>

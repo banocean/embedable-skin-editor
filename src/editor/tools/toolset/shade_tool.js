@@ -1,4 +1,3 @@
-import Color from "color";
 import { BaseTool } from "../base_tool";
 
 class ShadeTool extends BaseTool {
@@ -12,57 +11,51 @@ class ShadeTool extends BaseTool {
     });
   }
 
-  cursor = { x: 0, y: 0 };
-  shade_steps = 1;
-  lastPart;
-  lastFace;
+  _visited = new Set();
+  _lastPixel = "";
 
   down(toolData) {
-    const texture = toolData.texture;
-    const part = toolData.parts[0];
-    const point = toolData.getCoords();
-    let color = toolData.texture.getPixel({ x: point.x, y: point.y });
-    
-    this.force = this.config.get("force");
+    this.shade(toolData);
 
-    color.color[0] = toolData.button == 1 ? color.color[0]-this.force : color.color[0]+this.force;
-    color.color[1] = toolData.button == 1 ? color.color[1]-this.force : color.color[1]+this.force;
-    color.color[2] = toolData.button == 1 ? color.color[2]-this.force : color.color[2]+this.force;
-    this.cursor = point;
-    this.draw(texture, part, point, color);
-
-    return texture.toTexture();
+    return toolData.texture.toTexture();
   }
 
   move(toolData) {
-    const texture = toolData.texture;
-    const part = toolData.parts[0];
-    const point = toolData.getCoords();
-    let color = toolData.texture.getPixel({ x: point.x, y: point.y });
+    this.shade(toolData);
 
-    this.force = this.config.get("force");
-
-    color.color[0] = toolData.button == 1 ? color.color[0]-this.force : color.color[0]+this.force;
-    color.color[1] = toolData.button == 1 ? color.color[1]-this.force : color.color[1]+this.force;
-    color.color[2] = toolData.button == 1 ? color.color[2]-this.force : color.color[2]+this.force;
-    this.draw(texture, part, point, color);
-
-    return texture.toTexture();
+    return toolData.texture.toTexture();
   }
 
-  up() {}
+  up() {
+    this._visited.clear();
+    this._lastPixel = "";
+  }
 
-  draw(texture, part, point, color) {
-    if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
-      this.cursor = point;
-    }
+  shade(toolData) {
+    const texture = toolData.texture;
+    const point = toolData.getCoords();
+    const color = texture.getPixel({ x: point.x, y: point.y });
+    
+    const force = this.config.get("force");
+    const shadeOnce = this.config.get("shadeOnce", false);
 
-    this.lastPart = part.object.id;
-    this.lastFace = part.normal;
+    const pointStr = `${point.x}:${point.y}`;
+    if (shadeOnce && this._visited.has(pointStr)) { return; }
+    if (this._lastPixel === pointStr) { return; }
 
-    texture.putPixel(point,color);
+    color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
+    color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
+    color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
 
-    this.cursor = point;
+    this.draw(texture, point, color);
+  }
+
+  draw(texture, point, color) {
+    texture.putPixel(point, color);
+
+    const pointStr = `${point.x}:${point.y}`;
+    this._visited.add(pointStr);
+    this._lastPixel = pointStr;
   }
 }
 
