@@ -144,8 +144,23 @@ function getMirroredCoords(variant, point) {
 function getUV(variant, part) {
   const uv = MODEL_MAP[variant][part];
 
+  let x = uv[0];
+  let y = uv[1];
+  let width = uv[2];
+  let height = uv[3];
+
+  if (width < 0) {
+    x += width;
+    width *= -1;
+  }
+
+  if (height < 0) {
+    y += height;
+    height *= -1;
+  }
+
   return {
-    x: uv[0], y: uv[1], width: uv[2], height: uv[3],
+    x, y, width, height
   }
 }
 
