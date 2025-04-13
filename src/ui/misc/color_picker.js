@@ -117,8 +117,6 @@ class ColorPicker extends LitElement {
       padding-right: 0.25rem;
     }
 
-    #saturation-slider 
-
     #color-button {
       display: block;
       width: 2rem;
