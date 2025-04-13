@@ -136,10 +136,12 @@ class Toolbar extends LitElement {
     const overlayGridVisible = cfg.get("overlayGridVisible", false);
 
     let gridState = "off";
-    if (overlayGridVisible) {
+    if (overlayGridVisible && baseGridVisible) {
       gridState = "on";
-    } else if (baseGridVisible) {
-      gridState = "half";
+    } else if (overlayGridVisible && !baseGridVisible) {
+        gridState = "outer";
+    } else if (!overlayGridVisible && baseGridVisible) {
+      gridState = "inner";
     }
 
     return html`
@@ -170,7 +172,8 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-          <ncrs-icon slot="half" icon="box-halfchecked" color="white"></ncrs-icon>
+          <ncrs-icon slot="outer" icon="box-outer-checked" color="white"></ncrs-icon>
+          <ncrs-icon slot="inner" icon="box-inner-checked" color="white"></ncrs-icon>
         </ncrs-troggle>
         <ncrs-toggle class="hidden" title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
           <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
@@ -198,7 +201,10 @@ class Toolbar extends LitElement {
     if (event.detail === "on") {
       this.ui.editor.setBaseGridVisible(true);
       this.ui.editor.setOverlayGridVisible(true);
-    } else if (event.detail === "half") {
+    } else if (event.detail === "outer") {
+      this.ui.editor.setBaseGridVisible(false);
+      this.ui.editor.setOverlayGridVisible(true);
+    } else if (event.detail === "inner") {
       this.ui.editor.setBaseGridVisible(true);
       this.ui.editor.setOverlayGridVisible(false);
     } else {
