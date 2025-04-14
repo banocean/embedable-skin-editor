@@ -149,7 +149,7 @@ class BasePart {
       polygonOffset: true,
       polygonOffsetFactor: 1,
       polygonOffsetUnits: 1,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
     });
   }
 

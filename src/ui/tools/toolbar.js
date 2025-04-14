@@ -139,6 +139,7 @@ class Toolbar extends LitElement {
     const overlayVisible = cfg.get("overlayVisible");
     const baseGridVisible = cfg.get("baseGridVisible", false);
     const overlayGridVisible = cfg.get("overlayGridVisible", false);
+    const cullBackFace = cfg.get("cullBackFace", true);
 
     let gridState = "off";
     if (overlayGridVisible && baseGridVisible) {
@@ -180,7 +181,7 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="outer" icon="box-outer-checked" color="white"></ncrs-icon>
           <ncrs-icon slot="inner" icon="box-inner-checked" color="white"></ncrs-icon>
         </ncrs-quadroggle>
-        <ncrs-toggle class="hidden" title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
+        <ncrs-toggle title="Toggle Backface Culling" ?toggled=${cullBackFace} @toggle=${this._toggleBackfaceCulling}>
           <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
@@ -216,6 +217,10 @@ class Toolbar extends LitElement {
       this.ui.editor.setBaseGridVisible(false);
       this.ui.editor.setOverlayGridVisible(false);
     }
+  }
+
+  _toggleBackfaceCulling(event) {
+    this.ui.editor.config.set("cullBackFace", event.detail);
   }
 }
 

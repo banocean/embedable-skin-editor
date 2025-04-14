@@ -39,11 +39,13 @@ const CONFIG_VALUES = {
       leg_left: true,
       leg_right: true,
     },
-    persistence: true},
-    baseVisible: {default: true, persistence: true},
-    overlayVisible: {default: false, persistence: true},
-    baseGridVisible: {default: true, persistence: true},
-    overlayGridVisible: {default: true, persistence: true},
+    persistence: true
+  },
+  baseVisible: {default: true, persistence: true},
+  overlayVisible: {default: false, persistence: true},
+  baseGridVisible: {default: true, persistence: true},
+  overlayGridVisible: {default: true, persistence: true},
+  cullBackFace: {default: true, persistence: true},
 }
 
 class Editor extends LitElement {
@@ -438,6 +440,10 @@ class Editor extends LitElement {
   _setupMesh(texture) {
     this.model = new SkinModel(texture, this.config.get("variant", "classic"));
 
+    if (!this.config.get("cullBackFace", true)) {
+      this.model.setMaterialSide(THREE.DoubleSide);
+    }
+
     this.skinMesh = this.model.mesh;
     this.baseGroup = this._setupBaseGroup(this.skinMesh);
     this.scene.add(this.baseGroup);
@@ -481,6 +487,10 @@ class Editor extends LitElement {
         this.persistence.set("layers", this.layers.serializeLayers());
       })
     });
+
+    this.config.addEventListener("cullBackFace-change", event => {
+      this.model.setMaterialSide(event.detail ? THREE.FrontSide : THREE.DoubleSide);
+    })
   }
 }
 

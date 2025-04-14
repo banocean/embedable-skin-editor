@@ -29,6 +29,22 @@ class SkinModel {
   overlayGrid;
   mesh;
 
+  updateMaterials(callback) {
+    this.parts.forEach(part => {
+      const baseMaterial = part.baseMesh.material;
+      const overlayMaterial = part.overlayMesh.material;
+
+      callback(baseMaterial);
+      callback(overlayMaterial);
+    })
+  }
+
+  setMaterialSide(side = THREE.DoubleSide) {
+    this.updateMaterials(material => {
+      material.side = side;
+    })
+  }
+
   _setupMesh(texture, variant) {
     if (!SkinModel.variants.includes(variant)) {
       throw "Invalid variant"
@@ -41,12 +57,14 @@ class SkinModel {
     this.overlayMesh = new THREE.Group();
     this.overlayGrid = new THREE.Group();
 
-    function addPart(part) {
+    function addBase(part) {
       scope.baseMesh.add(part.baseMesh);
       scope.baseGrid.add(...part.baseGrid.grids);
+    }
+
+    function addOverlay(part) {
       scope.overlayMesh.add(part.overlayMesh);
       scope.overlayGrid.add(...part.overlayGrid.grids);
-      scope.parts.push(part);
     }
 
     const head = new HeadPart(texture, variant);
@@ -56,12 +74,16 @@ class SkinModel {
     const leftArm = new LeftArmPart(texture, variant);
     const rightArm = new RightArmPart(texture, variant);
 
-    addPart(head);
-    addPart(torso);
-    addPart(leftLeg);
-    addPart(rightLeg);
-    addPart(leftArm);
-    addPart(rightArm);
+    const parts = [leftLeg, rightLeg, leftArm, rightArm, torso, head];
+
+    parts.forEach(part => {
+      scope.parts.push(part);
+      addBase(part);
+    });
+
+    parts.forEach(part => {
+      addOverlay(part);
+    });
   }
 }
 
