@@ -1,5 +1,8 @@
 import BrushBaseTool from "../brush_tool";
 
+// Scales the force
+const SHADE_SCALAR = 5;
+
 class ShadeTool extends BrushBaseTool {
   constructor(config) {
     super(config, {
@@ -37,7 +40,7 @@ class ShadeTool extends BrushBaseTool {
     const point = toolData.getCoords();
     this.cursor = point;
     
-    const force = this.config.get("force");
+    const force = this.config.get("force", 1) * SHADE_SCALAR;
     const shadeOnce = this.config.get("shadeOnce", false);
     const shadeStyle = this.config.get("shadeStyle", "lighten");
 
