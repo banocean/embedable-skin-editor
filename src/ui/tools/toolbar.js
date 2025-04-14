@@ -37,10 +37,15 @@ class Toolbar extends LitElement {
       display: none;
     }
 
+    #toggle-variant {
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
     #toggle-variant > div {
       padding-left: 0.25rem;
       width: 48px;
-      height: 48px;
+      height: 36px;
       image-rendering: pixelated;
       position: relative;
 
