@@ -8,8 +8,18 @@ class Modal extends LitElement {
   static styles = css`
     dialog {
       background-color: unset;
+    }
+
+    dialog:modal {
       border: none;
       padding: 0px;
+      margin: 0px;
+
+      width: 100%;
+      height: 100%;
+
+      max-width: none;
+      max-height: none;
     }
 
     dialog:focus-visible {
@@ -20,6 +30,11 @@ class Modal extends LitElement {
       background-color: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
+    }
+
+    slot {
+      width: 100%;
+      height: 100%;
     }
   `
 
@@ -45,6 +60,7 @@ class Modal extends LitElement {
     if (this.dialog.open) { return; }
 
     this.dialog.showModal();
+    this.dispatchEvent(new CustomEvent("show"));
   }
 
   hide() {
@@ -65,6 +81,10 @@ class Modal extends LitElement {
     })
 
     dialog.appendChild(slot);
+
+    dialog.addEventListener("close", () => {
+      this.dispatchEvent(new CustomEvent("hide"));
+    });
 
     return dialog;
   }

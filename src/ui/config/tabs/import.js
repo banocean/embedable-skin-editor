@@ -24,19 +24,20 @@ class ImportTab extends Tab {
         background-color: #1A1A1A;
       }
 
-      #buttons ncrs-button {
+      ncrs-button {
         text-align: center;
         font-size: large;
         font-weight: bold;
       }
 
-      #buttons ncrs-button::part(button) {
+      ncrs-button::part(button) {
         padding-top: 0.25rem;
         padding-bottom: 0.25rem;
       }
 
-      #spacer {
-        flex-grow: 1;
+      ncrs-button ncrs-icon {
+        width: 24px;
+        height: 24px;
       }
 
       hr {
@@ -73,12 +74,47 @@ class ImportTab extends Tab {
       .hidden {
         display: none;
       }
+
+      #browse {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 0.5rem;
+      }
+
+      #quicksearch {
+        flex-grow: 1;
+      }
+
+      #quicksearch h2 {
+        margin: 0px;
+        margin-bottom: 0.25rem;
+        font-size: medium;
+        color: white;
+      }
+
+      #search {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      #search ncrs-button::part(button) {
+        padding: 0px;
+      }
+
+      #search input {
+        flex-grow: 1;
+
+      }
     `
   ]
 
-  constructor(editor) {
+  constructor(ui) {
     super({name: "Project"});
-    this.editor = editor;
+    this.ui = ui;
+    this.editor = this.ui.editor;
+
     this.pngFileInput = this._createFileInput();
     this.ncrsFileInput = this._createFileInput();
     this.referenceFileInput = this._createFileInput();
@@ -108,7 +144,17 @@ class ImportTab extends Tab {
           <hr>
           <ncrs-button @click=${this.referenceImageOpen} title="Add a reference image.">Add Reference Image</ncrs-button>
         </div>
-        <div id="spacer"></div>
+        <div id="browse">
+          <div id="quicksearch">
+            <h2>Quick Search</h2>
+            <div id="search">
+              <input id="search-input" type="text" placeholder="Search for parts">
+              <ncrs-button id="search-button"><ncrs-icon icon="search" color="var(--text-color)"></ncrs-icon></ncrs-button>
+            </div>
+          </div>
+          <hr>
+          <ncrs-button @click=${this.galleryOpen}>Open Parts Gallery</ncrs-button>
+        </div>
       </div>
     `
   }
@@ -126,6 +172,10 @@ class ImportTab extends Tab {
   referenceImageOpen() {
     this.referenceFileInput.value = null;
     this.referenceFileInput.click();
+  }
+
+  galleryOpen() {
+    this.ui.galleryModal.show();
   }
 
   _pngFileRead(event) {

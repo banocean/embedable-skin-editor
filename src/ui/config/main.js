@@ -87,7 +87,7 @@ class Config extends LitElement {
     const t = {
       tool: new ToolTab(this.ui),
       layers: new LayersTab(this.editor),
-      import: new ImportTab(this.editor),
+      import: new ImportTab(this.ui),
       export: new ExportTab(this.ui),
     }
 

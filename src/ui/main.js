@@ -14,6 +14,7 @@ import Config from "./config/main";
 import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
+import { Gallery } from "./gallery/main";
 
 class UI extends LitElement {
   static styles = css`
@@ -119,7 +120,7 @@ class UI extends LitElement {
     this.config = new Config(this);
 
     this.exportModal = this._setupModal("export-form");
-    this.galleryModal = this._setupModal("gallery");
+    this.galleryModal = this._setupGalleryModal();
 
     this._setupEvents();
   }
@@ -269,6 +270,15 @@ class UI extends LitElement {
     modal.appendChild(slot);
 
     return modal
+  }
+
+  _setupGalleryModal() {
+    const modal = new Modal();
+    const gallery = new Gallery(this);
+
+    modal.appendChild(gallery);
+
+    return modal;
   }
 
   _setupEvents() {
