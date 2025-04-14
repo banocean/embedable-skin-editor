@@ -80,6 +80,7 @@ class Layers extends EventTarget {
     ctx.putImageData(imgData, 0, 0);
 
     const layer = this.createFromCanvas(canvas);
+    layer.metadata = serializedLayer.metadata || {};
     layer.compositor.deserializeFilters(serializedLayer.filters);
     layer.selected = serializedLayer.selected;
     layer.visible = serializedLayer.visible;
@@ -231,6 +232,7 @@ class Layer extends EventTarget {
   
   selected = false;
   visible = true;
+  metadata = {};
 
   render(canvas = this.texture.image) {
     return this.compositor.render(canvas);
@@ -281,6 +283,7 @@ class Layer extends EventTarget {
     return {
       filters: this.compositor.serializeFilters(),
       data: btoa(binString),
+      metadata: this.metadata,
       selected: this.selected,
       visible: this.visible,
     }

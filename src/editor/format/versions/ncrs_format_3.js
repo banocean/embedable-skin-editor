@@ -1,38 +1,6 @@
-import AJV from "../ajv";
 import BaseVersion from "../base_version";
 import NCRSLegacyVersion from "./ncrs_legacy";
-
-const schema3 = {
-  type: "object",
-  properties: {
-    format: {type: "integer"},
-    variant: {
-      type: "string",
-      pattern: "^(classic|slim)$"
-    },
-    layers: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          filters: {type: "array"},
-          data: {type: "string"},
-          selected: {type: "boolean"},
-          visible: {type: "boolean"},
-        }
-      }
-    },
-    blendPalette: {
-      type: "array",
-      items: {
-        type: "string",
-        pattern: "^#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})$"
-      }
-    }
-  }
-}
-
-const validate = AJV.compile(schema3);
+import schema3Validate from "./schemas/schema_3";
 
 class NCRSFormat3 extends BaseVersion {
   static exportEditor(editor) {
@@ -66,9 +34,9 @@ class NCRSFormat3 extends BaseVersion {
   }
 
   validateData(data) {
-    const valid = validate(data);
+    const valid = schema3Validate(data);
 
-    if (!valid) { console.log(validate.errors, data); }
+    if (!valid) { console.log(schema3Validate.errors, data); }
 
     return valid;
   }

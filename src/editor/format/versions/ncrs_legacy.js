@@ -86,10 +86,12 @@ class NCRSLegacyVersion extends BaseVersion {
     const selected = layer.selected || false;
     const order = layer.order || idx;
     const data = this._parseTextureData(layer.faces, variant);
+    const attribution = layer.skinId || "";
 
     const layerData = {
       filters: [],
       data: data,
+      metadata: {attribution},
       selected: selected,
       visible: visible,
     }
