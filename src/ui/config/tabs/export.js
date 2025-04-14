@@ -45,10 +45,11 @@ class ExportTab extends Tab {
     `
   ]
 
-  constructor(editor) {
+  constructor(ui) {
     super({name: "Export"});
 
-    this.editor = editor;
+    this.ui = ui;
+    this.editor = this.ui.editor;
   }
 
   render() {
@@ -58,7 +59,7 @@ class ExportTab extends Tab {
           <ncrs-button @click=${this.downloadPNG} title="Export current skin as a PNG image file.">Export Image (.png)</ncrs-button>
           <ncrs-button @click=${this.downloadNCRS} title="Export current skin project, including layers.">Export Project (.ncrs)</ncrs-button>
           <hr>
-          <ncrs-button>Share to Gallery</ncrs-button>
+          <ncrs-button @click=${this.showExportForm}>Share to Gallery</ncrs-button>
         </div>
         <div id="form"></div>
       </div>
@@ -79,6 +80,10 @@ class ExportTab extends Tab {
     const blob = new Blob([JSON.stringify(data)], {type: "text/plain"});
 
     download(`${this._filename()}.ncrs`, URL.createObjectURL(blob));
+  }
+
+  showExportForm() {
+    this.ui.exportModal.show();
   }
 
   _filename() {

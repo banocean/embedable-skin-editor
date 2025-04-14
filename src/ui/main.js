@@ -12,6 +12,7 @@ import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
+import Modal from "./misc/modal";
 
 class UI extends LitElement {
   static styles = css`
@@ -116,6 +117,9 @@ class UI extends LitElement {
     this.layers = new LayerList(this);
     this.config = new Config(this);
 
+    this.exportModal = this._setupModal("export-form");
+    this.galleryModal = this._setupModal("gallery");
+
     this._setupEvents();
   }
   currentLayer;
@@ -192,6 +196,8 @@ class UI extends LitElement {
           ${this.layers}
         </div>
       </div>
+      ${this.exportModal}
+      ${this.galleryModal}
       <slot name="footer"></slot>
     `;
   }
@@ -252,6 +258,16 @@ class UI extends LitElement {
     } else if (layer.hasFilters()) {
       return this.classList.add("has-filters");
     }
+  }
+
+  _setupModal(name) {
+    const modal = new Modal();
+    const slot = document.createElement("slot");
+    slot.name = name;
+
+    modal.appendChild(slot);
+
+    return modal
   }
 
   _setupEvents() {
