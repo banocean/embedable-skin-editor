@@ -1,20 +1,24 @@
 import { css, html, LitElement } from "lit";
 
-class Troggle extends LitElement {
+class Quadroggle extends LitElement {
   static properties = {
     state: {reflect: true, type: String},
   }
 
   static styles = css`
-    :host([state=off]) slot[name=on], :host([state=off]) slot[name=half] {
+    :host([state=off]) slot[name=on], :host([state=off]) slot[name=inner], :host([state=off]) slot[name=outer] {
       display: none;
     }
 
-    :host([state=on]) slot[name=off], :host([state=on]) slot[name=half] {
+    :host([state=on]) slot[name=off], :host([state=on]) slot[name=inner], :host([state=on]) slot[name=outer] {
       display: none;
     }
 
-    :host([state=half]) slot[name=on], :host([state=half]) slot[name=off] {
+    :host([state=outer]) slot[name=on], :host([state=outer]) slot[name=off], :host([state=outer]) slot[name=inner] {
+      display: none;
+    }
+
+    :host([state=inner]) slot[name=on], :host([state=inner]) slot[name=off], :host([state=inner]) slot[name=outer] {
       display: none;
     }
 
@@ -38,7 +42,8 @@ class Troggle extends LitElement {
       <button part="button" @click=${this.toggle}>
         <slot name="before"></slot>
         <slot name="off"></slot>
-        <slot name="half"></slot>
+        <slot name="outer"></slot>
+        <slot name="inner"></slot>
         <slot name="on"></slot>
         <slot name="after"></slot>
       </button>
@@ -50,15 +55,17 @@ class Troggle extends LitElement {
     if (state === "off") {
       this.state = "on";
     } else if (state === "on") {
-      this.state = "half";
+      this.state = "outer";
+    } else if (state === "outer") {
+      this.state = "inner";
     } else {
       this.state = "off";
     }
 
-    this.dispatchEvent(new CustomEvent("troggle", {detail: this.state}))
+    this.dispatchEvent(new CustomEvent("quadroggle", {detail: this.state}))
   }
 }
 
-customElements.define("ncrs-troggle", Troggle);
+customElements.define("ncrs-quadroggle", Quadroggle);
 
-export default Troggle;
+export default Quadroggle;

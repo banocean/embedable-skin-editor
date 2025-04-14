@@ -27,7 +27,7 @@ class Toolbar extends LitElement {
       gap: 0.25rem;
     }
 
-    ncrs-toggle ncrs-icon, ncrs-troggle ncrs-icon {
+    ncrs-toggle ncrs-icon, ncrs-quadroggle ncrs-icon {
         width: 20px;
         height: 20px;
         display: inline-block
@@ -173,13 +173,13 @@ class Toolbar extends LitElement {
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-troggle title="Toggle grid" state=${gridState} @troggle=${this._toggleGrid}>
+        <ncrs-quadroggle title="Toggle grid" state=${gridState} @quadroggle=${this._toggleGrid}>
           <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
           <ncrs-icon slot="outer" icon="box-outer-checked" color="white"></ncrs-icon>
           <ncrs-icon slot="inner" icon="box-inner-checked" color="white"></ncrs-icon>
-        </ncrs-troggle>
+        </ncrs-quadroggle>
         <ncrs-toggle class="hidden" title="Toggle Backface Culling" @toggle=${this._toggleBackfaceCulling}>
           <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
