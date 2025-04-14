@@ -4,26 +4,30 @@ import { CURSOR_EYEDROPPER } from "../../../../editor/controls";
 import Color from "color";
 
 function createReferenceImage(editor, image) {
-  const window = new Window();
+  const win = new Window();
 
-  window.style.width = "320px";
-  window.style.height = "220px";
+  win.style.width = "320px";
+  win.style.height = "220px";
+  win.style.minWidth = "150px";
+  win.style.minHeight = "150px";
+  win.style.background = "repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px";
 
-  window.name = "Reference Image";
+  win.name = "Reference Image";
 
   const canvas = createCanvas(image);
   setupCanvasEvents(editor, canvas);
 
-  window.setPosition(20, 20);
-  window.appendChild(canvas);
+  win.setPosition(20, 20);
+  win.appendChild(canvas);
 
   const pz = createPanZoom(canvas, {
     smoothScroll: false
   });
 
-  setupWindowEvents(window, pz, canvas);
+  setupWindowEvents(win, pz, canvas);
+  setupResizeObserver(win, pz);
 
-  return window;
+  return win;
 }
 
 function createCanvas(image) {
@@ -61,9 +65,9 @@ function setupCanvasEvents(editor, canvas) {
   });
 }
 
-function setupWindowEvents(window, pz, canvas) {
-  window.addEventListener("ready", () => {
-    const windowRect = window.getInnerBounds();
+function setupWindowEvents(win, pz, canvas) {
+  win.addEventListener("ready", () => {
+    const windowRect = win.getInnerBounds();
 
     const offsetX = (windowRect.width / 2);
     const offsetY = (windowRect.height / 2);
@@ -75,6 +79,15 @@ function setupWindowEvents(window, pz, canvas) {
     );
     pz.zoomAbs(offsetX, offsetY, offsetZoom);
   })
+}
+
+function setupResizeObserver(win, pz) {
+  const ro = new ResizeObserver(() => {
+    pz.pause();
+    setTimeout(() => pz.resume(), 250);
+  });
+
+  ro.observe(win);
 }
 
 export default createReferenceImage;
