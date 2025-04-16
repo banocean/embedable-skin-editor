@@ -1,4 +1,5 @@
 import { css, html, LitElement } from "lit";
+import Skin2d from "../misc/skin_2d";
 
 class Layer extends LitElement {
   static styles = css`
@@ -14,6 +15,10 @@ class Layer extends LitElement {
 
     :host([active=true]) {
       border-color: #494c4e;
+    }
+
+    #preview {
+      width: 40px;
     }
 
     #layer {
@@ -79,39 +84,41 @@ class Layer extends LitElement {
     super();
 
     this.ui = ui;
+    this.editor = ui.editor;
     this.layer = layer;
+
     if (this.layer == undefined) {
       this.blank = true;
       return;
     }
     
     this.visible = layer.visible;
-
-    this.canvas = this._setupCanvas();
     this.active = layer.selected;
+
+    this.preview = new Skin2d();
+    this.preview.id = "preview";
 
     this.layer.addEventListener("layer-update", () => {
       this.requestUpdate();
-    })
+    });
 
     this.layer.addEventListener("layer-select", event => {
       this.active = event.detail.selected;
-    })
+    });
+
+    this._setupEvents();
   }
   blank = false;
 
   render() {
     if (!this.blank) {
-      const image = this.layer.toPreview();
-      const ctx = this.canvas.getContext("2d");
-  
-      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      ctx.drawImage(image, 0, 0);
+      const image = this.layer.getBaseCanvas();
+      this.preview.drawImage(image, this.editor.config.get("variant", "classic"));
     }
 
     return html`
       <div id="layer">
-        <button id="layer-button" @click=${this.select}>${this.canvas}</button>
+        <button id="layer-button" @click=${this.select}>${this.preview}</button>
         <button id="visibility-toggle" @click=${this.toggleVisibile}>
           <ncrs-icon icon="${this.visible ? "eye-open" : "eye-closed"}" color="var(--icon-color)">
           </ncrs-icon>
@@ -136,13 +143,10 @@ class Layer extends LitElement {
     this.ui.editor.renderLayers();
   }
 
-  _setupCanvas() {
-    const canvas = document.createElement("canvas");
-    canvas.id = "preview";
-    canvas.width = 36;
-    canvas.height = 32;
-
-    return canvas;
+  _setupEvents() {
+    this.editor.config.addEventListener("variant-change", () => {
+      this.requestUpdate();
+    })
   }
 }
 

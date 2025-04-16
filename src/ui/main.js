@@ -5,6 +5,7 @@ import "./misc/troggle";
 import "./misc/quadroggle";
 import "./misc/modal";
 import "./misc/window";
+import "./misc/skin_2d";
 
 import { css, html, LitElement } from "lit";
 import { Editor } from "../editor/main";

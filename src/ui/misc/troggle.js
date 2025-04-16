@@ -32,7 +32,6 @@ class Troggle extends LitElement {
 
   render() {
     this.state = this.state || "off";
-    console.log(this.state);
 
     return html`
       <button part="button" @click=${this.toggle}>
