@@ -254,8 +254,8 @@ class Editor extends LitElement {
     )
   }
 
-  addLayer() {
-    const layer = this.layers.createBlank();
+  addLayer(optionalLayer = undefined) {
+    const layer = optionalLayer || this.layers.createBlank();
 
     this.history.add(
       new GroupedEntry(
@@ -263,6 +263,11 @@ class Editor extends LitElement {
         new SelectLayerEntry(this.layers, {layer})
       )
     );
+  }
+
+  addCanvasLayer(canvas) {
+    const layer = this.layers.createFromCanvas(canvas);
+    this.addLayer(layer);
   }
 
   removeLayer() {

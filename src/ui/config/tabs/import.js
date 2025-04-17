@@ -5,6 +5,7 @@ import { css, html } from "lit";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
 import createReferenceImage from "./import/reference_image";
 import ProjectLoader from "../../../editor/format/project_loader";
+import QuickSearch from "./import/quick_search";
 
 class ImportTab extends Tab {
   static styles = [
@@ -92,21 +93,6 @@ class ImportTab extends Tab {
         font-size: medium;
         color: white;
       }
-
-      #search {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-      }
-
-      #search ncrs-button::part(button) {
-        padding: 0px;
-      }
-
-      #search input {
-        flex-grow: 1;
-
-      }
     `
   ]
 
@@ -127,6 +113,8 @@ class ImportTab extends Tab {
     
     this.referenceFileInput.accept = "image/*";
     this.referenceFileInput.addEventListener("change", this._referenceFileRead.bind(this));
+
+    this.quicksearch = new QuickSearch(this.editor);
   }
 
   render() {
@@ -147,13 +135,8 @@ class ImportTab extends Tab {
         <div id="browse">
           <div id="quicksearch">
             <h2>Quick Search</h2>
-            <div id="search">
-              <input id="search-input" type="text" placeholder="Search for parts">
-              <ncrs-button id="search-button"><ncrs-icon icon="search" color="var(--text-color)"></ncrs-icon></ncrs-button>
-            </div>
+            ${this.quicksearch}
           </div>
-          <hr>
-          <ncrs-button @click=${this.galleryOpen}>Open Parts Gallery</ncrs-button>
         </div>
       </div>
     `
