@@ -275,9 +275,10 @@ class UI extends LitElement {
 
   _setupGalleryModal() {
     const modal = new Modal();
-    const gallery = new Gallery(this);
+    // const gallery = new Gallery(this);
+    // gallery.url = "http://127.0.0.1:3000/gallery/skins"
 
-    modal.appendChild(gallery);
+    // modal.appendChild(gallery);
 
     return modal;
   }

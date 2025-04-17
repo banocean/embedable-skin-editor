@@ -1,4 +1,5 @@
 import { css, html, LitElement } from "lit";
+import GallerySkin from "./skin";
 
 class Gallery extends LitElement {
   static properties = {
@@ -32,6 +33,24 @@ class Gallery extends LitElement {
     #filters {
       background-color: red;
     }
+
+    #skins {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #skins > div {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: max-content;
+    }
+
+    ncrs-gallery-skin {
+      aspect-ratio: 1;
+      width: 10rem;
+      height: 10rem;
+    }
   `
 
   constructor(ui) {
@@ -47,11 +66,41 @@ class Gallery extends LitElement {
         <div id="filters"></div>
         <div id="browse">
           <div id="tabs"></div>
-          <div id="skins"></div>
+          <div id="skins">
+            ${this._renderSkins()}
+          </div>
           <div id="pagination"></div>
         </div>
       </div>
     `
+  }
+
+  getURL() {
+    return this.url + "/1?items=32";
+  }
+
+  getGalleryData() {
+    const headers = {
+      "Accept": "application/json",
+    }
+
+    return fetch(this.getURL(), {headers});
+  }
+
+  _renderSkins() {
+    const div = document.createElement("div");
+
+    this.getGalleryData().then(data => {
+      data.json().then(json => {
+        json.skins.forEach(skin => {
+          const gallerySkin = new GallerySkin(skin);
+  
+          div.appendChild(gallerySkin);
+        });
+      });
+    });
+
+    return div;
   }
 }
 
