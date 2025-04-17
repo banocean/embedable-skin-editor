@@ -139,8 +139,8 @@ class ImportTab extends Tab {
           <input id="username" type="text" placeholder="Steve">
           <ncrs-button id="import-username">Import Skin from Username</ncrs-button>
           <hr>
-          <ncrs-button @click=${this.pngOpen} title="Import a skin file as a new layer.">Import Skin from File</ncrs-button>
-          <ncrs-button @click=${this.ncrsOpen} title="Import a .ncrs project file.">Import Project from File</ncrs-button>
+          <ncrs-button @click=${this.pngOpen} title="Import a skin .png file as a new layer.">Import Skin from File (.png)</ncrs-button>
+          <ncrs-button @click=${this.ncrsOpen} title="Import a .ncrs project file.">Import Project from File (.ncrs)</ncrs-button>
           <hr>
           <ncrs-button @click=${this.referenceImageOpen} title="Add a reference image.">Add Reference Image</ncrs-button>
         </div>
