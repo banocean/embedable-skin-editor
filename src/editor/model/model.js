@@ -74,7 +74,7 @@ class SkinModel {
     const leftArm = new LeftArmPart(texture, variant);
     const rightArm = new RightArmPart(texture, variant);
 
-    const parts = [torso, head, leftLeg, rightLeg, leftArm, rightArm];
+    const parts = [head, torso, leftLeg, rightLeg, leftArm, rightArm];
 
     parts.forEach(part => {
       scope.parts.push(part);
