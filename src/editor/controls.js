@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "./orbit";
-import { isKeybindIgnored } from "../helpers";
+import { getFocusedElement, isKeybindIgnored } from "../helpers";
 
 const CURSOR_EYEDROPPER = 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
 
