@@ -4,7 +4,6 @@ import { Controls } from "./controls";
 import { Layers } from "./layers/layers";
 import { SkinModel } from "./model/model";
 import { Renderer } from "./renderer";
-import Stats from "stats.js";
 import { HistoryManager } from "./history/history_manager";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
@@ -69,7 +68,6 @@ class Editor extends LitElement {
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this.history = new HistoryManager();
-    this.stats = new Stats();
     this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
@@ -86,9 +84,6 @@ class Editor extends LitElement {
   model;
 
   render() {
-    this.stats.showPanel(0);
-    document.body.appendChild(this.stats.dom);
-
     this.camera.layers.enable(1);
     this.camera.layers.enable(2);
 
@@ -105,9 +100,7 @@ class Editor extends LitElement {
   }
 
   sceneRender() {
-    this.stats.begin();
     this.renderer.render();
-    this.stats.end();
     this.style.cursor = this.controls.getCursorStyle();
 
     this.dispatchEvent(new CustomEvent("render"));
