@@ -51,6 +51,15 @@ class ImportTab extends Tab {
       input {
         font-size: medium;
         margin-bottom: 0.25rem;
+        flex-grow: 1;
+        box-sizing: border-box;
+        color: white;
+        background-color: #131315;
+        border-style: solid;
+        border-width: 0px;
+        border-radius: 4px;
+        box-shadow: 0 0 0 2px #313436;
+        padding-left: 0.25rem;
       }
 
       #import-username {
@@ -64,7 +73,7 @@ class ImportTab extends Tab {
         height: 0;
         border-left: var(--height) solid transparent;
         border-right: var(--height) solid transparent;
-        border-top: var(--height) solid #ffffff;
+        border-top: var(--height) solid #131315;
         position: absolute;
         z-index: 99;
         left: 50%;
