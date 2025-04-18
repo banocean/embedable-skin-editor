@@ -106,7 +106,7 @@ class ImportTab extends Tab {
   ]
 
   constructor(ui) {
-    super({name: "Project"});
+    super({name: "Import"});
     this.ui = ui;
     this.editor = this.ui.editor;
 
@@ -133,8 +133,8 @@ class ImportTab extends Tab {
           ${this.pngFileInput}
           ${this.ncrsFileInput}
           ${this.referenceFileInput}
-          <input id="username" type="text" placeholder="Steve">
-          <ncrs-button id="import-username">Import Skin from Username</ncrs-button>
+          <input id="minecraft" type="text" placeholder="Steve">
+          <ncrs-button id="import-username">Import Skin from Minecraft</ncrs-button>
           <hr>
           <ncrs-button @click=${this.pngOpen} title="Import a skin .png file as a new layer.">Import Skin from File (.png)</ncrs-button>
           <ncrs-button @click=${this.ncrsOpen} title="Import a .ncrs project file.">Import Project from File (.ncrs)</ncrs-button>

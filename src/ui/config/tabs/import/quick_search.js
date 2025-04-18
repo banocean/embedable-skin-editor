@@ -254,7 +254,10 @@ class QuickSearch extends LitElement {
 
       ctx.drawImage(img, 0, 0);
 
-      this.editor.addCanvasLayer(canvas);
+      const layer = this.editor.layers.createFromCanvas(canvas);
+      layer.metadata.attribution = `${metadata.url}\n${metadata.author.attribution_message}`;
+
+      this.editor.addLayer(layer);
     }
 
     img.src = metadata.image;
