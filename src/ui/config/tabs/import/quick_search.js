@@ -9,7 +9,7 @@ class QuickSearch extends LitElement {
   }
 
   static styles = css`
-    #main {
+    #search {
       display: flex;
       align-items: flex-start;
       gap: 0.25rem;
@@ -43,6 +43,7 @@ class QuickSearch extends LitElement {
       gap: 0.25rem;
       padding: 0.5rem;
       background-color: #191919;
+      height: 256px;
     }
 
     #nav {
@@ -71,12 +72,43 @@ class QuickSearch extends LitElement {
       color: white;
       font-weight: bold;
     }
+
+    #filters {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #filters > div {
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
+    #filters label {
+      color: white;
+      font-size: x-small;
+      display: block;
+      margin-bottom: 0.125rem;
+    }
+
+    #filters select {
+      width: 100%;
+      font-size: small;
+      color: white;
+      background-color: #131315;
+      border-style: solid;
+      border-width: 0px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 2px #313436;
+      padding-left: 0.25rem;
+    }
   `;
 
   constructor(editor) {
     super();
 
     this.editor = editor;
+    this.seed = this._generateSeed();
 
     this.searchField = this._createSearchField();
     this.page = this.page || 1;
@@ -88,6 +120,13 @@ class QuickSearch extends LitElement {
   page = 1;
   pageCount = 1;
 
+  parts = [];
+  part = "";
+
+  categories = [];
+  category = "";
+
+
   firstUpdated() {
     this._syncGalleryData();
   }
@@ -98,14 +137,27 @@ class QuickSearch extends LitElement {
     if (this._galleryData) {
       this.page = this._galleryData.page.current;
       this.pageCount = this._galleryData.page.total;
+
+      this.parts = this._galleryData.filters.parts;
+      this.categories = this._galleryData.filters.categories;
     }
 
     return html`
-      <div id="main">
+      <div id="search">
         ${this.searchField}
         <ncrs-button id="search-button" title="Submit search" @click=${this._setQuery}>
           <ncrs-icon icon="search" color="var(--text-color)"></ncrs-icon>
         </ncrs-button>
+      </div>
+      <div id="filters">
+        <div>
+          <label for="parts">Part</label>
+          ${this._createPartsFilter()}
+        </div>
+        <div>
+          <label for="parts">Category</label>
+          ${this._createCategoriesFilter()}
+        </div>
       </div>
       ${skins}
       <div id="nav">
@@ -144,6 +196,14 @@ class QuickSearch extends LitElement {
       params.set("search", this.query);
     } else {
       params.set("order", `random~${this.seed}`)
+    }
+
+    if (this.part != "") {
+      params.set("part", this.part);
+    }
+
+    if (this.category != "") {
+      params.set("category", this.category);
     }
 
     params.set("model", this.editor.config.get("variant", "classic"));
@@ -203,13 +263,72 @@ class QuickSearch extends LitElement {
   _createSearchField() {
     const input = document.createElement("input");
     input.type = "text";
-    input.placeholder = "Search for parts";
+    input.placeholder = "Search for skins";
 
     input.addEventListener("change", () => {
       this._setQuery();
     })
 
     return input;
+  }
+
+  _createPartsFilter() {
+    const select = document.createElement("select");
+    select.id = "parts";
+
+    const unset = document.createElement("option");
+    unset.textContent = "All";
+    unset.value = "";
+
+    select.appendChild(unset);
+    this.parts.forEach(part => {
+      const option = document.createElement("option");
+      option.textContent = part;
+      option.value = part;
+
+      if (this.part === part) {
+        option.selected = true;
+      }
+
+      select.appendChild(option);
+    })
+
+    select.addEventListener("change", () => {
+      this.part = select.value;
+      this._syncGalleryData();
+    });
+
+    return select;
+  }
+
+  _createCategoriesFilter() {
+    const select = document.createElement("select");
+    select.id = "categories";
+
+    const unset = document.createElement("option");
+    unset.textContent = "All";
+    unset.value = "";
+
+    select.appendChild(unset);
+
+    this.categories.forEach(category => {
+      const option = document.createElement("option");
+      option.textContent = category;
+      option.value = category;
+
+      if (this.category === category) {
+        option.selected = true;
+      }
+
+      select.appendChild(option);
+    })
+
+    select.addEventListener("change", () => {
+      this.category = select.value;
+      this._syncGalleryData();
+    });
+
+    return select;
   }
 
   _generateSeed() {

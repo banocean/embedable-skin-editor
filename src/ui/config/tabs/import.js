@@ -134,7 +134,6 @@ class ImportTab extends Tab {
         </div>
         <div id="browse">
           <div id="quicksearch">
-            <h2>Quick Search</h2>
             ${this.quicksearch}
           </div>
         </div>
