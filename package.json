@@ -5,7 +5,7 @@
   "type": "module",
   "exports": "./dist/ncrs-editor.js",
   "scripts": {
-    "prepack": "vite build",
+    "install": "vite build",
     "dev": "vite",
     "dev-host": "vite --host",
     "build": "vite build",
