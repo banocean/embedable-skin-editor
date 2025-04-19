@@ -3,16 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "exports": "./dist/ncrs-editor.js",
+  "main": "./dist/ncrs-editor.js",
   "scripts": {
     "install": "vite build",
     "dev": "vite",
     "dev-host": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^5.4.1"
   },
   "dependencies": {
     "@simonwep/pickr": "^1.9.1",
@@ -21,6 +18,7 @@
     "lit": "^3.2.0",
     "panzoom": "^9.4.3",
     "sortablejs": "^1.15.6",
-    "three": "^0.167.1"
+    "three": "^0.167.1",
+    "vite": "^5.4.1"
   }
 }
