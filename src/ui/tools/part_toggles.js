@@ -1,4 +1,17 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, unsafeCSS } from "lit";
+
+import imgHeadEnabled from "/assets/images/skin_parts/head_enabled.png";
+import imgHeadDisabled from "/assets/images/skin_parts/head_disabled.png";
+import imgTorsoEnabled from "/assets/images/skin_parts/torso_enabled.png";
+import imgTorsoDisabled from "/assets/images/skin_parts/torso_disabled.png";
+import imgRightArmEnabled from "/assets/images/skin_parts/right_arm_enabled.png";
+import imgRightArmDisabled from "/assets/images/skin_parts/right_arm_disabled.png";
+import imgLeftArmEnabled from "/assets/images/skin_parts/left_arm_enabled.png";
+import imgLeftArmDisabled from "/assets/images/skin_parts/left_arm_disabled.png";
+import imgRightLegEnabled from "/assets/images/skin_parts/right_leg_enabled.png";
+import imgRightLegDisabled from "/assets/images/skin_parts/right_leg_disabled.png";
+import imgLeftLegEnabled from "/assets/images/skin_parts/left_leg_enabled.png";
+import imgLeftLegDisabled from "/assets/images/skin_parts/left_leg_disabled.png";
 
 class PartToggle extends LitElement {
   static styles = css`
@@ -42,43 +55,43 @@ class PartToggle extends LitElement {
     #toggle-head {
       width: calc(32px * var(--scale));
       height: calc(32px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/head_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/head_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgHeadEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgHeadDisabled)});
     }
 
     #toggle-rarm {
       width: calc(16px * var(--scale));
       height: calc(48px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/right_arm_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/right_arm_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgRightArmEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgRightArmDisabled)});
     }
 
     #toggle-torso {
       width: calc(32px * var(--scale));
       height: calc(48px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/torso_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/torso_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgTorsoEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgTorsoDisabled)});
     }
 
     #toggle-larm {
       width: calc(16px * var(--scale));
       height: calc(48px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/left_arm_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/left_arm_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgLeftArmEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgLeftArmDisabled)});
     }
 
     #toggle-rleg {
       width: calc(16px * var(--scale));
       height: calc(48px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/right_leg_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/right_leg_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgRightLegEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgRightLegDisabled)});
     }
 
     #toggle-lleg {
       width: calc(16px * var(--scale));
       height: calc(48px * var(--scale));
-      --background-image-enabled: url("/images/skin_parts/left_leg_enabled.png");
-      --background-image-disabled: url("/images/skin_parts/left_leg_disabled.png");
+      --background-image-enabled: url(${unsafeCSS(imgLeftLegEnabled)});
+      --background-image-disabled: url(${unsafeCSS(imgLeftLegDisabled)});
     }
   `
 

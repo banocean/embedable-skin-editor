@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { OrbitControls } from "./orbit";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 
-const CURSOR_EYEDROPPER = 'url("/images/cursors/eyedropper.png") 0 32, crosshair';
+import imgEyedropper from "/assets/images/cursors/eyedropper.png"
+const CURSOR_EYEDROPPER = `url("${imgEyedropper}") 0 32, crosshair`;
 
 class Controls {
   constructor(parent) {

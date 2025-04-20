@@ -1,6 +1,8 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, unsafeCSS } from "lit";
 import Tool from "./tool";
 import PartToggle from "./part_toggles";
+
+import imgSteveAlex from "/assets/images/steve_alex.png";
 
 class Toolbar extends LitElement {
   static styles = css`
@@ -75,13 +77,13 @@ class Toolbar extends LitElement {
     }
 
     #toggle-classic {
-      --background-before: url("/images/steve_alex.png") 20px 0px;
-      --background-after: url("/images/steve_alex.png") 0px 0px;
+      --background-before: url(${unsafeCSS(imgSteveAlex)}) 20px 0px;
+      --background-after: url(${unsafeCSS(imgSteveAlex)}) 0px 0px;
     }
 
     #toggle-slim {
-      --background-before: url("/images/steve_alex.png") 0px 0px;
-      --background-after: url("/images/steve_alex.png") 24px 0px;
+      --background-before: url(${unsafeCSS(imgSteveAlex)}) 0px 0px;
+      --background-after: url(${unsafeCSS(imgSteveAlex)}) 24px 0px;
     }
 
     ncrs-part-toggle {

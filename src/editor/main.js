@@ -23,6 +23,9 @@ import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
 import Config from "./config";
 
+import imgMascot from "/assets/images/mncs-mascot.png";
+import imgFacingIndicator from "/assets/images/facing-indicator.svg";
+
 const IMAGE_WIDTH = 64;
 const IMAGE_HEIGHT = 64;
 const FORMAT = -1;
@@ -402,7 +405,7 @@ class Editor extends LitElement {
   }
 
   _loadDefaultSkin() {
-    new THREE.TextureLoader().load("mncs-mascot.png", (texture) => {
+    new THREE.TextureLoader().load(imgMascot, (texture) => {
       new GroupedEntry(
         new AddLayerEntry(this.layers, { texture }),
         new SelectLayerEntry(this.layers, {index: 0})
@@ -416,7 +419,7 @@ class Editor extends LitElement {
     const zPos = 0.6; // + Forward / - Backward
 
     const geometry = new THREE.PlaneGeometry(size, size);
-    const texture = new THREE.TextureLoader().load("/images/facing-indicator.svg", newTexture => {
+    const texture = new THREE.TextureLoader().load(imgFacingIndicator, newTexture => {
       newTexture.magFilter = THREE.NearestFilter;
       newTexture.minFilter = THREE.NearestFilter;
     })

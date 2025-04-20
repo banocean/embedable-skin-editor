@@ -7,7 +7,7 @@ import "./misc/modal";
 import "./misc/window";
 import "./misc/skin_2d";
 
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, unsafeCSS } from "lit";
 import { Editor } from "../editor/main";
 import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
@@ -16,6 +16,8 @@ import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
 import { Gallery } from "./gallery/main";
+
+import imgGrid from "/assets/images/grid-editor-dark.png";
 
 class UI extends LitElement {
   static styles = css`
@@ -58,7 +60,7 @@ class UI extends LitElement {
 
     #editor {
       background-color: #191919;
-      background-image: url("/images/grid-editor-dark.png");
+      background-image: url(${unsafeCSS(imgGrid)});
       flex-grow: 1;
       position: relative;
     }
