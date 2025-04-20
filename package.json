@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/ncrs-editor.js",
+  "main": "./src/ncrs-editor.js",
   "scripts": {
     "install": "vite build",
     "dev": "vite",
