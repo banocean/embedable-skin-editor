@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "./src/ncrs-editor.js",
+  "main": "./dist/ncrs-editor.js",
   "scripts": {
-    "install": "vite build",
+    "install": "vite build --config vite-lib.config.js",
     "dev": "vite",
     "dev-host": "vite --host",
     "build": "vite build",
