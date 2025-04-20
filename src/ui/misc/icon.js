@@ -116,9 +116,11 @@ class Icon extends LitElement {
   }
 
   render() {
-    return html`
-      <div style="mask-image: url('${ICON_MAP[this.icon]}'); background-color: ${this.color};"></div>
-    `
+    const div = document.createElement("div");
+    div.style.maskImage = `url("${ICON_MAP[this.icon]}")`;
+    div.style.backgroundColor = this.color;
+
+    return div;
   }
 }
 
