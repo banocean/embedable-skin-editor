@@ -1,4 +1,4 @@
-import { css, LitElement } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 
 class Modal extends LitElement {
   static properties = {
@@ -6,30 +6,24 @@ class Modal extends LitElement {
   }
 
   static styles = css`
-    dialog {
-      background-color: unset;
-    }
+    #main {
+      display: none;
 
-    dialog:modal {
-      border: none;
-      padding: 0px;
-      margin: 0px;
-
-      width: 100%;
-      height: 100%;
-
-      max-width: none;
-      max-height: none;
-    }
-
-    dialog:focus-visible {
-      outline: none;
-    }
-
-    dialog::backdrop {
+      position: fixed;
+      align-items: center;
+      justify-content: center;
       background-color: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
+
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+
+    #main.open {
+      display: flex;
     }
 
     slot {
@@ -40,59 +34,56 @@ class Modal extends LitElement {
 
   constructor() {
     super();
-    this.dialog = this._setupDialog();
+
+    document.addEventListener("keydown", event => this._handleKeyDown(event));
   }
 
   firstUpdated() {
     this._syncState();
-    this._setupEvents();
   }
 
   render() {
-    if (this.hasUpdated) {
-      this._syncState();
-    }
-
-    return this.dialog;
+    return html`
+      <div @click=${this.hide} id="main" class="${this.open ? "open" : ""}">
+        <slot @click=${this._cancelEvent}></slot>
+      </div>
+    `
   }
 
   show() {
-    if (this.dialog.open) { return; }
+    if (this.open) { return; }
 
-    this.dialog.showModal();
-    this.dispatchEvent(new CustomEvent("show"));
+    this._showEvent();
+    this.open = true;
   }
 
   hide() {
-    if (!this.dialog.open) { return; }
+    if (!this.open) { return; }
     
-    this.dialog.close();
+    this._hideEvent();
+    this.open = false;
+  }
+
+  _cancelEvent(event) {
+    event.stopPropagation();
+  }
+
+  _handleKeyDown(event) {
+    if (event.key === "Escape") {
+      this.hide();
+    }
   }
 
   _syncState() {
-    this.open ? this.show() : this.hide();
+    this.open ? this._showEvent() : this._hideEvent();
   }
 
-  _setupDialog() {
-    const dialog = document.createElement("dialog");
-    const slot = document.createElement("slot");
-    slot.addEventListener("pointerdown", event => {
-      event.stopPropagation();
-    })
-
-    dialog.appendChild(slot);
-
-    dialog.addEventListener("close", () => {
-      this.dispatchEvent(new CustomEvent("hide"));
-    });
-
-    return dialog;
+  _showEvent() {
+    this.dispatchEvent(new CustomEvent("show"));
   }
 
-  _setupEvents() {
-    this.addEventListener("pointerdown", () => {
-      this.hide();
-    });
+  _hideEvent() {
+    this.dispatchEvent(new CustomEvent("hide"));
   }
 }
 
