@@ -104,10 +104,11 @@ class QuickSearch extends LitElement {
     }
   `;
 
-  constructor(editor) {
+  constructor(ui) {
     super();
 
-    this.editor = editor;
+    this.ui = ui;
+    this.editor = this.ui.editor;
     this.seed = this._generateSeed();
 
     this.searchField = this._createSearchField();
@@ -207,7 +208,7 @@ class QuickSearch extends LitElement {
 
     params.set("model", this.editor.config.get("variant", "classic"));
 
-    return GALLERY_URL + `/${this.page}?${params}`;
+    return (this.ui.gallery || GALLERY_URL) + `/${this.page}?${params}`;
   }
 
   _getGalleryData() {

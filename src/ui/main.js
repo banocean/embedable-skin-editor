@@ -101,6 +101,10 @@ class UI extends LitElement {
     }
   `;
 
+  static properties = {
+    gallery: {type: String}
+  }
+
   static keybinds = {
     "b": "pen",
     "e": "eraser",

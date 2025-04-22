@@ -123,7 +123,7 @@ class ImportTab extends Tab {
     this.referenceFileInput.accept = "image/*";
     this.referenceFileInput.addEventListener("change", this._referenceFileRead.bind(this));
 
-    this.quicksearch = new QuickSearch(this.editor);
+    this.quicksearch = new QuickSearch(this.ui);
   }
   _hasEntered = false;
 
