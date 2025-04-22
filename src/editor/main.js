@@ -346,6 +346,21 @@ class Editor extends LitElement {
     this.updatePartsVisibility();
   }
 
+  skinToCanvas() {
+    return this.layers.render();
+  }
+
+  skinToDataURL() {
+    const canvas = document.createElement("canvas");
+    canvas.width = IMAGE_WIDTH;
+    canvas.height = IMAGE_HEIGHT;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(this.skinToCanvas(), 0, 0);
+
+    return canvas.toDataURL();
+  }
+
   _pickColor(toolData) {
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });
