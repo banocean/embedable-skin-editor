@@ -265,6 +265,23 @@ class Editor extends LitElement {
     this.addLayer(layer);
   }
 
+  addLayerFromFile(file) {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        const layer = this.layers.createFromTexture(new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT));
+        this.addLayer(layer);
+      }
+
+      img.src = reader.result;
+    }
+
+    reader.readAsDataURL(file);
+  }
+
   removeLayer() {
     const layers = this.layers;
     const layer = this.layers.getSelectedLayer();

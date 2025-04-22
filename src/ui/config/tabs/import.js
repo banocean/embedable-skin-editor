@@ -179,21 +179,7 @@ class ImportTab extends Tab {
 
   _pngFileRead(event) {
     const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const img = new Image();
-
-      img.onload = () => {
-        this.editor.history.add(
-          new AddLayerEntry(this.editor.layers, {texture: new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT)})
-        )
-      }
-
-      img.src = reader.result;
-    }
-
-    reader.readAsDataURL(file);
+    this.editor.addLayerFromFile(file);
   }
 
   _ncrsFileRead(event) {

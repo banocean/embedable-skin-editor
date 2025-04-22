@@ -309,6 +309,16 @@ class UI extends LitElement {
     layers.addEventListener("layers-select", () => {
       this._updateWarning();
     });
+
+    this.addEventListener("dragover", event => event.preventDefault());
+    this.addEventListener("drop", event => {
+      event.preventDefault();
+      [...event.dataTransfer.items].forEach(item => {
+        if (item.type != "image/png") { return; }
+
+        this.editor.addLayerFromFile(item.getAsFile());
+      })
+    });
   }
 }
 
