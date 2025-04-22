@@ -16,6 +16,9 @@ class Modal extends LitElement {
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
 
+      overflow: auto;
+      overscroll-behavior: contain;
+
       top: 0px;
       bottom: 0px;
       left: 0px;
