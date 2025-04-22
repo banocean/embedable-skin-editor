@@ -27,6 +27,10 @@ class Tab extends LitElement {
 
   render() {}
 
+  tabEnter() {}
+
+  tabExit() {}
+
   setDarkened(value) {
     this.darkened = value;
     this.dispatchEvent(new CustomEvent("set-darkened", {detail: this.darkened}));

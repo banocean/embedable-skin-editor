@@ -42,8 +42,14 @@ class TabGroup extends LitElement {
 
   select(selectedTab) {
     this.tabs.forEach(tab => {
+      if (tab.visible && tab != selectedTab) {
+        tab.tabExit();
+      }
+
       tab.visible = (tab == selectedTab);
     })
+
+    selectedTab.tabEnter();
 
     this.dispatchEvent(new CustomEvent("select", {detail: selectedTab}));
     this.requestUpdate();

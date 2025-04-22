@@ -126,8 +126,7 @@ class QuickSearch extends LitElement {
   categories = [];
   category = "";
 
-
-  firstUpdated() {
+  load() {
     this._syncGalleryData();
   }
 

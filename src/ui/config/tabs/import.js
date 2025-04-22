@@ -125,6 +125,7 @@ class ImportTab extends Tab {
 
     this.quicksearch = new QuickSearch(this.editor);
   }
+  _hasEntered = false;
 
   render() {
     return html`
@@ -148,6 +149,13 @@ class ImportTab extends Tab {
         </div>
       </div>
     `
+  }
+
+  tabEnter() {
+    if (this._hasEntered) { return; }
+
+    this.quicksearch.load();
+    this._hasEntered = true;
   }
 
   pngOpen() {
