@@ -10,6 +10,13 @@ export default defineConfig({
       entry: resolve(__dirname, "src/main.js"),
       name: "ncrs-editor",
       fileName: "ncrs-editor",
+      formats: ["es"],
+    },
+    rollupOptions: {
+      external: [
+        "ajv", "color", "lit", "panzoom",
+        "sortablejs", "three"
+      ] 
     }
   }
 })
