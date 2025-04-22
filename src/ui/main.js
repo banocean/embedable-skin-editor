@@ -267,6 +267,8 @@ class UI extends LitElement {
 
   _setupModal(name) {
     const modal = new Modal();
+    modal.part = name;
+    
     const slot = document.createElement("slot");
     slot.name = name;
 
