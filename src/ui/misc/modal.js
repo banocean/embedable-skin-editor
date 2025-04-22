@@ -1,12 +1,12 @@
-import { css, html, LitElement, nothing } from "lit";
+import { css, html, LitElement } from "lit";
 
 class Modal extends LitElement {
   static properties = {
-    open: {type: Boolean}
+    open: {type: Boolean, reflect: true}
   }
 
   static styles = css`
-    #main {
+    :host {
       display: none;
 
       position: fixed;
@@ -22,7 +22,7 @@ class Modal extends LitElement {
       right: 0px;
     }
 
-    #main.open {
+    :host([open]) {
       display: flex;
     }
 
@@ -36,6 +36,7 @@ class Modal extends LitElement {
     super();
 
     document.addEventListener("keydown", event => this._handleKeyDown(event));
+    this.addEventListener("click", () => this.hide());
   }
 
   firstUpdated() {
@@ -44,9 +45,7 @@ class Modal extends LitElement {
 
   render() {
     return html`
-      <div @click=${this.hide} id="main" class="${this.open ? "open" : ""}">
-        <slot @click=${this._cancelEvent}></slot>
-      </div>
+      <slot @click=${this._cancelEvent}></slot>
     `
   }
 
