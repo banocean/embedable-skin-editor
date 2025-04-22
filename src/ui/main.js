@@ -165,8 +165,13 @@ class UI extends LitElement {
           this.editor.history.redo();
           break;
         case "reset":
-          PersistenceManager.resetAll();
-          location.reload();
+          const check = confirm("Do you want to reset all editor data? You will lose all progress on your current skin.");
+
+          if (check) {
+            PersistenceManager.resetAll();
+            location.reload();
+          }
+          
           break;
       }
     });

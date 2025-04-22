@@ -23,6 +23,8 @@ class Controls {
   ctrlKey = false;
   shiftKey = false;
 
+  keybindEyedropper = false;
+
   handleIntersects() {
     const intersects = this.raycast();
 
@@ -124,6 +126,7 @@ class Controls {
 
     if (event.key == "Control" || event.key == "Alt") {
       this.parent.config.set("pick-color", true);
+      this.keybindEyedropper = true;
     }
   }
 
@@ -131,6 +134,7 @@ class Controls {
     if (event.key == "Control" || event.key == "Alt") {
       event.preventDefault();
       this.parent.config.set("pick-color", false);
+      this.keybindEyedropper = false;
     }
 
     if (event.key == "Control" && this.ctrlKey) {
@@ -171,6 +175,14 @@ class Controls {
     return "grab";
   }
 
+  _checkEyedropper(event) {
+    if (!this.keybindEyedropper) { return; };
+    if (event.ctrlKey || event.altKey) { return; }
+
+    this.parent.config.set("pick-color", false);
+    this.keybindEyedropper = false;
+  }
+
   _setupOrbit(camera, parent) {
     const orbit = new OrbitControls(camera, parent);
     orbit.minDistance = 1;
@@ -188,6 +200,10 @@ class Controls {
 
     document.addEventListener("keydown", this.onKeyDown.bind(this));
     document.addEventListener("keyup", this.onKeyUp.bind(this));
+
+    document.addEventListener("mousemove", event => {
+      this._checkEyedropper(event);
+    })
   }
 }
 
