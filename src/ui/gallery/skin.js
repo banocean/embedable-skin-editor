@@ -34,6 +34,7 @@ class GallerySkin extends LitElement {
       line-height: 1rem;
       display: -webkit-box;
       overflow: hidden;
+      word-break: break-word;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
     }
