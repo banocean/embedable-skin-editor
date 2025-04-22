@@ -10,8 +10,10 @@ class Modal extends LitElement {
       display: none;
 
       position: fixed;
+
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      
       background-color: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
