@@ -23,7 +23,6 @@ import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
 import Config from "./config";
 
-import imgMascot from "/assets/images/mncs-mascot.png";
 import imgFacingIndicator from "/assets/images/facing-indicator.svg";
 
 const IMAGE_WIDTH = 64;
@@ -405,12 +404,9 @@ class Editor extends LitElement {
   }
 
   _loadDefaultSkin() {
-    new THREE.TextureLoader().load(imgMascot, (texture) => {
-      new GroupedEntry(
-        new AddLayerEntry(this.layers, { texture }),
-        new SelectLayerEntry(this.layers, {index: 0})
-      ).perform()
-    });
+    this.addLayer(
+      this.layers.createBlank()
+    );
   }
 
   _createIndicatorMesh() {
