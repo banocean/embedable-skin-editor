@@ -20,7 +20,7 @@ class BrushBaseTool extends BaseTool {
 
   up() {}
 
-  draw(texture, part, point, color, variant) {
+  draw(texture, part, point, color, variant, line = true) {
     if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
       this.cursor = point;
     }
@@ -38,14 +38,23 @@ class BrushBaseTool extends BaseTool {
       const maxX = uv.x + Math.abs(uv.width) - 1;
       const maxY = uv.y + Math.abs(uv.height) - 1;
 
-      const startX = clamp(this.cursor.x + offset[0], uv.x, maxX);
-      const startY = clamp(this.cursor.y + offset[1], uv.y, maxY);
+      let startX = clamp(this.cursor.x + offset[0], uv.x, maxX);
+      let startY = clamp(this.cursor.y + offset[1], uv.y, maxY);
 
       const endX = clamp(point.x + offset[0], uv.x, maxX);
       const endY = clamp(point.y + offset[1], uv.y, maxY);
 
+      if (!line) {
+        startX = endX;
+        startY = endY;
+      }
+
       if (typeof color === "function") {
-        this.drawLine(texture, color({x: endX, y: endY}), variant, {x: startX, y: startY}, {x: endX, y: endY});
+        this.drawLine(
+          texture,
+          color({x: endX, y: endY, offsetX: offset[0], offsetY: offset[1]}),
+          variant, {x: startX, y: startY}, {x: endX, y: endY}
+        );
       } else {
         this.drawLine(texture, color, variant, {x: startX, y: startY}, {x: endX, y: endY});
       }
