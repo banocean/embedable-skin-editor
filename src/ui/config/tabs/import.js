@@ -1,11 +1,9 @@
-import * as THREE from "three";
-import AddLayerEntry from "../../../editor/history/entries/add_layer_entry";
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
 import createReferenceImage from "./import/reference_image";
 import ProjectLoader from "../../../editor/format/project_loader";
 import QuickSearch from "./import/quick_search";
+import MinecraftImport from "./import/minecraft";
 
 class ImportTab extends Tab {
   static styles = [
@@ -124,6 +122,7 @@ class ImportTab extends Tab {
     this.referenceFileInput.addEventListener("change", this._referenceFileRead.bind(this));
 
     this.quicksearch = new QuickSearch(this.ui);
+    this.minecraftImport = new MinecraftImport(this.ui);
   }
   _hasEntered = false;
 
@@ -134,8 +133,7 @@ class ImportTab extends Tab {
           ${this.pngFileInput}
           ${this.ncrsFileInput}
           ${this.referenceFileInput}
-          <input id="minecraft" type="text" placeholder="Steve">
-          <ncrs-button id="import-username">Import Skin from Minecraft</ncrs-button>
+          ${this.minecraftImport}
           <hr>
           <ncrs-button @click=${this.pngOpen} title="Import a skin .png file as a new layer.">Import Skin from File (.png)</ncrs-button>
           <ncrs-button @click=${this.ncrsOpen} title="Import a .ncrs project file.">Import Project from File (.ncrs)</ncrs-button>

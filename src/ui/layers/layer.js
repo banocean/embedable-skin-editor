@@ -83,14 +83,15 @@ class Layer extends LitElement {
   constructor(ui, layer) {
     super();
 
-    this.ui = ui;
-    this.editor = ui.editor;
     this.layer = layer;
 
     if (this.layer == undefined) {
       this.blank = true;
       return;
     }
+
+    this.ui = ui;
+    this.editor = ui.editor;
     
     this.visible = layer.visible;
     this.active = layer.selected;

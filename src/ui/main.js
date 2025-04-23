@@ -15,9 +15,9 @@ import Config from "./config/main";
 import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
-import { Gallery } from "./gallery/main";
 
 import imgGrid from "/assets/images/grid-editor-dark.png";
+import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
 
 class UI extends LitElement {
   static styles = css`
@@ -102,7 +102,7 @@ class UI extends LitElement {
   `;
 
   static properties = {
-    gallery: {type: String}
+    src: {type: String},
   }
 
   static keybinds = {
@@ -214,6 +214,22 @@ class UI extends LitElement {
       ${this.galleryModal}
       <slot name="footer"></slot>
     `;
+  }
+
+  galleryURL() {
+    if (!this.src) { return GALLERY_URL };
+
+    const url = new URL(this.src);
+
+    return `${url.origin}/gallery/skins`;
+  }
+
+  skinLookupURL() {
+    if (!this.src) { return SKIN_LOOKUP_URL };
+
+    const url = new URL(this.src);
+
+    return `${url.origin}/api/skin`;
   }
 
   _filtersWarning() {

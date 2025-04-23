@@ -208,7 +208,7 @@ class QuickSearch extends LitElement {
 
     params.set("model", this.editor.config.get("variant", "classic"));
 
-    return (this.ui.gallery || GALLERY_URL) + `/${this.page}?${params}`;
+    return this.ui.galleryURL() + `/${this.page}?${params}`;
   }
 
   _getGalleryData() {
