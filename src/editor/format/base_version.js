@@ -28,6 +28,10 @@ class BaseVersion {
     throw new Error("loadEditor not implemented!");
   }
 
+  serialize() {
+    return this.data;
+  }
+
   // Don't extend these functions unless necessary
   checkData(data) {
     if (this.versionCheck(data)) {

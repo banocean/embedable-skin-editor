@@ -524,4 +524,4 @@ class Editor extends LitElement {
 
 customElements.define("ncrs-editor", Editor);
 
-export { Editor };
+export default Editor;

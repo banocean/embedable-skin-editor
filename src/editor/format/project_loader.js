@@ -18,6 +18,10 @@ class ProjectLoader {
   getData() {
     return this.version.data;
   }
+
+  serialize() {
+    this.version.serialize();
+  }
 }
 
 export default ProjectLoader;
