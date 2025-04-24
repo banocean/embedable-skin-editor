@@ -53,10 +53,13 @@ class NCRSLegacyVersion extends BaseVersion {
 
   _parseBlendPalette(data) {
     if (!data.blendPalette) { return []; }
-    if (!(data.blendPalette instanceof Array)) { return []; }
-    if (data.blendPalette.length < 1) { return []; }
 
-    return data.blendPalette.map(entry => {
+    const bp = JSON.parse(data.blendPalette);
+
+    if (!(bp instanceof Array)) { return []; }
+    if (bp < 1) { return []; }
+
+    return bp.map(entry => {
       return "#" + entry.toString().toUpperCase();
     })
   }
