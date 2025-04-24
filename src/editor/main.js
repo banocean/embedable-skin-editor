@@ -5,6 +5,7 @@ import { Layers } from "./layers/layers";
 import { SkinModel } from "./model/model";
 import { Renderer } from "./renderer";
 import { HistoryManager } from "./history/history_manager";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../constants";
 import AddLayerEntry from "./history/entries/add_layer_entry";
 import ToolConfig from "./tools/tool_config";
 import UpdateLayerTextureEntry from "./history/entries/update_layer_texture_entry";
@@ -25,8 +26,6 @@ import Config from "./config";
 
 import imgFacingIndicator from "/assets/images/facing-indicator.svg";
 
-const IMAGE_WIDTH = 64;
-const IMAGE_HEIGHT = 64;
 const FORMAT = -1;
 
 const CONFIG_VALUES = {
@@ -525,4 +524,4 @@ class Editor extends LitElement {
 
 customElements.define("ncrs-editor", Editor);
 
-export { Editor, IMAGE_WIDTH, IMAGE_HEIGHT };
+export { Editor };

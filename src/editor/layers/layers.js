@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import Compositor from "./compositor";
 import { swapBodyOverlay, swapFrontBack } from "./texture_utils";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 class Layers extends EventTarget {
   constructor(width, height) {

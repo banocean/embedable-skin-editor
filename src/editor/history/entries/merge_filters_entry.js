@@ -1,4 +1,4 @@
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../main";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
 import { BaseEntry } from "../base_entry";
 import GroupedEntry from "./grouped_entry";
 import UpdateLayerFiltersEntry from "./update_layer_filters_entry";

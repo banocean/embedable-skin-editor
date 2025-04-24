@@ -9,7 +9,7 @@ import AlphaFilterSlider from "./layers/alpha_filter_slider";
 import HueFilterSlider from "./layers/hue_filter_slider";
 import SaturationFilterSlider from "./layers/saturation_filter_slider";
 import UpdateLayerTextureEntry from "../../../editor/history/entries/update_layer_texture_entry";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../editor/main";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
 
 class LayersTab extends Tab {
   static styles = [

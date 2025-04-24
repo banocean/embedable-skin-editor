@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { GALLERY_URL, IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants";
 import GallerySkin from "../../../gallery/skin";
 import { clamp } from "../../../../helpers";
 

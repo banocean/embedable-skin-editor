@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import CanvasHelper from "./canvas_helper";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 class ToolData {
   constructor(params) {

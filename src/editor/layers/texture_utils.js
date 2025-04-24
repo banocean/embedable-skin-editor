@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../main";
 import { getUVMap, MODEL_MAP } from "../model/uv";
 import MIRROR_MAP from "./mirror_map";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 

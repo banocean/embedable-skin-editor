@@ -1,10 +1,10 @@
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../main";
 import { BaseEntry } from "../base_entry";
 import * as THREE from "three";
 import GroupedEntry from "./grouped_entry";
 import UpdateLayerTextureEntry from "./update_layer_texture_entry";
 import DeleteLayerEntry from "./delete_layer_entry";
 import SelectLayerEntry from "./select_layer_entry";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
 
 class MergeLayersEntry extends BaseEntry {
   constructor(layers, target, source) {
