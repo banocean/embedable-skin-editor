@@ -8,7 +8,7 @@ import "./misc/window";
 import "./misc/skin_2d";
 
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { Editor } from "../editor/main";
+import Editor from "../editor/main";
 import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
@@ -103,6 +103,7 @@ class UI extends LitElement {
 
   static properties = {
     src: {type: String},
+    _warning: {type: String, state: true},
   }
 
   static keybinds = {
