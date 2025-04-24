@@ -435,9 +435,7 @@ class Editor extends LitElement {
   }
 
   _loadDefaultSkin() {
-    this.addLayer(
-      this.layers.createBlank()
-    );
+    this.layers.addBlankLayer();
   }
 
   _createIndicatorMesh() {
