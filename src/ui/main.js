@@ -79,6 +79,7 @@ class UI extends LitElement {
     #editor ncrs-editor {
       width: 100%;
       height: 100%;
+      min-width: 240px;
     }
 
     #history {
