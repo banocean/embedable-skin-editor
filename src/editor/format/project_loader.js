@@ -20,7 +20,7 @@ class ProjectLoader {
   }
 
   serialize() {
-    this.version.serialize();
+    return this.version.serialize();
   }
 }
 
