@@ -1,4 +1,5 @@
 import Color from "color";
+import { v4 as uuidv4 } from "uuid";
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -37,6 +38,14 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+function genUUID() {
+  if (typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  } else {
+    return uuidv4();
+  }
+}
+
 function getFocusedElement() {
   let element = document.activeElement;
 
@@ -63,4 +72,4 @@ function download(filename, url) {
   link.remove();
 }
 
-export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored};
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored, genUUID};

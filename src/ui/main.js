@@ -18,6 +18,7 @@ import Modal from "./misc/modal";
 
 import imgGrid from "/assets/images/grid-editor-dark.png";
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
+import { del } from "idb-keyval";
 
 class UI extends LitElement {
   static styles = css`
@@ -171,6 +172,7 @@ class UI extends LitElement {
 
           if (check) {
             PersistenceManager.resetAll();
+            del("ncrs:reference-images");
             location.reload();
           }
           

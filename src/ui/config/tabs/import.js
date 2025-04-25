@@ -1,9 +1,9 @@
 import Tab from "../../misc/tab";
 import { css, html } from "lit";
-import createReferenceImage from "./import/reference_image";
 import ProjectLoader from "../../../editor/format/project_loader";
 import QuickSearch from "./import/quick_search";
 import MinecraftImport from "./import/minecraft";
+import ReferenceImageManager from "./import/reference_image";
 
 class ImportTab extends Tab {
   static styles = [
@@ -108,6 +108,8 @@ class ImportTab extends Tab {
     this.ui = ui;
     this.editor = this.ui.editor;
 
+    this.referenceImages = new ReferenceImageManager(this.editor);
+
     this.pngFileInput = this._createFileInput();
     this.ncrsFileInput = this._createFileInput();
     this.referenceFileInput = this._createFileInput();
@@ -210,9 +212,7 @@ class ImportTab extends Tab {
       const img = new Image();
 
       img.onload = () => {
-        document.body.appendChild(
-          createReferenceImage(this.editor, img)
-        );
+        this.referenceImages.addImage(img);
       }
 
       img.src = reader.result;

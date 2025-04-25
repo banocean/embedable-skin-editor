@@ -74,13 +74,16 @@ class Window extends LitElement {
     this._dragEndEvent = this._dragEnd.bind(this);
   }
   header;
+  dragging = false;
   _offsetX;
   _offsetY;
+  _isClosing;
 
   firstUpdated() {
     this.header = this.shadowRoot.getElementById("header");
     this.body = this.shadowRoot.getElementById("body");
     this._setupHeaderEvents();
+    this._setupResizeObserver();
 
     this.dispatchEvent(new CustomEvent("ready"));
   }
@@ -102,6 +105,9 @@ class Window extends LitElement {
   }
 
   close() {
+    this._isClosing = true;
+    this.dispatchEvent(new CustomEvent("close"));
+
     this.remove();
   }
 
@@ -109,8 +115,13 @@ class Window extends LitElement {
     const bodyRect = document.body.getBoundingClientRect();
     const selfRect = this.getBoundingClientRect();
 
-    this.style.top = `${clamp(y, 0, bodyRect.height - selfRect.height)}px`;
-    this.style.left = `${clamp(x, 0, bodyRect.width - selfRect.width)}px`;
+    const xPos = clamp(x, 0, bodyRect.width - selfRect.width);
+    const yPos = clamp(y, 0, bodyRect.height - selfRect.height);
+
+    this.style.left = `${xPos}px`;
+    this.style.top = `${yPos}px`;
+
+    this.dispatchEvent(new CustomEvent("position-change", {detail: {x: xPos, y: yPos}}));
   }
 
   getInnerBounds() {
@@ -123,6 +134,8 @@ class Window extends LitElement {
     if (event.target !== this.header) { return; }
     if (event.pointerType === "mouse" && event.buttons !== 1) { return; }
 
+    this.dragging = true;
+
     this._offsetX = event.offsetX;
     this._offsetY = event.offsetY;
     
@@ -132,6 +145,8 @@ class Window extends LitElement {
 
     document.addEventListener("pointermove", this._dragMoveEvent);
     document.addEventListener("pointerup", this._dragEndEvent);
+
+    this.dispatchEvent(new CustomEvent("drag-start"));
   }
 
   _dragMove(event) {
@@ -141,17 +156,41 @@ class Window extends LitElement {
     this.setPosition(posX, posY);
 
     event.preventDefault();
+
+    this.dispatchEvent(new CustomEvent("drag-move"));
   }
 
   _dragEnd(_event) {
     this.header.style.cursor = "grab";
+    this.dragging = false;
 
     document.removeEventListener("pointermove", this._dragMoveEvent);
     document.removeEventListener("pointerup", this._dragEndEvent);
+
+    this.dispatchEvent(new CustomEvent("drag-end"));
   }
 
   _setupHeaderEvents() {
     this.header.addEventListener("pointerdown", this._dragStart.bind(this));
+  }
+
+  _setupResizeObserver() {
+    let timeOutId;
+
+    const ro = new ResizeObserver(entries => {
+      if (this._isClosing) { return; }
+
+      const entry = entries[0];
+
+      clearTimeout(timeOutId);
+      timeOutId = setTimeout(() => {
+        this.dispatchEvent(new CustomEvent("resize"));
+      }, 250);
+
+      this.dispatchEvent(new CustomEvent("size-change", {detail: {width: entry.contentRect.width, height: entry.contentRect.height}}));
+    });
+
+    ro.observe(this);
   }
 }
 
