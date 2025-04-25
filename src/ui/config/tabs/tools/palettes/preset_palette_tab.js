@@ -33,6 +33,11 @@ const defaultPalettes = [
     name: "Ruby",
     palette:["#160a1c","#2c152c","#472246","#772655","#b42552","#e8453c","#f27343","#fba948","#ffcb6d","#ffee94","#fdffcf"],
     scale: 11
+  },
+  {
+    name: "Place",
+    palette:["#E8453C","#DA6D11","#F6C532","#66E16F","#3DABEC","#5047CE","#9832CA","#C61A97","#F84ADA","#E6B1A4","#E0B08A","#BD8E76","#9A5B5D","#754540","#412431","#000000","#494A65","#A5ABC2","#FFFFFF"],
+    scale: 10
   }
 ]
 
