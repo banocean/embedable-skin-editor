@@ -271,8 +271,18 @@ class Editor extends LitElement {
       const img = new Image();
 
       img.onload = () => {
-        const layer = this.layers.createFromTexture(new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT));
-        this.addLayer(layer);
+        const currentLayer = this.layers.getSelectedLayer();
+        const texture = new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+        if (currentLayer.isBlank()) {
+          this.history.add(
+            new UpdateLayerTextureEntry(this.layers, currentLayer, texture)
+          );
+          currentLayer.readAttributionData();
+        } else {
+          const layer = this.layers.createFromTexture(texture);
+          this.addLayer(layer);
+        }
       }
 
       img.src = reader.result;

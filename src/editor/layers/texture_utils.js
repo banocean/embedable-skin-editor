@@ -170,4 +170,29 @@ function getUVFromCoords(variant, point) {
   return getUV(variant, part);
 }
 
-export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords}
+function getWatermarkData(canvas) {
+  const ctx = canvas.getContext("2d");
+
+  function bytesToString(bytea) {
+    let i = 0;
+    return bytea.map(byte => {
+      i ++;
+      if (byte == 0 || i % 4 == 0) {
+        return '';
+      }
+      return String.fromCharCode(byte);
+    }).join('');
+  }
+
+  const imgData = ctx.getImageData(0, 0, 8, 8);
+  console.log(imgData);
+  const str = bytesToString(Array.from(imgData.data));
+
+  if (/https?/.test(str)) {
+    return str;
+  } else {
+    return false;
+  }
+}
+
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords, getWatermarkData}

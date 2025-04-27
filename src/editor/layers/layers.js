@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
 import Compositor from "./compositor";
-import { swapBodyOverlay, swapFrontBack } from "./texture_utils";
+import { getWatermarkData, swapBodyOverlay, swapFrontBack } from "./texture_utils";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 class Layers extends EventTarget {
@@ -228,6 +228,8 @@ class Layer extends EventTarget {
     this.texture = texture;
     this.oldTexture = texture;
     this.compositor = new Compositor();
+
+    this.readAttributionData(this.getBaseCanvas());
   }
   
   selected = false;
@@ -249,6 +251,13 @@ class Layer extends EventTarget {
 
   getBaseImageData() {
     return this.getBaseCanvas().getContext("2d").getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+  }
+
+  isBlank() {
+    const canvas = this.getBaseCanvas();
+    const ctx = canvas.getContext("2d");
+
+    return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
   }
 
   flush() {
@@ -295,6 +304,13 @@ class Layer extends EventTarget {
 
   swapFrontBackTexture(variant) {
     return swapFrontBack(this.getBaseCanvas(), variant);
+  }
+
+  readAttributionData(canvas = this.getBaseCanvas()) {
+    const attribution = getWatermarkData(canvas);
+    if (!attribution) { return; }
+
+    this.metadata.attribution = attribution;
   }
 }
 
