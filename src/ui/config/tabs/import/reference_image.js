@@ -3,7 +3,9 @@ import Window from "../../../misc/window";
 import { CURSOR_EYEDROPPER } from "../../../../editor/controls";
 import Color from "color";
 import { genUUID } from "../../../../helpers";
-import { get, update, del } from "idb-keyval";
+import { get, update } from "idb-keyval";
+
+import imgGrid from "/assets/images/grid-editor-dark.png";
 
 class ReferenceImage extends EventTarget {
   static deserialize(editor, data) {
@@ -55,7 +57,7 @@ class ReferenceImage extends EventTarget {
     win.style.height = `${height}px`;
     win.style.minWidth = "150px";
     win.style.minHeight = "150px";
-    win.style.background = "repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px";
+    win.style.background = `url(${imgGrid}) #191919`;
   
     win.name = "Reference Image";
     win.setPosition(x, y);
