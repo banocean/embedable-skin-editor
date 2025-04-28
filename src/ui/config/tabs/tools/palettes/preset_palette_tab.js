@@ -36,8 +36,15 @@ const defaultPalettes = [
   },
   {
     name: "Place",
-    palette:["#E8453C","#DA6D11","#F6C532","#66E16F","#3DABEC","#5047CE","#9832CA","#C61A97","#F84ADA","#E6B1A4","#E0B08A","#BD8E76","#9A5B5D","#754540","#412431","#000000","#494A65","#A5ABC2","#FFFFFF"],
+    palette: ["#E8453C","#DA6D11","#F6C532","#66E16F","#3DABEC","#5047CE","#9832CA","#C61A97","#F84ADA","#E6B1A4","#E0B08A","#BD8E76","#9A5B5D","#754540","#412431","#000000","#494A65","#A5ABC2","#FFFFFF"],
     scale: 10
+  },
+  {
+    name: "Paint",
+    palette: ["#000000", "#7F7F7F", "#880015", "#ED1C24", "#FF7F27", "#FFF200", "#21B14C", "#00A2E8", "#3E48CC", "#A349A4",
+      "#FFFFFF", "#C3C3C3", "#B97A57", "#FFAEC9", "#FFC90E", "#EFE4B0", "#B5E61D", "#99D9EA", "#7092BE", "#C8BFE7"
+    ],
+    scale: 10,
   }
 ]
 
