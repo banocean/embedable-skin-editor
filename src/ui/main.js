@@ -100,6 +100,10 @@ class UI extends LitElement {
       cursor: default;
     }
 
+    #history button:focus-visible {
+      outline: 1px solid white;
+    }
+
     #history ncrs-icon {
       --icon-color: white;
       width: 24px;

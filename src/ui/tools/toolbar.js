@@ -35,6 +35,10 @@ class Toolbar extends LitElement {
         display: inline-block
     }
 
+    ncrs-toggle::part(button):focus-visible, ncrs-quadroggle::part(button):focus-visible {
+      outline: 1px solid white;
+    }
+
     .hidden {
       display: none;
     }

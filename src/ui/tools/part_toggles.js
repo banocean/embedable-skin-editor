@@ -43,6 +43,10 @@ class PartToggle extends LitElement {
       background-image: var(--background-image-disabled);
     }
 
+    #parts ncrs-toggle:focus {
+      outline: 2px solid white;
+    }
+
     #parts ncrs-toggle[toggled] {
       background-image: var(--background-image-enabled);
     }
