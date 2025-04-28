@@ -5,7 +5,7 @@ import Color from "color";
 import { genUUID } from "../../../../helpers";
 import { get, update } from "idb-keyval";
 
-import imgGrid from "/assets/images/grid-editor-dark.png";
+import imgGrid from "/assets/images/grid-reference-image-dark.png";
 
 class ReferenceImage extends EventTarget {
   static deserialize(editor, data) {
