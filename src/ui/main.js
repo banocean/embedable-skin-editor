@@ -96,10 +96,18 @@ class UI extends LitElement {
       cursor: pointer;
     }
 
+    #history button:disabled {
+      cursor: default;
+    }
+
     #history ncrs-icon {
       --icon-color: white;
       width: 24px;
       height: 24px;
+    }
+
+    #history button:disabled ncrs-icon {
+      --icon-color: #aaaaaa;
     }
   `;
 
@@ -261,12 +269,15 @@ class UI extends LitElement {
   }
 
   _historyButtons() {
+    const undoDisabled = !this.editor.history.canUndo();
+    const redoDisabled = !this.editor.history.canRedo();
+
     return html`
       <div id="history">
-        <button title="Undo [Ctrl + Z]" @click=${this._undo}>
+        <button title="Undo [Ctrl + Z]" ?disabled=${undoDisabled} @click=${this._undo}>
           <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
         </button>
-        <button title="Redo [Ctrl + Y]" @click=${this._redo}>
+        <button title="Redo [Ctrl + Y]" ?disabled=${redoDisabled} @click=${this._redo}>
           <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
         </button>
       </div>
@@ -329,6 +340,11 @@ class UI extends LitElement {
     layers.addEventListener("layers-select", () => {
       this._updateWarning();
     });
+
+    this.editor.history.addEventListener("update", () => {
+      console.log("REFRESH")
+      this.requestUpdate();
+    })
 
     this.addEventListener("dragover", event => event.preventDefault());
     this.addEventListener("drop", event => {

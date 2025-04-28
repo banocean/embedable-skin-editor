@@ -17,11 +17,13 @@ class Tool extends LitElement {
 
   static properties = {
     active: {reflect: true},
+    disabled: {reflect: true},
   }
 
   constructor(ui, tool) {
     super()
     this.active = false;
+    this.disabled = false;
     this.ui = ui;
     this.tool = tool;
   }
@@ -32,10 +34,10 @@ class Tool extends LitElement {
     const properties = this.tool.properties;
 
     const icon = properties.icon;
-    const title = properties.name + "\n" + properties.description;
+    const title = properties.name + "\n" + properties.description + (this.disabled ? "\n\n(Disabled)" : "");
 
     return html`
-      <ncrs-button ?active=${this.active} title="${title}" @click=${this.select}>
+      <ncrs-button ?active=${this.active} ?disabled=${this.disabled} title="${title}" @click=${this.select}>
         <ncrs-icon icon="${icon}" color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `

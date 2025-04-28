@@ -122,13 +122,21 @@ class Toolbar extends LitElement {
   }
 
   _renderTools() {
+    const editor = this.ui.editor;
     const div = document.createElement("div");
     div.id = "tools";
 
-    this.ui.editor.tools.forEach(tool => {
-      div.appendChild(
-        new Tool(this.ui, tool)
-      )
+    editor.tools.forEach(tool => {
+      const newTool = new Tool(this.ui, tool);
+
+      if (tool.properties.id === "sculpt") {
+        newTool.disabled = !editor.config.get("overlayVisible", false);
+        editor.config.addEventListener("overlayVisible-change", event => {
+          newTool.disabled = !event.detail;
+        })
+      }
+
+      div.appendChild(newTool);
     });
 
     return div;

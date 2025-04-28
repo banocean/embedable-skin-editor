@@ -1,5 +1,7 @@
-class HistoryManager {
+class HistoryManager extends EventTarget {
   constructor() {
+    super();
+
     this.undoStack = [];
     this.redoStack = [];
   }
@@ -7,10 +9,13 @@ class HistoryManager {
   add(entry) {
     const lastEntry = this.undoStack.at(-1);
     if (entry.stacking && lastEntry?.stacking && lastEntry.constructor == entry.constructor) {
+      this._emitUpdateEvent();
       return lastEntry.onStack(entry);
     } else if (entry.perform()) {
       this.undoStack.push(entry);
       this.redoStack = [];
+
+      this._emitUpdateEvent();
 
       return true;
     }
@@ -18,8 +23,12 @@ class HistoryManager {
     return false;
   }
 
+  canUndo() {
+    return this.undoStack.length > 0;
+  }
+
   undo() {
-    if (this.undoStack.length < 1) {
+    if (!this.canUndo()) {
       return false;
     }
 
@@ -27,11 +36,17 @@ class HistoryManager {
     entry.revert();
     this.redoStack.push(entry);
 
+    this._emitUpdateEvent();
+
     return true;
   }
 
+  canRedo() {
+    return this.redoStack.length > 0;
+  }
+
   redo() {
-    if (this.redoStack.length < 1) {
+    if (!this.canRedo()) {
       return false;
     }
 
@@ -39,12 +54,21 @@ class HistoryManager {
     entry.perform();
     this.undoStack.push(entry);
 
+    this._emitUpdateEvent();
+
     return true;
   }
 
   wipe() {
     this.undoStack = [];
     this.redoStack = [];
+
+    this._emitUpdateEvent();
+  }
+
+  _emitUpdateEvent() {
+    console.log("EMIT");
+    this.dispatchEvent(new CustomEvent("update"));
   }
 }
 
