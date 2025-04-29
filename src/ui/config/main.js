@@ -22,6 +22,8 @@ class Config extends LitElement {
     ncrs-tab-group::part(tabs) {
       flex-grow: 1;
       overflow: auto;
+      scrollbar-color: rgb(61, 64, 66) rgb(26, 26, 26);
+      scrollbar-width: thin;
     }
 
     ncrs-tab-group::part(tab) {
