@@ -200,10 +200,6 @@ class ToolTab extends Tab {
   _onEasterEgg(event) {
     this.editor.easterEgg(event.detail);
   }
-
-  _onSelect(event) {
-    console.log(event);
-  }
 }
 
 customElements.define("ncrs-tool-tab", ToolTab);

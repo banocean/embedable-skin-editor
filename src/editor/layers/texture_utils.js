@@ -185,7 +185,6 @@ function getWatermarkData(canvas) {
   }
 
   const imgData = ctx.getImageData(0, 0, 8, 8);
-  console.log(imgData);
   const str = bytesToString(Array.from(imgData.data));
 
   if (/https?/.test(str)) {

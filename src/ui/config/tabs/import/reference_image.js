@@ -201,7 +201,6 @@ class ReferenceImageManager {
 
   _loadReferenceImages() {
     get("ncrs:reference-images").then(refImgs => {
-      console.log(refImgs);
       Object.values(refImgs || {}).forEach(data => {
         ReferenceImage.deserialize(this.editor, data).then(refImg => {
           this.add(refImg);

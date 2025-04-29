@@ -67,7 +67,6 @@ class HistoryManager extends EventTarget {
   }
 
   _emitUpdateEvent() {
-    console.log("EMIT");
     this.dispatchEvent(new CustomEvent("update"));
   }
 }

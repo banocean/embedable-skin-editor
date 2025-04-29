@@ -346,7 +346,6 @@ class UI extends LitElement {
     });
 
     this.editor.history.addEventListener("update", () => {
-      console.log("REFRESH")
       this.requestUpdate();
     })
 
