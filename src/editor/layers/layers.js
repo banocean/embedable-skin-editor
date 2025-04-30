@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { imageToPreview } from "./layer_preview";
 import Compositor from "./compositor";
-import { getWatermarkData, swapBodyOverlay, swapFrontBack } from "./texture_utils";
+import { clearLayer, getWatermarkData, swapBodyOverlay, swapFrontBack } from "./texture_utils";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 class Layers extends EventTarget {
@@ -309,6 +309,14 @@ class Layer extends EventTarget {
 
   swapFrontBackTexture(variant) {
     return swapFrontBack(this.getBaseCanvas(), variant);
+  }
+
+  clearBase(variant) {
+    return clearLayer(this.getBaseCanvas(), variant, "base");
+  }
+
+  clearOverlay(variant) {
+    return clearLayer(this.getBaseCanvas(), variant, "overlay");
   }
 
   readAttributionData() {

@@ -1,9 +1,10 @@
 import * as THREE from "three";
-import { getUVMap, MODEL_MAP } from "../model/uv";
+import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv";
 import MIRROR_MAP from "./mirror_map";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
+const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];
 
 function remapUV(texture, ctx, source, destination) {
   ctx.clearRect(...destination);
@@ -141,6 +142,23 @@ function getMirroredCoords(variant, point) {
   }
 }
 
+function clearLayer(inputCanvas, variant, layer) {
+  const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+  const ctx = canvas.getContext("2d");
+
+  ctx.drawImage(inputCanvas, 0, 0);
+
+  MODEL_PARTS.forEach(part => {
+    MODEL_FACES.forEach(face => {
+      const uv = uvLookup(variant, layer, part, face);
+
+      ctx.clearRect(...uv);
+    });
+  });
+
+  return canvas;
+}
+
 function getUV(variant, part) {
   const uv = MODEL_MAP[variant][part];
 
@@ -194,4 +212,4 @@ function getWatermarkData(canvas) {
   }
 }
 
-export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords, getWatermarkData}
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords, getWatermarkData, clearLayer}

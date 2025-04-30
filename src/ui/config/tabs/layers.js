@@ -165,6 +165,13 @@ class LayersTab extends Tab {
         padding-top: 0.25rem;
         padding-bottom: 0.25rem;
       }
+
+      hr {
+        width: 100%;
+        border-color: rgb(73, 76, 78);
+        margin-bottom: 0.75rem;
+        box-sizing: border-box;
+      }
     `,
   ];
 
@@ -243,6 +250,9 @@ class LayersTab extends Tab {
       <div id="layer-buttons">
         <ncrs-button @click=${this.swapBodyOverlay} title="Swap body of the skin with the overlay.">Swap Body / Overlay</ncrs-button>
         <ncrs-button @click=${this.swapFrontBack} title="Flip skin front and back.">Flip Front / Back</ncrs-button>
+        <hr>
+        <ncrs-button @click=${this.clearLayerBase}>Make Base Transparent</ncrs-button>
+        <ncrs-button @click=${this.clearLayerOverlay}>Make Overlay Transparent</ncrs-button>
       </div>
     `;
   }
@@ -262,6 +272,28 @@ class LayersTab extends Tab {
     const layers = this.editor.layers;
     const layer = this._getLayer();
     const canvas = layer.swapFrontBackTexture(this.editor.config.get("variant", "classic"));
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    this.editor.history.add(
+      new UpdateLayerTextureEntry(layers, layer, texture)
+    );
+  }
+
+  clearLayerBase() {
+    const layers = this.editor.layers;
+    const layer = this._getLayer();
+    const canvas = layer.clearBase(this.editor.config.get("variant", "classic"));
+    const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    this.editor.history.add(
+      new UpdateLayerTextureEntry(layers, layer, texture)
+    );
+  }
+
+  clearLayerOverlay() {
+    const layers = this.editor.layers;
+    const layer = this._getLayer();
+    const canvas = layer.clearOverlay(this.editor.config.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
