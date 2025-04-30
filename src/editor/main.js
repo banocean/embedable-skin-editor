@@ -25,6 +25,9 @@ import PersistenceManager from "../persistence";
 import Config from "./config";
 
 import imgFacingIndicator from "/assets/images/facing-indicator.svg";
+import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_entry";
+import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry";
+import PersistLayerChangesEntry from "./history/entries/persist_layers_entry";
 
 const FORMAT = -1;
 
@@ -73,6 +76,7 @@ class Editor extends LitElement {
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
     this.currentTool = this.tools[0];
+
     this._loadSkin();
     this._setupMesh(this.layers.texture);
     this._startRender();
@@ -248,44 +252,70 @@ class Editor extends LitElement {
     )
   }
 
-  addLayer(optionalLayer = undefined) {
+  addLayer(optionalLayer = undefined, setMetadata = {}) {
     const layer = optionalLayer || this.layers.createBlank();
 
     this.history.add(
       new GroupedEntry(
         new AddLayerEntry(this.layers, {layer}),
+        new ReplaceLayerMetadataEntry(layer, setMetadata),
         new SelectLayerEntry(this.layers, {layer})
       )
     );
   }
 
-  addCanvasLayer(canvas) {
+  addCanvasLayer(canvas, setMetadata = {}) {
     const layer = this.layers.createFromCanvas(canvas);
-    this.addLayer(layer);
+    this.addLayer(layer, setMetadata);
   }
 
-  addLayerFromFile(file) {
+  addLayerFromImage(image, setMetadata = undefined) {
+    const currentLayer = this.layers.getSelectedLayer();
+    const texture = new THREE.Texture(image, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    if (currentLayer.isBlank()) {
+      if (setMetadata) {
+        this.history.add(
+          new GroupedEntry(
+            new UpdateLayerTextureEntry(this.layers, currentLayer, texture),
+            new ReplaceLayerMetadataEntry(currentLayer, setMetadata),
+            new PersistLayerChangesEntry(this.persistence, this.layers),
+          )
+        );
+      } else {
+        this.history.add(
+          new GroupedEntry(
+            new UpdateLayerTextureEntry(this.layers, currentLayer, texture),
+            new UpdateLayerAttributionEntry(currentLayer),
+            new PersistLayerChangesEntry(this.persistence, this.layers),
+          )
+        );
+      }
+
+      return currentLayer;
+    } else {
+      const layer = this.layers.createFromTexture(texture);
+      this.addLayer(layer, setMetadata);
+
+      return layer;
+    }
+  }
+
+  addLayerFromImageURL(url, setMetadata = undefined) {
+    const img = new Image();
+
+    img.onload = () => {
+      this.addLayerFromImage(img, setMetadata);
+    }
+
+    img.src = url;
+  }
+
+  addLayerFromFile(file, setMetadata = undefined) {
     const reader = new FileReader();
 
     reader.onload = () => {
-      const img = new Image();
-
-      img.onload = () => {
-        const currentLayer = this.layers.getSelectedLayer();
-        const texture = new THREE.Texture(img, IMAGE_WIDTH, IMAGE_HEIGHT);
-
-        if (currentLayer.isBlank()) {
-          this.history.add(
-            new UpdateLayerTextureEntry(this.layers, currentLayer, texture)
-          );
-          currentLayer.readAttributionData();
-        } else {
-          const layer = this.layers.createFromTexture(texture);
-          this.addLayer(layer);
-        }
-      }
-
-      img.src = reader.result;
+      this.addLayerFromImageURL(reader.result, setMetadata);
     }
 
     reader.readAsDataURL(file);
@@ -521,7 +551,7 @@ class Editor extends LitElement {
     const persistenceListeners = ["layers-update", "layers-render", "layers-select"];
     persistenceListeners.forEach(listener => {
       this.layers.addEventListener(listener, () => {
-        this.persistence.set("layers", this.layers.serializeLayers());
+        new PersistLayerChangesEntry(this.persistence, this.layers).perform();
       })
     });
 

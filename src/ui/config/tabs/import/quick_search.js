@@ -1,7 +1,11 @@
+import * as THREE from "three";
 import { css, html, LitElement } from "lit";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants";
 import GallerySkin from "../../../gallery/skin";
 import { clamp } from "../../../../helpers";
+import UpdateLayerTextureEntry from "../../../../editor/history/entries/update_layer_texture_entry";
+import GroupedEntry from "../../../../editor/history/entries/grouped_entry";
+import ReplaceLayerMetadataEntry from "../../../../editor/history/entries/replace_layer_metadata_entry";
 
 class QuickSearch extends LitElement {
   static properties = {
@@ -246,21 +250,11 @@ class QuickSearch extends LitElement {
   }
 
   _addSkin(metadata) {
-    const img = new Image();
+    const layerMetadata = {
+      attribution: `${metadata.url}\n${metadata.author.attribution_message}`
+    };
 
-    img.onload = () => {
-      const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-      const ctx = canvas.getContext("2d");
-
-      ctx.drawImage(img, 0, 0);
-
-      const layer = this.editor.layers.createFromCanvas(canvas);
-      layer.metadata.attribution = `${metadata.url}\n${metadata.author.attribution_message}`;
-
-      this.editor.addLayer(layer);
-    }
-
-    img.src = metadata.image;
+    this.editor.addLayerFromImageURL(metadata.image, layerMetadata);
   }
 
   _createSearchField() {

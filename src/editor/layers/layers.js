@@ -229,7 +229,7 @@ class Layer extends EventTarget {
     this.oldTexture = texture;
     this.compositor = new Compositor();
 
-    this.readAttributionData(this.getBaseCanvas());
+    this._setAttribution();
   }
   
   selected = false;
@@ -266,6 +266,11 @@ class Layer extends EventTarget {
 
   replaceTexture(texture) {
     this.texture = texture;
+    this.dispatchEvent(new CustomEvent("layer-update"));
+  }
+
+  replaceMetadata(metadata) {
+    this.metadata = metadata;
     this.dispatchEvent(new CustomEvent("layer-update"));
   }
 
@@ -306,11 +311,16 @@ class Layer extends EventTarget {
     return swapFrontBack(this.getBaseCanvas(), variant);
   }
 
-  readAttributionData(canvas = this.getBaseCanvas()) {
-    const attribution = getWatermarkData(canvas);
+  readAttributionData() {
+    return getWatermarkData(this.getBaseCanvas());
+  }
+
+  _setAttribution() {
+    const attribution = this.readAttributionData();
+
     if (!attribution) { return; }
 
-    this.metadata.attribution = attribution;
+    this.metadata.attribution = this.readAttributionData();
   }
 }
 

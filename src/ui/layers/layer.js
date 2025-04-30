@@ -118,7 +118,7 @@ class Layer extends LitElement {
     }
 
     return html`
-      <div id="layer">
+      <div id="layer" title=${this.layer.metadata.attribution}>
         <button id="layer-button" @click=${this.select}>${this.preview}</button>
         <button id="visibility-toggle" @click=${this.toggleVisibile}>
           <ncrs-icon icon="${this.visible ? "eye-open" : "eye-closed"}" color="var(--icon-color)">
