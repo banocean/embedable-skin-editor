@@ -3,7 +3,10 @@ import { BasePart } from "../base"
 
 class LeftLegPart extends BasePart {
   constructor(texture, variant) {
-    super(texture, variant)
+    super(texture, variant);
+
+    const material = this.overlayMesh.material;
+    material.polygonOffsetFactor = 3;
   }
 
   name() { return "leg_left" }

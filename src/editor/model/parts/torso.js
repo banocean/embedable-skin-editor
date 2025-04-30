@@ -3,7 +3,10 @@ import { BasePart } from "../base"
 
 class TorsoPart extends BasePart {
   constructor(texture, variant) {
-    super(texture, variant)
+    super(texture, variant);
+
+    const material = this.overlayMesh.material;
+    material.polygonOffsetFactor = 2;
   }
 
   name() { return "torso" }
