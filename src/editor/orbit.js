@@ -1111,6 +1111,7 @@ class OrbitControls extends EventDispatcher {
                 case 1:
 
                     mouseAction = scope.mouseButtons.MIDDLE;
+                    event.preventDefault();
                     break;
 
                 case 2:
@@ -1454,7 +1455,7 @@ class OrbitControls extends EventDispatcher {
 
             // if ( scope.enabled === false ) return;
 
-            event.preventDefault();
+            // event.preventDefault();
 
         }
 

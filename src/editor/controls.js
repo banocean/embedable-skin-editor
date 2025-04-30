@@ -198,6 +198,12 @@ class Controls {
     parent.addEventListener("mousemove", this.onMouseMove.bind(this));
     parent.addEventListener("mouseup", this.onMouseUp.bind(this));
 
+    parent.addEventListener("contextmenu", event => {
+      if (!this.targetingModel) { return; }
+
+      event.preventDefault();
+    })
+
     document.addEventListener("keydown", this.onKeyDown.bind(this));
     document.addEventListener("keyup", this.onKeyUp.bind(this));
 
