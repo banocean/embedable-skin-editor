@@ -417,6 +417,14 @@ class Editor extends LitElement {
     return canvas.toDataURL();
   }
 
+  resetCamera() {
+    this.controls.orbit.reset();
+
+    this.camera.position.set(0, 0, 3);
+    this.baseGroup.rotation.set(0, 0, 0);
+    this.zoom(0.45);
+  }
+
   _pickColor(toolData) {
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });
@@ -527,9 +535,7 @@ class Editor extends LitElement {
   }
 
   _startRender() {
-    this.camera.position.z = 3;
-    this.zoom(0.45);
-
+    this.resetCamera();
     this.centerModel();
 
     this.renderer.setAnimationLoop(() => {

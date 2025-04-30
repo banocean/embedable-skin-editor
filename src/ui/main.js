@@ -130,6 +130,7 @@ class UI extends LitElement {
     "^z": "undo",
     "^y": "redo",
     "^r": "reset",
+    "0": "cameraReset",
   }
 
   constructor() {
@@ -188,6 +189,9 @@ class UI extends LitElement {
             location.reload();
           }
           
+          break;
+        case "cameraReset":
+          this.editor.resetCamera();
           break;
       }
     });
