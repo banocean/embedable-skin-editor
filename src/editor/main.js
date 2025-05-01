@@ -360,6 +360,8 @@ class Editor extends LitElement {
   }
 
   reorderLayers(fromIndex, toIndex) {
+    if (fromIndex === toIndex) { return; }
+    
     this.history.add(
       new ReorderLayersEntry(this.layers, fromIndex, toIndex)
     );
