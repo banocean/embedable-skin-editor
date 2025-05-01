@@ -90,6 +90,10 @@ class TabGroup extends LitElement {
 
     button.setAttribute("tab-name", tab.properties.name)
 
+    if (tab.properties.title) {
+      button.title = tab.properties.title;
+    }
+
     button.addEventListener("click", () => {
       this.select(tab);
     });

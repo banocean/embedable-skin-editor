@@ -131,6 +131,10 @@ class UI extends LitElement {
     "^y": "redo",
     "^r": "reset",
     "0": "cameraReset",
+    "1": "selectTools",
+    "2": "selectLayer",
+    "3": "selectImport",
+    "4": "selectExport",
   }
 
   constructor() {
@@ -192,6 +196,18 @@ class UI extends LitElement {
           break;
         case "cameraReset":
           this.editor.resetCamera();
+          break;
+        case "selectTools":
+          this.config.select("tool");
+          break;
+        case "selectLayer":
+          this.config.select("layers");
+          break;
+        case "selectImport":
+          this.config.select("import");
+          break;
+        case "selectExport":
+          this.config.select("export");
           break;
       }
     });

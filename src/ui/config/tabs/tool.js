@@ -110,7 +110,7 @@ class ToolTab extends Tab {
   }
 
   constructor(ui) {
-    super({name: "Tools"});
+    super({name: "Tools", title: "Tools [1]\nManage tool config and colors."});
 
     this.ui = ui;
     this.editor = this.ui.editor;
