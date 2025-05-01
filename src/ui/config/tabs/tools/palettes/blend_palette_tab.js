@@ -91,20 +91,6 @@ class BlendPaletteTab extends Tab {
         outline-color: black;
       }
 
-      .color.selected::before {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 50%;
-        height: 50%;
-        background-color: white;
-        border-radius: 9999px;
-      }
-
-      .color.selected.light::before {
-        background-color: black;
-      }
-
       .color:focus-visible {
         border: white solid 1px;
       }
@@ -139,10 +125,6 @@ class BlendPaletteTab extends Tab {
       }
     `
   ]
-
-  static properties = {
-    selected: {},
-  }
 
   constructor(ui, colorPicker) {
     super({name: "Blend Palette", buttonPart: "blend-palette"});
@@ -186,6 +168,8 @@ class BlendPaletteTab extends Tab {
       colorsDiv.appendChild(this._createColor(color))
     });
 
+    const hasColor = colors.includes(this.colorPicker.getColor().hex());
+
     return html`
       <div id="main">
         <div id="palette">
@@ -199,7 +183,8 @@ class BlendPaletteTab extends Tab {
             @input=${this._onColumnsInput}
             @wheel=${this._onColumnsWheel}
           >
-          <ncrs-icon-button id="remove" title="Remove selected color" icon="trash" @click=${this._removeSelected}></ncrs-icon-button>
+          <ncrs-icon-button id="remove" title="Remove selected color" icon="trash" ?disabled=${!hasColor} @click=${this._removeSelected}>
+          </ncrs-icon-button>
         </div>
       </div>
     `;
@@ -216,7 +201,6 @@ class BlendPaletteTab extends Tab {
       colors.pop();
     }
 
-    this.selected = this.selected || color;
     this.editor.toolConfig.set("blend-palette", colors);
     this.ui.persistence.set("blendPalette", colors);
   }
@@ -236,17 +220,15 @@ class BlendPaletteTab extends Tab {
       nextIndex += 1;
     }
 
-    const nextColor = colors[nextIndex];
     colors.splice(index, 1);
 
     this.editor.toolConfig.set("blend-palette", colors);
     this.ui.persistence.set("blendPalette", colors);
-    this.selected = nextColor;
     this.colors = colors;
   }
 
   _removeSelected() {
-    this.removeColor(this.selected);
+    this.removeColor(this.colorPicker.getColor().hex());
   }
 
   _loadColors() {
@@ -267,10 +249,6 @@ class BlendPaletteTab extends Tab {
       button.classList.add("current");
     }
 
-    if (color === this.selected) {
-      button.classList.add("selected")
-    }
-
     if (new Color(color).isLight()) {
       button.classList.add("light");
     }
@@ -282,8 +260,7 @@ class BlendPaletteTab extends Tab {
 
     button.addEventListener("click", () => {
       this.colorPicker.setColor(color);
-      this.selected = color;
-    })
+    });
 
     return button;
   }

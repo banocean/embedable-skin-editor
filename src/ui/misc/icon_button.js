@@ -29,6 +29,15 @@ class IconButton extends LitElement {
       box-shadow: inset 0 0 0 1px #ffffff0d,0 2px #262a2e,0 2px #1f2326,0 1px 1px #0003;
     }
 
+    :host([disabled]) {
+      --icon-color: #565758;
+      margin-bottom: 0.375rem;
+      margin-top: 0px;
+      background-image: linear-gradient(to top, #222528, #2a2d2f);
+      box-shadow: #35383a 0px 0px 0px 1px inset, #1e1f23 0px 0px 4px 1px inset ,#191a1c 0px 1px 3px, #1f2226 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      cursor: initial
+    }
+
     button {
       all: unset;
       display: block;
