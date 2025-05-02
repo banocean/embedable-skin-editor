@@ -6,7 +6,7 @@ class RightLegPart extends BasePart {
     super(texture, variant);
 
     const material = this.overlayMesh.material;
-    material.polygonOffsetFactor = 4;
+    material.polygonOffsetFactor = 2.5;
   }
 
   name() { return "leg_right" }
