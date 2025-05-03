@@ -271,7 +271,7 @@ class Editor extends LitElement {
 
   addLayerFromImage(image, setMetadata = undefined) {
     const currentLayer = this.layers.getSelectedLayer();
-    const texture = new THREE.Texture(image, IMAGE_WIDTH, IMAGE_HEIGHT);
+    const texture = new THREE.Texture(image);
 
     if (currentLayer.isBlank()) {
       if (setMetadata) {
@@ -437,8 +437,10 @@ class Editor extends LitElement {
     }
     
     if (this.config.get("pick-color-toggle")) {
-      this.config.set("pick-color-toggle", false);
-      this.config.set("pick-color", false);
+      setTimeout(() => {
+        this.config.set("pick-color-toggle", false);
+        this.config.set("pick-color", false);
+      }, 100)
     }
 
     this.toolConfig.set("color", color);
