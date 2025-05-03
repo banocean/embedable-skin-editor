@@ -135,6 +135,10 @@ class UI extends LitElement {
     "2": "selectLayer",
     "3": "selectImport",
     "4": "selectExport",
+    "+n": "addLayer",
+    "delete": "removeLayer",
+    "+d": "cloneLayer",
+    "+m": "mergeLayer",
   }
 
   constructor() {
@@ -223,6 +227,18 @@ class UI extends LitElement {
           break;
         case "selectExport":
           this.config.select("export");
+          break;
+        case "addLayer":
+          this.editor.addLayer();
+          break;
+        case "removeLayer":
+          this.editor.removeLayer();
+          break;
+        case "cloneLayer":
+          this.editor.cloneLayer();
+          break;
+        case "mergeLayer":
+          this.editor.mergeLayer();
           break;
       }
     });
