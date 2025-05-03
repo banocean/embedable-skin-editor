@@ -241,7 +241,7 @@ class ColorPicker extends LitElement {
         <div id="input">
           <button @click=${showColorInput} id="color-button" aria-label="Open system color picker"></button>
           ${colorInput} ${textInput}
-          <ncrs-button id="eyedropper" title="Toggle eyedropper [I]" @click=${this.toggleEyedropper} ?active=${this._eyedropper}>
+          <ncrs-button id="eyedropper" title="Toggle eyedropper [I] or hold [Ctrl]/[Alt]" @click=${this.toggleEyedropper} ?active=${this._eyedropper}>
             <ncrs-icon icon="eyedropper" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
         </div>
