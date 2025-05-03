@@ -6,11 +6,13 @@ class BrightnessFilterSlider extends BaseFilterSlider {
     super(layers, {
       name: "brightness",
       default: 0.5,
-    })
+    });
+
+    this.slider.unclamped = true;
   }
 
-  getValue(){
-    return this.getProgress() * 200;
+  getValue() {
+    return this.getProgress() * 600;
   }
 
   toFilter() {

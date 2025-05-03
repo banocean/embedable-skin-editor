@@ -6,7 +6,9 @@ class SaturationFilterSlider extends BaseFilterSlider {
     super(layers, {
       name: "saturation",
       default: 0.5,
-    })
+    });
+
+    this.slider.unclamped = true;
   }
 
   getValue() {

@@ -6,7 +6,7 @@ class HueFilterSlider extends BaseFilterSlider {
     super(layers, {
       name: "hue",
       default: 0.5,
-    })
+    });
   }
 
   getValue() {

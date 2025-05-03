@@ -6,7 +6,7 @@ class AlphaFilterSlider extends BaseFilterSlider {
     super(layers, {
       name: "alpha",
       default: 1.0,
-    })
+    });
   }
 
   getValue() {
