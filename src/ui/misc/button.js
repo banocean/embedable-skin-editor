@@ -5,7 +5,8 @@ class Button extends LitElement {
     :host {
       --text-color: white;
       --text-color-hover: #ccc;
-      --text-color-active: #aaa;
+      --text-color-pressed: #aaa;
+      --text-color-active: #55b2ff;
       --text-color-disabled: #565758;
       display: block;
     }
@@ -33,10 +34,16 @@ class Button extends LitElement {
       box-shadow: #505254 0px 0px 0px 1px inset, #191a1c 0px 0px 3px, #272a2d 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
     }
 
-    button:active:not(:disabled), :host([active]) button {
+    button:active:not(:disabled) {
+      --text-color: var(--text-color-pressed);
+      background-image: linear-gradient(to top, rgb(49, 52, 54), rgb(36, 39, 42));
+      margin-top: 0.125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    :host([active]) button {
       --text-color: var(--text-color-active);
-      background-image: linear-gradient(to top, #313436, #24272a);
-      box-shadow: #3d4042, #191a1c 0px 0px 2px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      background-image: linear-gradient(to top, rgb(49, 52, 54), rgb(36, 39, 42));
       margin-top: 0.125rem;
       margin-bottom: 0.25rem;
     }
@@ -47,8 +54,8 @@ class Button extends LitElement {
 
     button:disabled {
       --text-color: var(--text-color-disabled);
-      background-image: linear-gradient(to top, #222528, #2a2d2f);
-      box-shadow: #35383a 0px 0px 0px 1px inset, #1e1f23 0px 0px 4px 1px inset ,#191a1c 0px 1px 3px, #1f2226 0px 4px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      background-image: linear-gradient(to top, #222427, #2a2d2f);
+      box-shadow: #1c1e1f  0px 0px 0px 1px inset, #191a1c 0px 1px 3px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       cursor: initial
     }
   `
