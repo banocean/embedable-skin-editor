@@ -20,6 +20,9 @@ class Layers extends EventTarget {
   selectedLayerIndex = 0;
   layers = [];
 
+  textureCacheBottom;
+  textureCacheTop;
+
   getLayer(id) {
     const index = this.layers.findIndex((layer) => layer.id == id);
     if (index < 0) {
@@ -183,13 +186,42 @@ class Layers extends EventTarget {
     const ctx = this.canvas.getContext("2d");
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.layers.forEach((layer) => {
+    this.textureCacheBottom = new OffscreenCanvas(this.canvas.width, this.canvas.height);
+    this.textureCacheTop = new OffscreenCanvas(this.canvas.width, this.canvas.height);
+
+    const selectedIdx = this.getSelectedLayerIndex();
+
+    const ctxBottom = this.textureCacheBottom.getContext("2d");
+    const ctxTop = this.textureCacheTop.getContext("2d");
+
+    this.layers.forEach((layer, idx) => {
       if (!layer.visible) { return; }
+
+      const render = layer.render();
+
+      if (idx < selectedIdx) {
+        ctxBottom.drawImage(render, 0, 0);
+      } else if (idx > selectedIdx) {
+        ctxTop.drawImage(render, 0, 0);
+      }
 
       ctx.drawImage(layer.render(), 0, 0);
     });
 
     this._sendRenderEvent();
+    this.texture.needsUpdate = true;
+  }
+
+  renderTextureCached() {
+    if (!this.textureCacheBottom || !this.textureCacheTop) { return this.renderTexture() };
+
+    const ctx = this.canvas.getContext("2d");
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    ctx.drawImage(this.textureCacheBottom, 0, 0);
+    ctx.drawImage(this.getSelectedLayer().render(), 0, 0);
+    ctx.drawImage(this.textureCacheTop, 0, 0);
+
     this.texture.needsUpdate = true;
   }
 

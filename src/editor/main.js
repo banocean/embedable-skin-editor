@@ -159,7 +159,7 @@ class Editor extends LitElement {
     const texture = this.currentTool.move(toolData);
 
     this.layers.getSelectedLayer().replaceTexture(texture);
-    this.layers.renderTexture();
+    this.layers.renderTextureCached();
 
     this.dispatchEvent(new CustomEvent("tool-move"));
   }
