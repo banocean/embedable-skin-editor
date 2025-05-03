@@ -160,18 +160,33 @@ class UI extends LitElement {
 
       switch(this.checkKeybinds(event)){
         case "pen":
+          if (this.editor.currentTool == this.editor.tools[0]) {
+            this.config.select("tool");
+          }
           this.editor.selectTool(this.editor.tools[0]);
           break;
         case "eraser":
+          if (this.editor.currentTool == this.editor.tools[1]) {
+            this.config.select("tool");
+          }
           this.editor.selectTool(this.editor.tools[1]);
           break;
         case "bucket":
+          if (this.editor.currentTool == this.editor.tools[2]) {
+            this.config.select("tool");
+          }
           this.editor.selectTool(this.editor.tools[2]);
           break;
         case "shade":
+          if (this.editor.currentTool == this.editor.tools[3]) {
+            this.config.select("tool");
+          }
           this.editor.selectTool(this.editor.tools[3]);
           break;
         case "sculpt":
+          if (this.editor.currentTool == this.editor.tools[4]) {
+            this.config.select("tool");
+          }
           this.editor.selectTool(this.editor.tools[4]);
           break;
         case "eyedropper":
