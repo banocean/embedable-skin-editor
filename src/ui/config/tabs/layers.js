@@ -176,7 +176,7 @@ class LayersTab extends Tab {
   ];
 
   constructor(editor) {
-    super({name: "Layer", title: "Layer [2]\nApply filters and edit current layer."});
+    super({name: "Layer", title: "Layer [2]/[Alt+L]\nApply filters and edit current layer."});
     this.editor = editor;
     this.config = editor.toolConfig;
 

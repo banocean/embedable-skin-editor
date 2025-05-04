@@ -104,7 +104,7 @@ class ImportTab extends Tab {
   ]
 
   constructor(ui) {
-    super({name: "Import", title: "Import [3]\nImport skins and project files."});
+    super({name: "Import", title: "Import [3]/[Alt+I]\nImport skins and project files."});
     this.ui = ui;
     this.editor = this.ui.editor;
 
