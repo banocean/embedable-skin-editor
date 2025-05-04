@@ -16,7 +16,10 @@ import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
 
-import imgGrid from "/assets/images/grid-editor-dark.png";
+import imgGridDark from "/assets/images/grid-editor-dark.png";
+import imgGridGray from "/assets/images/grid-editor-gray.png";
+import imgGridLight from "/assets/images/grid-editor-light.png";
+
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
 import { del } from "idb-keyval";
 
@@ -25,6 +28,7 @@ class UI extends LitElement {
     :host {
       width: 100%;
       height: 100%;
+      --editor-bg: url(${unsafeCSS(imgGridDark)});
     }
 
     :host > div {
@@ -61,7 +65,7 @@ class UI extends LitElement {
 
     #editor {
       background-color: #191919;
-      background-image: url(${unsafeCSS(imgGrid)});
+      background-image: var(--editor-bg);
       flex-grow: 1;
       position: relative;
     }
@@ -112,6 +116,24 @@ class UI extends LitElement {
 
     #history button:disabled ncrs-icon {
       --icon-color: #aaaaaa;
+    }
+
+    #themeSwitch {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    #themeSwitch::part(button) {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+
+    #themeSwitch ncrs-icon {
+      display: block;
+      width: 24px;
+      height: 24px;
     }
   `;
 
@@ -276,6 +298,7 @@ class UI extends LitElement {
         <div id="editor">
           ${this.editor}
           ${this._filtersWarning()}
+          ${this._bgToggle()}
         </div>
         <div id="layers">
           ${this._historyButtons()}
@@ -304,6 +327,19 @@ class UI extends LitElement {
     return `${url.origin}/api/skin`;
   }
 
+  toggleEditorBackground() {
+    const currentBg = this.style.getPropertyValue("--editor-bg");
+    console.log(currentBg);
+
+    if (currentBg === `url(${imgGridGray})`) {
+      this.style.setProperty("--editor-bg", `url(${imgGridLight})`);
+    } else if (currentBg === `url(${imgGridLight})`) {
+      this.style.setProperty("--editor-bg", `url(${imgGridDark})`);
+    } else {
+      this.style.setProperty("--editor-bg", `url(${imgGridGray})`);
+    }
+  }
+
   _filtersWarning() {
     const filterIcon = html`
       <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -326,6 +362,16 @@ class UI extends LitElement {
         Current layer is hidden, and cannot be edited.
       </div>
     `;
+  }
+
+  _bgToggle() {
+    return html`
+      <ncrs-troggle id="themeSwitch" @troggle=${this.toggleEditorBackground}>
+        <ncrs-icon title="Switch to dusk mode." icon="lightbulb" color="white" slot="off"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="sun" color="white" slot="on"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="moon" color="black" slot="half"></ncrs-icon>
+      </ncrs-troggle>
+    `
   }
 
   _historyButtons() {

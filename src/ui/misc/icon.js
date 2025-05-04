@@ -44,6 +44,9 @@ import imgIconSquare from "/assets/images/icons/square.svg";
 import imgIconSun from "/assets/images/icons/sun.svg";
 import imgIconTrash from "/assets/images/icons/trash.svg";
 import imgIconUndo from "/assets/images/icons/undo.svg";
+import imgIconLightbulb from "/assets/images/icons/lightbulb.svg";
+import imgIconMoon from "/assets/images/icons/moon.svg";
+
 
 const ICON_MAP = {
   "armor": imgIconArmor,
@@ -89,6 +92,8 @@ const ICON_MAP = {
   "sun": imgIconSun,
   "trash": imgIconTrash,
   "undo": imgIconUndo,
+  "lightbulb": imgIconLightbulb,
+  "moon": imgIconMoon,
 }
 
 class Icon extends LitElement {
