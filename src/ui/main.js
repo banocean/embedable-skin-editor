@@ -192,6 +192,7 @@ class UI extends LitElement {
           this.editor.selectTool(this.editor.tools[3]);
           break;
         case "sculpt":
+          if (!this.editor.config.get("overlayVisible")) { break; }
           if (this.editor.currentTool == this.editor.tools[4]) {
             this.config.select("tool");
           }
