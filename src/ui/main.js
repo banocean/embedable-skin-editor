@@ -45,7 +45,7 @@ class UI extends LitElement {
       pointer-events: none;
       position: absolute;
       top: 8px;
-      left: 8px;
+      left: 36px;
       color: #aaaaaa;
       font-size: small;
     }
@@ -61,6 +61,22 @@ class UI extends LitElement {
 
     :host(.layer-invisible) #layer-warning {
       display: flex;
+    }
+
+    :host(.editor-dark) {
+      --editor-bg: url(${unsafeCSS(imgGridDark)});
+    }
+
+    :host(.editor-gray) {
+      --editor-bg: url(${unsafeCSS(imgGridGray)});
+    }
+
+    :host(.editor-light) {
+      --editor-bg: url(${unsafeCSS(imgGridLight)});
+    }
+
+    :host(.editor-light) .warning {
+      color: black;
     }
 
     #editor {
@@ -119,21 +135,30 @@ class UI extends LitElement {
     }
 
     #themeSwitch {
+      all: unset;
+      display: block;
+      cursor: pointer;
       position: absolute;
       top: 8px;
       left: 8px;
     }
 
-    #themeSwitch::part(button) {
-      display: block;
+    #themeSwitch ncrs-icon {
+      display: none;
       width: 24px;
       height: 24px;
     }
 
-    #themeSwitch ncrs-icon {
+    :host(.editor-dark) #themeSwitch ncrs-icon.dark {
       display: block;
-      width: 24px;
-      height: 24px;
+    }
+
+    :host(.editor-gray) #themeSwitch ncrs-icon.gray {
+      display: block;
+    }
+
+    :host(.editor-light) #themeSwitch ncrs-icon.light {
+      display: block;
     }
   `;
 
@@ -179,6 +204,7 @@ class UI extends LitElement {
     this.exportModal = this._setupModal("export-form");
     this.galleryModal = this._setupGalleryModal();
 
+    this._setEditorTheme();
     this._setupEvents();
   }
   currentLayer;
@@ -328,15 +354,16 @@ class UI extends LitElement {
   }
 
   toggleEditorBackground() {
-    const currentBg = this.style.getPropertyValue("--editor-bg");
-    console.log(currentBg);
-
-    if (currentBg === `url(${imgGridGray})`) {
-      this.style.setProperty("--editor-bg", `url(${imgGridLight})`);
-    } else if (currentBg === `url(${imgGridLight})`) {
-      this.style.setProperty("--editor-bg", `url(${imgGridDark})`);
+    if (this.classList.contains("editor-gray")) {
+      this.classList.replace("editor-gray", "editor-light");
+      this.persistence.set("theme", "light");
+    } else if (this.classList.contains("editor-light")) {
+      this.classList.replace("editor-light", "editor-dark");
+      this.persistence.set("theme", "dark");
     } else {
-      this.style.setProperty("--editor-bg", `url(${imgGridGray})`);
+      this.classList.remove("editor-dark", "editor-light");
+      this.classList.add("editor-gray");
+      this.persistence.set("theme", "gray");
     }
   }
 
@@ -364,13 +391,24 @@ class UI extends LitElement {
     `;
   }
 
+  _setEditorTheme() {
+    if (
+      !this.classList.contains("editor-dark") ||
+      !this.classList.contains("editor-gray") ||
+      !this.classList.contains("editor-light")
+    ) {
+      const theme = this.persistence.get("theme", "dark");
+      this.classList.add(`editor-${theme}`);
+    }
+  }
+
   _bgToggle() {
     return html`
-      <ncrs-troggle id="themeSwitch" @troggle=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="lightbulb" color="white" slot="off"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="sun" color="white" slot="on"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="moon" color="black" slot="half"></ncrs-icon>
-      </ncrs-troggle>
+      <button id="themeSwitch" @click=${this.toggleEditorBackground}>
+        <ncrs-icon title="Switch to dusk mode." icon="lightbulb" color="white" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="sun" color="white" class="gray"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="moon" color="black" class="light"></ncrs-icon>
+      </button>
     `
   }
 
