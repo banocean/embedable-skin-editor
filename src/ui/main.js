@@ -53,6 +53,7 @@ class UI extends LitElement {
     .warning svg {
       width: 1.25rem;
       height: auto;
+      padding-left: 0.35rem;
     }
 
     :host(.has-filters) #filters-warning {
