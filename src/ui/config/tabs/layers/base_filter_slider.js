@@ -52,6 +52,7 @@ class BaseFilterSlider extends EventTarget {
 
   _onSliderMousedown(event) {
     if (event.button == 1) {
+      event.preventDefault();
       this.reset();
     }
   }
