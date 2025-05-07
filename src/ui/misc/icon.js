@@ -41,10 +41,10 @@ import imgIconSearch from "/assets/images/icons/search.svg";
 import imgIconShading from "/assets/images/icons/shading.svg";
 import imgIconShield from "/assets/images/icons/shield.svg";
 import imgIconSquare from "/assets/images/icons/square.svg";
-import imgIconSun from "/assets/images/icons/sun.svg";
 import imgIconTrash from "/assets/images/icons/trash.svg";
 import imgIconUndo from "/assets/images/icons/undo.svg";
-import imgIconLightbulb from "/assets/images/icons/lightbulb.svg";
+import imgIconSun from "/assets/images/icons/sun.svg";
+import imgIconDusk from "/assets/images/icons/dusk.svg";
 import imgIconMoon from "/assets/images/icons/moon.svg";
 
 
@@ -89,10 +89,10 @@ const ICON_MAP = {
   "shading": imgIconShading,
   "shield": imgIconShield,
   "square": imgIconSquare,
-  "sun": imgIconSun,
   "trash": imgIconTrash,
   "undo": imgIconUndo,
-  "lightbulb": imgIconLightbulb,
+  "sun": imgIconSun,
+  "dusk": imgIconDusk,
   "moon": imgIconMoon,
 }
 

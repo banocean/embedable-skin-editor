@@ -53,6 +53,7 @@ class UI extends LitElement {
     .warning svg {
       width: 1.25rem;
       height: auto;
+      padding-left: 0.35rem;
     }
 
     :host(.has-filters) #filters-warning {
@@ -405,7 +406,7 @@ class UI extends LitElement {
   _bgToggle() {
     return html`
       <button id="themeSwitch" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="lightbulb" color="white" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to dusk mode." icon="dusk" color="white" class="dark"></ncrs-icon>
         <ncrs-icon title="Switch to light mode." icon="sun" color="white" class="gray"></ncrs-icon>
         <ncrs-icon title="Switch to dark mode." icon="moon" color="black" class="light"></ncrs-icon>
       </button>
