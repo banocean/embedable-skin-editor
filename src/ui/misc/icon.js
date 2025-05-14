@@ -109,9 +109,15 @@ class Icon extends LitElement {
     div {
       width: 100%;
       height: 100%;
+      
       mask-size: contain;
       mask-repeat: no-repeat;
       mask-position: center;
+
+      /* Old webkit browsers */
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
     }
   `;
 
