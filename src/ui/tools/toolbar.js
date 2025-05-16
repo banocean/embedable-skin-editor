@@ -35,6 +35,8 @@ class Toolbar extends LitElement {
       gap: 0;
       align-items: center;
       justify-content: center;
+      padding-bottom: 2px;
+      padding-top: 1px;
     }
 
     ncrs-toggle {
