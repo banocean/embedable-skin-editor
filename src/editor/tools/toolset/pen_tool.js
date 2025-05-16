@@ -6,7 +6,7 @@ class PenTool extends BrushBaseTool {
       id: "pen",
       icon: "brush",
       name: "Brush [B]",
-      description: "Simple tool for drawing.",
+      description: "Simple tool for drawing.\nUse the left mouse button to draw, and the right mouse button to erase.",
       providesColor: true, // Whether or not drawing with this tool adds to recent colors.
     });
   }
