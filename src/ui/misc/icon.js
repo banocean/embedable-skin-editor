@@ -29,6 +29,8 @@ import imgIconForce_4 from "/assets/images/icons/force_4.svg";
 import imgIconForce_5 from "/assets/images/icons/force_5.svg";
 import imgIconFoursquare from "/assets/images/icons/foursquare.svg";
 import imgIconGrid from "/assets/images/icons/grid.svg";
+import imgIconOverlayGrid from "/assets/images/icons/overlay-grid.svg";
+import imgIconBaseGrid from "/assets/images/icons/base-grid.svg";
 import imgIconJitter from "/assets/images/icons/jitter.svg";
 import imgIconMerge from "/assets/images/icons/merge.svg";
 import imgIconPalette from "/assets/images/icons/palette.svg";
@@ -38,6 +40,7 @@ import imgIconPlus from "/assets/images/icons/plus.svg";
 import imgIconRedo from "/assets/images/icons/redo.svg";
 import imgIconSculpt from "/assets/images/icons/sculpt.svg";
 import imgIconSearch from "/assets/images/icons/search.svg";
+import imgIconShade from "/assets/images/icons/shade.svg";
 import imgIconShading from "/assets/images/icons/shading.svg";
 import imgIconShield from "/assets/images/icons/shield.svg";
 import imgIconSquare from "/assets/images/icons/square.svg";
@@ -77,6 +80,8 @@ const ICON_MAP = {
   "force_5": imgIconForce_5,
   "foursquare": imgIconFoursquare,
   "grid": imgIconGrid,
+  "overlay-grid": imgIconOverlayGrid,
+  "base-grid": imgIconBaseGrid,
   "jitter": imgIconJitter,
   "merge": imgIconMerge,
   "palette": imgIconPalette,
@@ -86,6 +91,7 @@ const ICON_MAP = {
   "redo": imgIconRedo,
   "sculpt": imgIconSculpt,
   "search": imgIconSearch,
+  "shade": imgIconShade,
   "shading": imgIconShading,
   "shield": imgIconShield,
   "square": imgIconSquare,
