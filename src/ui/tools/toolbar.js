@@ -190,11 +190,11 @@ class Toolbar extends LitElement {
           </ncrs-toggle>
         </div>
         <div class="ncrs-toggle-row">
-          <ncrs-toggle title="Toggle base" ?toggled=${baseGridVisible} @toggle=${this._toggleBaseGrid}>
+          <ncrs-toggle title="Toggle base grid" ?toggled=${baseGridVisible} @toggle=${this._toggleBaseGrid}>
             <ncrs-icon slot="off" icon="base-grid" color="white"></ncrs-icon>
             <ncrs-icon slot="on" icon="base-grid" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
-          <ncrs-toggle title="Toggle overlay" ?toggled=${overlayGridVisible} @toggle=${this._toggleOverlayGrid}>
+          <ncrs-toggle title="Toggle overlay grid" ?toggled=${overlayGridVisible} @toggle=${this._toggleOverlayGrid}>
             <ncrs-icon slot="off" icon="overlay-grid" color="white"></ncrs-icon>
             <ncrs-icon slot="on" icon="overlay-grid" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
