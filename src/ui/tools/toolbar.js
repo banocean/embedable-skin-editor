@@ -29,10 +29,25 @@ class Toolbar extends LitElement {
       gap: 0.25rem;
     }
 
-    ncrs-toggle ncrs-icon, ncrs-quadroggle ncrs-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-block
+    .ncrs-toggle-row {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 2px;
+      padding-top: 1px;
+    }
+
+    ncrs-toggle {
+      display: block;
+      width: 25px;
+    }
+
+    ncrs-toggle ncrs-icon {
+        width: 25px;
+        height: 25px;
+        display: block;
     }
 
     ncrs-toggle::part(button):focus-visible, ncrs-quadroggle::part(button):focus-visible {
@@ -155,15 +170,6 @@ class Toolbar extends LitElement {
     const overlayGridVisible = cfg.get("overlayGridVisible", false);
     const cullBackFace = cfg.get("cullBackFace", true);
 
-    let gridState = "off";
-    if (overlayGridVisible && baseGridVisible) {
-      gridState = "on";
-    } else if (overlayGridVisible && !baseGridVisible) {
-        gridState = "outer";
-    } else if (!overlayGridVisible && baseGridVisible) {
-      gridState = "inner";
-    }
-
     return html`
       <div>
         ${this.partToggles}
@@ -173,32 +179,39 @@ class Toolbar extends LitElement {
           <div id="toggle-slim" slot="on">
           </div>
         </ncrs-toggle>
-        <ncrs-toggle title="Toggle overlay" ?toggled=${overlayVisible} @toggle=${this._toggleOverlay}>
-          <ncrs-icon slot="before" icon="armor" color="white"></ncrs-icon>
-          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
-          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-        </ncrs-toggle>
-        <ncrs-toggle title="Toggle base" ?toggled=${baseVisible} @toggle=${this._toggleBase}>
-          <ncrs-icon slot="before" icon="player" color="white"></ncrs-icon>
-          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
-          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-        </ncrs-toggle>
+        <div class="ncrs-toggle-row">
+          <ncrs-toggle title="Toggle base" ?toggled=${baseVisible} @toggle=${this._toggleBase}>
+            <ncrs-icon slot="off" icon="base" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="base" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+          <ncrs-toggle title="Toggle overlay" ?toggled=${overlayVisible} @toggle=${this._toggleOverlay}>
+            <ncrs-icon slot="off" icon="overlay" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="overlay" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+        </div>
+        <div class="ncrs-toggle-row">
+          <ncrs-toggle title="Toggle base grid" ?toggled=${baseGridVisible} @toggle=${this._toggleBaseGrid}>
+            <ncrs-icon slot="off" icon="base-grid" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="base-grid" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+          <ncrs-toggle title="Toggle overlay grid" ?toggled=${overlayGridVisible} @toggle=${this._toggleOverlayGrid}>
+            <ncrs-icon slot="off" icon="overlay-grid" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="overlay-grid" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+        </div>
+        <div class="ncrs-toggle-row">
+          <ncrs-toggle title="Toggle Backface Culling" ?toggled=${cullBackFace} @toggle=${this._toggleBackfaceCulling}>
+            <ncrs-icon slot="off" icon="backface-culling" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="backface-culling" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+          <ncrs-toggle class="hidden" title="Toggle Shading" ?toggled=${cullBackFace} @toggle=${this._toggleShading}>
+            <ncrs-icon slot="off" icon="shade" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="shade" color="#55b2ff"></ncrs-icon>
+          </ncrs-toggle>
+        </div>
         <ncrs-toggle class="hidden" title="Blow Up Model" @toggle=${this._toggleBlowUp}>
-          <ncrs-icon slot="before" icon="blow-up-model" color="white"></ncrs-icon>
-          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
-          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-        </ncrs-toggle>
-        <ncrs-quadroggle title="Toggle grid" state=${gridState} @quadroggle=${this._toggleGrid}>
-          <ncrs-icon slot="before" icon="grid" color="white"></ncrs-icon>
-          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
-          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
-          <ncrs-icon slot="outer" icon="box-outer-checked" color="white"></ncrs-icon>
-          <ncrs-icon slot="inner" icon="box-inner-checked" color="white"></ncrs-icon>
-        </ncrs-quadroggle>
-        <ncrs-toggle title="Toggle Backface Culling" ?toggled=${cullBackFace} @toggle=${this._toggleBackfaceCulling}>
-          <ncrs-icon slot="before" icon="backface-culling" color="white"></ncrs-icon>
-          <ncrs-icon slot="off" icon="box-unchecked" color="white"></ncrs-icon>
-          <ncrs-icon slot="on" icon="box-checked" color="white"></ncrs-icon>
+          <ncrs-icon slot="off" icon="blow-up-model" color="white"></ncrs-icon>
+          <ncrs-icon slot="on" icon="blow-up-model" color="#55b2ff"></ncrs-icon>
         </ncrs-toggle>
       </div>
     `;
@@ -217,20 +230,12 @@ class Toolbar extends LitElement {
     this.ui.editor.setBaseVisible(event.detail);
   }
 
-  _toggleGrid(event) {
-    if (event.detail === "on") {
-      this.ui.editor.setBaseGridVisible(true);
-      this.ui.editor.setOverlayGridVisible(true);
-    } else if (event.detail === "outer") {
-      this.ui.editor.setBaseGridVisible(false);
-      this.ui.editor.setOverlayGridVisible(true);
-    } else if (event.detail === "inner") {
-      this.ui.editor.setBaseGridVisible(true);
-      this.ui.editor.setOverlayGridVisible(false);
-    } else {
-      this.ui.editor.setBaseGridVisible(false);
-      this.ui.editor.setOverlayGridVisible(false);
-    }
+  _toggleOverlayGrid(event) {
+    this.ui.editor.setOverlayGridVisible(event.detail);
+  }
+
+  _toggleBaseGrid(event) {
+    this.ui.editor.setBaseGridVisible(event.detail);
   }
 
   _toggleBackfaceCulling(event) {

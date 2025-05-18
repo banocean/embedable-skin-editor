@@ -8,7 +8,7 @@ class EraseTool extends BrushBaseTool {
         id: "eraser",
         icon: "eraser",
         name: "Erase [E]",
-        description: "Simple tool for erasing.",
+        description: "Simple tool for erasing.\nUse either the left or right mouse button to erase.",
         providesColor: false, // Whether or not drawing with this tool adds to recent colors.
       }
     );

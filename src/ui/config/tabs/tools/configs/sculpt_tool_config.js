@@ -16,13 +16,13 @@ class SculptToolConfig extends BaseToolConfig {
     super(config, {
       size: {
         type: "select", number: true,
-        options: [{icon: "square", value: 1}, {icon: "foursquare", value: 2}, {icon: "grid", value: 3}]
+        options: [{icon: "size-1", value: 1}, {icon: "size-2", value: 2}, {icon: "size-3", value: 3}]
       },
       shape: {
         type: "select",
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
       },
-      mirror: {type: "toggle", icon: "shield", title: "Toggle mirror\nMirrors the stroke across the skin"},
+      mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
     });
   }
 

@@ -18,15 +18,15 @@ class PenToolConfig extends BaseToolConfig {
     super(config, {
       size: {
         type: "select", number: true,
-        options: [{icon: "square", value: 1}, {icon: "foursquare", value: 2}, {icon: "grid", value: 3}]
+        options: [{icon: "size-1", value: 1}, {icon: "size-2", value: 2}, {icon: "size-3", value: 3}]
       },
       shape: {
         type: "select",
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}],
       },
-      mirror: {type: "toggle", icon: "shield", title: "Toggle mirror\nMirrors the stroke across the skin"},
-      camo: {type: "toggle", icon: "checker", title: "Toggle camo\nRandomly lightens and darkens the current color"},
-      blend: {type: "toggle", icon: "palette", title: "Toggle blend\nRandomly selects colors from the blend palette"},
+      mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
+      camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
+      blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
   }
 

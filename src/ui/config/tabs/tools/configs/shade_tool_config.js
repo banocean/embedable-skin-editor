@@ -17,7 +17,7 @@ class ShadeToolConfig extends BaseToolConfig {
     super(config, {
       size: {
         type: "select", number: true,
-        options: [{icon: "square", value: 1}, {icon: "foursquare", value: 2}, {icon: "grid", value: 3}]
+        options: [{icon: "size-1", value: 1}, {icon: "size-2", value: 2}, {icon: "size-3", value: 3}]
       },
       shape: {
         type: "select",
@@ -25,13 +25,13 @@ class ShadeToolConfig extends BaseToolConfig {
       },
       force: {
         type: "select",
-        options: [{icon: "force_1", value: 1}, {icon: "force_2", value: 2}, {icon: "force_3", value: 3}, {icon: "force_4", value: 4}, {icon: "force_5", value: 5}]
+        options: [{ icon: "force-1", value: 1 }, { icon: "force-2", value: 2 }, { icon: "force-3", value: 3 }, { icon: "force-4", value: 4 }, { icon: "force-5", value: 5 }]
       },
       shadeStyle: {
         type: "select",
-        options: [{icon: "sun", value: "lighten"}, {icon: "palette", value: "saturate"}]
+        options: [{icon: "lighten", value: "lighten"}, {icon: "saturate", value: "saturate"}]
       },
-      shadeOnce: {type: "toggle", icon: "jitter", title: "Shade only once\nShade any pixel only once in a stroke."},
+      shadeOnce: {type: "toggle", icon: "shade-once", title: "Shade only once\nShade any pixel only once in a stroke."},
     });
   }
 

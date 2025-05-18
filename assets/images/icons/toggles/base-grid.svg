@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="750"
-   height="750"
-   viewBox="0 0 198.43749 198.4375"
+   width="680"
+   height="1002.6257"
+   viewBox="0 0 179.91665 265.27804"
    version="1.1"
    id="svg1"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
-   sodipodi:docname="plus.svg"
+   sodipodi:docname="base_grid.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,12 +23,12 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#4f4f4f"
      inkscape:document-units="px"
-     inkscape:zoom="0.74166666"
-     inkscape:cx="328.31461"
-     inkscape:cy="440.89888"
+     inkscape:zoom="0.99125896"
+     inkscape:cx="326.35266"
+     inkscape:cy="492.30324"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
-     inkscape:window-x="-8"
+     inkscape:window-x="1592"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
@@ -39,23 +39,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-112.05103,-94.720833)">
-    <rect
-       style="stroke:none;stroke-width:78.5227;paint-order:stroke fill markers"
-       id="rect3511"
-       width="52.916664"
-       height="198.4375"
-       x="184.81145"
-       y="94.720833"
-       rx="16.826302" />
-    <rect
-       style="stroke:none;stroke-width:78.5227;paint-order:stroke fill markers"
-       id="rect6104"
-       width="52.916664"
-       height="198.4375"
-       x="167.48125"
-       y="-310.48853"
-       rx="16.826302"
-       transform="rotate(90)" />
+     transform="translate(-124.61875,-95.51458)">
+    <path
+       id="path48"
+       style="stroke-width:0.387084"
+       d="m 142.57949,156.15601 v 63.09502 h 63.09437 v -63.09502 z m 81.28772,0 v 63.09502 h 62.70745 v -63.09502 z m -81.28772,80.90079 v 63.09438 h 0.38694 62.70743 v -62.70745 -0.38693 z m 81.28772,0 v 63.09438 h 62.70745 v -62.70745 -0.38693 z" />
   </g>
 </svg>
