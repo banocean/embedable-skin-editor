@@ -181,12 +181,12 @@ class Toolbar extends LitElement {
         </ncrs-toggle>
         <div class="ncrs-toggle-row">
           <ncrs-toggle title="Toggle base" ?toggled=${baseVisible} @toggle=${this._toggleBase}>
-            <ncrs-icon slot="off" icon="player" color="white"></ncrs-icon>
-            <ncrs-icon slot="on" icon="player" color="#55b2ff"></ncrs-icon>
+            <ncrs-icon slot="off" icon="base" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="base" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
           <ncrs-toggle title="Toggle overlay" ?toggled=${overlayVisible} @toggle=${this._toggleOverlay}>
-            <ncrs-icon slot="off" icon="armor" color="white"></ncrs-icon>
-            <ncrs-icon slot="on" icon="armor" color="#55b2ff"></ncrs-icon>
+            <ncrs-icon slot="off" icon="overlay" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="overlay" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
         </div>
         <div class="ncrs-toggle-row">

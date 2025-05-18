@@ -406,9 +406,9 @@ class UI extends LitElement {
   _bgToggle() {
     return html`
       <button id="themeSwitch" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="dusk" color="white" class="dark"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="sun" color="white" class="gray"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="moon" color="black" class="light"></ncrs-icon>
+        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="white" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="light-mode" color="white" class="gray"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="black" class="light"></ncrs-icon>
       </button>
     `
   }

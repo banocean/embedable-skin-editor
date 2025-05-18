@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
-   sodipodi:docname="checker.svg"
+   sodipodi:docname="size-1.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -40,8 +40,8 @@
      id="layer1"
      transform="translate(-124.61875,-95.51458)">
     <path
-       d="m 124.61875,317.30952 v -89.33424 h 89.33424 v 89.33424 z m 90.76073,-88.97761 v -89.33424 h 89.15593 v 89.33424 z"
+       d="M 124.61875,318.21266 V 138.09452 h 179.91666 v 180.11814 z"
        id="path46"
-       style="stroke-width:0.178312" />
+       style="stroke-width:0.201474" />
   </g>
 </svg>

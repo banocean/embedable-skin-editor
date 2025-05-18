@@ -18,8 +18,8 @@ class BucketToolConfig extends BaseToolConfig {
         type: "toggle", icon: "contiguous", 
         title: "Toggle contiguous\nIf disabled, will replace all pixels in the same color, on the whole canvas ignoring boundaries"
       },
-      camo: {type: "toggle", icon: "checker", title: "Toggle camo\nRandomly lightens and darkens the current color"},
-      blend: {type: "toggle", icon: "palette", title: "Toggle blend\nRandomly selects colors from the blend palette"},
+      camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
+      blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
   }
 

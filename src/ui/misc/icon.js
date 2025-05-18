@@ -1,58 +1,62 @@
 import { css, html, LitElement } from "lit";
 const ICON_PATH = "/images/icons/";
 
-import imgIconArmor from "/assets/images/icons/armor.svg";
-import imgIconBackfaceCulling from "/assets/images/icons/backface-culling.svg";
-import imgIconBlowUpModel from "/assets/images/icons/blow-up-model.svg";
+import imgIconOverlay from "/assets/images/icons/toggles/overlay.svg";
+import imgIconBackfaceCulling from "/assets/images/icons/toggles/backface-culling.svg";
+import imgIconBlowUpModel from "/assets/images/icons/toggles/blow-up-model.svg";
 import imgIconBoxChecked from "/assets/images/icons/box-checked.svg";
 import imgIconBoxHalfChecked from "/assets/images/icons/box-half-checked.svg";
 import imgIconBoxInnerChecked from "/assets/images/icons/box-inner-checked.svg";
 import imgIconBoxOuterChecked from "/assets/images/icons/box-outer-checked.svg";
 import imgIconBoxUnchecked from "/assets/images/icons/box-unchecked.svg";
-import imgIconBrush from "/assets/images/icons/brush.svg";
-import imgIconBucket from "/assets/images/icons/bucket.svg";
+import imgIconBrush from "/assets/images/icons/tools/brush.svg";
+import imgIconBucket from "/assets/images/icons/tools/bucket.svg";
 import imgIconCgol from "/assets/images/icons/cgol.svg";
-import imgIconChecker from "/assets/images/icons/checker.svg";
-import imgIconCircle from "/assets/images/icons/circle.svg";
-import imgIconClone from "/assets/images/icons/clone.svg";
-import imgIconContiguous from "/assets/images/icons/contiguous.svg";
-import imgIconCopy from "/assets/images/icons/copy.svg";
+import imgIconCamo from "/assets/images/icons/modifiers/camo.svg";
+import imgIconCircle from "/assets/images/icons/modifiers/circle.svg";
+import imgIconClone from "/assets/images/icons/misc/clone.svg";
+import imgIconContiguous from "/assets/images/icons/modifiers/contiguous.svg";
+import imgIconCopy from "/assets/images/icons/misc/copy.svg";
 import imgIconDownload from "/assets/images/icons/download.svg";
-import imgIconEraser from "/assets/images/icons/eraser.svg";
-import imgIconEyeClosed from "/assets/images/icons/eye-closed.svg";
-import imgIconEyedropper from "/assets/images/icons/eyedropper.svg";
-import imgIconEyeOpen from "/assets/images/icons/eye-open.svg";
-import imgIconForce_1 from "/assets/images/icons/force_1.svg";
-import imgIconForce_2 from "/assets/images/icons/force_2.svg";
-import imgIconForce_3 from "/assets/images/icons/force_3.svg";
-import imgIconForce_4 from "/assets/images/icons/force_4.svg";
-import imgIconForce_5 from "/assets/images/icons/force_5.svg";
-import imgIconFoursquare from "/assets/images/icons/foursquare.svg";
-import imgIconGrid from "/assets/images/icons/grid.svg";
-import imgIconOverlayGrid from "/assets/images/icons/overlay-grid.svg";
-import imgIconBaseGrid from "/assets/images/icons/base-grid.svg";
+import imgIconEraser from "/assets/images/icons/tools/eraser.svg";
+import imgIconEyeClosed from "/assets/images/icons/toggles/eye-closed.svg";
+import imgIconEyedropper from "/assets/images/icons/tools/eyedropper.svg";
+import imgIconEyeOpen from "/assets/images/icons/toggles/eye-open.svg";
+import imgIconForce1 from "/assets/images/icons/modifiers/force-1.svg";
+import imgIconForce2 from "/assets/images/icons/modifiers/force-2.svg";
+import imgIconForce3 from "/assets/images/icons/modifiers/force-3.svg";
+import imgIconForce4 from "/assets/images/icons/modifiers/force-4.svg";
+import imgIconForce5 from "/assets/images/icons/modifiers/force-5.svg";
+import imgIconSize1 from "/assets/images/icons/modifiers/size-1.svg";
+import imgIconSize2 from "/assets/images/icons/modifiers/size-2.svg";
+import imgIconSize3 from "/assets/images/icons/modifiers/size-3.svg";
+import imgIconOverlayGrid from "/assets/images/icons/toggles/overlay-grid.svg";
+import imgIconBaseGrid from "/assets/images/icons/toggles/base-grid.svg";
 import imgIconJitter from "/assets/images/icons/jitter.svg";
-import imgIconMerge from "/assets/images/icons/merge.svg";
-import imgIconPalette from "/assets/images/icons/palette.svg";
-import imgIconPaste from "/assets/images/icons/paste.svg";
-import imgIconPlayer from "/assets/images/icons/player.svg";
-import imgIconPlus from "/assets/images/icons/plus.svg";
-import imgIconRedo from "/assets/images/icons/redo.svg";
-import imgIconSculpt from "/assets/images/icons/sculpt.svg";
-import imgIconSearch from "/assets/images/icons/search.svg";
-import imgIconShade from "/assets/images/icons/shade.svg";
-import imgIconShading from "/assets/images/icons/shading.svg";
-import imgIconShield from "/assets/images/icons/shield.svg";
-import imgIconSquare from "/assets/images/icons/square.svg";
-import imgIconTrash from "/assets/images/icons/trash.svg";
-import imgIconUndo from "/assets/images/icons/undo.svg";
-import imgIconSun from "/assets/images/icons/sun.svg";
-import imgIconDusk from "/assets/images/icons/dusk.svg";
-import imgIconMoon from "/assets/images/icons/moon.svg";
+import imgIconShadeOnce from "/assets/images/icons/modifiers/shade-once.svg";
+import imgIconMerge from "/assets/images/icons/misc/merge.svg";
+import imgIconBlend from "/assets/images/icons/modifiers/blend.svg";
+import imgIconSaturate from "/assets/images/icons/modifiers/saturate.svg";
+import imgIconPaste from "/assets/images/icons/misc/paste.svg";
+import imgIconBase from "/assets/images/icons/toggles/base.svg";
+import imgIconAdd from "/assets/images/icons/misc/add.svg";
+import imgIconRedo from "/assets/images/icons/misc/redo.svg";
+import imgIconSculpt from "/assets/images/icons/tools/sculpt.svg";
+import imgIconSearch from "/assets/images/icons/misc/search.svg";
+import imgIconShade from "/assets/images/icons/toggles/shade.svg";
+import imgIconShading from "/assets/images/icons/tools/shading.svg";
+import imgIconMirror from "/assets/images/icons/modifiers/mirror.svg";
+import imgIconSquare from "/assets/images/icons/modifiers/square.svg";
+import imgIconRemove from "/assets/images/icons/misc/remove.svg";
+import imgIconUndo from "/assets/images/icons/misc/undo.svg";
+import imgIconLightMode from "/assets/images/icons/misc/light-mode.svg";
+import imgIconLighten from "/assets/images/icons/modifiers/lighten.svg";
+import imgIconDuskMode from "/assets/images/icons/misc/dusk-mode.svg";
+import imgIconDarkMode from "/assets/images/icons/misc/dark-mode.svg";
 
 
 const ICON_MAP = {
-  "armor": imgIconArmor,
+  "overlay": imgIconOverlay,
   "backface-culling": imgIconBackfaceCulling,
   "blow-up-model": imgIconBlowUpModel,
   "box-checked": imgIconBoxChecked,
@@ -63,7 +67,7 @@ const ICON_MAP = {
   "brush": imgIconBrush,
   "bucket": imgIconBucket,
   "cgol": imgIconCgol,
-  "checker": imgIconChecker,
+  "camo": imgIconCamo,
   "circle": imgIconCircle,
   "clone": imgIconClone,
   "contiguous": imgIconContiguous,
@@ -73,33 +77,37 @@ const ICON_MAP = {
   "eye-closed": imgIconEyeClosed,
   "eyedropper": imgIconEyedropper,
   "eye-open": imgIconEyeOpen,
-  "force_1": imgIconForce_1,
-  "force_2": imgIconForce_2,
-  "force_3": imgIconForce_3,
-  "force_4": imgIconForce_4,
-  "force_5": imgIconForce_5,
-  "foursquare": imgIconFoursquare,
-  "grid": imgIconGrid,
+  "force-1": imgIconForce1,
+  "force-2": imgIconForce2,
+  "force-3": imgIconForce3,
+  "force-4": imgIconForce4,
+  "force-5": imgIconForce5,
+  "size-1": imgIconSize1,
+  "size-2": imgIconSize2,
+  "size-3": imgIconSize3,
   "overlay-grid": imgIconOverlayGrid,
   "base-grid": imgIconBaseGrid,
   "jitter": imgIconJitter,
+  "shade-once": imgIconShadeOnce,
   "merge": imgIconMerge,
-  "palette": imgIconPalette,
+  "blend": imgIconBlend,
+  "saturate": imgIconSaturate,
   "paste": imgIconPaste,
-  "player": imgIconPlayer,
-  "plus": imgIconPlus,
+  "base": imgIconBase,
+  "add": imgIconAdd,
   "redo": imgIconRedo,
   "sculpt": imgIconSculpt,
   "search": imgIconSearch,
   "shade": imgIconShade,
   "shading": imgIconShading,
-  "shield": imgIconShield,
+  "mirror": imgIconMirror,
   "square": imgIconSquare,
-  "trash": imgIconTrash,
+  "remove": imgIconRemove,
   "undo": imgIconUndo,
-  "sun": imgIconSun,
-  "dusk": imgIconDusk,
-  "moon": imgIconMoon,
+  "light-mode": imgIconLightMode,
+  "lighten": imgIconLighten,
+  "dusk-mode": imgIconDuskMode,
+  "dark-mode": imgIconDarkMode,
 }
 
 class Icon extends LitElement {

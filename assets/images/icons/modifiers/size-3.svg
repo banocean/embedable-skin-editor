@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
-   sodipodi:docname="foursquare.svg"
+   sodipodi:docname="size-3.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -27,9 +27,9 @@
      inkscape:cx="521.55897"
      inkscape:cy="456.99461"
      inkscape:window-width="1920"
-     inkscape:window-height="1008"
+     inkscape:window-height="1052"
      inkscape:window-x="0"
-     inkscape:window-y="1080"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -40,8 +40,8 @@
      id="layer1"
      transform="translate(-124.61875,-95.51458)">
     <path
-       d="m 124.61875,318.11192 v -78.80349 h 78.80349 v 78.80349 z m 0,-101.29308 v -78.62357 h 78.80349 v 78.62357 z m 101.29308,101.29308 v -78.80349 h 78.62358 v 78.80349 z m 0,-101.29308 v -78.62357 h 78.62358 v 78.62357 z"
-       id="path47"
-       style="stroke-width:0.179916" />
+       d="m 124.61875,138.19526 v 50.47577 h 50.47576 v -50.47577 z m 64.72046,0 v 50.47577 h 50.47575 v 0 -50.47577 0 z m 65.03012,0 v 50.47577 h 50.16608 v -50.47577 z m -129.75058,64.72046 v 50.47575 h 50.47576 v 0 -50.16609 0 -0.30966 z m 64.72046,0 v 50.47575 h 0.30966 50.16609 v 0 0 -50.16609 0 -0.30966 0 z m 65.03012,0 v 50.47575 0 h 50.16608 v 0 -50.16609 0 -0.30966 z m -129.75058,65.03012 v 50.16609 h 50.47576 v -50.16609 z m 65.03012,0 v 50.16609 h 50.16609 v 0 -50.16609 0 z m 64.72046,0 v 50.16609 h 50.16608 v -50.16609 z"
+       id="path48"
+       style="stroke-width:0.309667" />
   </g>
 </svg>

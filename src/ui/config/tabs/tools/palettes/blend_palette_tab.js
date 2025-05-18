@@ -183,7 +183,7 @@ class BlendPaletteTab extends Tab {
             @input=${this._onColumnsInput}
             @wheel=${this._onColumnsWheel}
           >
-          <ncrs-icon-button id="remove" title="Remove selected color" icon="trash" ?disabled=${!hasColor} @click=${this._removeSelected}>
+          <ncrs-icon-button id="remove" title="Remove selected color" icon="remove" ?disabled=${!hasColor} @click=${this._removeSelected}>
           </ncrs-icon-button>
         </div>
       </div>

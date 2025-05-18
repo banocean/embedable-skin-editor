@@ -77,7 +77,7 @@ class LayerList extends LitElement {
       padding-bottom: 0.42rem;
     }
 
-    #plus-button, #trash-button {
+    #add-button, #remove-button {
       margin-bottom: -0.25rem;
     }
 
@@ -127,11 +127,11 @@ class LayerList extends LitElement {
       <div id="list">
         ${layersDiv}
         <div id="buttons">
-          <ncrs-button id="plus-button" @click=${this._addLayer} title="Add layer [Shift+N]">
-            <ncrs-icon part="icon" icon="plus" color="var(--text-color)"></ncrs-icon>
+          <ncrs-button id="add-button" @click=${this._addLayer} title="Add layer [Shift+N]">
+            <ncrs-icon part="icon" icon="add" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
-          <ncrs-button id="trash-button" @click=${this._removeLayer} title="Remove current layer [Del]">
-            <ncrs-icon part="icon" icon="trash" color="var(--text-color)"></ncrs-icon>
+          <ncrs-button id="remove-button" @click=${this._removeLayer} title="Remove current layer [Del]">
+            <ncrs-icon part="icon" icon="remove" color="var(--text-color)"></ncrs-icon>
           </ncrs-button>
           <ncrs-button id="clone-button" @click=${this._cloneLayer} title="Clone current layer [Shift+D]">
             <ncrs-icon part="icon" icon="clone" color="var(--text-color)"></ncrs-icon>
