@@ -12,7 +12,7 @@ class BrightnessFilterSlider extends BaseFilterSlider {
   }
 
   getValue() {
-    return this.getProgress() * 600;
+    return this.getProgress() * 200;
   }
 
   toFilter() {

@@ -7,6 +7,8 @@ class HueFilterSlider extends BaseFilterSlider {
       name: "hue",
       default: 0.5,
     });
+
+    this.slider.steps = 360;
   }
 
   getValue() {
