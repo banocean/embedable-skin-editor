@@ -24,11 +24,11 @@
      inkscape:deskcolor="#4f4f4f"
      inkscape:document-units="px"
      inkscape:zoom="1.048875"
-     inkscape:cx="373.73375"
-     inkscape:cy="376.59395"
+     inkscape:cx="75.795495"
+     inkscape:cy="215.46895"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
-     inkscape:window-x="-8"
+     inkscape:window-x="1592"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
@@ -43,8 +43,7 @@
     <path
        id="rect1568"
        style="stroke-width:48.2437;paint-order:stroke fill markers"
-       d="m 145.12396,155.97806 132.29166,0.12613 c 0,0 0,75.48143 0,109.96911 0,9.43511 -7.59577,17.03088 -17.03088,17.03088 h -98.22992 c -9.4351,0 -17.03087,-7.59577 -17.03087,-17.03088 2e-5,-36.69841 1e-5,-110.09524 1e-5,-110.09524 z"
-       sodipodi:nodetypes="cccsscc" />
+       d="M 145.12396 164.04166 C 145.12396 173.45832 145.12397 232.06265 145.12396 266.07315 C 145.12396 275.50826 152.71987 283.10416 162.15496 283.10416 L 260.38462 283.10416 C 269.81972 283.10416 277.41562 275.50826 277.41562 266.07315 L 277.41562 164.04166 L 145.12396 164.04166 z " />
     <path
        id="rect1933"
        style="stroke-width:22.8839;paint-order:stroke fill markers"

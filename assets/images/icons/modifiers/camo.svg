@@ -2,12 +2,12 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="680"
-   height="1002.6257"
-   viewBox="0 0 179.91665 265.27804"
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58331 264.58333"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    sodipodi:docname="camo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,15 +23,16 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#4f4f4f"
      inkscape:document-units="px"
-     inkscape:zoom="0.49562948"
-     inkscape:cx="521.55897"
-     inkscape:cy="456.99461"
+     inkscape:zoom="0.35046297"
+     inkscape:cx="-35.667107"
+     inkscape:cy="496.48612"
      inkscape:window-width="1920"
-     inkscape:window-height="1008"
-     inkscape:window-x="0"
-     inkscape:window-y="1080"
+     inkscape:window-height="1137"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
      id="defs1" />
   <g
@@ -40,8 +41,12 @@
      id="layer1"
      transform="translate(-124.61875,-95.51458)">
     <path
-       d="m 124.61875,317.30952 v -89.33424 h 89.33424 v 89.33424 z m 90.76073,-88.97761 v -89.33424 h 89.15593 v 89.33424 z"
-       id="path46"
-       style="stroke-width:0.178312" />
+       id="rect21832"
+       style="stroke-width:0;stroke-linecap:round;stroke-linejoin:round"
+       d="m 389.20207,121.97291 c 0,-13.68418 -10.28548,-24.87654 -23.5784,-26.3033 v -0.15503 h -95.48409 c -7.32895,0 -13.22917,5.90022 -13.22917,13.22917 v 37.91913 67.91419 13.22917 h 13.22917 75.84136 29.99196 c 7.32895,0 13.22917,-5.90022 13.22917,-13.22917 z" />
+    <path
+       id="path21849"
+       style="stroke-width:0;stroke-linecap:round;stroke-linejoin:round"
+       d="m 124.61875,333.63957 c 0,13.68418 10.28548,24.87654 23.5784,26.3033 v 0.15503 h 95.48409 c 7.32895,0 13.22917,-5.90022 13.22917,-13.22917 V 308.9496 241.03541 227.80624 h -13.22917 -75.84136 -29.99196 c -7.32895,0 -13.22917,5.90022 -13.22917,13.22917 z" />
   </g>
 </svg>
