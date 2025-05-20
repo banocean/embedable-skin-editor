@@ -7,7 +7,7 @@
    viewBox="0 0 79.375001 79.375"
    version="1.1"
    id="svg5"
-   sodipodi:docname="power_3.svg"
+   sodipodi:docname="force-3.svg"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,9 +24,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.6819304"
-     inkscape:cx="2.6754972"
-     inkscape:cy="127.82931"
+     inkscape:zoom="2.3786088"
+     inkscape:cx="153.66125"
+     inkscape:cy="139.15697"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
      inkscape:window-x="1592"
@@ -40,32 +40,31 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g993"
-       transform="translate(0,29.104167)"
-       style="fill-opacity:1">
+       id="g2149"
+       transform="translate(0,-0.69999981)">
       <rect
-         style="stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;fill-opacity:1"
+         style="fill-opacity:1;stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
          id="rect234"
          width="26.458334"
          height="26.458334"
-         x="0"
-         y="13.229167"
+         x="3"
+         y="46.302086"
          ry="6.6145835" />
       <rect
-         style="stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;fill-opacity:1"
+         style="fill-opacity:1;stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
          id="rect955"
          width="26.458334"
          height="26.458334"
-         x="52.916664"
-         y="13.229167"
+         x="50"
+         y="46.302086"
          ry="6.6145835" />
       <rect
-         style="stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;fill-opacity:1"
+         style="fill-opacity:1;stroke:none;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
          id="rect955-7"
          width="26.458334"
          height="26.458334"
          x="26.458332"
-         y="-26.458334"
+         y="5.6999998"
          ry="6.6145835" />
     </g>
   </g>
