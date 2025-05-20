@@ -29,7 +29,7 @@ class ShadeToolConfig extends BaseToolConfig {
       },
       shadeStyle: {
         type: "select",
-        options: [{icon: "lighten", value: "lighten"}, {icon: "saturate", value: "saturate"}]
+        options: [{icon: "lighten", value: "lighten", title: "Set shade style to lighten"}, {icon: "saturate", value: "saturate", title: "Set shade style to saturate"}]
       },
       shadeOnce: {type: "toggle", icon: "shade-once", title: "Shade only once\nShade any pixel only once in a stroke."},
     });
