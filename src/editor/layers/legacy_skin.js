@@ -35,7 +35,7 @@ function convertLegacySkin(imgSource) {
     tempCtx.drawImage(imgSource, ...Object.values(uv), -uv.width, 0, uv.width, uv.height);
 
     ctx.drawImage(tempCanvas, ...op.slice(1));
-  })
+  });
 
   return canvas;
 }

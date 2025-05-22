@@ -1,9 +1,10 @@
 import * as THREE from "three";
-import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH, IMAGE_THUMBNAIL_WIDTH, IMAGE_THUMBNAIL_HEIGHT } from "../../constants";
 import { imageToPreview } from "./layer_preview";
 import Compositor from "./compositor";
 import { clearLayer, getWatermarkData, swapBodyOverlay, swapFrontBack } from "./texture_utils";
 import convertLegacySkin from "./legacy_skin";
+import thumbnailImport from "./thumbnail_import";
 
 class Layer extends EventTarget {
   constructor(id, texture) {
@@ -124,6 +125,9 @@ class Layer extends EventTarget {
       return texture;
     } else if (width === IMAGE_WIDTH && height === IMAGE_LEGACY_HEIGHT) {
       const img = convertLegacySkin(texture.image);
+      return new THREE.Texture(img);
+    } else if (width === IMAGE_THUMBNAIL_WIDTH && height === IMAGE_THUMBNAIL_HEIGHT) {
+      const img = thumbnailImport(texture.image);
       return new THREE.Texture(img);
     } else {
       const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
