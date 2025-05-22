@@ -168,6 +168,8 @@ class UI extends LitElement {
     _warning: {type: String, state: true},
   }
 
+  // All keybind definitions, ^ = ctrl, + = shift, ! = alt
+
   static keybinds = {
     "b": "pen",
     "e": "eraser",
@@ -177,6 +179,7 @@ class UI extends LitElement {
     "+s": "sculpt",
     "^z": "undo",
     "^y": "redo",
+    "^+z": "redo",
     "^r": "reset",
     "0": "cameraReset",
     "1": "selectTools",

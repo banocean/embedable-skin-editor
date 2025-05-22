@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="680"
-   height="1002.6257"
-   viewBox="0 0 179.91665 265.27804"
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58331 264.58333"
    version="1.1"
    id="svg1"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
-   sodipodi:docname="base_grid.svg"
+   sodipodi:docname="base-grid.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#4f4f4f"
      inkscape:document-units="px"
-     inkscape:zoom="0.99125896"
-     inkscape:cx="326.35266"
-     inkscape:cy="492.30324"
+     inkscape:zoom="0.70092593"
+     inkscape:cx="395.90489"
+     inkscape:cy="525.01981"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
      inkscape:window-x="1592"
@@ -41,8 +41,8 @@
      id="layer1"
      transform="translate(-124.61875,-95.51458)">
     <path
-       id="path48"
-       style="stroke-width:0.387084"
-       d="m 142.57949,156.15601 v 63.09502 h 63.09437 v -63.09502 z m 81.28772,0 v 63.09502 h 62.70745 v -63.09502 z m -81.28772,80.90079 v 63.09438 h 0.38694 62.70743 v -62.70745 -0.38693 z m 81.28772,0 v 63.09438 h 62.70745 v -62.70745 -0.38693 z" />
+       id="rect13594"
+       style="stroke-width:0;stroke-linecap:round;stroke-linejoin:round"
+       d="m 203.99375,157.25069 c -9.77192,0 -17.63889,7.86697 -17.63889,17.63889 v 35.27778 c 0,4.88595 3.93349,8.81944 8.81945,8.81944 h 44.09722 c 4.88595,0 8.81944,-3.93349 8.81944,-8.81944 v -44.09722 c 0,-4.88596 -3.93349,-8.81945 -8.81944,-8.81945 z m 70.55555,0 c -4.88595,0 -8.81944,3.93349 -8.81944,8.81945 v 44.09722 c 0,4.88595 3.93349,8.81944 8.81944,8.81944 h 44.09722 c 4.88595,0 8.81944,-3.93349 8.81944,-8.81944 v -35.27778 c 0,-9.77192 -7.86696,-17.63889 -17.63888,-17.63889 z m -79.37499,79.375 c -4.88596,0 -8.81945,3.93349 -8.81945,8.81944 v 35.27778 c 0,9.77192 7.86697,17.63888 17.63889,17.63888 h 35.27778 c 4.88595,0 8.81944,-3.93349 8.81944,-8.81944 v -44.09722 c 0,-4.88595 -3.93349,-8.81944 -8.81944,-8.81944 z m 79.37499,0 c -4.88595,0 -8.81944,3.93349 -8.81944,8.81944 v 44.09722 c 0,4.88595 3.93349,8.81944 8.81944,8.81944 h 35.27778 c 9.77192,0 17.63888,-7.86696 17.63888,-17.63888 v -35.27778 c 0,-4.88595 -3.93349,-8.81944 -8.81944,-8.81944 z" />
   </g>
 </svg>

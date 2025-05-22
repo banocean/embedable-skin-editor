@@ -112,7 +112,11 @@ class BaseToolConfig extends LitElement {
       const button = new OptionControlButton();
       button.icon = entry.icon;
       button.name = entry.value;
-      button.title = `Set ${property} to ${entry.value}`
+      if (entry.title) {
+        button.title = entry.title 
+      } else {
+        button.title = `Set ${property} to ${entry.value}`
+      }
 
       control.appendChild(button);
     })
