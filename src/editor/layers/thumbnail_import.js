@@ -35,7 +35,10 @@ function thumbnailImport(imgSource) {
   const scaleHeight = IMAGE_THUMBNAIL_HEIGHT / 5;
 
   const scaleCanvas = new OffscreenCanvas(scaleWidth, scaleHeight);
-  scaleCanvas.getContext("2d").drawImage(imgSource, 0, 0, scaleWidth, scaleHeight);
+  const scaleCtx = scaleCanvas.getContext("2d");
+
+  scaleCtx.imageSmoothingEnabled = false;
+  scaleCtx.drawImage(imgSource, 0, 0, scaleWidth, scaleHeight);
 
   OPERATIONS.forEach(op => {
     const uv = getUV("classic", op[0]);
