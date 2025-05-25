@@ -325,6 +325,7 @@ class ColorPicker extends LitElement {
     hueSlider.id = "hue-slider";
     hueSlider.addEventListener("slider-set", event => { this._hueChanged(event) });
     hueSlider.steps = 360;
+    hueSlider.max = 359;
 
     return hueSlider;
   }

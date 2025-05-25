@@ -9,6 +9,7 @@ class HueFilterSlider extends BaseFilterSlider {
     });
 
     this.slider.steps = 360;
+    this.slider.max = 359;
   }
 
   getValue() {

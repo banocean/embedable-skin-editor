@@ -5,7 +5,9 @@ class Slider extends LitElement {
   static properties = {
     progress: { reflect: true, type: Number },
     steps: { type: Number },
-    unclamped: { type: Boolean }
+    min: { type: Number },
+    max: { type: Number },
+    unclamped: { type: Boolean },
   };
 
   static styles = css`
@@ -119,6 +121,14 @@ class Slider extends LitElement {
     return Math.floor(this.progress * this.steps);
   }
 
+  getMin() {
+    return this.min || 0;
+  }
+
+  getMax() {
+    return this.max || this.steps;
+  }
+
   onClick(event) {
     if (event.button != 0) { return; }
 
@@ -188,7 +198,7 @@ class Slider extends LitElement {
     if (this.unclamped) {
       this.progress = Math.max(x, 0);
     } else {
-      this.progress = clamp(x, 0, 1);
+      this.progress = clamp(x, this.getMin() / this.steps, this.getMax() / this.steps);
     }
     this.dispatchEvent(new CustomEvent("slider-set", {detail: { progress: this.progress, value: this.getValue() }}));
   }
