@@ -32,10 +32,12 @@ import imgIconForce2 from "/assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "/assets/images/icons/modifiers/force-3.svg";
 import imgIconForce4 from "/assets/images/icons/modifiers/force-4.svg";
 import imgIconForce5 from "/assets/images/icons/modifiers/force-5.svg";
+import imgIconFullscreen from "/assets/images/icons/misc/fullscreen.svg";
 import imgIconJitter from "/assets/images/icons/jitter.svg";
 import imgIconLightMode from "/assets/images/icons/misc/light-mode.svg";
 import imgIconLighten from "/assets/images/icons/modifiers/lighten.svg";
 import imgIconMerge from "/assets/images/icons/misc/merge.svg";
+import imgIconMinimize from "/assets/images/icons/misc/minimize.svg";
 import imgIconMirror from "/assets/images/icons/modifiers/mirror.svg";
 import imgIconOverlay from "/assets/images/icons/toggles/overlay.svg";
 import imgIconOverlayGrid from "/assets/images/icons/toggles/overlay-grid.svg";
@@ -87,10 +89,12 @@ const ICON_MAP = {
   "force-3": imgIconForce3,
   "force-4": imgIconForce4,
   "force-5": imgIconForce5,
+  "fullscreen": imgIconFullscreen,
   "jitter": imgIconJitter,
   "light-mode": imgIconLightMode,
   "lighten": imgIconLighten,
   "merge": imgIconMerge,
+  "minimize": imgIconMinimize,
   "mirror": imgIconMirror,
   "overlay": imgIconOverlay,
   "overlay-grid": imgIconOverlayGrid,

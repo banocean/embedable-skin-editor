@@ -10,6 +10,7 @@ import "./misc/skin_2d";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import Editor from "../editor/main";
 import Toolbar from "./tools/toolbar";
+import ToolTab from "./config/tabs/tool";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
@@ -29,6 +30,7 @@ class UI extends LitElement {
       width: 100%;
       height: 100%;
       --editor-bg: url(${unsafeCSS(imgGridDark)});
+      --ncrs-color-picker-height: 15rem;
     }
 
     :host > div {
@@ -78,6 +80,14 @@ class UI extends LitElement {
 
     :host(.editor-light) .warning {
       color: black;
+    }
+
+    :host(.minimized) {
+      --ncrs-color-picker-height: 15rem;
+    }
+
+    :host(.fullscreen) {
+      --ncrs-color-picker-height: 17rem;
     }
 
     #editor {
@@ -161,6 +171,29 @@ class UI extends LitElement {
     :host(.editor-light) #themeSwitch ncrs-icon.light {
       display: block;
     }
+
+    #fullscreenSwitch {
+      all: unset;
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
+    #fullscreenSwitch ncrs-icon {
+      display: none;
+      width: 24px;
+      height: 24px;
+    }
+
+    :host(.minimized) #fullscreenSwitch ncrs-icon.minimized {
+      display: block;
+    }
+
+    :host(.fullscreen) #fullscreenSwitch ncrs-icon.fullscreen {
+      display: block;
+    }
   `;
 
   static properties = {
@@ -209,6 +242,7 @@ class UI extends LitElement {
     this.galleryModal = this._setupGalleryModal();
 
     this._setEditorTheme();
+    this._setFullscreen();
     this._setupEvents();
   }
   currentLayer;
@@ -329,6 +363,7 @@ class UI extends LitElement {
           ${this.editor}
           ${this._filtersWarning()}
           ${this._bgToggle()}
+          ${this._fullscreenToggle()}
         </div>
         <div id="layers">
           ${this._historyButtons()}
@@ -371,6 +406,14 @@ class UI extends LitElement {
     }
   }
 
+  toggleFullscreen() {
+    if (this.classList.contains("minimized")) {
+      this.classList.replace("minimized", "fullscreen");
+    } else if (this.classList.contains("fullscreen")) {
+      this.classList.replace("fullscreen", "minimized");
+    }
+  }
+
   _filtersWarning() {
     const filterIcon = html`
       <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -406,12 +449,26 @@ class UI extends LitElement {
     }
   }
 
+  _setFullscreen() {
+    const fullscreen = "minimized";
+    this.classList.add(fullscreen);
+  }
+
   _bgToggle() {
     return html`
       <button id="themeSwitch" @click=${this.toggleEditorBackground}>
         <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="white" class="dark"></ncrs-icon>
         <ncrs-icon title="Switch to light mode." icon="light-mode" color="white" class="gray"></ncrs-icon>
         <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="black" class="light"></ncrs-icon>
+      </button>
+    `
+  }
+
+  _fullscreenToggle() {
+    return html`
+      <button id="fullscreenSwitch" @click=${this.toggleFullscreen}>
+        <ncrs-icon title="Switch to Fullscreen. [EXPERIMENTAL]" icon="fullscreen" color="white" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="white" class="fullscreen"></ncrs-icon>
       </button>
     `
   }

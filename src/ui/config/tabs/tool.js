@@ -18,7 +18,7 @@ class ToolTab extends Tab {
     css`
       ncrs-color-picker {
         width: 100%;
-        height: 15rem;
+        height: var(--ncrs-color-picker-height, 15rem);
         box-sizing: border-box;
         margin-bottom: 0.5rem;
       }
