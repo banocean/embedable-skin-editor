@@ -177,8 +177,8 @@ class UI extends LitElement {
       display: block;
       cursor: pointer;
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 40px;
+      left: 8px;
     }
 
     #fullscreenSwitch ncrs-icon {
@@ -193,6 +193,41 @@ class UI extends LitElement {
 
     :host(.fullscreen) #fullscreenSwitch ncrs-icon.fullscreen {
       display: block;
+    }
+
+    :host(.editor-light) #fullscreenSwitch {
+      display: none;
+    }
+
+    #fullscreenSwitchLightMode {
+      all: unset;
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 40px;
+      left: 8px;
+    }
+
+    #fullscreenSwitchLightMode ncrs-icon {
+      display: none;
+      width: 24px;
+      height: 24px;
+    }
+
+    :host(.minimized) #fullscreenSwitchLightMode ncrs-icon.minimized {
+      display: block;
+    }
+
+    :host(.fullscreen) #fullscreenSwitchLightMode ncrs-icon.fullscreen {
+      display: block;
+    }
+
+    :host(.editor-gray) #fullscreenSwitchLightMode {
+      display: none;
+    }
+
+    :host(.editor-dark) #fullscreenSwitchLightMode {
+      display: none;
     }
   `;
 
@@ -466,8 +501,12 @@ class UI extends LitElement {
 
   _fullscreenToggle() {
     return html`
+      <button id="fullscreenSwitchLightMode" @click=${this.toggleFullscreen}>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="black" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="black" class="fullscreen"></ncrs-icon>
+      </button>
       <button id="fullscreenSwitch" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen. [EXPERIMENTAL]" icon="fullscreen" color="white" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="white" class="minimized"></ncrs-icon>
         <ncrs-icon title="Minimize." icon="minimize" color="white" class="fullscreen"></ncrs-icon>
       </button>
     `

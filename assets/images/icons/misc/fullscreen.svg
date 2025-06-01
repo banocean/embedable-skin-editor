@@ -55,41 +55,5 @@
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:18.5208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="M 89.170951,123.03127 H 123.03127 V 89.170956"
        id="path1710" />
-    <rect
-       style="fill-opacity:1;stroke:none;stroke-width:19.7508;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5300"
-       width="18.520834"
-       height="66.145836"
-       x="84.283913"
-       y="-89.696632"
-       ry="9.260417"
-       transform="rotate(45)" />
-    <rect
-       style="fill-opacity:1;stroke:none;stroke-width:19.7508;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5302"
-       width="18.520834"
-       height="66.145836"
-       x="-9.260417"
-       y="3.8477032"
-       ry="9.260417"
-       transform="rotate(-45)" />
-    <rect
-       style="fill-opacity:1;stroke:none;stroke-width:19.7508;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5304"
-       width="18.520834"
-       height="66.145836"
-       x="-102.80474"
-       y="-89.578201"
-       ry="9.260417"
-       transform="rotate(-135)" />
-    <rect
-       style="fill-opacity:1;stroke:none;stroke-width:19.7508;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5306"
-       width="18.520834"
-       height="66.145836"
-       x="-9.3788471"
-       y="-183.24095"
-       ry="9.260417"
-       transform="rotate(135)" />
   </g>
 </svg>
