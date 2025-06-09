@@ -156,8 +156,8 @@ class UI extends LitElement {
 
     #themeSwitch ncrs-icon {
       display: none;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
 
     :host(.editor-dark) #themeSwitch ncrs-icon.dark {
@@ -177,14 +177,14 @@ class UI extends LitElement {
       display: block;
       cursor: pointer;
       position: absolute;
-      top: 40px;
+      top: 36px;
       left: 8px;
     }
 
     #fullscreenSwitch ncrs-icon {
       display: none;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
 
     :host(.minimized) #fullscreenSwitch ncrs-icon.minimized {
@@ -204,14 +204,14 @@ class UI extends LitElement {
       display: block;
       cursor: pointer;
       position: absolute;
-      top: 40px;
+      top: 36px;
       left: 8px;
     }
 
     #fullscreenSwitchLightMode ncrs-icon {
       display: none;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
 
     :host(.minimized) #fullscreenSwitchLightMode ncrs-icon.minimized {
@@ -492,9 +492,9 @@ class UI extends LitElement {
   _bgToggle() {
     return html`
       <button id="themeSwitch" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="white" class="dark"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="light-mode" color="white" class="gray"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="black" class="light"></ncrs-icon>
+        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="#ffffff44" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="light-mode" color="#ffffff44" class="gray"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="#00000066" class="light"></ncrs-icon>
       </button>
     `
   }
@@ -502,12 +502,12 @@ class UI extends LitElement {
   _fullscreenToggle() {
     return html`
       <button id="fullscreenSwitchLightMode" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="black" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="black" class="fullscreen"></ncrs-icon>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#00000066" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="#00000066" class="fullscreen"></ncrs-icon>
       </button>
       <button id="fullscreenSwitch" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="white" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="white" class="fullscreen"></ncrs-icon>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#ffffff44" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="#ffffff44" class="fullscreen"></ncrs-icon>
       </button>
     `
   }
