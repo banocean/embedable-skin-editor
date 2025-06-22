@@ -71,7 +71,7 @@ class ColorPicker extends LitElement {
     }
 
     #saturation-slider::part(slider) {
-      background: linear-gradient(to right, hsl(var(--current-hue) 0% var(--current-lightness)), hsl(var(--current-hue) 100% var(--current-lightness)));
+      background: linear-gradient(to right, hsl(0 0% calc(var(--current-lightness)*2)), hsl(var(--current-hue) 100% var(--current-lightness)));
     }
 
     #saturation-slider::part(cursor), #lightness-slider::part(cursor) {
@@ -79,7 +79,7 @@ class ColorPicker extends LitElement {
     }
 
     #lightness-slider::part(slider) {
-      background: linear-gradient(to right, hsl(var(--current-hue) var(--current-saturation) 0%), hsl(var(--current-hue) var(--current-saturation) 50%));
+      background: linear-gradient(to right, hsl(var(--current-hue) var(--current-saturation) 0%), hsl(var(--current-hue) var(--current-saturation) calc( 75% - (0.25 * var(--current-saturation) ))));
     }
 
     #alpha-slider::part(slider) {
