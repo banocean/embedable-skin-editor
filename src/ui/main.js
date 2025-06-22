@@ -7,10 +7,9 @@ import "./misc/modal";
 import "./misc/window";
 import "./misc/skin_2d";
 
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, render, unsafeCSS } from "lit";
 import Editor from "../editor/main";
 import Toolbar from "./tools/toolbar";
-import ToolTab from "./config/tabs/tool";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
@@ -23,6 +22,7 @@ import imgGridLight from "/assets/images/grid-editor-light.png";
 
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
 import { del } from "idb-keyval";
+import passesColorAccuracyTest from "./misc/color_accuracy_test";
 
 class UI extends LitElement {
   static styles = css`
@@ -33,7 +33,7 @@ class UI extends LitElement {
       --ncrs-color-picker-height: 15rem;
     }
 
-    :host > div {
+    #main {
       display: flex;
       width: 100%;
       height: 100%;
@@ -229,6 +229,45 @@ class UI extends LitElement {
     :host(.editor-dark) #fullscreenSwitchLightMode {
       display: none;
     }
+
+    #color-check-modal {
+      justify-content: center;
+      position: absolute;
+    }
+    
+    #color-check {
+      color: white;
+      background-color: #1A1A1A;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      max-width: 32rem;
+    }
+
+    #color-check h2 {
+      margin: 0px;
+      text-align: center;
+    }
+
+    #color-check a {
+      color: white;
+    }
+
+    #color-check div {
+      display: flex;
+      gap: 0.25rem;
+      margin-top: 1rem;
+    }
+
+    #color-check ncrs-button {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    #color-check ncrs-button::part(button) {
+      padding: 0.25rem;
+      text-align: center;
+      font-size: large;
+    }
   `;
 
   static properties = {
@@ -391,7 +430,7 @@ class UI extends LitElement {
 
   render() {
     return html`
-      <div>
+      <div id="main">
         ${this.config}
         ${this.toolbar}
         <div id="editor">
@@ -404,6 +443,7 @@ class UI extends LitElement {
           ${this._historyButtons()}
           ${this.layers}
         </div>
+        ${this._setupColorCheckModal()}
       </div>
       ${this.exportModal}
       ${this.galleryModal}
@@ -571,6 +611,40 @@ class UI extends LitElement {
     return modal;
   }
 
+  _setupColorCheckModal() {
+    return html`
+      <ncrs-modal id="color-check-modal">
+        <div id="color-check">
+          <h2>Color Inaccuracies Detected</h2>
+          <p>We have detected that your browser may have issues with color accuracy.</p>
+          <p>You may notice subtle visual noise and incorrect colors appear in your skins.</p>
+          <p>This issue is usually caused by anti-fingerprinting privacy settings in your browser.</p>
+          <a href="https://wiki.needcoolershoes.com/troubleshooting/inaccurate_colors/" target="_blank">Learn how to fix</a>
+          <div>
+            <ncrs-button @click=${this._closeColorModal}>Close</ncrs-button>
+            <ncrs-button @click=${this._ignoreColorModal}>Do Not Show Again</ncrs-button>
+          </div>
+        </div>
+      </ncrs-modal>
+    `;
+  }
+
+  _closeColorModal() {
+    this.shadowRoot.getElementById("color-check-modal").hide();
+  }
+
+  _ignoreColorModal() {
+    this.persistence.set("ignoreColorCheck", true);
+    this.shadowRoot.getElementById("color-check-modal").hide();
+  }
+
+  _runColorCheck() {
+    if (this.persistence.get("ignoreColorCheck", false)) { return; }
+    if (passesColorAccuracyTest()) { return; }
+
+    this.shadowRoot.getElementById("color-check-modal").show();
+  }
+
   _setupEvents() {
     const layers = this.editor.layers;
     layers.addEventListener("layers-render", () => {
@@ -598,6 +672,10 @@ class UI extends LitElement {
         this.editor.addLayerFromFile(item.getAsFile());
       })
     });
+
+    window.addEventListener("load", () => {
+      this._runColorCheck();
+    })
   }
 }
 
