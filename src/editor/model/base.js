@@ -150,6 +150,7 @@ class BasePart {
       polygonOffsetFactor: 1,
       polygonOffsetUnits: 1,
       side: THREE.FrontSide,
+      alphaTest: 1e-5,
     });
   }
 

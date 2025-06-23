@@ -39,7 +39,6 @@ class Renderer {
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.domElement.style.position = "absolute";
-    renderer.sortObjects = false;
 
     this.renderer = renderer;
   }
