@@ -9,7 +9,8 @@ import ExportTab from "./tabs/export";
 class Config extends LitElement {
   static styles = css`
     :host {
-      width: 288px;
+      min-width: 290px;
+      width: 290px;
     }
 
     ncrs-tab-group {
