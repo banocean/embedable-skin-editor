@@ -131,7 +131,7 @@ class BucketTool extends BaseTool {
     const height = 64;
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
-        if (this.colorsMatch(texture.getPixel({ x, y }), old_color)) {
+        if (this.colorsMatch(texture.getPixel({ x, y }), old_color) && (((x+8)%32>=16&&y>=0&&y<=7) || (y>=8&&y<=15) || (x>=4&&x<=11&&y>=16) || (x>=20&&x<=35&&y>=16&&y<=35) || (x>=44&&x<=51&&y>=16&&y<=35) || (x>=0&&x<=55&&y>=20&&y<=31) || (x>=0&&x<=55&&y>=36&&y<=47) || ((x+4)%16>=8&&y>=48) || y>=52 )) {
           texture.putPixel({ x, y }, color());
         }
       }
