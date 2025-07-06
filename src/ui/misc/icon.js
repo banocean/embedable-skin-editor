@@ -18,7 +18,7 @@ import imgIconCamo from "/assets/images/icons/modifiers/camo.svg";
 import imgIconCgol from "/assets/images/icons/cgol.svg";
 import imgIconCircle from "/assets/images/icons/modifiers/circle.svg";
 import imgIconClone from "/assets/images/icons/misc/clone.svg";
-import imgIconContiguous from "/assets/images/icons/modifiers/contiguous.svg";
+import imgIconReplaceColor from "/assets/images/icons/modifiers/replace-color.svg";
 import imgIconCopy from "/assets/images/icons/misc/copy.svg";
 import imgIconDarkMode from "/assets/images/icons/misc/dark-mode.svg";
 import imgIconDownload from "/assets/images/icons/download.svg";
@@ -75,7 +75,7 @@ const ICON_MAP = {
   "cgol": imgIconCgol,
   "circle": imgIconCircle,
   "clone": imgIconClone,
-  "contiguous": imgIconContiguous,
+  "replace-color": imgIconReplaceColor,
   "copy": imgIconCopy,
   "dark-mode": imgIconDarkMode,
   "download": imgIconDownload,

@@ -15,7 +15,7 @@ class BucketTool extends BaseTool {
   }
 
   cursor = { x: 0, y: 0 };
-  contiguous = false;
+  replaceColor = false;
   lastPart;
   lastFace;
 
@@ -25,10 +25,10 @@ class BucketTool extends BaseTool {
     const color = toolData.button == 1 ? this.config.getColor.bind(this.config) : () => TRANSPARENT_COLOR;
     const old_color = toolData.texture.getPixel({ x: point.x, y: point.y });
 
-    this.contiguous = this.config.get("contiguous");
+    this.replaceColor = this.config.get("replaceColor");
 
     this.cursor = point;
-    if (!this.contiguous) {
+    if (!this.replaceColor) {
       if (this.isInArea(point,0,8,31,15)||this.isInArea(point,8,0,23,7)) {
         this.draw_head_inner(texture, point, color, old_color);
       }
@@ -81,7 +81,7 @@ class BucketTool extends BaseTool {
         this.draw_left_leg_outer(texture, point, color, old_color);
       }
     } else {
-        this.draw_contiguous_off(texture, color, old_color);
+        this.draw_replace_color(texture, color, old_color);
     }
 
     return texture.toTexture();
@@ -126,7 +126,7 @@ class BucketTool extends BaseTool {
   //   }
   // }
 
-  draw_contiguous_off(texture, color, old_color){
+  draw_replace_color(texture, color, old_color){
     const width = 64;
     const height = 64;
     for (let x = 0; x < width; x++) {
