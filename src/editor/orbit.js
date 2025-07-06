@@ -16,8 +16,8 @@ import { clamp } from 'three/src/math/MathUtils.js';
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
 //
 //    Orbit - left mouse / touch: one-finger move
-//    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
-//    Pan - right mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
+//    Zoom - Scroll or touch: two-finger spread or squish
+//    Pan - middle mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
 
 const _changeEvent = { type: 'change' };
 const _startEvent = { type: 'start' };
@@ -742,7 +742,7 @@ class OrbitControls extends EventDispatcher {
 
             panEnd.set( event.clientX, event.clientY );
 
-            panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed );
+            panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed * 2 );
 
             pan( panDelta.x, panDelta.y );
 
@@ -963,7 +963,7 @@ class OrbitControls extends EventDispatcher {
 
             }
 
-            panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed );
+            panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed * 2 );
 
             pan( panDelta.x, panDelta.y );
 
