@@ -70,6 +70,8 @@ class BasePart {
     this.texture = texture;
     this.variant = variant;
 
+    this.textureMaterial = this._setupTextureMaterial();
+
     this.baseMesh = this._setupMesh(this.uvmap().base);
     this.baseGrid = this._setupGrid(false);
     this.overlayMesh = this._setupMesh(this.uvmap().overlay, true);
@@ -142,7 +144,7 @@ class BasePart {
     return geometry;
   }
 
-  _setupMaterial() {
+  _setupTextureMaterial() {
     return new THREE.MeshBasicMaterial({
       map: this.texture,
       transparent: true,
@@ -155,10 +157,7 @@ class BasePart {
   }
 
   _setupMesh(uvmap, overlay = false) {
-    const mesh = new THREE.Mesh(
-      this._setupGeometry(uvmap, overlay),
-      this._setupMaterial()
-    );
+    const mesh = new THREE.Mesh(this._setupGeometry(uvmap, overlay), this.textureMaterial);
     mesh.userData.part = this;
     mesh.position.copy(this.position());
     mesh.layers.set(overlay ? 2 : 1);
