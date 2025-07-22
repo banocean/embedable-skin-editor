@@ -48,7 +48,6 @@ class SkinGrid extends THREE.LineSegments {
     const material = new THREE.LineBasicMaterial({
       vertexColors: true,
       toneMapped: false,
-      side: THREE.FrontSide,
       transparent: true,
       opacity: 0.6,
     });
