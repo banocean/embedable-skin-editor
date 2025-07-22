@@ -88,6 +88,79 @@ function swapFrontBack(inputCanvas, variant = "classic") {
   return canvas;
 }
 
+function swapLeftRight(inputCanvas, variant = "classic") {
+  const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+  const ctx = canvas.getContext("2d");
+
+  ctx.drawImage(inputCanvas, 0, 0);
+
+  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"]];
+
+  function flipUV(source, destination) {
+    const pairs = [["front", "front"],["back", "back"]];
+
+    pairs.forEach(pair => {
+      const faceA = source[pair[0]];
+      const faceB = destination[pair[1]];
+
+      const faceC = source[pair[1]];
+      const faceD = destination[pair[0]];
+
+      remapUV(inputCanvas, ctx, faceA, faceB);
+      remapUV(inputCanvas, ctx, faceB, faceA);
+
+      remapUV(inputCanvas, ctx, faceC, faceD);
+      remapUV(inputCanvas, ctx, faceD, faceC);
+    });
+
+    function mirror(src, dest) {
+      ctx.save();
+      ctx.translate(src[2] + (dest[0] * 2), 0);
+      ctx.scale(-1, 1);
+      remapUV(inputCanvas, ctx, src, dest);
+      ctx.restore();
+    }
+
+    // Flip top
+    mirror(source.top, destination.top);
+    mirror(destination.top, source.top);
+
+    // Flip bottom
+    mirror(source.bottom, destination.bottom);
+    mirror(destination.bottom, source.bottom);
+
+    // Flip front
+    mirror(source.front, destination.front);
+    mirror(destination.front, source.front);
+
+    // Flip back
+    mirror(source.back, destination.back);
+    mirror(destination.back, source.back);
+
+    // Flip left
+    mirror(source.left, destination.right);
+    mirror(destination.right, source.left);
+
+    // Flip right
+    mirror(source.right, destination.left);
+    mirror(destination.left, source.right);
+
+  }
+
+  partPairs.forEach(pair => {
+    const baseA = getUVMap(variant, pair[0] + "_base");
+    const overlayA = getUVMap(variant, pair[0] + "_overlay");
+
+    const baseB = getUVMap(variant, pair[1] + "_base");
+    const overlayB = getUVMap(variant, pair[1] + "_overlay");
+
+    flipUV(baseA, baseB);
+    flipUV(overlayA, overlayB);
+  })
+
+  return canvas;
+}
+
 function getPartFromCoords(variant, point) {
   const uv = MODEL_MAP[variant];
 
@@ -238,4 +311,4 @@ function mergeLayers(inputCanvas, sourceLayer, destLayer, variant) {
   return canvas;
 }
 
-export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, getPartFromCoords, getUV, getUVFromCoords, getWatermarkData, clearLayer, mergeLayers}
+export {remapUV, getMirroredCoords, swapBodyOverlay, swapFrontBack, swapLeftRight, getPartFromCoords, getUV, getUVFromCoords, getWatermarkData, clearLayer, mergeLayers}
