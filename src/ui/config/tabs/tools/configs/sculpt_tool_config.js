@@ -1,5 +1,6 @@
 import { html } from "lit";
 import BaseToolConfig from "./base_tool_config";
+import SculptTool from "../../../../../editor/tools/toolset/sculpt_tool";
 
 class SculptToolConfig extends BaseToolConfig {
   static styles = [
@@ -24,6 +25,7 @@ class SculptToolConfig extends BaseToolConfig {
       },
       mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
     });
+    this.tool = new SculptTool(config);
   }
 
   render() {
@@ -46,6 +48,7 @@ class SculptToolConfig extends BaseToolConfig {
             ${this._mirrorControl()}
           </div>
         </div>
+        <p class="description">${this.tool.properties.description}</p>
       </div>
     `;
   }

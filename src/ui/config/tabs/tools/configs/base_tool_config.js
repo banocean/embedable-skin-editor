@@ -31,6 +31,12 @@ class BaseToolConfig extends LitElement {
       font-size: x-small;
       margin: 0px;
     }
+
+    .description {
+      font-size: small;
+      margin: 0px;
+      margin-top: 0.25rem;
+    }
   `;
 
   constructor(config, properties) {

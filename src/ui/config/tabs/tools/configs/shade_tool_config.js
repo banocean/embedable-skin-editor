@@ -1,5 +1,6 @@
 import { html } from "lit";
 import BaseToolConfig from "./base_tool_config";
+import ShadeTool from "../../../../../editor/tools/toolset/shade_tool";
 
 class ShadeToolConfig extends BaseToolConfig {
   static styles = [
@@ -33,6 +34,7 @@ class ShadeToolConfig extends BaseToolConfig {
       },
       shadeOnce: {type: "toggle", icon: "shade-once", title: "Shade only once\nShade any pixel only once in a stroke."},
     });
+    this.tool = new ShadeTool(config);
   }
 
   render() {
@@ -53,18 +55,19 @@ class ShadeToolConfig extends BaseToolConfig {
             ${this._shadeStyleControl()}
           </div>
         </div>
-        <div>
+        <div class="group">
           <div>
             <p class="title">Force</p>
             ${this._forceControl()}
           </div>
-        </div>
-        <div>
+          <div>
             <p class="title">Effects</p>
             <div class="group-sm">
               ${this._shadeOnceControl()}
             </div>
           </div>
+        </div>
+        <p class="description">${this.tool.properties.description}</p>
       </div>
     `;
   }

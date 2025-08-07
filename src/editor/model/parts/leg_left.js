@@ -5,7 +5,7 @@ class LeftLegPart extends BasePart {
   constructor(texture, variant) {
     super(texture, variant);
 
-    const material = this.overlayMesh.material;
+    const material = this.textureMaterial;
     material.polygonOffsetFactor = 2.6;
   }
 

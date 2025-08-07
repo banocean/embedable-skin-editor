@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 import BaseToolConfig from "./base_tool_config";
+import PenTool from "../../../../../editor/tools/toolset/pen_tool";
 
 class PenToolConfig extends BaseToolConfig {
   static styles = [
@@ -28,6 +29,7 @@ class PenToolConfig extends BaseToolConfig {
       camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
       blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
     });
+    this.tool = new PenTool(config);
   }
 
   render() {
@@ -52,6 +54,7 @@ class PenToolConfig extends BaseToolConfig {
             ${this._blendControl()}
           </div>
         </div>
+        <p class="description">${this.tool.properties.description}</p>
       </div>
     `;
   }
