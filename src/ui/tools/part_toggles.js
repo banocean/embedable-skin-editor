@@ -13,7 +13,7 @@ import imgRightLegDisabled from "/assets/images/skin_parts/right_leg_disabled.pn
 import imgLeftLegEnabled from "/assets/images/skin_parts/left_leg_enabled.png";
 import imgLeftLegDisabled from "/assets/images/skin_parts/left_leg_disabled.png";
 
-class PartToggle extends LitElement {
+class PartToggles extends LitElement {
   static styles = css`
     :host {
       display: block;
@@ -246,6 +246,6 @@ class PartToggle extends LitElement {
   }
 }
 
-customElements.define("ncrs-part-toggle", PartToggle)
+customElements.define("ncrs-tools-part-toggles", PartToggles)
 
-export default PartToggle;
+export default PartToggles;
