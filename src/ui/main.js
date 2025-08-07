@@ -13,7 +13,6 @@ import Toolbar from "./tools/toolbar";
 import LayerList from "./layers/layer_list";
 import Config from "./config/main";
 import PersistenceManager from "../persistence";
-import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
 
 import imgGridDark from "/assets/images/grid-editor-dark.png";
@@ -21,9 +20,9 @@ import imgGridGray from "/assets/images/grid-editor-gray.png";
 import imgGridLight from "/assets/images/grid-editor-light.png";
 
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
-import { del } from "idb-keyval";
 import passesColorAccuracyTest from "./misc/color_accuracy_test";
 import { mobileLayout, mobileStyle } from "./mobile";
+import setupKeybinds from "./keybinds";
 
 class UI extends LitElement {
   static styles = [css`
@@ -276,34 +275,6 @@ class UI extends LitElement {
     _warning: {type: String, state: true},
   }
 
-  // All keybind definitions, ^ = ctrl, + = shift, ! = alt
-
-  static keybinds = {
-    "b": "pen",
-    "e": "eraser",
-    "g": "bucket",
-    "s": "shade",
-    "i": "eyedropper",
-    "+s": "sculpt",
-    "^z": "undo",
-    "^y": "redo",
-    "^+z": "redo",
-    "^r": "reset",
-    "0": "cameraReset",
-    "1": "selectTools",
-    "2": "selectLayer",
-    "3": "selectImport",
-    "4": "selectExport",
-    "!t": "selectTools",
-    "!l": "selectLayer",
-    "!i": "selectImport",
-    "!e": "selectExport",
-    "+n": "addLayer",
-    "delete": "removeLayer",
-    "+d": "cloneLayer",
-    "+m": "mergeLayer",
-  }
-
   constructor() {
     super();
 
@@ -323,110 +294,9 @@ class UI extends LitElement {
   currentLayer;
 
   firstUpdated() {
-    document.addEventListener("keydown", event => {
-      const element = event.originalTarget || getFocusedElement();
-      if (isKeybindIgnored(element)) { return; }
-
-      switch(this.checkKeybinds(event)){
-        case "pen":
-          if (this.editor.currentTool == this.editor.tools[0]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[0]);
-          break;
-        case "eraser":
-          if (this.editor.currentTool == this.editor.tools[1]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[1]);
-          break;
-        case "bucket":
-          if (this.editor.currentTool == this.editor.tools[2]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[2]);
-          break;
-        case "shade":
-          if (this.editor.currentTool == this.editor.tools[3]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[3]);
-          break;
-        case "sculpt":
-          if (!this.editor.config.get("overlayVisible")) { break; }
-          if (this.editor.currentTool == this.editor.tools[4]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[4]);
-          break;
-        case "eyedropper":
-          this.editor.config.set("pick-color-toggle", true);
-          this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
-          break;
-        case "undo":
-          this.editor.history.undo();
-          break;
-        case "redo":
-          this.editor.history.redo();
-          break;
-        case "reset":
-          const check = confirm("Do you want to reset all editor data? You will lose all progress on your current skin.");
-
-          if (check) {
-            PersistenceManager.resetAll();
-            del("ncrs:reference-images");
-            location.reload();
-          }
-          
-          break;
-        case "cameraReset":
-          this.editor.resetCamera();
-          break;
-        case "selectTools":
-          this.config.select("tool");
-          break;
-        case "selectLayer":
-          this.config.select("layers");
-          break;
-        case "selectImport":
-          this.config.select("import");
-          break;
-        case "selectExport":
-          this.config.select("export");
-          break;
-        case "addLayer":
-          this.editor.addLayer();
-          break;
-        case "removeLayer":
-          this.editor.removeLayer();
-          break;
-        case "cloneLayer":
-          this.editor.cloneLayer();
-          break;
-        case "mergeLayer":
-          this.editor.mergeLayer();
-          break;
-      }
-    });
+    setupKeybinds(this.editor, this.config);
 
     this._updateWarning();
-  }
-
-  checkKeybinds(event) {
-    let key = '';
-    if (event.ctrlKey) {
-      key+='^';
-    }
-    if (event.altKey) {
-      key+='!';
-    }
-    if (event.shiftKey) {
-      key+='+';
-    }
-    key+=event.key.toLowerCase();
-    if (key in this.constructor.keybinds) {
-      return this.constructor.keybinds[key];
-    }
   }
 
   render() {
