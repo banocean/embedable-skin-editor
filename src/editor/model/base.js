@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { SkinGridBox } from "./grid";
+import { createSkinGridBox } from "./grid";
 import { getUVMap } from "./uv";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
 
@@ -126,8 +126,8 @@ class BasePart {
     this.baseMesh.visible = this.baseMeshVisible;
     this.overlayMesh.visible = this.overlayMeshVisible;
 
-    this.baseGrid.Visible(this.baseMeshVisible);
-    this.overlayGrid.Visible(this.overlayMeshVisible);
+    this.baseGrid.visible = this.baseMeshVisible;
+    this.overlayGrid.visible  = this.overlayMeshVisible;
   }
 
   _setupGeometry(uvmap, overlay = false) {
@@ -167,15 +167,12 @@ class BasePart {
 
   _setupGrid(overlay) {
     const size = this.getSize(overlay);
-    const dim = new THREE.Vector3(...this.getSize(false)).multiplyScalar(8);
+    const dim = this.getSize().map(n => n * 8);
 
     const gridColor = overlay ? new THREE.Color("#373737") : new THREE.Color("#575757");
-    const grid = new SkinGridBox(new THREE.Vector3(...size), dim, 0.0001, gridColor);
-
-    grid.grids.forEach(face => {
-      face.position.add(this.position());
-      face.layers.set(overlay ? 2 : 1);
-    })
+    const grid = createSkinGridBox(...size, ...dim, gridColor);
+    grid.position.add(this.position());
+    grid.layers.set(overlay ? 2 : 1);
 
     return grid;
   }

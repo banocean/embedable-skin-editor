@@ -59,12 +59,12 @@ class SkinModel {
 
     function addBase(part) {
       scope.baseMesh.add(part.baseMesh);
-      scope.baseGrid.add(...part.baseGrid.grids);
+      scope.baseGrid.add(part.baseGrid);
     }
 
     function addOverlay(part) {
       scope.overlayMesh.add(part.overlayMesh);
-      scope.overlayGrid.add(...part.overlayGrid.grids);
+      scope.overlayGrid.add(part.overlayGrid);
     }
 
     const head = new HeadPart(texture, variant);
