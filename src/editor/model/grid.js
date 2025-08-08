@@ -47,6 +47,7 @@ function createShaderMaterial(color = DEFAULT_GRID_COLOR) {
     transparent: true,
     alphaTest: 1e-5,
     side: THREE.FrontSide,
+    depthWrite: false,
     vertexShader: `
       attribute vec3 barycentric;
       attribute float even;
@@ -95,9 +96,6 @@ function createShaderMaterial(color = DEFAULT_GRID_COLOR) {
         // now compute the final color of the mesh
         vec4 outColor = vec4(0.0);
         outColor = vec4(stroke, edge);
-        if (!gl_FrontFacing) {
-          outColor.a = 0.0;
-        }
 
         return outColor;
       }
