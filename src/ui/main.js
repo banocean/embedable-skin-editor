@@ -21,11 +21,10 @@ import imgGridLight from "/assets/images/grid-editor-light.png";
 
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
 import passesColorAccuracyTest from "./misc/color_accuracy_test";
-import { mobileLayout, mobileStyle } from "./mobile";
 import setupKeybinds from "./keybinds";
 
 class UI extends LitElement {
-  static styles = [css`
+  static styles = css`
     :host {
       width: 100%;
       height: 100%;
@@ -268,7 +267,7 @@ class UI extends LitElement {
       text-align: center;
       font-size: large;
     }
-  `, mobileStyle()];
+  `;
 
   static properties = {
     src: {type: String},
@@ -300,7 +299,6 @@ class UI extends LitElement {
   }
 
   render() {
-    return mobileLayout(this);
     return html`
       <div id="main">
         ${this.config}

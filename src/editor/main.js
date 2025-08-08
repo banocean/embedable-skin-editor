@@ -28,6 +28,7 @@ import imgFacingIndicator from "/assets/images/facing-indicator.svg";
 import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_entry";
 import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry";
 import PersistLayerChangesEntry from "./history/entries/persist_layers_entry";
+import MoveTool from "./tools/toolset/move_tool";
 
 const FORMAT = -1;
 
@@ -551,6 +552,7 @@ class Editor extends LitElement {
 
   _setupTools() {
     return [
+      new MoveTool(this.toolConfig),
       new PenTool(this.toolConfig),
       new EraseTool(this.toolConfig),
       new BucketTool(this.toolConfig),

@@ -2,11 +2,10 @@ import { LitElement } from "lit";
 import Tool from "./tool";
 
 class Toolset extends LitElement {
-  constructor(ui) {
+  constructor(editor) {
     super();
 
-    this.ui = ui;
-    this.editor = this.ui.editor;
+    this.editor = editor;
 
     this._setupEvents();
   }
@@ -16,7 +15,8 @@ class Toolset extends LitElement {
     const tools = [];
 
     editor.tools.forEach(tool => {
-      const newTool = new Tool(this.ui, tool);
+      const newTool = new Tool(this.editor, tool);
+      newTool.part = "tool";
 
       if (tool.properties.id === "sculpt") {
         newTool.disabled = !editor.config.get("overlayVisible", false);

@@ -2,6 +2,10 @@ import { css, html, LitElement } from "lit";
 
 class Tool extends LitElement {
   static styles = css`
+    :host {
+      --icon-height: var(--ncrs-icon-height, 1.75rem);
+    }
+
     ncrs-button::part(button) {
       padding: 0.25rem;
       padding-top: 0.5rem;
@@ -9,7 +13,7 @@ class Tool extends LitElement {
     }
 
     ncrs-icon {
-      height: 1.75rem;
+      height: var(--icon-height);
       width: auto;
       display: block;
     }
@@ -20,16 +24,16 @@ class Tool extends LitElement {
     disabled: {reflect: true},
   }
 
-  constructor(ui, tool) {
+  constructor(editor, tool) {
     super()
     this.active = false;
     this.disabled = false;
-    this.ui = ui;
+    this.editor = editor;
     this.tool = tool;
   }
 
   render() {
-    this.active = (this.ui.editor.currentTool == this.tool);
+    this.active = (this.editor.currentTool == this.tool);
 
     const properties = this.tool.properties;
 
@@ -45,11 +49,11 @@ class Tool extends LitElement {
 
   select() {
     if (this.active) {
-      this.ui.config.select("tool");
+      this.config.select("tool");
     }
 
     this.active = true;
-    this.ui.editor.selectTool(this.tool);
+    this.editor.selectTool(this.tool);
   }
 }
 

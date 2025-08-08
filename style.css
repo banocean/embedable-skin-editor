@@ -19,9 +19,9 @@ html, body, #app {
   margin: auto;
 }
 
-ncrs-ui {
-  max-width: 1000px;
-  max-height: 670px;
+ncrs-ui-mobile {
+  max-width: 375px;
+  max-height: 620px;
 }
 
 ncrs-ui.fullscreen {

@@ -43,7 +43,7 @@ class Toolbar extends LitElement {
     super();
 
     this.ui = ui;
-    this.toolSet = new Toolset(this.ui);
+    this.toolSet = new Toolset(this.editor);
     this.partToggles = new PartToggles(this.ui.editor);
     this.modelToggle = new ModelToggle(this.ui);
     this.editorToggles = new EditorToggles(this.ui);
