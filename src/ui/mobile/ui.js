@@ -1,6 +1,7 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
 import PersistenceManager from "../../persistence";
 import { Editor } from "../../main";
+import "./components/drawer";
 
 import imgGridDark from "/assets/images/grid-editor-dark.png";
 import Toolset from "../tools/toolset";
@@ -10,6 +11,7 @@ class MobileUI extends LitElement {
     :host {
       width: 100%;
       height: 100%;
+      -webkit-user-select: none;
       --editor-bg: url(${unsafeCSS(imgGridDark)});
       --ncrs-color-picker-height: 15rem;
     }
@@ -83,6 +85,9 @@ class MobileUI extends LitElement {
           ${this.toolSet}
         </div>
         <div id="bottom"></div>
+        <ncrs-mobile-drawer open>
+          <span slot="header">Hello World</span>
+        </ncrs-mobile-drawer>
       </div>
       <slot name="footer"></slot>
     `;
