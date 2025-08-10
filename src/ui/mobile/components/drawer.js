@@ -22,19 +22,19 @@ class MobileDrawer extends LitElement {
     }
 
     #drawer {
-      background-color: #1f2025;
+      background-color: rgb(26, 26, 26);
       height: 100%;
       width: 100%;
       border-top-left-radius: 0.5rem;
       border-top-right-radius: 0.5rem;
-
-      touch-action: none;
     }
 
     #handle-section {
       display: flex;
       justify-content: center;
       padding: 0.25rem;
+      padding-top: 0.5rem;
+      margin-bottom: 0.5rem;
     }
 
     #handle {
@@ -116,6 +116,12 @@ class MobileDrawer extends LitElement {
   }
 
   render() {
+    if (this.open) {
+      document.querySelector("html").style.setProperty("overscroll-behavior-y", "none");
+    } else {
+      document.querySelector("html").style.removeProperty("overscroll-behavior-y");
+    }
+
     return html`
       <div id="drawer" part="drawer">
         <div id="handle-section">
@@ -141,7 +147,7 @@ class MobileDrawer extends LitElement {
     this.drawer.addEventListener("animationend", event => this._onAnimationEnd(event));
     this.drawer.addEventListener("click", event => event.stopImmediatePropagation());
 
-    interact(this.drawer).draggable({
+    interact(this).draggable({
       startAxis: "y",
       lockAxis: "y",
       listeners: {
@@ -185,7 +191,10 @@ class MobileDrawer extends LitElement {
 
     if (event.animationName === "close") {
       this.open = false;
-      this.classList.remove("closing");
+      this._translate = 0;
+      this.drawer.style.removeProperty("transform");
+      this.style.removeProperty("--close-progress");
+      this.classList.remove("closing", "open");
     }
 
     if (event.animationName === "snap") {

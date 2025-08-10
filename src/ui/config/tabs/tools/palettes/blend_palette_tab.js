@@ -172,7 +172,7 @@ class BlendPaletteTab extends Tab {
 
     return html`
       <div id="main">
-        <div id="palette">
+        <div id="palette" part="palette">
           ${colorsDiv}
         </div>
         <div id="options">

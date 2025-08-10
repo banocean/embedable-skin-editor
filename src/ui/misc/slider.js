@@ -49,8 +49,8 @@ class Slider extends LitElement {
     }
 
     #input {
-      width: 1.75rem;
-      font-size: x-small;
+      width: var(--ncrs-slider-input-width, 1.75rem);
+      font-size: var(--ncrs-slider-font-size, x-small);
       box-sizing: border-box;
       overflow-y: hidden;
       color: white;

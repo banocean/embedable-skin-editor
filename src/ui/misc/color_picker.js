@@ -92,14 +92,18 @@ class ColorPicker extends LitElement {
         repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
     }
 
-    ncrs-slider::part(input) {
+    ncrs-slider {
       height: 0.75rem;
+    }
+
+    ncrs-slider::part(input) {
+      height: 100%;
       padding: 0px;
     }
 
     ncrs-slider::part(slider) {
       width: 100%;
-      height: 0.75rem;
+      height: 100%;
       border-radius: 0.25rem;
     }
 
@@ -136,6 +140,8 @@ class ColorPicker extends LitElement {
     }
 
     #text-input {
+      font-size: var(--ncrs-color-picker-font-size, small);
+
       color: white;
       text-align: center;
       background-color: #131315;
@@ -232,7 +238,7 @@ class ColorPicker extends LitElement {
     return html`
       <div style=${styleMap(styles)}>
         ${this.gradient}
-        <div id="sliders">
+        <div id="sliders" part="sliders">
           ${this.hueSlider}
           ${this.saturationSlider}
           ${this.lightnessSlider}
@@ -315,6 +321,7 @@ class ColorPicker extends LitElement {
   _createGradient() {
     const gradient = new ColorPickerRegion();
     gradient.id = "gradient";
+    gradient.part = "gradient";
     gradient.addEventListener("region-set", event => { this._gradientChanged(event) });
 
     return gradient;
@@ -323,6 +330,7 @@ class ColorPicker extends LitElement {
   _createHueSlider() {
     const hueSlider = new Slider();
     hueSlider.id = "hue-slider";
+    hueSlider.part = "slider hue-slider";
     hueSlider.addEventListener("slider-set", event => { this._hueChanged(event) });
     hueSlider.steps = 360;
     hueSlider.max = 359;
@@ -333,6 +341,7 @@ class ColorPicker extends LitElement {
   _createSaturationSlider() {
     const saturationSlider = new Slider();
     saturationSlider.id = "saturation-slider";
+    saturationSlider.part = "slider saturation-slider";
     saturationSlider.addEventListener("slider-set", event => { this._saturationChanged(event) });
 
     return saturationSlider;
@@ -341,6 +350,7 @@ class ColorPicker extends LitElement {
   _createLightnessSlider() {
     const lightnessSlider = new Slider();
     lightnessSlider.id = "lightness-slider";
+    lightnessSlider.part = "slider lightness-slider";
     lightnessSlider.addEventListener("slider-set", event => { this._lightnessChanged(event) });
 
     return lightnessSlider;
@@ -349,6 +359,7 @@ class ColorPicker extends LitElement {
   _createAlphaSlider() {
     const alphaSlider = new Slider();
     alphaSlider.id = "alpha-slider";
+    alphaSlider.part = "slider alpha-slider";
     alphaSlider.addEventListener("slider-set", event => { this._alphaChanged(event) });
 
     return alphaSlider;
@@ -483,9 +494,10 @@ class ColorPickerRegion extends LitElement {
       document.removeEventListener("pointerup", pointerUp);
     };
 
-    this._onPointerDown = () => {
+    this._onPointerDown = event => {
       document.addEventListener("pointermove", pointerMove);
       document.addEventListener("pointerup", pointerUp);
+      event.stopPropagation();
     };
 
     this._setupResizeObserver();
@@ -511,7 +523,7 @@ class ColorPickerRegion extends LitElement {
   }
 
   onClick(event) {
-    this._onPointerDown();
+    this._onPointerDown(event);
     this.onMove(event);
   }
 
