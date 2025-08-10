@@ -35,6 +35,7 @@ class MobileDrawer extends LitElement {
       padding: 0.25rem;
       padding-top: 0.5rem;
       margin-bottom: 0.5rem;
+      position: relative;
     }
 
     #handle {
@@ -42,6 +43,14 @@ class MobileDrawer extends LitElement {
       height: 0.25rem;
       background-color: rgb(156, 163, 175);
       border-radius: 0.25rem;
+    }
+
+    #handle-overlay {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      bottom: -0.5rem;
+      height: 5rem;
     }
 
     :host([open]) {
@@ -116,16 +125,11 @@ class MobileDrawer extends LitElement {
   }
 
   render() {
-    if (this.open) {
-      document.querySelector("html").style.setProperty("overscroll-behavior-y", "none");
-    } else {
-      document.querySelector("html").style.removeProperty("overscroll-behavior-y");
-    }
-
     return html`
       <div id="drawer" part="drawer">
         <div id="handle-section">
           <div id="handle" part="handle"></div>
+          <div id="handle-overlay"></div>
         </div>
         <div part="body">
           <slot></slot>
@@ -147,7 +151,13 @@ class MobileDrawer extends LitElement {
     this.drawer.addEventListener("animationend", event => this._onAnimationEnd(event));
     this.drawer.addEventListener("click", event => event.stopImmediatePropagation());
 
-    interact(this).draggable({
+    const handle = this.renderRoot.getElementById("handle-overlay");
+    handle.addEventListener("click", () => {
+      if (this._translate > 0) { return; }
+      this.hide();
+    });
+
+    interact(handle).draggable({
       startAxis: "y",
       lockAxis: "y",
       listeners: {

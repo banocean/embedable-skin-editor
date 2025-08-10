@@ -125,6 +125,7 @@ class ColorPicker extends LitElement {
       display: block;
       width: 2rem;
       height: 2rem;
+      min-width: 2rem;
       border-radius: 100%;
       background: linear-gradient(var(--current-color-alpha), var(--current-color-alpha)),
         repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
@@ -150,6 +151,8 @@ class ColorPicker extends LitElement {
       border-radius: 6px;
       border-color: #313436;
       box-shadow: none;
+      max-width: 180px;
+      width: 100%;
     }
 
     #text-input:focus {
@@ -160,6 +163,7 @@ class ColorPicker extends LitElement {
     #eyedropper {
       padding: 0.125rem;
       width: 34px;
+      min-width: 34px;
       height: 34px;
       box-sizing: border-box;
     }
