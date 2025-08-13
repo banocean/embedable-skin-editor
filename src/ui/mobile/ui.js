@@ -86,7 +86,8 @@ const STYLES = css`
     border-radius: 9999px;
     width: 4rem;
     height: 4rem;
-    background-color: var(--current-color);
+    background: linear-gradient(var(--current-color), var(--current-color)),
+      repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
     border: 4px solid rgb(31, 32, 37);
   }
 
