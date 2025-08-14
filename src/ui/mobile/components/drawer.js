@@ -18,6 +18,7 @@ class MobileDrawer extends LitElement {
       overflow: hidden;
       background-color: rgba(0, 0, 0, calc(0.75 - var(--close-progress, 0)));
       backdrop-filter: blur(calc(4px * calc(1 - var(--close-progress, 0))));
+      -webkit-backdrop-filter: blur(calc(4px * calc(1 - var(--close-progress, 0))));
       padding-top: 4rem;
     }
 
