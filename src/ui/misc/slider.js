@@ -18,6 +18,7 @@ class Slider extends LitElement {
       position: relative;
       cursor: pointer;
       box-sizing: border-box;
+      touch-action: none;
     }
 
     #slider {
@@ -96,6 +97,7 @@ class Slider extends LitElement {
     this._setupResizeObserver();
   }
   _sliderDiv;
+  _sliderWidth;
 
   attributeChangedCallback(name, _old, value) {
     super.attributeChangedCallback(name, _old, value);
@@ -208,11 +210,14 @@ class Slider extends LitElement {
   }
 
   _clientWidth() {
-    this._sliderDiv = this._sliderDiv || this.shadowRoot.getElementById("slider");
+    if (!this._sliderDiv) {
+      this._sliderDiv = this.shadowRoot.getElementById("slider");
+      this._sliderWidth = this._sliderDiv?.clientWidth;
+    }
 
     if (!this._sliderDiv) { return 0; }
 
-    return this._sliderDiv.clientWidth;
+    return this._sliderWidth;
   }
 
   _setupInput() {
@@ -241,6 +246,7 @@ class Slider extends LitElement {
 
   _setupResizeObserver() {
     const resizeObserver = new ResizeObserver(() => {
+      this._sliderWidth = this._sliderDiv?.clientWidth;
       this.requestUpdate();
     })
 

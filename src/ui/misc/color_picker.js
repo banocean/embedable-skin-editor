@@ -453,6 +453,7 @@ class ColorPickerRegion extends LitElement {
       display: block;
       position: relative;
       cursor: pointer;
+      touch-action: none;
     }
 
     :host(:focus) {
@@ -506,6 +507,8 @@ class ColorPickerRegion extends LitElement {
 
     this._setupResizeObserver();
   }
+  _clientWidth = this.clientWidth;
+  _clientHeight = this.clientHeight;
 
   render() {
     const pos = this._getPos();
@@ -583,13 +586,15 @@ class ColorPickerRegion extends LitElement {
 
   _getPos() {
     return {
-      x: this.clientWidth * this.progressX,
-      y: this.clientHeight * this.progressY,
+      x: this._clientWidth * this.progressX,
+      y: this._clientHeight * this.progressY,
     };
   }
 
   _setupResizeObserver() {
     const resizeObserver = new ResizeObserver(() => {
+      this._clientWidth = this.clientWidth;
+      this._clientHeight = this.clientHeight;
       this.requestUpdate();
     })
 
