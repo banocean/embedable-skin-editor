@@ -3,6 +3,7 @@ import { css, html, LitElement } from "lit";
 
 const CLOSE_THRESHOLD = 100;
 const CLOSE_SPEED_THRESHOLD = 25;
+const REVERSE_CLOSE_THRESHOLD = 5;
 
 class MobileDrawer extends LitElement {
   static properties = {
@@ -122,6 +123,7 @@ class MobileDrawer extends LitElement {
   drawer;
   _translate = 0;
   _shouldClose = false;
+  _lastDelta = 0;
 
   firstUpdated() {
     this._setupInteract();
@@ -188,14 +190,33 @@ class MobileDrawer extends LitElement {
     } else if (event.delta.y < 0) {
       this._shouldClose = false;
     }
+
+    this._lastDelta = event.delta.y;
   }
 
   _onDragEnd() {
-    if (this._translate > CLOSE_THRESHOLD || this._shouldClose) {
-      this.classList.add("closing");
-    } else if (this._translate > 0) {
-      this.classList.add("snap");
+    if (this._shouldClose) {
+      return this.hide();
     }
+
+    if (this._translate > CLOSE_THRESHOLD && this._lastDelta > REVERSE_CLOSE_THRESHOLD) {
+      return this.hide();
+    }
+
+    if (this._translate < 0) {
+      return;
+    }
+
+    this.classList.add("snap");
+  }
+
+  _reset() {
+      this._translate = 0;
+      this._shouldClose = false;
+      this._lastDelta = 0;
+      this.drawer.style.removeProperty("transform");
+      this.style.removeProperty("--close-progress");
+      this.classList.remove("closing", "open");
   }
 
   _onAnimationEnd(event) {
@@ -205,10 +226,7 @@ class MobileDrawer extends LitElement {
 
     if (event.animationName === "close") {
       this.open = false;
-      this._translate = 0;
-      this.drawer.style.removeProperty("transform");
-      this.style.removeProperty("--close-progress");
-      this.classList.remove("closing", "open");
+      this._reset();
     }
 
     if (event.animationName === "snap") {
