@@ -164,7 +164,6 @@ class MobileUI extends LitElement {
       lockAxis: "y",
       listeners: {
         move: event => {
-          console.log(event);
           if (event.dy < -DRAWER_OPEN_DRAG_THRESHOLD) {
             this._showColorDrawer();
           }

@@ -36,6 +36,7 @@ class MobileDrawer extends LitElement {
       padding-top: 0.5rem;
       margin-bottom: 0.5rem;
       position: relative;
+      touch-action: none;
     }
 
     #handle {
@@ -51,6 +52,11 @@ class MobileDrawer extends LitElement {
       right: 0px;
       bottom: -0.5rem;
       height: 5rem;
+    }
+
+    #body {
+      max-height: calc(100% - 2rem);
+      box-sizing: border-box;
     }
 
     :host([open]) {
@@ -76,10 +82,6 @@ class MobileDrawer extends LitElement {
 
     :host(.snap) #drawer {
       animation: snap 0.5s cubic-bezier(0.32,0.72,0,1);
-    }
-
-    slot[name=title] {
-      pointer-events: none;
     }
 
     @keyframes open {
@@ -130,8 +132,9 @@ class MobileDrawer extends LitElement {
         <div id="handle-section">
           <div id="handle" part="handle"></div>
           <div id="handle-overlay"></div>
+          <span id="debug"></span>
         </div>
-        <div part="body">
+        <div id="body" part="body">
           <slot></slot>
         </div>
       </div>
@@ -162,7 +165,7 @@ class MobileDrawer extends LitElement {
       lockAxis: "y",
       listeners: {
         move: this._onDragMove.bind(this),
-        end: this._onDragEnd.bind(this),
+        end:  this._onDragEnd.bind(this),
       }
     });
   }
