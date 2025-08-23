@@ -142,7 +142,7 @@ class Editor extends LitElement {
       return false;
     }
 
-    return true;
+    return this.currentTool.check(parts, pointerEvent);
   }
 
   toolDown(parts, pointerEvent) {

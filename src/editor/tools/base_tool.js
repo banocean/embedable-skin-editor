@@ -11,6 +11,7 @@ class BaseTool {
   down(_texture, _part, _x, _y, _pointerButton) {}
   move(_part, _x, _y, _pointerButton) {}
   up(_x, _y) {}
+  check(_parts, _event) { return true; }
 
   tempCanvas() {
     return new CanvasHelper();

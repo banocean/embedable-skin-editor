@@ -10,6 +10,10 @@ class MoveTool extends BaseTool {
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.
     });
   }
+
+  check() {
+    return false;
+  }
 }
 
 export default MoveTool;

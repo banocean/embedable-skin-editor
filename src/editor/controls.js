@@ -26,6 +26,11 @@ class Controls {
   keybindEyedropper = false;
 
   handleIntersects() {
+    if (!this.shouldRaycast()) {
+      this.targetingModel = false;
+      return;
+    }
+
     const intersects = this.raycast();
 
     function isValidIntersect(part) {
@@ -75,6 +80,27 @@ class Controls {
     }
   }
 
+  onPointerDown(event) {
+    if (event.pointerType === "touch") {
+      this.onTouchDown(event);
+    } else {
+      this.onMouseDown(event);
+    }
+  }
+  
+  onTouchDown(event) {
+    this.setPointer(event.offsetX, event.offsetY);
+    this.pointerEvent = event;
+    this.pointerDown = true;
+    this.handleIntersects();
+    
+    if (this.targetingModel) {
+      this.orbit.enabled = false;
+    } else {
+      this.firstClickOutside = true;
+    }
+  }
+
   onMouseDown(event) {
     this.setPointer(event.offsetX, event.offsetY);
     this.pointerEvent = event;
@@ -98,13 +124,13 @@ class Controls {
     this.handleIntersects();
   }
 
-  onMouseMove(event) {
+  onPointerMove(event) {
     this.setPointer(event.offsetX, event.offsetY);
     this.pointerEvent = event;
     this.handleIntersects();
   }
 
-  onMouseUp() {
+  onPointerUp() {
     if (this.drawing) {
       this.parent.toolUp();
     }
@@ -175,6 +201,10 @@ class Controls {
     return "grab";
   }
 
+  shouldRaycast() {
+    return this.parent.currentTool.properties.id !== "move";
+  }
+
   _checkEyedropper(event) {
     if (!this.keybindEyedropper) { return; };
     if (event.ctrlKey || event.altKey) { return; }
@@ -194,9 +224,9 @@ class Controls {
   }
 
   _setupEvents(parent) {
-    parent.addEventListener("mousedown", this.onMouseDown.bind(this));
-    parent.addEventListener("mousemove", this.onMouseMove.bind(this));
-    parent.addEventListener("mouseup", this.onMouseUp.bind(this));
+    parent.addEventListener("pointerdown", this.onPointerDown.bind(this));
+    parent.addEventListener("pointermove", this.onPointerMove.bind(this));
+    parent.addEventListener("pointerup", this.onPointerUp.bind(this));
 
     parent.addEventListener("contextmenu", event => {
       if (!this.targetingModel) { return; }
