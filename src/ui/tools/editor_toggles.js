@@ -32,11 +32,10 @@ class EditorToggles extends LitElement {
     }
   `;
 
-  constructor(ui) {
+  constructor(editor) {
     super();
 
-    this.ui = ui;
-    this.editor = ui.editor;
+    this.editor = editor;
   }
 
   render() {

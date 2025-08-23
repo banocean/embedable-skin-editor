@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "lit";
+import { css } from "lit";
 import MobileDrawer from "./components/drawer";
 import TabGroup from "../misc/tab_group";
 import PresetPaletteTab from "../config/tabs/tools/palettes/preset_palette_tab";

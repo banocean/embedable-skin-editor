@@ -52,11 +52,10 @@ class ModelToggle extends LitElement {
     }
   `;
 
-  constructor(ui) {
+  constructor(editor) {
     super();
 
-    this.ui = ui;
-    this.editor = this.ui.editor;
+    this.editor = editor;
   }
 
   render() {

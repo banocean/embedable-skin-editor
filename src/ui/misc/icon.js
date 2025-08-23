@@ -57,6 +57,7 @@ import imgIconSquare from "/assets/images/icons/modifiers/square.svg";
 import imgIconUndo from "/assets/images/icons/misc/undo.svg";
 import imgIconMove from "/assets/images/icons/tools/move.svg";
 import imgIconCog from "/assets/images/icons/misc/cog.svg";
+import imgIconMenu from "/assets/images/icons/misc/menu.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -115,6 +116,7 @@ const ICON_MAP = {
   "undo": imgIconUndo,
   "move": imgIconMove,
   "cog": imgIconCog,
+  "menu": imgIconMenu,
 }
 
 class Icon extends LitElement {

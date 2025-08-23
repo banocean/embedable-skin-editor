@@ -8,6 +8,9 @@ import imgGridDark from "/assets/images/grid-editor-dark.png";
 import Toolset from "../tools/toolset";
 import { ColorDrawer, COLOR_DRAWER_STYLES } from "./color_drawer";
 import interact from "interactjs";
+import PartToggles from "../tools/part_toggles";
+import ModelToggle from "../tools/model_toggle";
+import EditorToggles from "../tools/editor_toggles";
 
 const STYLES = css`
   :host {
@@ -102,6 +105,38 @@ const STYLES = css`
     height: 3rem;
     --icon-color: white;
   }
+
+  #toggles-drawer {
+    --base-opacity: 0.25;
+    --base-blur: 1px;
+    --drawer-height: 16rem;
+  }
+  
+  #toggles-drawer::part(body) {
+    padding: 0.5rem;
+  }
+
+  ncrs-tools-part-toggles {
+    --scale: 1.5;
+  }
+
+  #toggles {
+    display: flex;
+    gap: 4rem;
+    justify-content: center;
+  }
+
+  #toggles-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 0.75rem;
+  }
+
+  ncrs-tools-model-toggle, ncrs-tools-editor-toggles {
+    scale: 1.5;
+    display: block;
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
@@ -117,6 +152,9 @@ class MobileUI extends LitElement {
     this.toolSet = new Toolset(this.editor);
 
     this.colorDrawer = new ColorDrawer(this);
+    this.partToggles = new PartToggles(this.editor);
+    this.modelToggle = new ModelToggle(this.editor);
+    this.editorToggles = new EditorToggles(this.editor);
 
     this.addEventListener("dblclick", event => event.preventDefault());
   }
@@ -124,7 +162,7 @@ class MobileUI extends LitElement {
   firstUpdated() {
     this.colorDrawer.firstUpdated();
 
-    this._setupColorButtonDrag();
+    this._setupButtonDrag();
   }
 
   render() {
@@ -139,16 +177,27 @@ class MobileUI extends LitElement {
         </div>
         <div id="bottom">
           <button class="side-button">
-            <ncrs-icon icon="cog" color="var(--icon-color)"></ncrs-icon>
+            <ncrs-icon icon="menu" color="var(--icon-color)"></ncrs-icon>
           </button>
           <div id="color-button-rainbow">
             <button id="color-button" @click=${this._showColorDrawer} title="Open color drawer"></button>
           </div>
-          <button class="side-button">
+          <button id="toggles-button" @click=${this._showTogglesDrawer} class="side-button">
             <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
           </button>
         </div>
         ${this.colorDrawer.render()}
+        <ncrs-mobile-drawer id="toggles-drawer">
+          <div id="toggles">
+            <div>
+              ${this.partToggles}
+            </div>
+            <div id="toggles-side">
+              ${this.modelToggle}
+              ${this.editorToggles}
+            </div>
+          </div>
+        </ncrs-mobile-drawer>
       </div>
       <slot name="footer"></slot>
     `;
@@ -158,18 +207,29 @@ class MobileUI extends LitElement {
     this.colorDrawer.show();
   }
 
-  _setupColorButtonDrag() {
-    const button = this.renderRoot.getElementById("color-button");
+  _showTogglesDrawer() {
+    this.shadowRoot.getElementById("toggles-drawer").show();
+  }
+
+  _setupButtonDrag() {
+    const colorButton = this.renderRoot.getElementById("color-button");
+    this._setupDrawerOpenDrag(colorButton, this._showColorDrawer.bind(this));
+
+    const togglesButton = this.renderRoot.getElementById("toggles-button");
+    this._setupDrawerOpenDrag(togglesButton, this._showTogglesDrawer.bind(this));
+  }
+
+  _setupDrawerOpenDrag(button, func) {
     interact(button).draggable({
       lockAxis: "y",
       listeners: {
         move: event => {
           if (event.dy < -DRAWER_OPEN_DRAG_THRESHOLD) {
-            this._showColorDrawer();
+            func();
           }
         }
       }
-    })
+    });
   }
 }
 

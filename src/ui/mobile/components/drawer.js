@@ -3,7 +3,7 @@ import { css, html, LitElement } from "lit";
 
 const CLOSE_THRESHOLD = 100;
 const CLOSE_SPEED_THRESHOLD = 25;
-const REVERSE_CLOSE_THRESHOLD = 5;
+const REVERSE_CLOSE_THRESHOLD = -5;
 
 class MobileDrawer extends LitElement {
   static properties = {
@@ -12,20 +12,24 @@ class MobileDrawer extends LitElement {
 
   static styles = css`
     :host {
+      --base-opacity: 0.75;
+      --base-blur: 4px;
+      --drawer-height: 100%;
+
       display: none;
       align-items: flex-end;
       position: absolute;
       inset: 0px;
       overflow: hidden;
-      background-color: rgba(0, 0, 0, calc(0.75 - var(--close-progress, 0)));
-      backdrop-filter: blur(calc(4px * calc(1 - var(--close-progress, 0))));
-      -webkit-backdrop-filter: blur(calc(4px * calc(1 - var(--close-progress, 0))));
+      background-color: rgba(0, 0, 0, calc(var(--base-opacity) - var(--close-progress, 0)));
+      backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
+      -webkit-backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
       padding-top: 4rem;
     }
 
     #drawer {
       background-color: rgb(26, 26, 26);
-      height: 100%;
+      height: var(--drawer-height);
       width: 100%;
       border-top-left-radius: 0.5rem;
       border-top-right-radius: 0.5rem;
