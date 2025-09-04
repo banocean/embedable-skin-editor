@@ -388,7 +388,9 @@ class ColorPicker extends LitElement {
   _onTextChange(event) {
     const oldValue = this.getColorWithAlpha().hexa();
 
-    if (event.target.value === "#MOXVALLIX") {
+    if (event.target.value === "#MOXVALLIX" || event.target.value === "#DINNERBONE" || event.target.value === "#GRUMM") {
+      this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
+    }
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
 

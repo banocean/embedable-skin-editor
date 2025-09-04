@@ -378,9 +378,8 @@ class Editor extends LitElement {
   }
 
   easterEgg(input) {
-    if (input == "#MOXVALLIX") {
-      this.baseGroup.rotateX(Math.PI);
-      this.baseGroup.rotateY(Math.PI);
+    if (input == "#MOXVALLIX" || input == "#DINNERBONE" || input == "#GRUMM") {
+      this.baseGroup.rotateZ(Math.PI);
     }
   }
 
