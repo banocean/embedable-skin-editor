@@ -391,6 +391,8 @@ class ColorPicker extends LitElement {
     if (event.target.value === "#MOXVALLIX" || event.target.value === "#DINNERBONE" || event.target.value === "#GRUMM") {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
+
+    if (event.target.value === "#DEADMAU5") {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
 

@@ -5,6 +5,7 @@ import { LeftLegPart } from "./parts/leg_left";
 import { RightLegPart } from "./parts/leg_right";
 import { RightArmPart } from "./parts/arm_right";
 import { LeftArmPart } from "./parts/arm_left";
+import { RightEarPart, LeftEarPart } from "./parts/ears";
 
 class SkinModel {
   static variants = ["classic", "slim"]
@@ -73,8 +74,10 @@ class SkinModel {
     const rightLeg = new RightLegPart(texture, variant);
     const leftArm = new LeftArmPart(texture, variant);
     const rightArm = new RightArmPart(texture, variant);
+    const rightEar = new RightEarPart(texture, variant);
+    const leftEar = new LeftEarPart(texture, variant);
 
-    const parts = [head, torso, leftLeg, rightLeg, leftArm, rightArm];
+    const parts = [head, torso, leftLeg, rightLeg, leftArm, rightArm, rightEar, leftEar];
 
     parts.forEach(part => {
       scope.parts.push(part);

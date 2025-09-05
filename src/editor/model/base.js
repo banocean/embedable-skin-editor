@@ -79,7 +79,7 @@ class BasePart {
 
     this.baseMeshVisible = true;
     this.overlayMeshVisible = true;
-    this.updateMeshVisible()
+    this.updateMeshVisible();
   }
   isPart = true;
 

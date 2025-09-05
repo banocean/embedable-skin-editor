@@ -80,6 +80,10 @@ class BucketTool extends BaseTool {
       if ((this.isInArea(point,4,48,11,61)||this.isInArea(point,0,52,15,63))) {
         this.draw_left_leg_outer(texture, point, color, old_color);
       }
+
+      if ((this.isInArea(point,25,0,36,0)||this.isInArea(point,24,1,37,6))) {
+        this.draw_ears(texture, point, color, old_color);
+      }
     } else {
         this.draw_replace_color(texture, color, old_color);
     }
@@ -220,6 +224,11 @@ class BucketTool extends BaseTool {
 
   draw_left_leg_outer(texture, point, color, old_color) {
     this.draw_box_uv(4, 12, 4, 0, 48, texture, point, color, old_color);
+  }
+
+
+  draw_ears(texture, point, color, old_color) {
+    this.draw_box_uv(6, 6, 1, 24, 0, texture, point, color, old_color);
   }
 
 
