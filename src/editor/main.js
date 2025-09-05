@@ -386,6 +386,8 @@ class Editor extends LitElement {
     }
 
     if (input == "#DEADMAU5") {
+      const partVisibility = this.config.get("partVisibility", {});
+      this.setPartVisible("ears", !partVisibility["ears"]);
     }
   }
 
