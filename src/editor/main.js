@@ -381,11 +381,11 @@ class Editor extends LitElement {
   }
 
   easterEgg(input) {
-    if (input == "#MOXVALLIX" || input == "#DINNERBONE" || input == "#GRUMM") {
+    if (["#MOXVALLIX", "#DINNERBONE", "#GRUMM", "#AUSTRALIA"].includes(input)) {
       this.baseGroup.rotateZ(Math.PI);
     }
 
-    if (input == "#DEADMAU5") {
+    if (["#DEADMAU5", "#EARS", "#JAX"].includes(input)) {
       const partVisibility = this.config.get("partVisibility", {});
       this.setPartVisible("ears", !partVisibility["ears"]);
     }
