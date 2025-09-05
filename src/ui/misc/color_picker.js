@@ -5,6 +5,8 @@ import { clamp } from "../../helpers";
 import NAMED_COLORS from "./named_colors";
 import Slider from "./slider";
 
+const EASTEREGG_VALUES = ["#MOXVALLIX", "#DINNERBONE", "#GRUMM", "#AUSTRALIA", "#DEADMAU5", "#EARS", "#JAX"]
+
 class ColorPicker extends LitElement {
   static properties = {
     hue: {},
@@ -388,11 +390,7 @@ class ColorPicker extends LitElement {
   _onTextChange(event) {
     const oldValue = this.getColorWithAlpha().hexa();
 
-    if (event.target.value === "#MOXVALLIX" || event.target.value === "#DINNERBONE" || event.target.value === "#GRUMM") {
-      this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
-    }
-
-    if (event.target.value === "#DEADMAU5") {
+    if (EASTEREGG_VALUES.includes(event.target.value)) {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
 
