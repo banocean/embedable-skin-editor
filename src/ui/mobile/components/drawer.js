@@ -1,7 +1,7 @@
 import interact from "interactjs";
 import { css, html, LitElement } from "lit";
 
-const CLOSE_THRESHOLD = 100;
+const CLOSE_THRESHOLD = 30;
 const CLOSE_SPEED_THRESHOLD = 25;
 const REVERSE_CLOSE_THRESHOLD = -5;
 
