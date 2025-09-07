@@ -2,6 +2,8 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import PersistenceManager from "../../persistence";
 import { Editor } from "../../main";
 import "./components/drawer";
+import "./components/tab";
+import "./components/tab_group";
 import "../misc/color_picker";
 
 import imgGridDark from "/assets/images/grid-editor-dark.png";
@@ -109,7 +111,7 @@ const STYLES = css`
   #toggles-drawer {
     --base-opacity: 0.25;
     --base-blur: 1px;
-    --drawer-height: 16rem;
+    --drawer-height: 23rem;
   }
   
   #toggles-drawer::part(body) {
@@ -124,6 +126,7 @@ const STYLES = css`
     display: flex;
     gap: 4rem;
     justify-content: center;
+    padding-top: 3.5rem;
   }
 
   #toggles-side {

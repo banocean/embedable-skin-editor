@@ -6,6 +6,8 @@ import RecentColorPaletteTab from "../config/tabs/tools/palettes/recent_color_pa
 import BlendPaletteTab from "../config/tabs/tools/palettes/blend_palette_tab";
 import ColorPicker from "../misc/color_picker";
 import Color from "color";
+import MobileTabGroup from "./components/tab_group";
+import MobileTab from "./components/tab";
 
 const COLOR_DRAWER_STYLES = css`
   :host {
@@ -24,7 +26,12 @@ const COLOR_DRAWER_STYLES = css`
     width: 100%;
     height: 18rem;
     box-sizing: border-box;
-    margin-bottom: 1.75rem;
+  }
+
+  #color-picker-drawer {
+    --base-opacity: 0.25;
+    --base-blur: 1px;
+    --drawer-height: 23rem;
   }
 
   ncrs-color-picker::part(sliders) {
@@ -35,6 +42,10 @@ const COLOR_DRAWER_STYLES = css`
 
   ncrs-color-picker::part(slider) {
     height: 1.25rem;
+  }
+
+  ncrs-mobile-tab-group {
+    height: 19rem;
   }
 
   #palettes {
@@ -131,8 +142,21 @@ class ColorDrawer {
 
   _setupMobileDrawer() {
     const drawer = new MobileDrawer();
-    drawer.appendChild(this.colorPicker);
-    drawer.appendChild(this._createPaletteTabs());
+    drawer.id = "color-picker-drawer";
+
+    const tabGroup = new MobileTabGroup();
+    
+    const colorPickerTab = new MobileTab();
+    colorPickerTab.name = "Color Picker";
+    colorPickerTab.appendChild(this.colorPicker);
+    tabGroup.appendChild(colorPickerTab);
+    
+    const paletteTab = new MobileTab();
+    paletteTab.name = "Palettes";
+    paletteTab.appendChild(this._createPaletteTabs());
+    tabGroup.appendChild(paletteTab);
+
+    drawer.appendChild(tabGroup);
 
     return drawer;
   }
