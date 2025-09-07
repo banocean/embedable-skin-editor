@@ -81,7 +81,7 @@ const STYLES = css`
   #color-button-rainbow {
     border-radius: 9999px;
     padding: 0.125rem;
-    background-image: conic-gradient(in lch longer hue,red 0 100%);
+    background-image: conic-gradient(from 130deg, #ff2d2d, #ff30de, #6931ff, #23beff, #26ffe5, #aaff27, #ffb720, #ff2a2a);
   }
   
   #color-button {
