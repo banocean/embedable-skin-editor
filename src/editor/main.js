@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { Controls } from "./controls";
 import { Layers } from "./layers/layers";
 import { SkinModel } from "./model/model";
-import { RightEarPart, LeftEarPart } from "./model/parts/ears";
 import { Renderer } from "./renderer";
 import { HistoryManager } from "./history/history_manager";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../constants";
