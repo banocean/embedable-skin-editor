@@ -69,7 +69,7 @@ class Editor extends LitElement {
     this.persistence.setDefault("format", FORMAT);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(50, this.clientWidth / this.clientHeight);
+    this.camera = new THREE.PerspectiveCamera(45, this.clientWidth / this.clientHeight);
     this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);

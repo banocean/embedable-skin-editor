@@ -5,6 +5,7 @@ import ToolTab from "./tabs/tool";
 import LayersTab from "./tabs/layers";
 import ImportTab from "./tabs/import";
 import ExportTab from "./tabs/export";
+import SettingsTab from "./tabs/settings";
 
 class Config extends LitElement {
   static styles = css`
@@ -87,6 +88,7 @@ class Config extends LitElement {
       layers: new LayersTab(this.editor),
       import: new ImportTab(this.ui),
       export: new ExportTab(this.ui),
+      settings: new SettingsTab(this.ui),
     }
   }
 
@@ -104,6 +106,7 @@ class Config extends LitElement {
     tabs.registerTab(t.layers);
     tabs.registerTab(t.import);
     tabs.registerTab(t.export);
+    tabs.registerTab(t.settings);
 
     tabs.addEventListener("select", event => {
       const tabName = Object.keys(t).find(key => t[key] === event.detail);
