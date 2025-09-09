@@ -109,7 +109,6 @@ class SettingsTab extends Tab {
       switch (input.originalTarget.id) {
         case "fov-slider":
           this.editor.camera.fov = Number(input.originalTarget.value)/2;
-          console.log(this.editor.camera.fov);
           this.editor.camera.updateProjectionMatrix();
           break;
       }
