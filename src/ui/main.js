@@ -288,6 +288,12 @@ class UI extends LitElement {
     "^y": "redo",
     "^+z": "redo",
     "^r": "reset",
+    "=": "zoomIn",
+    "-": "zoomOut",
+    "arrowleft": "panLeft",
+    "arrowright": "panRight",
+    "arrowup": "panUp",
+    "arrowdown": "panDown",
     "0": "cameraReset",
     "1": "selectTools",
     "2": "selectLayer",
@@ -301,6 +307,7 @@ class UI extends LitElement {
     "delete": "removeLayer",
     "+d": "cloneLayer",
     "+m": "mergeLayer",
+    "f": "toggleFullscreen",
   }
 
   constructor() {
@@ -404,6 +411,9 @@ class UI extends LitElement {
           break;
         case "mergeLayer":
           this.editor.mergeLayer();
+          break;
+        case "toggleFullscreen":
+          this.toggleFullscreen();
           break;
       }
     });
