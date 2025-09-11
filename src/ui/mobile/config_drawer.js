@@ -8,7 +8,7 @@ import LayersTabButtons from "../config/tabs/layers/buttons";
 const CONFIG_DRAWER_STYLES = css`
   ncrs-layers-tab-filters {
     --ncrs-slider-height: 1.25rem;
-    --ncrs-slider-input-width: 2.25rem;
+    --ncrs-slider-input-width: 3rem;
   }
 `;
 
@@ -20,8 +20,7 @@ class ConfigDrawer {
     this.drawer = this._setupMobileDrawer();
   }
 
-  firstUpdated() {
-  }
+  firstUpdated() {}
 
   render() {
     return this.drawer;
