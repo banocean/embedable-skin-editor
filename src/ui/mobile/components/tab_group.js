@@ -19,7 +19,9 @@ class MobileTabGroup extends LitElement {
       margin-bottom: 0.5rem;
       background-color: #131315;
       padding: 0.25rem;
+      padding-bottom: 0.375rem;
       border-radius: 0.25rem;
+      box-shadow: rgb(10, 10, 13) 0px 4px 4px inset;
     }
 
     #nav button {
@@ -33,9 +35,12 @@ class MobileTabGroup extends LitElement {
     }
 
     #nav button.selected {
-      background-color: #1a1a1a;
+      background: linear-gradient(to top, rgb(36, 39, 42), rgb(49, 52, 54));
+      border-color: rgb(35, 36, 40) rgb(35, 36, 40) rgb(30, 35, 38);
+      background-image: linear-gradient(to top, #24272a, #313436);
+      box-shadow: #3d4042 0px 0px 0px 1px inset, #191a1c 0px 1px 3px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       border-radius: 0.25rem;
-      color: white;
+      color: #55b2ff;
     }
 
     #body {
