@@ -16,6 +16,7 @@ class MobileTabGroup extends LitElement {
       margin: 0.25rem;
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: 0.5rem;
       background-color: #131315;
       padding: 0.25rem;
       border-radius: 0.25rem;
@@ -57,7 +58,7 @@ class MobileTabGroup extends LitElement {
       min-width: 100%;
       max-width: 100%;
       max-height: 100%;
-      overflow: auto;
+      overflow-y: auto;
     }
   `;
 

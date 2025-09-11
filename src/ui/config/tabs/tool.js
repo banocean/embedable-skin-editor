@@ -23,6 +23,10 @@ class ToolTab extends Tab {
         margin-bottom: 0.5rem;
       }
 
+      ncrs-color-picker::part(slider) {
+        margin-bottom: 0.375rem;
+      }
+
       #main {
         display: flex;
         flex-direction: column;

@@ -19,12 +19,15 @@ class Slider extends LitElement {
       cursor: pointer;
       box-sizing: border-box;
       touch-action: none;
+
+      --height: var(--ncrs-slider-height, auto);
     }
 
     #slider {
       position: relative;
       width: 100%;
       flex-grow: 1;
+      height: var(--height);
     }
 
     :host(:focus) #slider {

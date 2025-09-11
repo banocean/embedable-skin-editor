@@ -13,6 +13,7 @@ import interact from "interactjs";
 import PartToggles from "../tools/part_toggles";
 import ModelToggle from "../tools/model_toggle";
 import EditorToggles from "../tools/editor_toggles";
+import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./config_drawer";
 
 const STYLES = css`
   :host {
@@ -108,7 +109,7 @@ const STYLES = css`
     --icon-color: white;
   }
 
-  #toggles-drawer {
+  ncrs-mobile-drawer {
     --base-opacity: 0.25;
     --base-blur: 1px;
     --drawer-height: 23rem;
@@ -145,7 +146,7 @@ const STYLES = css`
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
 
 class MobileUI extends LitElement {
-  static styles = [STYLES, COLOR_DRAWER_STYLES];
+  static styles = [STYLES, COLOR_DRAWER_STYLES, CONFIG_DRAWER_STYLES];
 
   constructor() {
     super();
@@ -155,6 +156,7 @@ class MobileUI extends LitElement {
     this.toolSet = new Toolset(this.editor);
 
     this.colorDrawer = new ColorDrawer(this);
+    this.configDrawer = new ConfigDrawer(this);
     this.partToggles = new PartToggles(this.editor);
     this.modelToggle = new ModelToggle(this.editor);
     this.editorToggles = new EditorToggles(this.editor);
@@ -164,6 +166,7 @@ class MobileUI extends LitElement {
 
   firstUpdated() {
     this.colorDrawer.firstUpdated();
+    this.configDrawer.firstUpdated();
 
     this._setupButtonDrag();
   }
@@ -179,7 +182,7 @@ class MobileUI extends LitElement {
           ${this.toolSet}
         </div>
         <div id="bottom">
-          <button class="side-button">
+          <button id="config-button" class="side-button" @click=${this._showConfigDrawer} title="Open config drawer">
             <ncrs-icon icon="menu" color="var(--icon-color)"></ncrs-icon>
           </button>
           <div id="color-button-rainbow">
@@ -190,6 +193,7 @@ class MobileUI extends LitElement {
           </button>
         </div>
         ${this.colorDrawer.render()}
+        ${this.configDrawer.render()}
         <ncrs-mobile-drawer id="toggles-drawer">
           <div id="toggles">
             <div>
@@ -210,6 +214,10 @@ class MobileUI extends LitElement {
     this.colorDrawer.show();
   }
 
+  _showConfigDrawer() {
+    this.configDrawer.show();
+  }
+
   _showTogglesDrawer() {
     this.shadowRoot.getElementById("toggles-drawer").show();
   }
@@ -220,6 +228,9 @@ class MobileUI extends LitElement {
 
     const togglesButton = this.renderRoot.getElementById("toggles-button");
     this._setupDrawerOpenDrag(togglesButton, this._showTogglesDrawer.bind(this));
+
+    const configButton = this.renderRoot.getElementById("config-button");
+    this._setupDrawerOpenDrag(configButton, this._showConfigDrawer.bind(this));
   }
 
   _setupDrawerOpenDrag(button, func) {

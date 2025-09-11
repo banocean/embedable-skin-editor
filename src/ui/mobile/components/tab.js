@@ -8,6 +8,7 @@ class MobileTab extends LitElement {
   static styles = css`
     :host {
       display: block;
+      box-sizing: border-box;
     }
   `;
 

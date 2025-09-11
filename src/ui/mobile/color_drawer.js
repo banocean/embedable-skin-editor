@@ -28,10 +28,10 @@ const COLOR_DRAWER_STYLES = css`
     box-sizing: border-box;
   }
 
-  #color-picker-drawer {
-    --base-opacity: 0.25;
-    --base-blur: 1px;
-    --drawer-height: 23rem;
+  #color-picker-tab {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
   }
 
   ncrs-color-picker::part(sliders) {
@@ -147,6 +147,7 @@ class ColorDrawer {
     const tabGroup = new MobileTabGroup();
     
     const colorPickerTab = new MobileTab();
+    colorPickerTab.id = "color-picker-tab";
     colorPickerTab.name = "Color Picker";
     colorPickerTab.appendChild(this.colorPicker);
     tabGroup.appendChild(colorPickerTab);
