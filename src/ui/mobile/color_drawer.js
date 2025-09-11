@@ -24,7 +24,7 @@ const COLOR_DRAWER_STYLES = css`
   ncrs-color-picker {
     display: block;
     width: 100%;
-    height: 18rem;
+    height: 17rem;
     box-sizing: border-box;
   }
 
