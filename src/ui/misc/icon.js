@@ -58,6 +58,8 @@ import imgIconUndo from "/assets/images/icons/misc/undo.svg";
 import imgIconMove from "/assets/images/icons/tools/move.svg";
 import imgIconCog from "/assets/images/icons/misc/cog.svg";
 import imgIconMenu from "/assets/images/icons/misc/menu.svg";
+import imgTogglesLeft from "/assets/images/icons/toggles/toggles-left.svg";
+import imgTogglesRight from "/assets/images/icons/toggles/toggles-right.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -117,6 +119,8 @@ const ICON_MAP = {
   "move": imgIconMove,
   "cog": imgIconCog,
   "menu": imgIconMenu,
+  "toggles-left": imgTogglesLeft,
+  "toggles-right": imgTogglesRight,
 }
 
 class Icon extends LitElement {

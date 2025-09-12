@@ -52,6 +52,10 @@ const STYLES = css`
     background-color: #1f2025;
   }
 
+  #toolbar {
+    
+  }
+
   ncrs-tools-toolset {
     --ncrs-icon-height: 1.25rem;
 
@@ -70,13 +74,38 @@ const STYLES = css`
 
   #bottom {
     display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+  }
+
+  #bottom::-webkit-scrollbar {
+      display: none;
+  }
+
+  #bottom > div {
+    min-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  #bottom .container {
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
     height: 6.875rem;
     background-color: #1f2025;
     padding: 0rem 2.5rem;
     box-sizing: border-box;
+  }
+
+  #bottom #toggles {
+    height: 10rem;
+  }
+
+  #toggles .side-button {
+    margin-top: 3.125rem;
   }
 
   #color-button-rainbow {
@@ -115,30 +144,23 @@ const STYLES = css`
     --drawer-height: 23rem;
   }
   
-  #toggles-drawer::part(body) {
-    padding: 0.5rem;
-  }
-
   ncrs-tools-part-toggles {
-    --scale: 1.5;
-  }
-
-  #toggles {
-    display: flex;
-    gap: 4rem;
-    justify-content: center;
-    padding-top: 3.5rem;
+    --scale: 0.65;
+    --gap: 0.375rem;
   }
 
   #toggles-side {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-    margin-top: 0.75rem;
   }
 
-  ncrs-tools-model-toggle, ncrs-tools-editor-toggles {
-    scale: 1.5;
+  ncrs-tools-model-toggle {
+    scale: 1.25;
+    display: block;
+  }
+
+  ncrs-tools-editor-toggles {
+    scale: 1.125;
     display: block;
   }
 `;
@@ -178,33 +200,38 @@ class MobileUI extends LitElement {
         <div id="editor">
           ${this.editor}
         </div>
-        <div id="toolbar">
-          ${this.toolSet}
-        </div>
         <div id="bottom">
-          <button id="config-button" class="side-button" @click=${this._showConfigDrawer} title="Open config drawer">
-            <ncrs-icon icon="menu" color="var(--icon-color)"></ncrs-icon>
-          </button>
-          <div id="color-button-rainbow">
-            <button id="color-button" @click=${this._showColorDrawer} title="Open color drawer"></button>
+          <div id="menu">
+            <div id="toolbar">
+              ${this.toolSet}
+            </div>
+            <div class="container">
+              <button id="config-button" class="side-button" @click=${this._showConfigDrawer} title="Open config drawer">
+                <ncrs-icon icon="menu" color="var(--icon-color)"></ncrs-icon>
+              </button>
+              <div id="color-button-rainbow">
+                <button id="color-button" @click=${this._showColorDrawer} title="Open color drawer"></button>
+              </div>
+              <button @click=${this._scrollToToggles} class="side-button">
+                <ncrs-icon icon="toggles-right" color="var(--icon-color)"></ncrs-icon>
+              </button>
+            </div>
           </div>
-          <button id="toggles-button" @click=${this._showTogglesDrawer} class="side-button">
-            <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
-          </button>
-        </div>
-        ${this.colorDrawer.render()}
-        ${this.configDrawer.render()}
-        <ncrs-mobile-drawer id="toggles-drawer">
-          <div id="toggles">
-            <div>
+          <div id="toggles" class="container">
+            <button @click=${this._scrollToMenu} class="side-button">
+              <ncrs-icon icon="toggles-left" color="var(--icon-color)"></ncrs-icon>
+            </button>
+            <div id="part-toggles">
               ${this.partToggles}
             </div>
+            ${this.modelToggle}
             <div id="toggles-side">
-              ${this.modelToggle}
               ${this.editorToggles}
             </div>
           </div>
-        </ncrs-mobile-drawer>
+        </div>
+        ${this.colorDrawer.render()}
+        ${this.configDrawer.render()}
       </div>
       <slot name="footer"></slot>
     `;
@@ -218,16 +245,17 @@ class MobileUI extends LitElement {
     this.configDrawer.show();
   }
 
-  _showTogglesDrawer() {
-    this.shadowRoot.getElementById("toggles-drawer").show();
+  _scrollToToggles() {
+    this.shadowRoot.getElementById("toggles").scrollIntoView({behavior: "smooth"});
+  }
+
+  _scrollToMenu() {
+    this.shadowRoot.getElementById("menu").scrollIntoView({behavior: "smooth"});
   }
 
   _setupButtonDrag() {
     const colorButton = this.renderRoot.getElementById("color-button");
     this._setupDrawerOpenDrag(colorButton, this._showColorDrawer.bind(this));
-
-    const togglesButton = this.renderRoot.getElementById("toggles-button");
-    this._setupDrawerOpenDrag(togglesButton, this._showTogglesDrawer.bind(this));
 
     const configButton = this.renderRoot.getElementById("config-button");
     this._setupDrawerOpenDrag(configButton, this._showConfigDrawer.bind(this));

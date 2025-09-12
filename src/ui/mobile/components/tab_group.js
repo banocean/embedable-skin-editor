@@ -37,7 +37,7 @@ class MobileTabGroup extends LitElement {
     #nav button.selected {
       background: linear-gradient(to top, rgb(36, 39, 42), rgb(49, 52, 54));
       border-color: rgb(35, 36, 40) rgb(35, 36, 40) rgb(30, 35, 38);
-      background-image: linear-gradient(to top, #24272a, #313436);
+      background-image: linear-gradient(to top, rgb(49, 52, 54), rgb(36, 39, 42));
       box-shadow: #3d4042 0px 0px 0px 1px inset, #191a1c 0px 1px 3px, #1f2226 0px 2px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       border-radius: 0.25rem;
       color: #55b2ff;
