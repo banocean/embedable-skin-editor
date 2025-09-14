@@ -52,8 +52,25 @@ const STYLES = css`
     background-color: #1f2025;
   }
 
+  #bottom {
+    position: relative;
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    background-color: #1f2025;
+    box-shadow: #131315 0px -4px 4px;
+    overscroll-behavior: none;
+  }
+
+  #bottom::-webkit-scrollbar {
+      display: none;
+  }
+
   #toolbar {
-    
+    padding: 0.25rem;
   }
 
   ncrs-tools-toolset {
@@ -65,24 +82,13 @@ const STYLES = css`
     display: flex;
     gap: 0.25rem;
     padding: 0.25rem;
-    background-color: #0A0A0D;
+    border-radius: 0.25rem;
+    background-color: #131315;
+    box-shadow: rgb(10, 10, 13) 0px 4px 4px inset;
   }
 
   ncrs-tools-toolset::part(tool) {
     flex-grow: 1;
-  }
-
-  #bottom {
-    display: flex;
-    width: 100%;
-    overflow-x: scroll;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
-    scroll-snap-stop: always;
-  }
-
-  #bottom::-webkit-scrollbar {
-      display: none;
   }
 
   #bottom > div {
@@ -91,21 +97,27 @@ const STYLES = css`
   }
 
   #bottom .container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 6.875rem;
-    background-color: #1f2025;
     padding: 0rem 2.5rem;
     box-sizing: border-box;
   }
 
   #bottom #toggles {
-    height: 10rem;
+    height: 10.5rem;
+    padding-top: 0.25rem;
+  }
+
+  #toggles .left {
+    align-self: flex-end;
+    margin-bottom: 1.75rem;
   }
 
   #toggles .side-button {
-    margin-top: 3.125rem;
+    margin-top: 1.75rem;
   }
 
   #color-button-rainbow {
@@ -113,23 +125,20 @@ const STYLES = css`
     padding: 0.125rem;
     background-image: conic-gradient(from 130deg, #ff2d2d, #ff30de, #6931ff, #23beff, #26ffe5, #aaff27, #ffb720, #ff2a2a);
   }
-  
-  #color-button {
+
+  button {
     all: unset;
     display: block;
     cursor: pointer;
+  }
+  
+  #color-button {
     border-radius: 9999px;
     width: 4rem;
     height: 4rem;
     background: linear-gradient(var(--current-color), var(--current-color)),
       repeating-conic-gradient(#aaa 0% 25%, #888 0% 50%) 50%/ 8px 8px;
     border: 4px solid rgb(31, 32, 37);
-  }
-
-  .side-button {
-    all: unset;
-    display: block;
-    cursor: pointer;
   }
 
   .side-button ncrs-icon {
@@ -145,8 +154,8 @@ const STYLES = css`
   }
   
   ncrs-tools-part-toggles {
-    --scale: 0.65;
-    --gap: 0.375rem;
+    --scale: 0.9;
+    --gap: 0.75rem 0.8rem;
   }
 
   #toggles-side {
@@ -155,13 +164,32 @@ const STYLES = css`
   }
 
   ncrs-tools-model-toggle {
-    scale: 1.25;
+    scale: 1.5;
     display: block;
   }
 
   ncrs-tools-editor-toggles {
-    scale: 1.125;
+    scale: 1.5;
     display: block;
+  }
+
+  .menu-arrow {
+    display: block;
+    position: absolute;
+    bottom: 2.25rem;
+  }
+
+  .menu-arrow ncrs-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .menu-arrow.menu-arrow-right {
+    right: 0px;
+  }
+
+  .menu-arrow.menu-arrow-left {
+    left: 0px;
   }
 `;
 
@@ -213,18 +241,26 @@ class MobileUI extends LitElement {
                 <button id="color-button" @click=${this._showColorDrawer} title="Open color drawer"></button>
               </div>
               <button @click=${this._scrollToToggles} class="side-button">
-                <ncrs-icon icon="toggles-right" color="var(--icon-color)"></ncrs-icon>
+                <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
               </button>
             </div>
+            <button class="menu-arrow menu-arrow-right" @click=${this._scrollToToggles}>
+              <ncrs-icon icon="arrow-right" color="rgba(255, 255, 255, 0.2)"></ncrs-icon>
+            </button>
           </div>
           <div id="toggles" class="container">
-            <button @click=${this._scrollToMenu} class="side-button">
-              <ncrs-icon icon="toggles-left" color="var(--icon-color)"></ncrs-icon>
+            <button class="menu-arrow menu-arrow-left" @click=${this._scrollToMenu}>
+              <ncrs-icon icon="arrow-left" color="rgba(255, 255, 255, 0.2)"></ncrs-icon>
             </button>
+            <div class="left">
+              ${this.modelToggle}
+              <button @click=${this._scrollToMenu} class="side-button">
+                <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
+              </button>
+            </div>
             <div id="part-toggles">
               ${this.partToggles}
             </div>
-            ${this.modelToggle}
             <div id="toggles-side">
               ${this.editorToggles}
             </div>
