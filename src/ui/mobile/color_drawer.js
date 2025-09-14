@@ -140,6 +140,10 @@ class ColorDrawer {
     this.drawer.show();
   }
 
+  toggleEyedropper() {
+    this.colorPicker.toggleEyedropper();
+  }
+
   _setupMobileDrawer() {
     const drawer = new MobileDrawer();
     drawer.id = "color-picker-drawer";

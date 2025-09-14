@@ -136,8 +136,8 @@ class Editor extends LitElement {
     if (this.config.get("pick-color", false)) {
       const toolData = this._createSkinToolData(parts, pointerEvent.buttons);
       this._pickColor(toolData);
-      if (this.currentTool == this.tools[1]) {
-        this.selectTool(this.tools[0]);
+      if (this.currentTool == this.tools[2]) {
+        this.selectTool(this.tools[1]);
       }
       return false;
     }

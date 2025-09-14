@@ -106,8 +106,14 @@ const STYLES = css`
     box-sizing: border-box;
   }
 
+  #menu .container {
+    justify-content: center;
+    gap: 3rem;
+  }
+
   #bottom #toggles {
     height: 10.5rem;
+    padding: 0rem 3rem;
     padding-top: 0.25rem;
   }
 
@@ -145,6 +151,12 @@ const STYLES = css`
     width: 3rem;
     height: 3rem;
     --icon-color: white;
+    --icon-color-active: #55b2ff;
+  }
+
+  .side-right ncrs-icon {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   ncrs-mobile-drawer {
@@ -176,7 +188,7 @@ const STYLES = css`
   .menu-arrow {
     display: block;
     position: absolute;
-    bottom: 2.25rem;
+    bottom: 3.75rem;
   }
 
   .menu-arrow ncrs-icon {
@@ -219,9 +231,12 @@ class MobileUI extends LitElement {
     this.configDrawer.firstUpdated();
 
     this._setupButtonDrag();
+    this._setupEvents();
   }
 
   render() {
+    const eyedropper = this.editor.config.get("pick-color", false);
+
     return html`
       <div id="main">
         <div id="top"></div>
@@ -240,9 +255,10 @@ class MobileUI extends LitElement {
               <div id="color-button-rainbow">
                 <button id="color-button" @click=${this._showColorDrawer} title="Open color drawer"></button>
               </div>
-              <button @click=${this._scrollToToggles} class="side-button">
-                <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
-              </button>
+              <ncrs-toggle ?toggled=${eyedropper} @click=${this._toggleEyedropper} class="side-button side-right">
+                <ncrs-icon slot="off" icon="eyedropper" color="var(--icon-color)"></ncrs-icon>
+                <ncrs-icon slot="on" icon="eyedropper" color="var(--icon-color-active)"></ncrs-icon>
+              </ncrs-toggle>
             </div>
             <button class="menu-arrow menu-arrow-right" @click=${this._scrollToToggles}>
               <ncrs-icon icon="arrow-right" color="rgba(255, 255, 255, 0.2)"></ncrs-icon>
@@ -252,12 +268,7 @@ class MobileUI extends LitElement {
             <button class="menu-arrow menu-arrow-left" @click=${this._scrollToMenu}>
               <ncrs-icon icon="arrow-left" color="rgba(255, 255, 255, 0.2)"></ncrs-icon>
             </button>
-            <div class="left">
-              ${this.modelToggle}
-              <button @click=${this._scrollToMenu} class="side-button">
-                <ncrs-icon icon="base" color="var(--icon-color)"></ncrs-icon>
-              </button>
-            </div>
+            ${this.modelToggle}
             <div id="part-toggles">
               ${this.partToggles}
             </div>
@@ -297,6 +308,10 @@ class MobileUI extends LitElement {
     this._setupDrawerOpenDrag(configButton, this._showConfigDrawer.bind(this));
   }
 
+  _toggleEyedropper() {
+    this.colorDrawer.toggleEyedropper();
+  }
+
   _setupDrawerOpenDrag(button, func) {
     interact(button).draggable({
       lockAxis: "y",
@@ -308,6 +323,12 @@ class MobileUI extends LitElement {
         }
       }
     });
+  }
+
+  _setupEvents() {
+    this.editor.config.addEventListener("pick-color-change", () => {
+      this.requestUpdate();
+    })
   }
 }
 
