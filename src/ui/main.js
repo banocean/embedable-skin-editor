@@ -47,7 +47,7 @@ class UI extends LitElement {
       pointer-events: none;
       position: absolute;
       top: 8px;
-      left: 36px;
+      left: 4px;
       color: #aaaaaa;
       font-size: small;
     }
