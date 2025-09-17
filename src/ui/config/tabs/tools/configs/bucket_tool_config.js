@@ -22,24 +22,28 @@ class BucketToolConfig extends BaseToolConfig {
         options: [
           {
             icon: "fill-cube-connected",
-            value: "fill-cube-connected"
+            value: "fill-cube-connected",
+            title: "Cube connected (default)\nFills all connected pixels of the same color on all sides of the cube"
           }, 
           {
             icon: "fill-face-connected",
-            value: "fill-face-connected"
+            value: "fill-face-connected",
+            title: "Face connected\nFills all connected pixels of the same color on the face"
           }, 
           {
             icon: "fill-cube-replace",
-            value: "fill-cube-replace"
+            value: "fill-cube-replace",
+            title: "Cube replace\nFills the whole cube with the selected color"
           },
           {
             icon: "fill-face-replace",
-            value: "fill-face-replace"
+            value: "fill-face-replace",
+            title: "Face replace\nFills the whole face with the selected color"
           },
           {
             icon: "replace-color",
             value: "replace-color",
-            title: "Toggle Replace Color\nIf enabled, will replace all pixels of the same color, on the whole canvas ignoring boundaries"
+            title: "Replace Color\nIf enabled, will replace all pixels of the same color, on the whole canvas ignoring boundaries"
           },
         ],
       },
