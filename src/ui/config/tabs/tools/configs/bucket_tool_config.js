@@ -8,19 +8,41 @@ class BucketToolConfig extends BaseToolConfig {
   ];
 
   static properties = {
-    replaceColor: {},
     camo: {},
     blend: {},
+    fillStyle: {},
   }
 
   constructor(config) {
     super(config, {
-      replaceColor: {
-        type: "toggle", icon: "replace-color", 
-        title: "Toggle Replace Color\nIf enabled, will replace all pixels of the same color, on the whole canvas ignoring boundaries"
-      },
       camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
       blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
+      fillStyle: {
+        type: "select",
+        options: [
+          {
+            icon: "fill-cube-connected",
+            value: "fill-cube-connected"
+          }, 
+          {
+            icon: "fill-face-connected",
+            value: "fill-face-connected"
+          }, 
+          {
+            icon: "fill-cube-replace",
+            value: "fill-cube-replace"
+          },
+          {
+            icon: "fill-face-replace",
+            value: "fill-face-replace"
+          },
+          {
+            icon: "replace-color",
+            value: "replace-color",
+            title: "Toggle Replace Color\nIf enabled, will replace all pixels of the same color, on the whole canvas ignoring boundaries"
+          },
+        ],
+      },
     });
     this.tool = new BucketTool(config);
   }
@@ -33,9 +55,12 @@ class BucketToolConfig extends BaseToolConfig {
         <div>
           <p class="title">Effects</p>
           <div class="group-sm">
-            ${this._replaceColorControl()}
-            ${this._camoControl()}
-            ${this._blendControl()}
+          ${this._camoControl()}
+          ${this._blendControl()}
+          </div>
+          <p class="title">Fill Style</p>
+          <div>
+          ${this._fillStyleControl()}
           </div>
         </div>
       </div>

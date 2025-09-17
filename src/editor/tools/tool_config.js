@@ -20,6 +20,7 @@ const VALUE_MAP = {
   force: {default: 5, persistence: true},
   mirror: {default: false, persistence: true},
   shadeOnce: {default: false, persistence: true},
+  fillStyle: {default: "fill-cube-connected", persistence: true}
 }
 
 class ToolConfig extends Config {

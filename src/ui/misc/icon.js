@@ -18,7 +18,6 @@ import imgIconCamo from "/assets/images/icons/modifiers/camo.svg";
 import imgIconCgol from "/assets/images/icons/cgol.svg";
 import imgIconCircle from "/assets/images/icons/modifiers/circle.svg";
 import imgIconClone from "/assets/images/icons/misc/clone.svg";
-import imgIconReplaceColor from "/assets/images/icons/modifiers/replace-color.svg";
 import imgIconCopy from "/assets/images/icons/misc/copy.svg";
 import imgIconDarkMode from "/assets/images/icons/misc/dark-mode.svg";
 import imgIconDownload from "/assets/images/icons/download.svg";
@@ -27,6 +26,10 @@ import imgIconEraser from "/assets/images/icons/tools/eraser.svg";
 import imgIconEyeClosed from "/assets/images/icons/toggles/eye-closed.svg";
 import imgIconEyeOpen from "/assets/images/icons/toggles/eye-open.svg";
 import imgIconEyedropper from "/assets/images/icons/tools/eyedropper.svg";
+import imgIconFillCubeConnected from "/assets/images/icons/modifiers/fill-cube-connected.svg";
+import imgIconFillCubeReplace from "/assets/images/icons/modifiers/fill-cube-replace.svg";
+import imgIconFillFaceConnected from "/assets/images/icons/modifiers/fill-face-connected.svg";
+import imgIconFillFaceReplace from "/assets/images/icons/modifiers/fill-face-replace.svg";
 import imgIconForce1 from "/assets/images/icons/modifiers/force-1.svg";
 import imgIconForce2 from "/assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "/assets/images/icons/modifiers/force-3.svg";
@@ -44,6 +47,7 @@ import imgIconOverlayGrid from "/assets/images/icons/toggles/overlay-grid.svg";
 import imgIconPaste from "/assets/images/icons/misc/paste.svg";
 import imgIconRedo from "/assets/images/icons/misc/redo.svg";
 import imgIconRemove from "/assets/images/icons/misc/remove.svg";
+import imgIconReplaceColor from "/assets/images/icons/modifiers/replace-color.svg";
 import imgIconSaturate from "/assets/images/icons/modifiers/saturate.svg";
 import imgIconSculpt from "/assets/images/icons/tools/sculpt.svg";
 import imgIconSearch from "/assets/images/icons/misc/search.svg";
@@ -75,7 +79,6 @@ const ICON_MAP = {
   "cgol": imgIconCgol,
   "circle": imgIconCircle,
   "clone": imgIconClone,
-  "replace-color": imgIconReplaceColor,
   "copy": imgIconCopy,
   "dark-mode": imgIconDarkMode,
   "download": imgIconDownload,
@@ -84,6 +87,10 @@ const ICON_MAP = {
   "eye-closed": imgIconEyeClosed,
   "eye-open": imgIconEyeOpen,
   "eyedropper": imgIconEyedropper,
+  "fill-cube-connected": imgIconFillCubeConnected,
+  "fill-cube-replace": imgIconFillCubeReplace,
+  "fill-face-connected": imgIconFillFaceConnected,
+  "fill-face-replace": imgIconFillFaceReplace,
   "force-1": imgIconForce1,
   "force-2": imgIconForce2,
   "force-3": imgIconForce3,
@@ -101,6 +108,7 @@ const ICON_MAP = {
   "paste": imgIconPaste,
   "redo": imgIconRedo,
   "remove": imgIconRemove,
+  "replace-color": imgIconReplaceColor,
   "saturate": imgIconSaturate,
   "sculpt": imgIconSculpt,
   "search": imgIconSearch,
