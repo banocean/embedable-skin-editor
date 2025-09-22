@@ -7,7 +7,7 @@ class SculptTool extends BrushBaseTool {
       id: "sculpt",
       icon: "sculpt",
       name: "Sculpt [Shift+S]",
-      description: "Copy pixels from base layer to overlay.\nOnly works when overlay is visible.",
+      description: "Copy pixels from base layer to overlay.\nOnly works when overlay is visible.\nUse the left mouse copy pixels up, and the right mouse button to copy them down.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.
     });
   }
