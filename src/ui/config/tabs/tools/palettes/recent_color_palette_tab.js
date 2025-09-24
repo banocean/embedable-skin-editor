@@ -36,6 +36,7 @@ class RecentColorPaletteTab extends Tab {
       }
 
       #palette-select, #columns {
+        color-scheme: dark;
         background-color: #232428;
         border: none;
         border-radius: 0.25rem;
