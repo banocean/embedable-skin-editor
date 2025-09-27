@@ -385,6 +385,16 @@ class UI extends LitElement {
           }
           
           break;
+        case "zoomIn":
+          if (this.editor.camera.position.z > 1) {
+            this.editor.camera.position.z-= this.editor.camera.position.z * 0.075;
+          }
+          break;
+        case "zoomOut":
+          if (this.editor.camera.position.z < 15) {
+            this.editor.camera.position.z+= this.editor.camera.position.z * 0.075;
+          }
+          break;
         case "cameraReset":
           this.editor.resetCamera();
           break;
