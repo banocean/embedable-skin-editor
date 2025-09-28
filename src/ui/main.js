@@ -330,86 +330,14 @@ class UI extends LitElement {
       if (isKeybindIgnored(element)) { return; }
 
       switch(this.checkKeybinds(event)){
-        case "pen":
-          if (this.editor.currentTool == this.editor.tools[0]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[0]);
-          break;
-        case "eraser":
-          if (this.editor.currentTool == this.editor.tools[1]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[1]);
-          break;
-        case "bucket":
-          if (this.editor.currentTool == this.editor.tools[2]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[2]);
-          break;
-        case "shade":
-          if (this.editor.currentTool == this.editor.tools[3]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[3]);
-          break;
-        case "sculpt":
-          if (!this.editor.config.get("overlayVisible")) { break; }
-          if (this.editor.currentTool == this.editor.tools[4]) {
-            this.config.select("tool");
-          }
-          this.editor.selectTool(this.editor.tools[4]);
-          break;
-        case "eyedropper":
-          this.editor.config.set("pick-color-toggle", true);
-          this.editor.config.set("pick-color", !this.editor.config.get("pick-color", false));
-          break;
         case "undo":
           this.editor.history.undo();
           break;
         case "redo":
           this.editor.history.redo();
           break;
-        case "reset":
-          const check = confirm("Do you want to reset all editor data? You will lose all progress on your current skin.");
-
-          if (check) {
-            PersistenceManager.resetAll();
-            del("ncrs:reference-images");
-            location.reload();
-          }
-          
-          break;
         case "cameraReset":
           this.editor.resetCamera();
-          break;
-        case "selectTools":
-          this.config.select("tool");
-          break;
-        case "selectLayer":
-          this.config.select("layers");
-          break;
-        case "selectImport":
-          this.config.select("import");
-          break;
-        case "selectExport":
-          this.config.select("export");
-          break;
-        case "addLayer":
-          this.editor.addLayer();
-          break;
-        case "removeLayer":
-          this.editor.removeLayer();
-          break;
-        case "cloneLayer":
-          this.editor.cloneLayer();
-          break;
-        case "mergeLayer":
-          this.editor.mergeLayer();
-          break;
-        case "toggleFullscreen":
-          this.toggleFullscreen();
           break;
       }
     });
