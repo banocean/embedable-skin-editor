@@ -84,6 +84,8 @@ class Editor extends LitElement {
     this._startRender();
     this._setupResizeObserver();
     this._setupEvents();
+
+    window.editor = this
   }
 
   skinMesh;
