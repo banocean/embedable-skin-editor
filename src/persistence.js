@@ -1,3 +1,12 @@
+const fakeLocalStorage = {}
+const localStorage = {
+  setItem: (key, value) => {
+    fakeLocalStorage[key] = value
+  },
+  getItem: (key) => fakeLocalStorage[key],
+  removeItem: (key) => delete fakeLocalStorage[key]
+}
+
 class PersistenceManager {
   static instances = [];
 
