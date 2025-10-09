@@ -14,6 +14,7 @@ import PartToggles from "../tools/part_toggles";
 import ModelToggle from "../tools/model_toggle";
 import EditorToggles from "../tools/editor_toggles";
 import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./config_drawer";
+import { GALLERY_URL, SKIN_LOOKUP_URL } from "../../constants";
 
 const STYLES = css`
   :host {
@@ -282,6 +283,22 @@ class MobileUI extends LitElement {
       </div>
       <slot name="footer"></slot>
     `;
+  }
+
+  galleryURL() {
+    if (!this.src) { return GALLERY_URL };
+
+    const url = new URL(this.src);
+
+    return `${url.origin}/gallery/skins`;
+  }
+
+  skinLookupURL() {
+    if (!this.src) { return SKIN_LOOKUP_URL };
+
+    const url = new URL(this.src);
+
+    return `${url.origin}/api/skin`;
   }
 
   _showColorDrawer() {
