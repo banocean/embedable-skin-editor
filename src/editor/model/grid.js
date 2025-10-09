@@ -52,9 +52,7 @@ function createShaderMaterial(color = DEFAULT_GRID_COLOR, width, height, depth) 
       }
 
       // Grid Shader adapted from https://bgolus.medium.com/the-best-darn-grid-shader-yet-727f9278b9d8
-      vec4 getGrid(vec2 uv) {
-        float lineWidth = thickness;
-
+      vec4 getGrid(vec2 uv, float lineWidth) {
         vec2 uvDeriv = fwidth(uv);
         vec2 drawWidth = uvDeriv * lineWidth;
         vec2 lineAA = uvDeriv * 1.5;
@@ -66,7 +64,13 @@ function createShaderMaterial(color = DEFAULT_GRID_COLOR, width, height, depth) 
       }
 
       void main() {
-        gl_FragColor = getGrid(UV * getSegments(vNormal));
+        float lineWidth = thickness;
+
+        if (UV.y > 0.98 || UV.y < 0.02 || UV.x < 0.2 || UV.x > 0.98) {
+          lineWidth = thickness * 2.0;
+        }
+
+        gl_FragColor = getGrid(UV * getSegments(vNormal), lineWidth);
       }
     `,
   })
