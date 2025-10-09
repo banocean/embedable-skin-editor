@@ -202,6 +202,8 @@ class Controls {
   }
 
   shouldRaycast() {
+    if (this.parent.config.get("pick-color", false)) return true;
+
     return this.parent.currentTool.properties.id !== "move";
   }
 
