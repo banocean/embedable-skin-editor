@@ -87,10 +87,7 @@ class ConfigDrawer {
     tab.name = "Export";
 
     const buttons = new ExportTabButtons(this.ui, this.editor);
-    buttons.mobile = true;
-
     tab.appendChild(buttons);
-    tab.selected = true;
 
     return tab;
   }

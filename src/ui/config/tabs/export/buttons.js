@@ -3,10 +3,6 @@ import ProjectLoader from "../../../../editor/format/project_loader";
 import { download } from "../../../../helpers";
 
 class ExportTabButtons extends LitElement {
-  static properties = {
-    mobile: {type: Boolean},
-  }
-
   static styles = css`
     #buttons {
       display: flex;
@@ -72,9 +68,11 @@ class ExportTabButtons extends LitElement {
   }
 
   download(filename, blob, type) {
+    // If the platform is iOS, use the Share API instead of regular download.
+    const isIOS = navigator.platform.match(/iPad|iPhone|iPod/i) != null ? true : false;
     const file = new File([blob], filename, {type: type});
 
-    if (this.mobile && navigator.canShare && navigator.canShare({files: [file]})) {
+    if (isIOS && navigator.canShare && navigator.canShare({files: [file]})) {
       navigator.share({files: [file]});
     } else {
       download(filename, URL.createObjectURL(blob));
