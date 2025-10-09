@@ -47,6 +47,18 @@ const STYLES = css`
     min-width: 240px;
   }
 
+  #editor .controls {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  #editor .controls ncrs-icon {
+    width: 1rem;
+    height: 1rem;
+    --icon-color: #ffffff44;
+  }
+
   #top {
     width: 100%;
     height: 3.375rem;
@@ -243,6 +255,12 @@ class MobileUI extends LitElement {
         <div id="top"></div>
         <div id="editor">
           ${this.editor}
+          <div class="controls">
+            <ncrs-toggle @click=${this._toggleFullscreen}>
+              <ncrs-icon slot="off" icon="fullscreen" title="Switch to fullscreen." color="var(--icon-color)"></ncrs-icon>
+              <ncrs-icon slot="on" icon="minimize" title="Switch to minimized." color="var(--icon-color)"></ncrs-icon>
+            </ncrs-toggle>
+          </div>
         </div>
         <div id="bottom">
           <div id="menu">
@@ -327,6 +345,10 @@ class MobileUI extends LitElement {
 
   _toggleEyedropper() {
     this.colorDrawer.toggleEyedropper();
+  }
+
+  _toggleFullscreen() {
+    this.classList.toggle("fullscreen");
   }
 
   _setupDrawerOpenDrag(button, func) {
