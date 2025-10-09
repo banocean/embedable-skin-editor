@@ -19,6 +19,9 @@ class CanvasHelper {
   }
 
   render() {
+    // Mitigate issue with context filter polyfill merging
+    // pixels with putImageData rather than replacing them
+    this.context.clearRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
     this.context.putImageData(this.imageData, 0, 0);
   }
 
