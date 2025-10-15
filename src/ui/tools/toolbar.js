@@ -2,7 +2,7 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import Tool from "./tool";
 import PartToggle from "./part_toggles";
 
-import imgSteveAlex from "/assets/images/steve_alex.png";
+import imgSteveAlex from "../../../assets/images/steve_alex.png";
 
 class Toolbar extends LitElement {
   static styles = css`

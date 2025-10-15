@@ -24,7 +24,7 @@ import CloneLayerEntry from "./history/entries/clone_layer_entry";
 import PersistenceManager from "../persistence";
 import Config from "./config";
 
-import imgFacingIndicator from "/assets/images/facing-indicator.svg";
+import imgFacingIndicator from "../../assets/images/facing-indicator.svg";
 import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_entry";
 import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry";
 import PersistLayerChangesEntry from "./history/entries/persist_layers_entry";

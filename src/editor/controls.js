@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./orbit";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 
-import imgEyedropper from "/assets/images/cursors/eyedropper.png"
+import imgEyedropper from "../../assets/images/cursors/eyedropper.png"
 const CURSOR_EYEDROPPER = `url("${imgEyedropper}") 0 32, crosshair`;
 
 class Controls {

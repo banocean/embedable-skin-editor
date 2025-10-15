@@ -1,17 +1,17 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
 
-import imgHeadEnabled from "/assets/images/skin_parts/head_enabled.png";
-import imgHeadDisabled from "/assets/images/skin_parts/head_disabled.png";
-import imgTorsoEnabled from "/assets/images/skin_parts/torso_enabled.png";
-import imgTorsoDisabled from "/assets/images/skin_parts/torso_disabled.png";
-import imgRightArmEnabled from "/assets/images/skin_parts/right_arm_enabled.png";
-import imgRightArmDisabled from "/assets/images/skin_parts/right_arm_disabled.png";
-import imgLeftArmEnabled from "/assets/images/skin_parts/left_arm_enabled.png";
-import imgLeftArmDisabled from "/assets/images/skin_parts/left_arm_disabled.png";
-import imgRightLegEnabled from "/assets/images/skin_parts/right_leg_enabled.png";
-import imgRightLegDisabled from "/assets/images/skin_parts/right_leg_disabled.png";
-import imgLeftLegEnabled from "/assets/images/skin_parts/left_leg_enabled.png";
-import imgLeftLegDisabled from "/assets/images/skin_parts/left_leg_disabled.png";
+import imgHeadEnabled from "../../../assets/images/skin_parts/head_enabled.png";
+import imgHeadDisabled from "../../../assets/images/skin_parts/head_disabled.png";
+import imgTorsoEnabled from "../../../assets/images/skin_parts/torso_enabled.png";
+import imgTorsoDisabled from "../../../assets/images/skin_parts/torso_disabled.png";
+import imgRightArmEnabled from "../../../assets/images/skin_parts/right_arm_enabled.png";
+import imgRightArmDisabled from "../../../assets/images/skin_parts/right_arm_disabled.png";
+import imgLeftArmEnabled from "../../../assets/images/skin_parts/left_arm_enabled.png";
+import imgLeftArmDisabled from "../../../assets/images/skin_parts/left_arm_disabled.png";
+import imgRightLegEnabled from "../../../assets/images/skin_parts/right_leg_enabled.png";
+import imgRightLegDisabled from "../../../assets/images/skin_parts/right_leg_disabled.png";
+import imgLeftLegEnabled from "../../../assets/images/skin_parts/left_leg_enabled.png";
+import imgLeftLegDisabled from "../../../assets/images/skin_parts/left_leg_disabled.png";
 
 class PartToggle extends LitElement {
   static styles = css`

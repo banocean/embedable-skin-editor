@@ -16,9 +16,9 @@ import PersistenceManager from "../persistence";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
 import Modal from "./misc/modal";
 
-import imgGridDark from "/assets/images/grid-editor-dark.png";
-import imgGridGray from "/assets/images/grid-editor-gray.png";
-import imgGridLight from "/assets/images/grid-editor-light.png";
+import imgGridDark from "../../assets/images/grid-editor-dark.png";
+import imgGridGray from "../../assets/images/grid-editor-gray.png";
+import imgGridLight from "../../assets/images/grid-editor-light.png";
 
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
 import { del } from "idb-keyval";
