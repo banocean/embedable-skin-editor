@@ -6,7 +6,7 @@ import "./components/tab";
 import "./components/tab_group";
 import "../misc/color_picker";
 
-import imgGridDark from "/assets/images/grid-editor-dark.png";
+import imgGridDark from "../../../assets/images/grid-editor-dark.png";
 import Toolset from "../tools/toolset";
 import { ColorDrawer, COLOR_DRAWER_STYLES } from "./color_drawer";
 import interact from "interactjs";

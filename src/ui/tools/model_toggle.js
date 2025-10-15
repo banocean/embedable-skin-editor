@@ -1,6 +1,6 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
 
-import imgSteveAlex from "/assets/images/steve_alex.png";
+import imgSteveAlex from "../../../assets/images/steve_alex.png";
 
 class ModelToggle extends LitElement {
   static styles = css`
