@@ -106,7 +106,7 @@ class Config extends LitElement {
     tabs.registerTab(t.layers);
     tabs.registerTab(t.import);
     tabs.registerTab(t.export);
-    tabs.registerTab(t.settings);
+    // tabs.registerTab(t.settings); Disable settings tab for now, still needs work
 
     tabs.addEventListener("select", event => {
       const tabName = Object.keys(t).find(key => t[key] === event.detail);
