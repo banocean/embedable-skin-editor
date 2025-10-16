@@ -53,6 +53,10 @@ const STYLES = css`
     left: 0.5rem;
   }
 
+  :host(.hide-controls) #editor .controls {
+    display: none;
+  }
+
   #editor .controls ncrs-icon {
     width: 1rem;
     height: 1rem;
