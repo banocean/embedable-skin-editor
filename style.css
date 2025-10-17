@@ -47,3 +47,7 @@ ncrs-ui.fullscreen {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+* {
+  -webkit-tap-highlight-color: #0000;
+}
