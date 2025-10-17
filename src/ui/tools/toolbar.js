@@ -13,6 +13,7 @@ class Toolbar extends LitElement {
       width: 3.75rem;
       background-color: #131315;
       box-sizing: border-box;
+      overflow: auto;
     }
 
     #toolbar {

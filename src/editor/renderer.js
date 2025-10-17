@@ -22,6 +22,12 @@ class Renderer {
   }
 
   render() {
+    if (this._resizeRendererToDisplaySize(this.renderer)) {
+      const canvas = this.canvas();
+      this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      this.camera.updateProjectionMatrix();
+    }
+
     this.composer.render();
   }
 
@@ -36,8 +42,6 @@ class Renderer {
 
   _setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.domElement.style.position = "absolute";
 
     this.renderer = renderer;
@@ -52,6 +56,18 @@ class Renderer {
     composer.addPass(outputPass);
 
     this.composer = composer;
+  }
+
+  _resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const pixelRatio = window.devicePixelRatio;
+    const width  = Math.floor( canvas.clientWidth  * pixelRatio );
+    const height = Math.floor( canvas.clientHeight * pixelRatio );
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
   }
 }
 
