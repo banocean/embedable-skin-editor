@@ -24,10 +24,6 @@ import imgIconEraser from "../../../assets/images/icons/tools/eraser.svg";
 import imgIconEyeClosed from "../../../assets/images/icons/toggles/eye-closed.svg";
 import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
 import imgIconEyedropper from "../../../assets/images/icons/tools/eyedropper.svg";
-import imgIconFillCubeConnected from "../../../assets/images/icons/modifiers/fill-cube-connected.svg";
-import imgIconFillCubeReplace from "../../../assets/images/icons/modifiers/fill-cube-replace.svg";
-import imgIconFillFaceConnected from "../../../assets/images/icons/modifiers/fill-face-connected.svg";
-import imgIconFillFaceReplace from "../../../assets/images/icons/modifiers/fill-face-replace.svg";
 import imgIconForce1 from "../../../assets/images/icons/modifiers/force-1.svg";
 import imgIconForce2 from "../../../assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "../../../assets/images/icons/modifiers/force-3.svg";
@@ -62,6 +58,7 @@ import imgIconCog from "../../../assets/images/icons/misc/cog.svg";
 import imgIconMenu from "../../../assets/images/icons/misc/menu.svg";
 import imgArrowLeft from "../../../assets/images/icons/misc/arrow-left.svg";
 import imgArrowRight from "../../../assets/images/icons/misc/arrow-right.svg";
+import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -123,6 +120,7 @@ const ICON_MAP = {
   "menu": imgIconMenu,
   "arrow-left": imgArrowLeft,
   "arrow-right": imgArrowRight,
+  "grid-culling": imgGridCull,
 }
 
 class Icon extends LitElement {

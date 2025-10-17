@@ -46,6 +46,7 @@ class EditorToggles extends LitElement {
     const baseGridVisible = cfg.get("baseGridVisible", false);
     const overlayGridVisible = cfg.get("overlayGridVisible", false);
     const cullBackFace = cfg.get("cullBackFace", true);
+    const cullGrid = cfg.get("cullGrid", true);
 
     return html`
       <div class="ncrs-toggle-row">
@@ -73,15 +74,21 @@ class EditorToggles extends LitElement {
           <ncrs-icon slot="off" icon="backface-culling" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="backface-culling" color="#55b2ff"></ncrs-icon>
         </ncrs-toggle>
-        <ncrs-toggle class="hidden" title="Toggle Shading" ?toggled=${cullBackFace} @toggle=${this._toggleShading}>
+        <ncrs-toggle title="Toggle Grid Culling" ?toggled=${cullGrid} @toggle=${this._toggleGridCulling}>
+          <ncrs-icon slot="off" icon="grid-culling" color="white"></ncrs-icon>
+          <ncrs-icon slot="on" icon="grid-culling" color="#55b2ff"></ncrs-icon>
+        </ncrs-toggle>
+      </div>
+      <div class="hidden ncrs-toggle-row">
+        <ncrs-toggle title="Toggle Shading" ?toggled=${cullBackFace} @toggle=${this._toggleShading}>
           <ncrs-icon slot="off" icon="shade" color="white"></ncrs-icon>
           <ncrs-icon slot="on" icon="shade" color="#55b2ff"></ncrs-icon>
         </ncrs-toggle>
+        <ncrs-toggle title="Blow Up Model" @toggle=${this._toggleBlowUp}>
+          <ncrs-icon slot="off" icon="blow-up-model" color="white"></ncrs-icon>
+          <ncrs-icon slot="on" icon="blow-up-model" color="#55b2ff"></ncrs-icon>
+        </ncrs-toggle>
       </div>
-      <ncrs-toggle class="hidden" title="Blow Up Model" @toggle=${this._toggleBlowUp}>
-        <ncrs-icon slot="off" icon="blow-up-model" color="white"></ncrs-icon>
-        <ncrs-icon slot="on" icon="blow-up-model" color="#55b2ff"></ncrs-icon>
-      </ncrs-toggle>
     `;
   }
 
@@ -103,6 +110,10 @@ class EditorToggles extends LitElement {
 
   _toggleBackfaceCulling(event) {
     this.editor.config.set("cullBackFace", event.detail);
+  }
+
+  _toggleGridCulling(event) {
+    this.editor.config.set("cullGrid", event.detail);
   }
 }
 
