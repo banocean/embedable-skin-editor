@@ -22,18 +22,14 @@ class Renderer {
   }
 
   render() {
-    if (this._resizeRendererToDisplaySize(this.renderer)) {
-      const canvas = this.canvas();
-      this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      this.camera.updateProjectionMatrix();
-    }
-
     this.composer.render();
   }
 
   updateSize(width, height) {
     this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.composer.setSize(width, height);
+    this.composer.setPixelRatio(window.devicePixelRatio);
   }
 
   setAnimationLoop(fn) {
@@ -56,18 +52,6 @@ class Renderer {
     composer.addPass(outputPass);
 
     this.composer = composer;
-  }
-
-  _resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const pixelRatio = window.devicePixelRatio;
-    const width  = Math.floor( canvas.clientWidth  * pixelRatio );
-    const height = Math.floor( canvas.clientHeight * pixelRatio );
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-      renderer.setSize(width, height, false);
-    }
-    return needResize;
   }
 }
 
