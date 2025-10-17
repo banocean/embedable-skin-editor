@@ -51,6 +51,7 @@ const CONFIG_VALUES = {
   baseGridVisible: {default: true, persistence: true},
   overlayGridVisible: {default: true, persistence: true},
   cullBackFace: {default: true, persistence: true},
+  cullGrid: {default: true, persistence: true},
 }
 
 class Editor extends LitElement {
@@ -575,6 +576,10 @@ class Editor extends LitElement {
 
     this.config.addEventListener("cullBackFace-change", event => {
       this.model.setMaterialSide(event.detail ? THREE.FrontSide : THREE.DoubleSide);
+    })
+
+    this.config.addEventListener("cullGrid-change", event => {
+      this.model.setGridCulling(event.detail);
     })
   }
 }

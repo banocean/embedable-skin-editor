@@ -170,6 +170,7 @@ class Toolbar extends LitElement {
     const baseGridVisible = cfg.get("baseGridVisible", false);
     const overlayGridVisible = cfg.get("overlayGridVisible", false);
     const cullBackFace = cfg.get("cullBackFace", true);
+    const cullGrid = cfg.get("cullGrid", true);
 
     return html`
       <div>
@@ -205,9 +206,9 @@ class Toolbar extends LitElement {
             <ncrs-icon slot="off" icon="backface-culling" color="white"></ncrs-icon>
             <ncrs-icon slot="on" icon="backface-culling" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
-          <ncrs-toggle class="hidden" title="Toggle Shading" ?toggled=${cullBackFace} @toggle=${this._toggleShading}>
-            <ncrs-icon slot="off" icon="shade" color="white"></ncrs-icon>
-            <ncrs-icon slot="on" icon="shade" color="#55b2ff"></ncrs-icon>
+          <ncrs-toggle title="Toggle Grid Culling" ?toggled=${cullGrid} @toggle=${this._toggleGridCulling}>
+            <ncrs-icon slot="off" icon="grid-culling" color="white"></ncrs-icon>
+            <ncrs-icon slot="on" icon="grid-culling" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
         </div>
         <ncrs-toggle class="hidden" title="Blow Up Model" @toggle=${this._toggleBlowUp}>
@@ -241,6 +242,10 @@ class Toolbar extends LitElement {
 
   _toggleBackfaceCulling(event) {
     this.ui.editor.config.set("cullBackFace", event.detail);
+  }
+
+  _toggleGridCulling(event) {
+    this.ui.editor.config.set("cullGrid", event.detail);
   }
 }
 

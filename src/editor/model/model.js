@@ -40,10 +40,24 @@ class SkinModel {
     })
   }
 
+  updateGridMaterials(callback) {
+    this.parts.forEach(part => {
+      const baseMaterial = part.baseGrid.material;
+      const overlayMaterial = part.overlayGrid.material;
+
+      callback(baseMaterial);
+      callback(overlayMaterial);
+    })
+  }
+
   setMaterialSide(side = THREE.DoubleSide) {
     this.updateMaterials(material => {
       material.side = side;
     })
+  }
+
+  setGridCulling(cull) {
+    this.updateGridMaterials(material => material.polygonOffset = !!cull);
   }
 
   _setupMesh(texture, variant) {
