@@ -1,6 +1,6 @@
 import { html } from "lit";
-import BaseToolConfig from "./base_tool_config";
-import SculptTool from "../../../../../editor/tools/toolset/sculpt_tool";
+import BaseToolConfig from "./base_tool_config.js";
+import SculptTool from "../../../../../editor/tools/toolset/sculpt_tool.js";
 
 class SculptToolConfig extends BaseToolConfig {
   static styles = [

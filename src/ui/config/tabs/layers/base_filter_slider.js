@@ -1,4 +1,4 @@
-import Slider from "../../../misc/slider";
+import Slider from "../../../misc/slider.js";
 
 class BaseFilterSlider extends EventTarget {
   constructor(layers, properties = {}) {

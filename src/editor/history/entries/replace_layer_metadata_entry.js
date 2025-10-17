@@ -1,4 +1,4 @@
-import { BaseEntry } from "../base_entry";
+import { BaseEntry } from "../base_entry.js";
 
 class ReplaceLayerMetadataEntry extends BaseEntry {
   constructor(layer, metadata) {

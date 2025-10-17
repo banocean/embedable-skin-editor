@@ -1,4 +1,4 @@
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 // Scales the force
 const SHADE_SCALAR = 5;

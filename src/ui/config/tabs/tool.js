@@ -1,15 +1,15 @@
-import Tab from "../../misc/tab";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
-import PenToolConfig from "./tools/configs/pen_tool_config";
-import TabGroup from "../../misc/tab_group";
-import RecentColorPaletteTab from "./tools/palettes/recent_color_palette_tab";
-import ColorPicker from "../../misc/color_picker";
-import PresetPaletteTab from "./tools/palettes/preset_palette_tab";
-import BlendPaletteTab from "./tools/palettes/blend_palette_tab";
-import EraseToolConfig from "./tools/configs/erase_tool_config";
-import SculptToolConfig from "./tools/configs/sculpt_tool_config";
-import ShadeToolConfig from "./tools/configs/shade_tool_config";
-import BucketToolConfig from "./tools/configs/bucket_tool_config";
+import PenToolConfig from "./tools/configs/pen_tool_config.js";
+import TabGroup from "../../misc/tab_group.js";
+import RecentColorPaletteTab from "./tools/palettes/recent_color_palette_tab.js";
+import ColorPicker from "../../misc/color_picker.js";
+import PresetPaletteTab from "./tools/palettes/preset_palette_tab.js";
+import BlendPaletteTab from "./tools/palettes/blend_palette_tab.js";
+import EraseToolConfig from "./tools/configs/erase_tool_config.js";
+import SculptToolConfig from "./tools/configs/sculpt_tool_config.js";
+import ShadeToolConfig from "./tools/configs/shade_tool_config.js";
+import BucketToolConfig from "./tools/configs/bucket_tool_config.js";
 import Color from "color";
 
 class ToolTab extends Tab {

@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
-import { camelize } from "../../../../../helpers";
-import { OptionControl, OptionControlButton, ToggleControl } from "../../../controls";
+import { camelize } from "../../../../../helpers.js";
+import { OptionControl, OptionControlButton, ToggleControl } from "../../../controls.js";
 
 class BaseToolConfig extends LitElement {
   static styles = css`

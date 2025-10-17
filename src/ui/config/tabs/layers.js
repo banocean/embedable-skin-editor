@@ -1,15 +1,15 @@
 import * as THREE from "three";
 import Color from "color";
-import Tab from "../../misc/tab";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
-import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry";
-import MergeFiltersEntry from "../../../editor/history/entries/merge_filters_entry";
-import BrightnessFilterSlider from "./layers/brightness_filter_slider";
-import AlphaFilterSlider from "./layers/alpha_filter_slider";
-import HueFilterSlider from "./layers/hue_filter_slider";
-import SaturationFilterSlider from "./layers/saturation_filter_slider";
-import UpdateLayerTextureEntry from "../../../editor/history/entries/update_layer_texture_entry";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
+import UpdateLayerFiltersEntry from "../../../editor/history/entries/update_layer_filters_entry.js";
+import MergeFiltersEntry from "../../../editor/history/entries/merge_filters_entry.js";
+import BrightnessFilterSlider from "./layers/brightness_filter_slider.js";
+import AlphaFilterSlider from "./layers/alpha_filter_slider.js";
+import HueFilterSlider from "./layers/hue_filter_slider.js";
+import SaturationFilterSlider from "./layers/saturation_filter_slider.js";
+import UpdateLayerTextureEntry from "../../../editor/history/entries/update_layer_texture_entry.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants.js";
 
 class LayersTab extends Tab {
   static styles = [

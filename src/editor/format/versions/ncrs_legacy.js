@@ -1,5 +1,5 @@
-import BaseVersion from "../base_version";
-import { uvLookup } from "../../model/uv";
+import BaseVersion from "../base_version.js";
+import { uvLookup } from "../../model/uv.js";
 
 const IMAGE_WIDTH = 64, IMAGE_HEIGHT = 64
 

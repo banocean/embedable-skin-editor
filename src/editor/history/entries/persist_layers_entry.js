@@ -1,4 +1,4 @@
-import { BaseEntry } from "../base_entry";
+import { BaseEntry } from "../base_entry.js";
 
 // This class simply persists any changes made to layers over the course of this history event.
 // Intended to be used with a GroupedEntry or on its own.

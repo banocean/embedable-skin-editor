@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Color from "color";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
 
 class CanvasHelper {
   constructor() {

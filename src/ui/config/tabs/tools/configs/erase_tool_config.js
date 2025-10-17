@@ -1,6 +1,6 @@
 import { html } from "lit";
-import BaseToolConfig from "./base_tool_config";
-import EraseTool from "../../../../../editor/tools/toolset/erase_tool";
+import BaseToolConfig from "./base_tool_config.js";
+import EraseTool from "../../../../../editor/tools/toolset/erase_tool.js";
 
 class EraseToolConfig extends BaseToolConfig {
   static styles = [

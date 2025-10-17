@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { HeadPart } from "./parts/head";
-import { TorsoPart } from "./parts/torso";
-import { LeftLegPart } from "./parts/leg_left";
-import { RightLegPart } from "./parts/leg_right";
-import { RightArmPart } from "./parts/arm_right";
-import { LeftArmPart } from "./parts/arm_left";
-import { RightEarPart, LeftEarPart } from "./parts/ears";
+import { HeadPart } from "./parts/head.js";
+import { TorsoPart } from "./parts/torso.js";
+import { LeftLegPart } from "./parts/leg_left.js";
+import { RightLegPart } from "./parts/leg_right.js";
+import { RightArmPart } from "./parts/arm_right.js";
+import { LeftArmPart } from "./parts/arm_left.js";
+import { RightEarPart, LeftEarPart } from "./parts/ears.js";
 
 class SkinModel {
   static variants = ["classic", "slim"]

@@ -1,6 +1,6 @@
-import ProjectLoader from "../../../editor/format/project_loader";
-import { download } from "../../../helpers";
-import Tab from "../../misc/tab";
+import ProjectLoader from "../../../editor/format/project_loader.js";
+import { download } from "../../../helpers.js";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
 
 class ExportTab extends Tab {

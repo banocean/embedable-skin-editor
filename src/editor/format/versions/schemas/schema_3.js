@@ -1,4 +1,4 @@
-import AJV from "../../ajv";
+import AJV from "../../ajv.js";
 
 const schema = {
   type: "object",

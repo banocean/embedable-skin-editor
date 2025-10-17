@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { BasePart } from "../base"
+import { BasePart } from "../base.js"
 
 class RightEarPart extends BasePart {
   constructor(texture, variant) {

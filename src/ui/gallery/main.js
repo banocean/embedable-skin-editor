@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import GallerySkin from "./skin";
+import GallerySkin from "./skin.js";
 
 class Gallery extends LitElement {
   static properties = {

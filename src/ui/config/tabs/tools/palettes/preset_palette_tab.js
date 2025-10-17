@@ -1,5 +1,5 @@
 import { clamp } from "three/src/math/MathUtils.js";
-import Tab from "../../../../misc/tab";
+import Tab from "../../../../misc/tab.js";
 import { css, html } from "lit";
 import Color from "color";
 

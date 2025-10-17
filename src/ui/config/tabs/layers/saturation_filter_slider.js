@@ -1,5 +1,5 @@
-import CssFilter from "../../../../editor/layers/filters/css_filter";
-import BaseFilterSlider from "./base_filter_slider";
+import CssFilter from "../../../../editor/layers/filters/css_filter.js";
+import BaseFilterSlider from "./base_filter_slider.js";
 
 class SaturationFilterSlider extends BaseFilterSlider {
   constructor(layers) {

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
-import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH } from "../../constants";
-import Layer from "./layer";
+import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
+import Layer from "./layer.js";
 
 class Layers extends EventTarget {
   constructor(width, height) {

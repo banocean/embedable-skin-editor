@@ -1,9 +1,9 @@
-import Tab from "../../misc/tab";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
-import ProjectLoader from "../../../editor/format/project_loader";
-import QuickSearch from "./import/quick_search";
-import MinecraftImport from "./import/minecraft";
-import ReferenceImageManager from "./import/reference_image";
+import ProjectLoader from "../../../editor/format/project_loader.js";
+import QuickSearch from "./import/quick_search.js";
+import MinecraftImport from "./import/minecraft.js";
+import ReferenceImageManager from "./import/reference_image.js";
 
 class ImportTab extends Tab {
   static styles = [

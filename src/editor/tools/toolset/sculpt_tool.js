@@ -1,5 +1,5 @@
 import Color from "color";
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 class SculptTool extends BrushBaseTool {
   constructor(config) {

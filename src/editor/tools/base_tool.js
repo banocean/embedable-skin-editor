@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import CanvasHelper from "./canvas_helper";
+import CanvasHelper from "./canvas_helper.js";
 
 class BaseTool {
   constructor(config, properties) {

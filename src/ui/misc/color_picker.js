@@ -1,9 +1,9 @@
 import { css, html, LitElement } from "lit";
 import { styleMap } from "lit/directives/style-map.js";
 import Color from "color";
-import { clamp } from "../../helpers";
-import NAMED_COLORS from "./named_colors";
-import Slider from "./slider";
+import { clamp } from "../../helpers.js";
+import NAMED_COLORS from "./named_colors.js";
+import Slider from "./slider.js";
 
 const EASTEREGG_VALUES = ["#MOXVALLIX", "#DINNERBONE", "#GRUMM", "#AUSTRALIA", "#DEADMAU5", "#EARS", "#JAX"]
 

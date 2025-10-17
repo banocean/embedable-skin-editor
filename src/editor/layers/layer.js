@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH, IMAGE_THUMBNAIL_WIDTH, IMAGE_THUMBNAIL_HEIGHT } from "../../constants";
-import { imageToPreview } from "./layer_preview";
-import Compositor from "./compositor";
-import { clearLayer, getWatermarkData, mergeLayers, swapBodyOverlay, swapFrontBack, swapLeftRight } from "./texture_utils";
-import convertLegacySkin from "./legacy_skin";
-import thumbnailImport from "./thumbnail_import";
+import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH, IMAGE_THUMBNAIL_WIDTH, IMAGE_THUMBNAIL_HEIGHT } from "../../constants.js";
+import { imageToPreview } from "./layer_preview.js";
+import Compositor from "./compositor.js";
+import { clearLayer, getWatermarkData, mergeLayers, swapBodyOverlay, swapFrontBack, swapLeftRight } from "./texture_utils.js";
+import convertLegacySkin from "./legacy_skin.js";
+import thumbnailImport from "./thumbnail_import.js";
 
 class Layer extends EventTarget {
   constructor(id, texture) {

@@ -1,5 +1,5 @@
 import Color from "color";
-import { BaseTool } from "../base_tool";
+import { BaseTool } from "../base_tool.js";
 
 const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
 

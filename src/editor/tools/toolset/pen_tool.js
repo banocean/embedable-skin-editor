@@ -1,4 +1,4 @@
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 class PenTool extends BrushBaseTool {
   constructor(config) {

@@ -1,6 +1,6 @@
-import BaseVersion from "../base_version";
-import NCRSLegacyVersion from "./ncrs_legacy";
-import schema3Validate from "./schemas/schema_3";
+import BaseVersion from "../base_version.js";
+import NCRSLegacyVersion from "./ncrs_legacy.js";
+import schema3Validate from "./schemas/schema_3.js";
 
 class NCRSFormat3 extends BaseVersion {
   static exportEditor(editor) {

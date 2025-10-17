@@ -1,6 +1,6 @@
 import { html, nothing } from "lit";
-import BaseToolConfig from "./base_tool_config";
-import PenTool from "../../../../../editor/tools/toolset/pen_tool";
+import BaseToolConfig from "./base_tool_config.js";
+import PenTool from "../../../../../editor/tools/toolset/pen_tool.js";
 
 class PenToolConfig extends BaseToolConfig {
   static styles = [

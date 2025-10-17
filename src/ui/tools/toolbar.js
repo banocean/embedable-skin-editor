@@ -1,6 +1,6 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import Tool from "./tool";
-import PartToggle from "./part_toggles";
+import Tool from "./tool.js";
+import PartToggle from "./part_toggles.js";
 
 import imgSteveAlex from "../../../assets/images/steve_alex.png";
 

@@ -1,6 +1,6 @@
 import { css, LitElement } from "lit";
-import { MODEL_MAP } from "../../editor/model/uv";
-import { SkinModel } from "../../editor/model/model";
+import { MODEL_MAP } from "../../editor/model/uv.js";
+import { SkinModel } from "../../editor/model/model.js";
 
 const LAYOUT = {
   classic: [

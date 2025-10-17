@@ -1,4 +1,4 @@
-import Tab from "../../misc/tab";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
 
 class SettingsTab extends Tab {

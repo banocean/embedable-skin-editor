@@ -1,6 +1,6 @@
-import Config from "../config";
+import Config from "../config.js";
 import Color from "color";
-import { getRandomInt, pickFromArray } from "../../helpers";
+import { getRandomInt, pickFromArray } from "../../helpers.js";
 
 function saveColor(color) {
   return color.hexa();

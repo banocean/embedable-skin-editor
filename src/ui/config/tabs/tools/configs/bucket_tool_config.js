@@ -1,6 +1,6 @@
 import { html, nothing } from "lit";
-import BaseToolConfig from "./base_tool_config";
-import BucketTool from "../../../../../editor/tools/toolset/bucket_tool";
+import BaseToolConfig from "./base_tool_config.js";
+import BucketTool from "../../../../../editor/tools/toolset/bucket_tool.js";
 
 class BucketToolConfig extends BaseToolConfig {
   static styles = [

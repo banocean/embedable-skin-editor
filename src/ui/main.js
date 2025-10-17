@@ -8,21 +8,21 @@ import "./misc/window";
 import "./misc/skin_2d";
 
 import { css, html, LitElement, render, unsafeCSS } from "lit";
-import Editor from "../editor/main";
-import Toolbar from "./tools/toolbar";
-import LayerList from "./layers/layer_list";
-import Config from "./config/main";
-import PersistenceManager from "../persistence";
-import { getFocusedElement, isKeybindIgnored } from "../helpers";
-import Modal from "./misc/modal";
+import Editor from "../editor/main.js";
+import Toolbar from "./tools/toolbar.js";
+import LayerList from "./layers/layer_list.js";
+import Config from "./config/main.js";
+import PersistenceManager from "../persistence.js";
+import { getFocusedElement, isKeybindIgnored } from "../helpers.js";
+import Modal from "./misc/modal.js";
 
 import imgGridDark from "../../assets/images/grid-editor-dark.png";
 import imgGridGray from "../../assets/images/grid-editor-gray.png";
 import imgGridLight from "../../assets/images/grid-editor-light.png";
 
-import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
+import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants.js";
 import { del } from "idb-keyval";
-import passesColorAccuracyTest from "./misc/color_accuracy_test";
+import passesColorAccuracyTest from "./misc/color_accuracy_test.js";
 
 class UI extends LitElement {
   static styles = css`

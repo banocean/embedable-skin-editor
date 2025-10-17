@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { createSkinGridBox } from "./grid";
-import { getUVMap } from "./uv";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { createSkinGridBox } from "./grid.js";
+import { getUVMap } from "./uv.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
 
 const FACES = {
   front: 4,

@@ -1,4 +1,4 @@
-import PersistenceManager from "../persistence";
+import PersistenceManager from "../persistence.js";
 
 class Config extends EventTarget {
   constructor(namespace, valueMap = {}) {
