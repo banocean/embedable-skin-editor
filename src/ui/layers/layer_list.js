@@ -1,6 +1,5 @@
 import { Sortable } from "sortablejs";
 import { css, html, LitElement } from "lit";
-import IconButton from "../misc/icon_button";
 import Layer from "./layer";
 
 class LayerList extends LitElement {

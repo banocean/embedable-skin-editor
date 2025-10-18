@@ -77,7 +77,7 @@ class Editor extends LitElement {
     this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
-    this.currentTool = this.tools[0];
+    this.currentTool = this.tools[1];
 
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -103,7 +103,7 @@ class Editor extends LitElement {
     const toolId = this.persistence.get("selectedTool", undefined);
     const tool = this.tools.find(tool => tool.properties.id == toolId);
 
-    this.selectTool(tool || this.tools[0]);
+    this.selectTool(tool || this.tools[1]);
   }
 
   sceneRender() {
