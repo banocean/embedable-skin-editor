@@ -47,26 +47,25 @@ const STYLES = css`
     min-width: 240px;
   }
 
-  #editor .controls {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-  }
-
-  :host(.hide-controls) #editor .controls {
+  :host(.hide-controls) #fullscreenToggle {
     display: none;
   }
 
-  #editor .controls ncrs-icon {
-    width: 1rem;
-    height: 1rem;
+ #fullscreenToggle ncrs-icon {
+    width: 1.5rem;
+    height: 1.5rem;
     --icon-color: #ffffff44;
   }
 
   #top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 3.375rem;
     background-color: #1f2025;
+    padding: 0.5rem;
+    box-sizing: border-box;
   }
 
   #bottom {
@@ -220,6 +219,33 @@ const STYLES = css`
   .menu-arrow.menu-arrow-left {
     left: 0px;
   }
+
+  #history button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  #history button:first-child {
+    margin-right: 0.25rem;
+  }
+
+  #history button:disabled {
+    cursor: default;
+  }
+
+  #history button:focus-visible {
+    outline: 1px solid white;
+  }
+
+  #history ncrs-icon {
+    --icon-color: white;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  #history button:disabled ncrs-icon {
+    --icon-color: #aaaaaa;
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
@@ -256,15 +282,19 @@ class MobileUI extends LitElement {
 
     return html`
       <div id="main">
-        <div id="top"></div>
-        <div id="editor">
-          ${this.editor}
-          <div class="controls">
-            <ncrs-toggle @click=${this._toggleFullscreen}>
+        <div id="top">
+          <div class="left">
+            <ncrs-toggle id="fullscreenToggle" @click=${this._toggleFullscreen}>
               <ncrs-icon slot="off" icon="fullscreen" title="Switch to fullscreen." color="var(--icon-color)"></ncrs-icon>
               <ncrs-icon slot="on" icon="minimize" title="Switch to minimized." color="var(--icon-color)"></ncrs-icon>
             </ncrs-toggle>
           </div>
+          <div class="right">
+            ${this._historyButtons()}
+          </div>
+        </div>
+        <div id="editor">
+          ${this.editor}
         </div>
         <div id="bottom">
           <div id="menu">
@@ -368,8 +398,36 @@ class MobileUI extends LitElement {
     });
   }
 
+  _historyButtons() {
+    const undoDisabled = !this.editor.history.canUndo();
+    const redoDisabled = !this.editor.history.canRedo();
+
+    return html`
+      <div id="history">
+        <button title="Undo [Ctrl + Z]" ?disabled=${undoDisabled} @click=${this._undo}>
+          <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
+        </button>
+        <button title="Redo [Ctrl + Y]" ?disabled=${redoDisabled} @click=${this._redo}>
+          <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
+        </button>
+      </div>
+    `
+  }
+
+  _undo() {
+    this.editor.history.undo();
+  }
+
+  _redo() {
+    this.editor.history.redo();
+  }
+
   _setupEvents() {
     this.editor.config.addEventListener("pick-color-change", () => {
+      this.requestUpdate();
+    })
+
+    this.editor.history.addEventListener("update", () => {
       this.requestUpdate();
     })
   }
