@@ -266,6 +266,8 @@ class MobileUI extends LitElement {
     this.modelToggle = new ModelToggle(this.editor);
     this.editorToggles = new EditorToggles(this.editor);
 
+    this._pwaCheck();
+
     this.addEventListener("dblclick", event => event.preventDefault());
   }
 
@@ -420,6 +422,12 @@ class MobileUI extends LitElement {
 
   _redo() {
     this.editor.history.redo();
+  }
+
+  _pwaCheck() {
+    if (window.mediaMatch("(display-mode: standalone), (display-mode: fullscreen)").matches) {
+      this.classList.add("fullscreen", "hide-controls");
+    }
   }
 
   _setupEvents() {
