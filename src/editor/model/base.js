@@ -148,9 +148,6 @@ class BasePart {
     return new THREE.MeshBasicMaterial({
       map: this.texture,
       transparent: true,
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1,
       side: THREE.FrontSide,
       alphaTest: 1e-5,
     });
