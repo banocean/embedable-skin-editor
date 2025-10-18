@@ -92,8 +92,6 @@ class BucketTool extends BaseTool {
     return texture.toTexture();
   }
 
-  up() {}
-
   // draw(texture, point, color, old_color) {
   //   const queue = [point];
   //   const visited = new Set();

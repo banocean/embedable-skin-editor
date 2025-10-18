@@ -14,15 +14,19 @@ class BrushBaseTool extends BaseTool {
   cursor = { x: 0, y: 0 };
   lastPart;
   lastFace;
+  reset = false;
 
   _getColor = () => { return this.config.getColor(); }
   _transparentColor = () => { return TRANSPARENT_COLOR; }
 
-  up() {}
+  up() {
+    this.reset = true;
+  }
 
   draw(texture, part, point, color, variant, line = true) {
-    if (part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
+    if (this.reset || part.object.id != this.lastPart || !part.normal.equals(this.lastFace)) {
       this.cursor = point;
+      this.reset = false;
     }
 
     this.lastPart = part.object.id;

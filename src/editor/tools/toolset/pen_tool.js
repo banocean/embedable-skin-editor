@@ -32,8 +32,6 @@ class PenTool extends BrushBaseTool {
 
     return texture.toTexture();
   }
-
-  up() {}
 }
 
 export default PenTool;

@@ -178,8 +178,8 @@ class Controls {
     if (this.drawOnPointerUp) {
       this.handleIntersects();
     }
-
-    if (this.drawing) {
+    
+    if (this.drawing || this.drawOnPointerUp) {
       this.parent.toolUp();
     }
 

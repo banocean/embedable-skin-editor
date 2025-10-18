@@ -31,6 +31,8 @@ class ShadeTool extends BrushBaseTool {
   }
 
   up() {
+    super.up();
+
     this._visited.clear();
     this._lastPixel = "";
   }

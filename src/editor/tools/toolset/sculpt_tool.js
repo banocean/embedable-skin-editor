@@ -86,8 +86,6 @@ class SculptTool extends BrushBaseTool {
 
     return texture.toTexture();
   }
-
-  up() {}
 }
 
 export default SculptTool;

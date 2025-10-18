@@ -35,8 +35,6 @@ class EraseTool extends BrushBaseTool {
 
     return texture.toTexture();
   }
-
-  up() {}
 }
 
 export default EraseTool;
