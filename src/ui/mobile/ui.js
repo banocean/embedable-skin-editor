@@ -425,7 +425,7 @@ class MobileUI extends LitElement {
   }
 
   _pwaCheck() {
-    if (window.mediaMatch("(display-mode: standalone), (display-mode: fullscreen)").matches) {
+    if (window.matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches) {
       this.classList.add("fullscreen", "hide-controls");
     }
   }
