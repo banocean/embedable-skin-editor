@@ -34,6 +34,13 @@ ncrs-ui-mobile.fullscreen {
   max-height: 100vh;
 }
 
+@media screen and (min-height: 700px) {
+  ncrs-ui-mobile.fullscreen {
+    padding-bottom: 2rem;
+    background-color: rgb(31, 32, 37);
+  }
+}
+
 ncrs-ui.fullscreen {
   position: absolute;
   top:0;
