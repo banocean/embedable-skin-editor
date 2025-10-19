@@ -1,4 +1,5 @@
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { nonPolyfilledCtx } from "../../helpers";
 import { getUV } from "./texture_utils";
 
 const OPERATIONS = [
@@ -21,7 +22,7 @@ const OPERATIONS = [
 
 function convertLegacySkin(imgSource) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(imgSource, 0, 0);
 

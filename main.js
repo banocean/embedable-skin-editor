@@ -1,3 +1,2 @@
-import "./style.css"
-import "context-filter-polyfill";
-import "./src/main"
+import "./style.css";
+import "./src/main";

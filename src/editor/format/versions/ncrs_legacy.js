@@ -1,5 +1,6 @@
 import BaseVersion from "../base_version";
 import { uvLookup } from "../../model/uv";
+import { nonPolyfilledCtx } from "../../../helpers";
 
 const IMAGE_WIDTH = 64, IMAGE_HEIGHT = 64
 
@@ -104,7 +105,7 @@ class NCRSLegacyVersion extends BaseVersion {
 
   _parseTextureData(textureData, variant) {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     if (!(textureData instanceof Array)) { return this._toBinString(ctx); }
 

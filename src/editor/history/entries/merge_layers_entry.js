@@ -5,6 +5,7 @@ import UpdateLayerTextureEntry from "./update_layer_texture_entry";
 import DeleteLayerEntry from "./delete_layer_entry";
 import SelectLayerEntry from "./select_layer_entry";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
+import { nonPolyfilledCtx } from "../../../helpers";
 
 class MergeLayersEntry extends BaseEntry {
   constructor(layers, target, source) {
@@ -23,7 +24,7 @@ class MergeLayersEntry extends BaseEntry {
 
   _setupEntryGroup(layers, target, source) {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     ctx.drawImage(target.getBaseCanvas(), 0, 0);
     ctx.drawImage(source.render(), 0, 0);

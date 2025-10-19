@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
 import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH } from "../../constants";
 import Layer from "./layer";
+import { nonPolyfilledCtx } from "../../helpers";
 
 class Layers extends EventTarget {
   constructor(width, height) {
@@ -77,7 +78,7 @@ class Layers extends EventTarget {
     const array = Uint8ClampedArray.from([...data].map(ch => ch.charCodeAt()));
     const imgData = new ImageData(array, IMAGE_WIDTH, IMAGE_HEIGHT);
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext('2d');
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
     ctx.putImageData(imgData, 0, 0);
 
     const layer = this.createFromCanvas(canvas);
@@ -171,7 +172,7 @@ class Layers extends EventTarget {
 
   render() {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     this.layers.forEach((layer) => {
       if (!layer.visible) { return; }
@@ -183,7 +184,7 @@ class Layers extends EventTarget {
   }
 
   renderTexture() {
-    const ctx = this.canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(this.canvas.getContext("2d"));
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.textureCacheBottom = new OffscreenCanvas(this.canvas.width, this.canvas.height);
@@ -191,8 +192,8 @@ class Layers extends EventTarget {
 
     const selectedIdx = this.getSelectedLayerIndex();
 
-    const ctxBottom = this.textureCacheBottom.getContext("2d");
-    const ctxTop = this.textureCacheTop.getContext("2d");
+    const ctxBottom = nonPolyfilledCtx(this.textureCacheBottom.getContext("2d"));
+    const ctxTop = nonPolyfilledCtx(this.textureCacheTop.getContext("2d"));
 
     this.layers.forEach((layer, idx) => {
       if (!layer.visible) { return; }
@@ -215,7 +216,7 @@ class Layers extends EventTarget {
   renderTextureCached() {
     if (!this.textureCacheBottom || !this.textureCacheTop) { return this.renderTexture() };
 
-    const ctx = this.canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(this.canvas.getContext("2d"));
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     ctx.drawImage(this.textureCacheBottom, 0, 0);
@@ -227,7 +228,7 @@ class Layers extends EventTarget {
 
   isBlank() {
     const canvas = this.render();
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
   }

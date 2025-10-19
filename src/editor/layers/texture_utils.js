@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv";
 import MIRROR_MAP from "./mirror_map";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { nonPolyfilledCtx } from "../../helpers";
 
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];
@@ -13,7 +14,7 @@ function remapUV(texture, ctx, source, destination) {
 
 function swapBodyOverlay(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {
@@ -34,7 +35,7 @@ function swapBodyOverlay(inputCanvas, variant = "classic") {
 
 function swapFrontBack(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
@@ -90,7 +91,7 @@ function swapFrontBack(inputCanvas, variant = "classic") {
 
 function swapLeftRight(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
@@ -217,7 +218,7 @@ function getMirroredCoords(variant, point) {
 
 function clearLayer(inputCanvas, variant, layer) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
@@ -262,7 +263,7 @@ function getUVFromCoords(variant, point) {
 }
 
 function getWatermarkData(canvas) {
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   function bytesToString(bytea) {
     let i = 0;
@@ -287,7 +288,7 @@ function getWatermarkData(canvas) {
 
 function mergeLayers(inputCanvas, sourceLayer, destLayer, variant) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {

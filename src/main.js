@@ -1,3 +1,5 @@
+import "context-filter-polyfill";
+
 import Editor from "./editor/main";
 import UI from "./ui/main";
 import "./ui/mobile/ui";

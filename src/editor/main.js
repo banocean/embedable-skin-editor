@@ -29,6 +29,7 @@ import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_
 import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry";
 import PersistLayerChangesEntry from "./history/entries/persist_layers_entry";
 import MoveTool from "./tools/toolset/move_tool";
+import { nonPolyfilledCtx } from "../helpers";
 
 const FORMAT = -1;
 
@@ -422,7 +423,7 @@ class Editor extends LitElement {
     canvas.width = IMAGE_WIDTH;
     canvas.height = IMAGE_HEIGHT;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
     ctx.drawImage(this.skinToCanvas(), 0, 0);
 
     return canvas.toDataURL();

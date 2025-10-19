@@ -5,6 +5,7 @@ import Compositor from "./compositor";
 import { clearLayer, getWatermarkData, mergeLayers, swapBodyOverlay, swapFrontBack, swapLeftRight } from "./texture_utils";
 import convertLegacySkin from "./legacy_skin";
 import thumbnailImport from "./thumbnail_import";
+import { nonPolyfilledCtx } from "../../helpers";
 
 class Layer extends EventTarget {
   constructor(id, texture) {
@@ -29,7 +30,7 @@ class Layer extends EventTarget {
   getBaseCanvas() {
     const img = this.texture.image;
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
     ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     return canvas;
@@ -41,7 +42,7 @@ class Layer extends EventTarget {
 
   isBlank() {
     const canvas = this.getBaseCanvas();
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
   }
@@ -139,7 +140,7 @@ class Layer extends EventTarget {
       return new THREE.Texture(img);
     } else {
       const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-      canvas.getContext("2d").drawImage(texture.image, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+      nonPolyfilledCtx(canvas.getContext("2d")).drawImage(texture.image, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
 
       return new THREE.Texture(canvas);
     }

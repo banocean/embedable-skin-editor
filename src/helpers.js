@@ -72,4 +72,10 @@ function download(filename, url) {
   link.remove();
 }
 
-export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored, genUUID};
+function nonPolyfilledCtx(ctx) {
+  if (!ctx.__withoutSideEffects) { return ctx; }
+
+  return ctx.__withoutSideEffects;
+}
+
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored, genUUID, nonPolyfilledCtx};

@@ -2,7 +2,7 @@ import createPanZoom from "panzoom";
 import Window from "../../../misc/window";
 import { CURSOR_EYEDROPPER } from "../../../../editor/controls";
 import Color from "color";
-import { genUUID } from "../../../../helpers";
+import { genUUID, nonPolyfilledCtx } from "../../../../helpers";
 import { get, update } from "idb-keyval";
 
 import imgGrid from "../../../../../assets/images/grid-reference-image-dark.png";
@@ -77,7 +77,7 @@ class ReferenceImage extends EventTarget {
   
     canvas.style.imageRendering = "pixelated";
   
-    const ctx = canvas.getContext('2d');
+    const ctx = nonPolyfilledCtx(canvas.getContext('2d'));
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(image, 0, 0);
   
@@ -97,7 +97,7 @@ class ReferenceImage extends EventTarget {
     canvas.addEventListener("click", event => {
       if (!editor.config.get("pick-color")) { return; }
   
-      const ctx = canvas.getContext('2d');
+      const ctx = nonPolyfilledCtx(canvas.getContext('2d'));
       const imgData = ctx.getImageData(event.offsetX, event.offsetY, 1, 1).data
       const color = new Color({r: imgData[0], g: imgData[1], b: imgData[2]}).alpha(imgData[3] / 255);
   

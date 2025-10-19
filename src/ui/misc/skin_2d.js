@@ -1,6 +1,7 @@
 import { css, LitElement } from "lit";
 import { MODEL_MAP } from "../../editor/model/uv";
 import { SkinModel } from "../../editor/model/model";
+import { nonPolyfilledCtx } from "../../helpers";
 
 const LAYOUT = {
   classic: [
@@ -82,7 +83,8 @@ class Skin2d extends LitElement {
       throw "Invalid variant!";
     }
 
-    const ctx = this.canvas.getContext('2d');
+    const ctx = nonPolyfilledCtx(this.canvas.getContext('2d'));
+
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   
