@@ -96,7 +96,20 @@ class LayerList extends LitElement {
       height: 0.8rem;
       width: auto;
     }
-  `
+
+    :host(.mobile) {
+      width: 6rem;
+    }
+
+    :host(.mobile) #layers-wrapper {
+      width: 5.5rem;
+    }
+
+    :host(.mobile) ncrs-layer {
+      width: 5.25rem;
+      --icon-size: 1.5rem;
+    }
+  `;
 
   constructor(ui) {
     super();

@@ -11,6 +11,8 @@ class Layer extends LitElement {
       border-width: 2px;
       border-radius: 4px;
       border-color: #232428;
+
+      --icon-size: 1rem;
     }
 
     :host([active=true]) {
@@ -25,6 +27,8 @@ class Layer extends LitElement {
       position: relative;
       width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     button {
@@ -54,10 +58,9 @@ class Layer extends LitElement {
 
     #visibility-toggle {
       cursor: pointer;
-      width: 16px;
-      height: 16px;
+      width: var(--icon-size);
+      height: var(--icon-size);
       right: 0.125rem;
-      top: 16px;
     }
 
     #visibility-toggle:focus-visible {
@@ -70,7 +73,7 @@ class Layer extends LitElement {
 
     ncrs-icon {
       --icon-color: white;
-      width: 16px;
+      width: var(--icon-size);
       height: auto;
     }
   `
@@ -110,9 +113,10 @@ class Layer extends LitElement {
     this._setupEvents();
   }
   blank = false;
+  rendering = false;
 
   render() {
-    if (!this.blank) {
+    if (!this.blank && !this.rendering) {
       const image = this.layer.getBaseCanvas();
       this.preview.drawImage(image, this.editor.config.get("variant", "classic"));
     }

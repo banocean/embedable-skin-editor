@@ -15,6 +15,7 @@ import ModelToggle from "../tools/model_toggle";
 import EditorToggles from "../tools/editor_toggles";
 import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./config_drawer";
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../../constants";
+import LayerList from "../layers/layer_list";
 
 const STYLES = css`
   :host {
@@ -39,6 +40,7 @@ const STYLES = css`
     background-image: var(--editor-bg);
     flex-grow: 1;
     position: relative;
+    overflow: hidden;
   }
 
   #editor ncrs-editor {
@@ -246,9 +248,61 @@ const STYLES = css`
   #history button:disabled ncrs-icon {
     --icon-color: #aaaaaa;
   }
+
+  #layers {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
+  }
+
+  #layers.open {
+    transform: translateX(0%);
+  }
+
+  #layers ncrs-layer-list {
+    height: 100%;
+  }
+
+  #layers .toggle {
+    position: absolute;
+    align-self: center;
+    display: block;
+    width: 1.75rem;
+    height: 5rem;
+    left: -1.75rem;
+    background-color: white;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    background-color: #1f2025;
+    box-shadow: rgb(19, 19, 21) -2px 2px 4px;
+  }
+
+  #layers .toggle ncrs-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    --icon-color: white;
+  }
+
+  #layers.open .toggle ncrs-icon {
+    --icon-color: #55b2ff;
+  }
+
+  #layers:not(.open) .toggle > .on {
+    display: none;
+  }
+
+  #layers.open .toggle > .off {
+    display: none;
+  }
+
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
+const LAYERS_OPEN_DRAG_THRESHOLD = 5;
 
 class MobileUI extends LitElement {
   static styles = [STYLES, COLOR_DRAWER_STYLES, CONFIG_DRAWER_STYLES];
@@ -265,6 +319,9 @@ class MobileUI extends LitElement {
     this.partToggles = new PartToggles(this.editor);
     this.modelToggle = new ModelToggle(this.editor);
     this.editorToggles = new EditorToggles(this.editor);
+
+    this.layers = new LayerList(this);
+    this.layers.classList.add("mobile");
 
     this._pwaCheck();
 
@@ -297,6 +354,13 @@ class MobileUI extends LitElement {
         </div>
         <div id="editor">
           ${this.editor}
+          <div id="layers">
+            ${this.layers}
+            <button class="toggle" @click=${this._toggleLayers}>
+              <ncrs-icon icon="arrow-right" class="on" color="var(--icon-color)"></ncrs-icon>
+              <ncrs-icon icon="arrow-left" class="off" color="var(--icon-color)"></ncrs-icon>
+            </button>
+          </div>
         </div>
         <div id="bottom">
           <div id="menu">
@@ -377,6 +441,24 @@ class MobileUI extends LitElement {
 
     const configButton = this.renderRoot.getElementById("config-button");
     this._setupDrawerOpenDrag(configButton, this._showConfigDrawer.bind(this));
+
+    const layers = this.renderRoot.getElementById("layers");
+    interact(layers).draggable({
+      lockAxis: "x",
+      listeners: {
+        move: event => {
+          event.preventDefault();
+
+          const isOpen = layers.classList.contains("open");
+
+          if (isOpen && event.dx > LAYERS_OPEN_DRAG_THRESHOLD) {
+            this._toggleLayers();
+          } else if (!isOpen && event.dx < -LAYERS_OPEN_DRAG_THRESHOLD) {
+            this._toggleLayers();
+          }
+        }
+      }
+    });
   }
 
   _toggleEyedropper() {
@@ -385,6 +467,10 @@ class MobileUI extends LitElement {
 
   _toggleFullscreen() {
     this.classList.toggle("fullscreen");
+  }
+
+  _toggleLayers() {
+    this.renderRoot.getElementById("layers").classList.toggle("open");
   }
 
   _setupDrawerOpenDrag(button, func) {
