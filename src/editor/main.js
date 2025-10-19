@@ -400,6 +400,11 @@ class Editor extends LitElement {
     this.config.set("variant", variant);
 
     this.model = new SkinModel(this.layers.texture, this.config.get("variant"));
+    
+    // Update model from settings
+    this.model.setMaterialSide(this.config.get("cullBackFace") ? THREE.FrontSide : THREE.DoubleSide);
+    this.model.setGridCulling(this.config.get("cullGrid"));
+
     this.skinMesh = this.model.mesh;
 
     this.scene.remove(this.baseGroup);
