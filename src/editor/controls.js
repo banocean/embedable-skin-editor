@@ -167,7 +167,6 @@ class Controls {
 
     if (distance < threshold) { return; }
 
-    this.drawing = true;
     this.orbit.enabled = false;
     this.drawOnPointerUp = false;
 
