@@ -321,7 +321,7 @@ class MobileUI extends LitElement {
     this.editorToggles = new EditorToggles(this.editor);
 
     this.layers = new LayerList(this);
-    this.layers.classList.add("mobile");
+    this.layers.mobile = true;
 
     this._pwaCheck();
 
@@ -442,23 +442,7 @@ class MobileUI extends LitElement {
     const configButton = this.renderRoot.getElementById("config-button");
     this._setupDrawerOpenDrag(configButton, this._showConfigDrawer.bind(this));
 
-    const layers = this.renderRoot.getElementById("layers");
-    interact(layers).draggable({
-      lockAxis: "x",
-      listeners: {
-        move: event => {
-          event.preventDefault();
-
-          const isOpen = layers.classList.contains("open");
-
-          if (isOpen && event.dx > LAYERS_OPEN_DRAG_THRESHOLD) {
-            this._toggleLayers();
-          } else if (!isOpen && event.dx < -LAYERS_OPEN_DRAG_THRESHOLD) {
-            this._toggleLayers();
-          }
-        }
-      }
-    });
+    this._setupLayersOpenDrag();
   }
 
   _toggleEyedropper() {
@@ -480,6 +464,29 @@ class MobileUI extends LitElement {
         move: event => {
           if (event.dy < -DRAWER_OPEN_DRAG_THRESHOLD) {
             func();
+          }
+        }
+      }
+    });
+  }
+
+  _setupLayersOpenDrag() {
+    const layers = this.renderRoot.getElementById("layers");
+    const toggle = layers.querySelector(".toggle");
+
+    
+    interact(toggle).draggable({
+      lockAxis: "x",
+      listeners: {
+        move: event => {
+          event.preventDefault();
+
+          const isOpen = layers.classList.contains("open");
+
+          if (isOpen && event.dx > LAYERS_OPEN_DRAG_THRESHOLD) {
+            this._toggleLayers();
+          } else if (!isOpen && event.dx < -LAYERS_OPEN_DRAG_THRESHOLD) {
+            this._toggleLayers();
           }
         }
       }

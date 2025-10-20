@@ -3,6 +3,10 @@ import { css, html, LitElement } from "lit";
 import Layer from "./layer";
 
 class LayerList extends LitElement {
+  static properties = {
+    mobile: {type: Boolean, reflect: true},
+  }
+
   static styles = css`
     :host {
       display: block;
@@ -58,11 +62,34 @@ class LayerList extends LitElement {
       width: 100%;
     }
 
-    ncrs-layer {
-      flex-shrink: 0;
+    :host([mobile]) #layers .handle {
+      display: flex;
     }
 
-    ncrs-layer.sortable-chosen {
+    #layers .handle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      background-color: rgb(35, 36, 40);
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    #layers .handle ncrs-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+      cursor: grab;
+      --icon-color: rgb(73, 76, 78);
+    }
+
+    #layers .layer {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    #layers .layer.sortable-chosen,  #layers .handle.sortable-chosen{
       cursor: grabbing;
     }
 
@@ -97,17 +124,19 @@ class LayerList extends LitElement {
       width: auto;
     }
 
-    :host(.mobile) {
+    :host([mobile]) {
       width: 6rem;
     }
 
-    :host(.mobile) #layers-wrapper {
+    :host([mobile]) #layers-wrapper {
       width: 5.5rem;
     }
 
-    :host(.mobile) ncrs-layer {
-      width: 5.25rem;
+    :host([mobile]) ncrs-layer {
+      /* width: 5.25rem; */
       --icon-size: 1.5rem;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
     }
   `;
 
@@ -163,7 +192,21 @@ class LayerList extends LitElement {
     this.sortable = this._setupSortable(inner);
 
     this.ui.editor.forEachLayer((layer) => {
-      inner.prepend(new Layer(this.ui, layer));
+      const layerDiv = document.createElement("div");
+      layerDiv.classList.add("layer");
+
+      const handleDiv = document.createElement("div");
+      handleDiv.classList.add("handle");
+
+      const handleIcon = document.createElement("ncrs-icon");
+      handleIcon.icon = "move";
+      handleIcon.color = "var(--icon-color)";
+      handleDiv.appendChild(handleIcon)
+
+      layerDiv.appendChild(handleDiv);
+      layerDiv.appendChild(new Layer(this.ui, layer));
+
+      inner.prepend(layerDiv);
     })
 
     return html`
@@ -177,11 +220,14 @@ class LayerList extends LitElement {
   }
 
   _setupSortable(target) {
+    const handle = this.mobile ? ".handle" : ".layer";
+
     const sortable = new Sortable(target, {
-      draggable: "ncrs-layer",
+      draggable: ".layer",
+      handle: handle,
       distance: 2,
       onEnd: (event) => {
-        const count = target.querySelectorAll("ncrs-layer").length - 1;
+        const count = target.querySelectorAll(".layer").length - 1;
 
         const fromIndex = count - event.oldDraggableIndex;
         const toIndex = count - event.newDraggableIndex;
