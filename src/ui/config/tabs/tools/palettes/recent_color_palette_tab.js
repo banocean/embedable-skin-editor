@@ -208,8 +208,19 @@ class RecentColorPaletteTab extends Tab {
 
     this.addEventListener("wheel", this._onPaletteWheel.bind(this));
 
-    this.colorPicker.addEventListener("color-change", () => {
-      this.requestUpdate();
+    this.colorPicker.addEventListener("color-change", event => {
+      const color = event.detail.color.hex().toUpperCase();
+
+      if (this.colors.find(value => value.toUpperCase() == color)) {
+        this.requestUpdate();
+      } else {
+        if (!this.renderRoot) return;
+
+        const selected = this.renderRoot.querySelector("#palette .color.selected");
+        if (!selected) return;
+
+        selected.classList.remove("selected");
+      };
     });
   }
 

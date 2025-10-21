@@ -2,6 +2,7 @@ import Color from "color";
 import { clamp } from "../../../../../helpers";
 import Tab from "../../../../misc/tab";
 import { css, html } from "lit";
+import "../../../../misc/icon_button";
 
 class BlendPaletteTab extends Tab {
   static styles = [
@@ -282,8 +283,19 @@ class BlendPaletteTab extends Tab {
 
     this.addEventListener("wheel", this._onPaletteWheel.bind(this));
 
-    this.colorPicker.addEventListener("color-change", () => {
-      this.requestUpdate();
+    this.colorPicker.addEventListener("color-change", event => {
+      const color = event.detail.color.hex().toUpperCase();
+
+      if (this.colors.find(value => value.toUpperCase() == color)) {
+        this.requestUpdate();
+      } else {
+        if (!this.renderRoot) return;
+
+        const selected = this.renderRoot.querySelector("#palette .color.current");
+        if (!selected) return;
+
+        this.requestUpdate();
+      };
     });
   }
 
