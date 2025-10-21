@@ -263,7 +263,9 @@ const STYLES = css`
   }
 
   #layers ncrs-layer-list {
-    height: 100%;
+    position: relative;
+    top: 3rem;
+    height: calc(100% - 3rem);
   }
 
   #layers .toggle {
