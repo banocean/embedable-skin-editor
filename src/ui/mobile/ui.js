@@ -87,10 +87,6 @@ const STYLES = css`
       display: none;
   }
 
-  #toolbar {
-    padding: 0.25rem;
-  }
-
   ncrs-tools-toolset {
     --ncrs-icon-height: 1.25rem;
 
@@ -98,11 +94,11 @@ const STYLES = css`
     box-sizing: border-box;
     width: 100%;
     display: flex;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
+    gap: 0.2rem;
+    padding: 0.2rem;
     background-color: #131315;
     box-shadow: rgb(10, 10, 13) 0px 4px 4px inset;
+    border-top: 1px solid #1f2025;
   }
 
   ncrs-tools-toolset::part(tool) {
@@ -277,8 +273,9 @@ const STYLES = css`
     background-color: white;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
-    background-color: #1f2025;
-    box-shadow: rgb(19, 19, 21) -2px 2px 4px;
+    background-color: #1f2025f1;
+    backdrop-filter: blur(3px);
+    box-shadow: #13131588 -2px 2px 4px;
   }
 
   #layers .toggle ncrs-icon {

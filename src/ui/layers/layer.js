@@ -7,16 +7,18 @@ class Layer extends LitElement {
       width: 68px;
       height: 48px;
       image-rendering: pixelated;
+      background-color: #13131555;
       border-style: solid;
       border-width: 2px;
       border-radius: 4px;
-      border-color: #232428;
+      border-color: #232428bc;
 
       --icon-size: 1rem;
     }
 
     :host([active=true]) {
-      border-color: #494c4e;
+      background-color: #13131533;
+      border-color: #979a9c55;
     }
 
     #preview {

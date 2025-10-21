@@ -11,7 +11,9 @@ class LayerList extends LitElement {
     :host {
       display: block;
       width: 5rem;
-      background-color: rgb(19, 19, 21);
+      background-color: #13131599;
+      backdrop-filter: blur(3px);
+      border-left: 1px solid #1f2025;
       box-sizing: border-box;
       padding: 0.25rem;
     }
@@ -71,7 +73,7 @@ class LayerList extends LitElement {
       align-items: center;
       justify-content: center;
       width: 1.75rem;
-      background-color: rgb(35, 36, 40);
+      background-color: #232428cc;
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
       cursor: grab;
