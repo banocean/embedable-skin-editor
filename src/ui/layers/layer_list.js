@@ -70,16 +70,17 @@ class LayerList extends LitElement {
       display: none;
       align-items: center;
       justify-content: center;
-      width: 1.5rem;
+      width: 1.75rem;
       background-color: rgb(35, 36, 40);
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
+      cursor: grab;
     }
 
     #layers .handle ncrs-icon {
-      width: 0.75rem;
-      height: 0.75rem;
-      cursor: grab;
+      width: 1rem;
+      height: 1rem;
+      touch-action: none;
       --icon-color: rgb(73, 76, 78);
     }
 
@@ -125,7 +126,7 @@ class LayerList extends LitElement {
     }
 
     :host([mobile]) {
-      width: 7rem;
+      width: 7.25rem;
     }
 
     :host([mobile]) #layers-wrapper {
@@ -201,7 +202,7 @@ class LayerList extends LitElement {
       const handleIcon = document.createElement("ncrs-icon");
       handleIcon.icon = "move";
       handleIcon.color = "var(--icon-color)";
-      handleDiv.appendChild(handleIcon)
+      handleDiv.appendChild(handleIcon);
 
       layerDiv.appendChild(handleDiv);
       layerDiv.appendChild(new Layer(this.ui, layer));
