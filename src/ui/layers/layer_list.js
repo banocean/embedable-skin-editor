@@ -70,7 +70,7 @@ class LayerList extends LitElement {
       display: none;
       align-items: center;
       justify-content: center;
-      width: 1rem;
+      width: 1.5rem;
       background-color: rgb(35, 36, 40);
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
@@ -125,16 +125,16 @@ class LayerList extends LitElement {
     }
 
     :host([mobile]) {
-      width: 6rem;
+      width: 7rem;
     }
 
     :host([mobile]) #layers-wrapper {
-      width: 5.5rem;
+      width: 6.5rem;
     }
 
     :host([mobile]) ncrs-layer {
-      /* width: 5.25rem; */
-      --icon-size: 1.5rem;
+      width: 5.25rem;
+      --icon-size: 1.75rem;
       border-top-left-radius: 0px;
       border-bottom-left-radius: 0px;
     }
