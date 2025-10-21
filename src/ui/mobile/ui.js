@@ -60,12 +60,15 @@ const STYLES = css`
   }
 
   #top {
+    position:absolute;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 3.375rem;
-    background-color: #1f2025;
+    height: 3rem;
+    background-color: #1f2025dd;
+    backdrop-filter: blur(4px);
     padding: 0.5rem;
     box-sizing: border-box;
   }
@@ -79,7 +82,7 @@ const STYLES = css`
     scroll-snap-type: x mandatory;
     scroll-snap-stop: always;
     background-color: #1f2025;
-    box-shadow: #131315 0px -4px 4px;
+    box-shadow: #131315ee 0px -4px 4px;
     overscroll-behavior: none;
   }
 
@@ -97,7 +100,7 @@ const STYLES = css`
     gap: 0.2rem;
     padding: 0.2rem;
     background-color: #131315;
-    box-shadow: rgb(10, 10, 13) 0px 4px 4px inset;
+    box-shadow: #0a0a0d 0px 4px 4px inset;
     border-top: 1px solid #1f2025;
   }
 
@@ -242,7 +245,7 @@ const STYLES = css`
   }
 
   #history button:disabled ncrs-icon {
-    --icon-color: #aaaaaa;
+    --icon-color: #999999ee;
   }
 
   #layers {
@@ -276,6 +279,7 @@ const STYLES = css`
     background-color: #1f2025f1;
     backdrop-filter: blur(3px);
     box-shadow: #13131588 -2px 2px 4px;
+    transform: translateY(calc(3rem / 2));
   }
 
   #layers .toggle ncrs-icon {
