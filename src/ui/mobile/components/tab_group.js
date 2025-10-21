@@ -52,6 +52,7 @@ class MobileTabGroup extends LitElement {
       scrollbar-width: none;
       scroll-snap-type: x mandatory;
       scroll-snap-stop: always;
+      overscroll-behavior: none;
     }
 
     #body::-webkit-scrollbar {
