@@ -226,11 +226,13 @@ class MobileDrawer extends LitElement {
   _onAnimationEnd(event) {
     if (event.animationName === "open") {
       this.classList.add("open");
+      this.dispatchEvent(new CustomEvent("open"));
     }
 
     if (event.animationName === "close") {
       this.open = false;
       this._reset();
+      this.dispatchEvent(new CustomEvent("close"));
     }
 
     if (event.animationName === "snap") {
