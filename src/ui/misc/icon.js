@@ -1,4 +1,7 @@
 import { css, html, LitElement } from "lit";
+import imgArrowLeft from "../../../assets/images/icons/misc/arrow-left.svg";
+import imgArrowRight from "../../../assets/images/icons/misc/arrow-right.svg";
+import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 import imgIconAdd from "../../../assets/images/icons/misc/add.svg";
 import imgIconBackfaceCulling from "../../../assets/images/icons/toggles/backface-culling.svg";
 import imgIconBase from "../../../assets/images/icons/toggles/base.svg";
@@ -16,14 +19,15 @@ import imgIconCamo from "../../../assets/images/icons/modifiers/camo.svg";
 import imgIconCgol from "../../../assets/images/icons/cgol.svg";
 import imgIconCircle from "../../../assets/images/icons/modifiers/circle.svg";
 import imgIconClone from "../../../assets/images/icons/misc/clone.svg";
+import imgIconCog from "../../../assets/images/icons/misc/cog.svg";
 import imgIconCopy from "../../../assets/images/icons/misc/copy.svg";
 import imgIconDarkMode from "../../../assets/images/icons/misc/dark-mode.svg";
 import imgIconDownload from "../../../assets/images/icons/download.svg";
 import imgIconDuskMode from "../../../assets/images/icons/misc/dusk-mode.svg";
 import imgIconEraser from "../../../assets/images/icons/tools/eraser.svg";
 import imgIconEyeClosed from "../../../assets/images/icons/toggles/eye-closed.svg";
-import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
 import imgIconEyedropper from "../../../assets/images/icons/tools/eyedropper.svg";
+import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
 import imgIconForce1 from "../../../assets/images/icons/modifiers/force-1.svg";
 import imgIconForce2 from "../../../assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "../../../assets/images/icons/modifiers/force-3.svg";
@@ -31,11 +35,14 @@ import imgIconForce4 from "../../../assets/images/icons/modifiers/force-4.svg";
 import imgIconForce5 from "../../../assets/images/icons/modifiers/force-5.svg";
 import imgIconFullscreen from "../../../assets/images/icons/misc/fullscreen.svg";
 import imgIconJitter from "../../../assets/images/icons/jitter.svg";
-import imgIconLightMode from "../../../assets/images/icons/misc/light-mode.svg";
 import imgIconLighten from "../../../assets/images/icons/modifiers/lighten.svg";
+import imgIconLightMode from "../../../assets/images/icons/misc/light-mode.svg";
+import imgIconMenu from "../../../assets/images/icons/misc/menu.svg";
 import imgIconMerge from "../../../assets/images/icons/misc/merge.svg";
 import imgIconMinimize from "../../../assets/images/icons/misc/minimize.svg";
 import imgIconMirror from "../../../assets/images/icons/modifiers/mirror.svg";
+import imgIconMove from "../../../assets/images/icons/tools/move.svg";
+import imgIconMoveLayer from "../../../assets/images/icons/misc/move-layer.svg";
 import imgIconOverlay from "../../../assets/images/icons/toggles/overlay.svg";
 import imgIconOverlayGrid from "../../../assets/images/icons/toggles/overlay-grid.svg";
 import imgIconPaste from "../../../assets/images/icons/misc/paste.svg";
@@ -53,18 +60,14 @@ import imgIconSize2 from "../../../assets/images/icons/modifiers/size-2.svg";
 import imgIconSize3 from "../../../assets/images/icons/modifiers/size-3.svg";
 import imgIconSquare from "../../../assets/images/icons/modifiers/square.svg";
 import imgIconUndo from "../../../assets/images/icons/misc/undo.svg";
-import imgIconMove from "../../../assets/images/icons/tools/move.svg";
-import imgIconCog from "../../../assets/images/icons/misc/cog.svg";
-import imgIconMenu from "../../../assets/images/icons/misc/menu.svg";
-import imgArrowLeft from "../../../assets/images/icons/misc/arrow-left.svg";
-import imgArrowRight from "../../../assets/images/icons/misc/arrow-right.svg";
-import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
+  "arrow-left": imgArrowLeft,
+  "arrow-right": imgArrowRight,
   "backface-culling": imgIconBackfaceCulling,
-  "base": imgIconBase,
   "base-grid": imgIconBaseGrid,
+  "base": imgIconBase,
   "blend": imgIconBlend,
   "blow-up-model": imgIconBlowUpModel,
   "box-checked": imgIconBoxChecked,
@@ -78,7 +81,7 @@ const ICON_MAP = {
   "cgol": imgIconCgol,
   "circle": imgIconCircle,
   "clone": imgIconClone,
-  "replace-color": imgIconReplaceColor,
+  "cog": imgIconCog,
   "copy": imgIconCopy,
   "dark-mode": imgIconDarkMode,
   "download": imgIconDownload,
@@ -93,34 +96,33 @@ const ICON_MAP = {
   "force-4": imgIconForce4,
   "force-5": imgIconForce5,
   "fullscreen": imgIconFullscreen,
+  "grid-culling": imgGridCull,
   "jitter": imgIconJitter,
   "light-mode": imgIconLightMode,
   "lighten": imgIconLighten,
+  "menu": imgIconMenu,
   "merge": imgIconMerge,
   "minimize": imgIconMinimize,
   "mirror": imgIconMirror,
-  "overlay": imgIconOverlay,
+  "move": imgIconMove,
+  "move-layer": imgIconMoveLayer,
   "overlay-grid": imgIconOverlayGrid,
+  "overlay": imgIconOverlay,
   "paste": imgIconPaste,
   "redo": imgIconRedo,
   "remove": imgIconRemove,
+  "replace-color": imgIconReplaceColor,
   "saturate": imgIconSaturate,
   "sculpt": imgIconSculpt,
   "search": imgIconSearch,
-  "shade": imgIconShade,
   "shade-once": imgIconShadeOnce,
+  "shade": imgIconShade,
   "shading": imgIconShading,
   "size-1": imgIconSize1,
   "size-2": imgIconSize2,
   "size-3": imgIconSize3,
   "square": imgIconSquare,
   "undo": imgIconUndo,
-  "move": imgIconMove,
-  "cog": imgIconCog,
-  "menu": imgIconMenu,
-  "arrow-left": imgArrowLeft,
-  "arrow-right": imgArrowRight,
-  "grid-culling": imgGridCull,
 }
 
 class Icon extends LitElement {

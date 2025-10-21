@@ -200,7 +200,7 @@ class LayerList extends LitElement {
       handleDiv.classList.add("handle");
 
       const handleIcon = document.createElement("ncrs-icon");
-      handleIcon.icon = "move";
+      handleIcon.icon = "move-layer";
       handleIcon.color = "var(--icon-color)";
       handleDiv.appendChild(handleIcon);
 
