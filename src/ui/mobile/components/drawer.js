@@ -27,6 +27,12 @@ class MobileDrawer extends LitElement {
       padding-top: 4rem;
     }
 
+    @-moz-document url-prefix() {
+      :host {
+        backdrop-filter: none;
+      }
+    }
+
     #drawer {
       background-color: rgb(26, 26, 26);
       height: var(--drawer-height);

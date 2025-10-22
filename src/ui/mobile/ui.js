@@ -73,6 +73,12 @@ const STYLES = css`
     box-sizing: border-box;
   }
 
+  @-moz-document url-prefix() {
+    #top {
+      backdrop-filter: none; 
+    }
+  }
+
   #bottom {
     position: relative;
     display: flex;
@@ -282,6 +288,12 @@ const STYLES = css`
     backdrop-filter: blur(3px);
     box-shadow: #13131588 -2px 2px 4px;
     transform: translateY(calc(3rem / 2));
+  }
+
+  @-moz-document url-prefix() {
+    #layers .toggle {
+      backdrop-filter: none;
+    }
   }
 
   #layers .toggle ncrs-icon {

@@ -18,6 +18,13 @@ class LayerList extends LitElement {
       padding: 0.25rem;
     }
 
+    @-moz-document url-prefix() {
+      :host {
+        backdrop-filter: none;
+        background-color: #131315dd;
+      }
+    }
+
     #list {
       display: flex;
       flex-direction: column;
