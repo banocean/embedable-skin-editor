@@ -13,6 +13,7 @@ class LayerList extends LitElement {
       width: 5rem;
       background-color: #13131599;
       backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
       border-left: 1px solid #1f2025;
       box-sizing: border-box;
       padding: 0.25rem;

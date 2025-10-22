@@ -69,6 +69,7 @@ const STYLES = css`
     height: 3rem;
     background-color: #1f2025dd;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     padding: 0.5rem;
     box-sizing: border-box;
   }
@@ -286,6 +287,7 @@ const STYLES = css`
     border-bottom-left-radius: 0.25rem;
     background-color: #1f2025f1;
     backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     box-shadow: #13131588 -2px 2px 4px;
     transform: translateY(calc(3rem / 2));
   }
