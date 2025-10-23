@@ -19,9 +19,12 @@ class ExportTab extends Tab {
   ]
 
   constructor(ui) {
-    super({name: "Export", title: "Export [4]\nExport skins, project files, and share to gallery."});
+    super({name: "Save", title: "Save [4]\nExport skins, project files, and share to gallery."});
     
     this.buttons = new ExportTabButtons(ui, ui.editor);
+
+    this.ui = ui;
+    this.editor = this.ui.editor;
   }
 
   render() {
