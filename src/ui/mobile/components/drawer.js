@@ -25,6 +25,7 @@ class MobileDrawer extends LitElement {
       backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
       -webkit-backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
       padding-top: 4rem;
+      z-index: 1;
     }
 
     @-moz-document url-prefix() {
@@ -39,6 +40,7 @@ class MobileDrawer extends LitElement {
       width: 100%;
       border-top-left-radius: 0.5rem;
       border-top-right-radius: 0.5rem;
+      z-index: 2;
     }
 
     #handle-section {
