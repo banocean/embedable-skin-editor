@@ -531,6 +531,12 @@ class UI extends LitElement {
 
     this.editor.history.addEventListener("update", () => {
       this.requestUpdate();
+    });
+
+    this.editor.addEventListener("select-tool", event => {
+      if (event.detail.wasActive) {
+        this.config.select("tool");
+      }
     })
 
     this.addEventListener("dragover", event => event.preventDefault());

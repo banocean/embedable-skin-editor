@@ -243,12 +243,12 @@ class Editor extends LitElement {
     this.model.overlayGrid.visible = overlayGridVisible && overlayVisible;
   }
 
-  selectTool(tool) {
+  selectTool(tool, wasActive) {
     if (!this.tools.includes(tool)) { return false; }
 
     this.currentTool = tool;
     this.persistence.set("selectedTool", tool.properties.id);
-    this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool: tool}}));
+    this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool, wasActive}}));
   }
 
   selectLayer(layer) {

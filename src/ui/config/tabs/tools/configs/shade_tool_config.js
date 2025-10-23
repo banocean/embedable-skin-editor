@@ -14,7 +14,7 @@ class ShadeToolConfig extends BaseToolConfig {
     shadeOnce: {},
   }
 
-  constructor(config) {
+  constructor(config, mobile = false) {
     super(config, {
       size: {
         type: "select", number: true,
@@ -33,11 +33,11 @@ class ShadeToolConfig extends BaseToolConfig {
         options: [{icon: "lighten", value: "lighten", title: "Set shade style to lighten"}, {icon: "saturate", value: "saturate", title: "Set shade style to saturate"}]
       },
       shadeOnce: {type: "toggle", icon: "shade-once", title: "Shade only once\nShade any pixel only once in a stroke."},
-    });
+    }, mobile);
     this.tool = new ShadeTool(config);
   }
 
-  render() {
+  renderDesktop() {
     return html`
       <div id="main">
         <h2>Shade Tool</h2>
@@ -71,6 +71,33 @@ class ShadeToolConfig extends BaseToolConfig {
       </div>
     `;
   }
+
+  renderMobile() {
+    return html`
+      <div id="main-mobile" class="group">
+        <div>
+          <p class="title">Size</p>
+          ${this._sizeControl()}
+        </div>
+        <div>
+          <p class="title">Shape</p>
+          ${this._shapeControl()}
+        </div>
+        <div>
+          <p class="title">Style</p>
+          ${this._shadeStyleControl()}
+        </div>
+        <div>
+          <p class="title">Force</p>
+          ${this._forceControl()}
+        </div>
+        <div>
+          <p class="title">Effects</p>
+          ${this._shadeOnceControl()}
+        </div>
+      </div>
+    `;
+  };
 }
 
 customElements.define("ncrs-shade-tool-config", ShadeToolConfig);

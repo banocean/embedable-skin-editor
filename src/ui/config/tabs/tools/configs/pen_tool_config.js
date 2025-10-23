@@ -15,7 +15,7 @@ class PenToolConfig extends BaseToolConfig {
     blend: {},
   }
 
-  constructor(config) {
+  constructor(config, mobile = false) {
     super(config, {
       size: {
         type: "select", number: true,
@@ -28,11 +28,11 @@ class PenToolConfig extends BaseToolConfig {
       mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
       camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
       blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
-    });
+    }, mobile);
     this.tool = new PenTool(config);
   }
 
-  render() {
+  renderDesktop() {
     return html`
       <div id="main">
         <h2>Brush Tool</h2>
@@ -58,6 +58,29 @@ class PenToolConfig extends BaseToolConfig {
       </div>
     `;
   }
+
+  renderMobile() {
+    return html`
+      <div id="main-mobile" class="group">
+        <div>
+          <p class="title">Size</p>
+          ${this._sizeControl()}
+        </div>
+        <div>
+          <p class="title">Shape</p>
+          ${this._shapeControl()}
+        </div>
+        <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._mirrorControl()}
+            ${this._camoControl()}
+            ${this._blendControl()}
+          </div>
+        </div>
+      </div>
+    `;
+  };
 }
 
 customElements.define("ncrs-pen-tool-config", PenToolConfig);

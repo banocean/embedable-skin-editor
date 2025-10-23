@@ -9,6 +9,12 @@ class BaseToolConfig extends LitElement {
       padding: 0.5rem;
     }
 
+    #main-mobile {
+      color: rgb(156 163 175);
+      padding-top: 0.25rem;
+      padding-bottom: 0px;
+    }
+
     h2 {
       text-align: center;
       font-size: small;
@@ -39,10 +45,11 @@ class BaseToolConfig extends LitElement {
     }
   `;
 
-  constructor(config, properties) {
+  constructor(config, properties, mobile = false) {
     super();
     this.config = config;
     this.properties = properties;
+    this.mobile = mobile;
 
     this._setupMethods();
     this._setupCallbacks();
@@ -57,6 +64,18 @@ class BaseToolConfig extends LitElement {
   }
 
   render() {
+    return this.mobile ? this.renderMobile() : this.renderDesktop();
+  }
+
+  renderDesktop() {
+    return html`
+      <div id="main">
+        <h2>Base Tool</h2>
+      </div>
+    `;
+  }
+
+  renderMobile() {
     return html`
       <div id="main">
         <h2>Base Tool</h2>

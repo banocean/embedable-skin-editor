@@ -16,6 +16,11 @@ import EditorToggles from "../tools/editor_toggles";
 import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./config_drawer";
 import { GALLERY_URL, SKIN_LOOKUP_URL } from "../../constants";
 import LayerList from "../layers/layer_list";
+import PenToolConfig from "../config/tabs/tools/configs/pen_tool_config";
+import EraseToolConfig from "../config/tabs/tools/configs/erase_tool_config";
+import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
+import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
+import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
 
 const STYLES = css`
   :host {
@@ -316,6 +321,30 @@ const STYLES = css`
     display: none;
   }
 
+  #tool-config {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 0rem 0.5rem;
+    box-sizing: border-box;
+    background-color: rgb(31, 32, 37);
+    z-index: 1;
+    box-shadow: #131315ee 0px -4px 4px;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
+  }
+
+  :host(.tool-config-open) #tool-config {
+    transform: translateY(0%);
+  }
+  
+  #tool-config > * {
+    display: block;
+    max-width: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
@@ -340,9 +369,21 @@ class MobileUI extends LitElement {
     this.layers = new LayerList(this);
     this.layers.mobile = true;
 
+    this._setupToolConfigs();
+    this._setToolConfig();
+
     this._pwaCheck();
 
     this.addEventListener("dblclick", event => event.preventDefault());
+
+    this.editor.addEventListener("select-tool", event => {
+      if (event.detail.wasActive) {
+        this.classList.toggle("tool-config-open");
+      }
+
+      this._setToolConfig();
+      this.requestUpdate();
+    })
   }
 
   firstUpdated() {
@@ -377,6 +418,9 @@ class MobileUI extends LitElement {
               <ncrs-icon icon="arrow-right" class="on" color="var(--icon-color)"></ncrs-icon>
               <ncrs-icon icon="arrow-left" class="off" color="var(--icon-color)"></ncrs-icon>
             </button>
+          </div>
+          <div id="tool-config">
+            ${this.toolConfig}
           </div>
         </div>
         <div id="bottom">
@@ -526,6 +570,24 @@ class MobileUI extends LitElement {
     `
   }
 
+  _setupToolConfigs() {
+    const config = this.editor.toolConfig;
+    
+    this.toolConfigs = {
+      pen: new PenToolConfig(config, true),
+      eraser: new EraseToolConfig(config, true),
+      bucket: new BucketToolConfig(config, true),
+      shade: new ShadeToolConfig(config, true),
+      sculpt: new SculptToolConfig(config, true),
+    }
+  }
+
+  _setToolConfig() {
+    const tool = this.editor.currentTool.properties.id;
+
+    this.toolConfig = this.toolConfigs[tool];
+  }
+
   _undo() {
     this.editor.history.undo();
   }
@@ -543,11 +605,11 @@ class MobileUI extends LitElement {
   _setupEvents() {
     this.editor.config.addEventListener("pick-color-change", () => {
       this.requestUpdate();
-    })
+    });
 
     this.editor.history.addEventListener("update", () => {
       this.requestUpdate();
-    })
+    });
   }
 }
 

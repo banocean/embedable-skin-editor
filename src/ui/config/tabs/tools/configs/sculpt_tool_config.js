@@ -13,7 +13,7 @@ class SculptToolConfig extends BaseToolConfig {
     mirror: {},
   }
 
-  constructor(config) {
+  constructor(config, mobile = false) {
     super(config, {
       size: {
         type: "select", number: true,
@@ -24,11 +24,11 @@ class SculptToolConfig extends BaseToolConfig {
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
       },
       mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
-    });
+    }, mobile);
     this.tool = new SculptTool(config);
   }
 
-  render() {
+  renderDesktop() {
     return html`
       <div id="main">
         <h2>Sculpt Tool</h2>
@@ -49,6 +49,27 @@ class SculptToolConfig extends BaseToolConfig {
           </div>
         </div>
         <p class="description">${this.tool.properties.description}</p>
+      </div>
+    `;
+  }
+
+  renderMobile() {
+    return html`
+      <div id="main-mobile" class="group">
+        <div>
+          <p class="title">Size</p>
+          ${this._sizeControl()}
+        </div>
+        <div>
+          <p class="title">Shape</p>
+          ${this._shapeControl()}
+        </div>
+        <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._mirrorControl()}
+          </div>
+        </div>
       </div>
     `;
   }

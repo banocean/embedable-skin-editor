@@ -48,12 +48,8 @@ class Tool extends LitElement {
   }
 
   select() {
-    if (this.active) {
-      this.config.select("tool");
-    }
-
+    this.editor.selectTool(this.tool, this.active);
     this.active = true;
-    this.editor.selectTool(this.tool);
   }
 }
 

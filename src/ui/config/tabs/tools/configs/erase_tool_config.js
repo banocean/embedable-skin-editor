@@ -13,7 +13,7 @@ class EraseToolConfig extends BaseToolConfig {
     mirror: {},
   }
 
-  constructor(config) {
+  constructor(config, mobile = false) {
     super(config, {
       size: {
         type: "select", number: true,
@@ -24,11 +24,11 @@ class EraseToolConfig extends BaseToolConfig {
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
       },
       mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
-    });
+    }, mobile);
     this.tool = new EraseTool(config);
   }
 
-  render() {
+  renderDesktop() {
     return html`
       <div id="main">
         <h2>Erase Tool</h2>
@@ -52,6 +52,27 @@ class EraseToolConfig extends BaseToolConfig {
       </div>
     `;
   }
+
+  renderMobile() {
+    return html`
+      <div id="main-mobile" class="group">
+        <div>
+          <p class="title">Size</p>
+          ${this._sizeControl()}
+        </div>
+        <div>
+          <p class="title">Shape</p>
+          ${this._shapeControl()}
+        </div>
+        <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._mirrorControl()}
+          </div>
+        </div>
+      </div>
+    `;
+  };
 }
 
 customElements.define("ncrs-erase-tool-config", EraseToolConfig);
