@@ -10,7 +10,7 @@ class Toolbar extends LitElement {
       display: block;
       height: auto;
       padding: 0.25rem;
-      width: 3.75rem;
+      min-width: 3.75rem;
       background-color: #131315;
       box-sizing: border-box;
       overflow: auto;
@@ -61,7 +61,7 @@ class Toolbar extends LitElement {
 
     #toggle-variant {
       display: block;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     #toggle-variant > div {
@@ -106,8 +106,24 @@ class Toolbar extends LitElement {
       --background-after: url(${unsafeCSS(imgSteveAlex)}) 24px 0px;
     }
 
+    .label {
+      font-size: small;
+      color: rgb(134, 137, 139);
+      text-align: center;
+      margin-top: 0.25rem;
+      margin-bottom: 0.125rem;
+    }
+
+    .label-grid {
+      margin-bottom: -0.125rem;
+    }
+
+    .row-grid {
+      margin-bottom: -0.25rem;
+    }
+
     ncrs-part-toggle {
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
   `;
 
@@ -174,13 +190,16 @@ class Toolbar extends LitElement {
 
     return html`
       <div>
+        <p class="label">Parts</p>
         ${this.partToggles}
+        <p class="label">Model</p>
         <ncrs-toggle title="Toggle skin model" id="toggle-variant" ?toggled=${isSlim} @toggle=${this._toggleSkinModel}>
           <div id="toggle-classic" slot="off">
           </div>
           <div id="toggle-slim" slot="on">
           </div>
         </ncrs-toggle>
+        <p class="label">Layer</p>
         <div class="ncrs-toggle-row">
           <ncrs-toggle title="Toggle base" ?toggled=${baseVisible} @toggle=${this._toggleBase}>
             <ncrs-icon slot="off" icon="base" color="white"></ncrs-icon>
@@ -191,7 +210,8 @@ class Toolbar extends LitElement {
             <ncrs-icon slot="on" icon="overlay" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
         </div>
-        <div class="ncrs-toggle-row">
+        <p class="label label-grid">Grid</p>
+        <div class="ncrs-toggle-row row-grid">
           <ncrs-toggle title="Toggle base grid" ?toggled=${baseGridVisible} @toggle=${this._toggleBaseGrid}>
             <ncrs-icon slot="off" icon="base-grid" color="white"></ncrs-icon>
             <ncrs-icon slot="on" icon="base-grid" color="#55b2ff"></ncrs-icon>
@@ -201,6 +221,7 @@ class Toolbar extends LitElement {
             <ncrs-icon slot="on" icon="overlay-grid" color="#55b2ff"></ncrs-icon>
           </ncrs-toggle>
         </div>
+        <p class="label">Render</p>
         <div class="ncrs-toggle-row">
           <ncrs-toggle title="Toggle Backface Culling" ?toggled=${cullBackFace} @toggle=${this._toggleBackfaceCulling}>
             <ncrs-icon slot="off" icon="backface-culling" color="white"></ncrs-icon>
