@@ -327,11 +327,20 @@ const STYLES = css`
     width: 100%;
     padding: 0rem 0.5rem;
     box-sizing: border-box;
-    background-color: rgb(31, 32, 37);
+    background-color: #1f2025dd;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 1;
-    box-shadow: #131315ee 0px -4px 4px;
+    box-shadow: #13131566 0px -4px 4px;
     transform: translateY(100%);
     transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
+  }
+
+  @-moz-document url-prefix() {
+    #tool-config {
+      background-color: #1f2025f4;
+      backdrop-filter: none;
+    }
   }
 
   :host(.tool-config-open) #tool-config {
@@ -344,6 +353,9 @@ const STYLES = css`
     overflow: auto;
     overscroll-behavior: contain;
     box-sizing: border-box;
+    scrollbar-color: #3d4042 #1a1a1a;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
   }
 `;
 
