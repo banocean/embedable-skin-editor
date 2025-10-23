@@ -60,14 +60,24 @@ const STYLES = css`
   }
 
   #top {
+    position:absolute;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 3.375rem;
-    background-color: #1f2025;
+    height: 3rem;
+    background-color: #1f2025dd;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     padding: 0.5rem;
     box-sizing: border-box;
+  }
+
+  @-moz-document url-prefix() {
+    #top {
+      backdrop-filter: none; 
+    }
   }
 
   #bottom {
@@ -79,16 +89,12 @@ const STYLES = css`
     scroll-snap-type: x mandatory;
     scroll-snap-stop: always;
     background-color: #1f2025;
-    box-shadow: #131315 0px -4px 4px;
+    box-shadow: #131315ee 0px -4px 4px;
     overscroll-behavior: none;
   }
 
   #bottom::-webkit-scrollbar {
       display: none;
-  }
-
-  #toolbar {
-    padding: 0.25rem;
   }
 
   ncrs-tools-toolset {
@@ -98,11 +104,11 @@ const STYLES = css`
     box-sizing: border-box;
     width: 100%;
     display: flex;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
+    gap: 0.2rem;
+    padding: 0.2rem;
     background-color: #131315;
-    box-shadow: rgb(10, 10, 13) 0px 4px 4px inset;
+    box-shadow: #0a0a0d 0px 4px 4px inset;
+    border-top: 1px solid #1f2025;
   }
 
   ncrs-tools-toolset::part(tool) {
@@ -246,7 +252,7 @@ const STYLES = css`
   }
 
   #history button:disabled ncrs-icon {
-    --icon-color: #aaaaaa;
+    --icon-color: #999999ee;
   }
 
   #layers {
@@ -264,7 +270,9 @@ const STYLES = css`
   }
 
   #layers ncrs-layer-list {
-    height: 100%;
+    position: relative;
+    top: 3rem;
+    height: calc(100% - 3rem);
   }
 
   #layers .toggle {
@@ -277,8 +285,17 @@ const STYLES = css`
     background-color: white;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
-    background-color: #1f2025;
-    box-shadow: rgb(19, 19, 21) -2px 2px 4px;
+    background-color: #1f2025f1;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    box-shadow: #13131588 -2px 2px 4px;
+    transform: translateY(calc(3rem / 2));
+  }
+
+  @-moz-document url-prefix() {
+    #layers .toggle {
+      backdrop-filter: none;
+    }
   }
 
   #layers .toggle ncrs-icon {
