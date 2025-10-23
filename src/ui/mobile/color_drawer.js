@@ -52,7 +52,7 @@ const COLOR_DRAWER_STYLES = css`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    height: 12rem;
+    height: calc(100% - 1rem);
   }
 
   #palettes::part(buttons) {
