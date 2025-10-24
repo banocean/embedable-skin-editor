@@ -59,11 +59,14 @@ class BucketToolConfig extends BaseToolConfig {
           <div>
             <p class="title">Effects</p>
             <div class="group-sm">
-              ${this._replaceColorControl()}
               ${this._camoControl()}
               ${this._blendControl()}
             </div>
           </div>
+        </div>
+        <p class="title">Fill Style</p>
+        <div>
+          ${this._fillStyleControl()}
         </div>
         <p class="description">${this.tool.properties.description}</p>
       </div>
@@ -76,13 +79,13 @@ class BucketToolConfig extends BaseToolConfig {
         <div>
           <p class="title">Effects</p>
           <div class="group-sm">
-          ${this._camoControl()}
-          ${this._blendControl()}
+            ${this._camoControl()}
+            ${this._blendControl()}
           </div>
+        </div>
+        <div>
           <p class="title">Fill Style</p>
-          <div>
           ${this._fillStyleControl()}
-          </div>
         </div>
       </div>
     `;
