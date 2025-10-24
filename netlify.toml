@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/mobile"
-  to = "/mobile/"
-  status = 301
-  force = true
