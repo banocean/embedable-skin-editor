@@ -51,7 +51,7 @@ class Toolbar extends LitElement {
       margin-bottom: -0.25rem;
     }
 
-    ncrs-part-toggle {
+    ncrs-tools-part-toggles {
       margin-bottom: 0.5rem;
     }
   `;

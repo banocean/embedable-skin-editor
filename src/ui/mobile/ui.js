@@ -196,7 +196,7 @@ const STYLES = css`
   
   ncrs-tools-part-toggles {
     --scale: 0.9;
-    --gap: 0.75rem 0.8rem;
+    --gap: 0.6rem 0.85rem;
   }
 
   #toggles-side {
@@ -209,9 +209,13 @@ const STYLES = css`
     display: block;
   }
 
+  #model-toggle {
+    margin-top: -2rem;
+  }
+
   ncrs-tools-editor-toggles {
-    scale: 1.5;
     display: block;
+    --icon-scale: 1.125;
   }
 
   .menu-arrow {
@@ -368,6 +372,19 @@ const STYLES = css`
     width: 1rem;
     background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
   }
+
+  .label {
+    font-size: small;
+    color: rgb(134, 137, 139);
+    text-align: center;
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .label-sm {
+    margin-top: -0.5rem;
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
@@ -491,8 +508,12 @@ class MobileUI extends LitElement {
             <button class="menu-arrow menu-arrow-left" @click=${this._scrollToMenu}>
               <ncrs-icon icon="arrow-left" color="rgba(255, 255, 255, 0.2)"></ncrs-icon>
             </button>
-            ${this.modelToggle}
+            <div id="model-toggle">
+              <p class="label">Model</p>
+              ${this.modelToggle}
+            </div>
             <div id="part-toggles">
+              <p class="label label-sm">Parts</p>
               ${this.partToggles}
             </div>
             <div id="toggles-side">
