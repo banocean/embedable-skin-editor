@@ -25,7 +25,7 @@ class MobileDrawer extends LitElement {
       backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
       -webkit-backdrop-filter: blur(calc(var(--base-blur) * calc(1 - var(--close-progress, 0))));
       padding-top: 4rem;
-      z-index: 1;
+      z-index: 50;
     }
 
     @-moz-document url-prefix() {
