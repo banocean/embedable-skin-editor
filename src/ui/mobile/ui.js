@@ -357,6 +357,17 @@ const STYLES = css`
     scrollbar-width: thin;
     scrollbar-gutter: stable;
   }
+
+  #tool-config.overflow::after {
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    display: block;
+    width: 1rem;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
@@ -393,7 +404,17 @@ class MobileUI extends LitElement {
         this.classList.toggle("tool-config-open");
       }
 
+      const oldConfig = this.toolConfig;
+
       this._setToolConfig();
+      
+      if (!this.toolConfig) {
+        this.toolConfig = oldConfig;
+        this.classList.remove("tool-config-open");
+
+        return;
+      }
+
       this.requestUpdate();
     })
   }
@@ -404,6 +425,16 @@ class MobileUI extends LitElement {
 
     this._setupButtonDrag();
     this._setupEvents();
+  }
+
+  updated() {
+    const div = this.renderRoot.getElementById("tool-config");
+    
+    if (this.toolConfig.scrollWidth > this.toolConfig.clientWidth) {
+      div.classList.add("overflow");
+    } else {
+      div.classList.remove("overflow");
+    }
   }
 
   render() {
