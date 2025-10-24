@@ -66,8 +66,11 @@ class Editor extends LitElement {
     }
   `;
 
-  constructor() {
+  constructor(mobile = false) {
     super();
+
+    this.mobile = mobile;
+
     this.persistence = new PersistenceManager("ncrs-editor");
     this.persistence.setDefault("format", FORMAT);
 
@@ -80,7 +83,7 @@ class Editor extends LitElement {
     this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
-    this.currentTool = this.tools[1];
+    this.currentTool = this.tools[this.mobile ? 1 : 0];
 
     this._loadSkin();
     this._setupMesh(this.layers.texture);
@@ -564,14 +567,19 @@ class Editor extends LitElement {
   }
 
   _setupTools() {
-    return [
-      new MoveTool(this.toolConfig),
+    const tools = [
       new PenTool(this.toolConfig),
       new EraseTool(this.toolConfig),
       new BucketTool(this.toolConfig),
       new ShadeTool(this.toolConfig),
       new SculptTool(this.toolConfig),
     ]
+
+    if (this.mobile) {
+      tools.unshift(new MoveTool(this.toolConfig));
+    }
+
+    return tools;
   }
 
   _setupEvents() {

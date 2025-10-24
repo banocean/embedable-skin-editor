@@ -397,7 +397,7 @@ class MobileUI extends LitElement {
     super();
 
     this.persistence = new PersistenceManager("ncrs-ui");
-    this.editor = new Editor;
+    this.editor = new Editor(true);
     this.toolSet = new Toolset(this.editor);
 
     this.colorDrawer = new ColorDrawer(this);
