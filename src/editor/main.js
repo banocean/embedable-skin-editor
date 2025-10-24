@@ -1,35 +1,35 @@
 import { LitElement, css, html } from "lit";
 import * as THREE from "three";
-import { Controls } from "./controls";
-import { Layers } from "./layers/layers";
-import { SkinModel } from "./model/model";
-import { Renderer } from "./renderer";
-import { HistoryManager } from "./history/history_manager";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../constants";
-import AddLayerEntry from "./history/entries/add_layer_entry";
-import ToolConfig from "./tools/tool_config";
-import UpdateLayerTextureEntry from "./history/entries/update_layer_texture_entry";
-import ToolData from "./tools/tool_data";
-import PenTool from "./tools/toolset/pen_tool";
-import BucketTool from "./tools/toolset/bucket_tool";
-import EraseTool from "./tools/toolset/erase_tool";
-import SculptTool from "./tools/toolset/sculpt_tool";
-import ShadeTool from "./tools/toolset/shade_tool";
-import SelectLayerEntry from "./history/entries/select_layer_entry";
-import GroupedEntry from "./history/entries/grouped_entry";
-import DeleteLayerEntry from "./history/entries/delete_layer_entry";
-import ReorderLayersEntry from "./history/entries/reorder_layers_entry";
-import MergeLayersEntry from "./history/entries/merge_layers_entry";
-import CloneLayerEntry from "./history/entries/clone_layer_entry";
-import PersistenceManager from "../persistence";
-import Config from "./config";
+import { Controls } from "./controls.js";
+import { Layers } from "./layers/layers.js";
+import { SkinModel } from "./model/model.js";
+import { Renderer } from "./renderer.js";
+import { HistoryManager } from "./history/history_manager.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../constants.js";
+import AddLayerEntry from "./history/entries/add_layer_entry.js";
+import ToolConfig from "./tools/tool_config.js";
+import UpdateLayerTextureEntry from "./history/entries/update_layer_texture_entry.js";
+import ToolData from "./tools/tool_data.js";
+import PenTool from "./tools/toolset/pen_tool.js";
+import BucketTool from "./tools/toolset/bucket_tool.js";
+import EraseTool from "./tools/toolset/erase_tool.js";
+import SculptTool from "./tools/toolset/sculpt_tool.js";
+import ShadeTool from "./tools/toolset/shade_tool.js";
+import SelectLayerEntry from "./history/entries/select_layer_entry.js";
+import GroupedEntry from "./history/entries/grouped_entry.js";
+import DeleteLayerEntry from "./history/entries/delete_layer_entry.js";
+import ReorderLayersEntry from "./history/entries/reorder_layers_entry.js";
+import MergeLayersEntry from "./history/entries/merge_layers_entry.js";
+import CloneLayerEntry from "./history/entries/clone_layer_entry.js";
+import PersistenceManager from "../persistence.js";
+import Config from "./config.js";
 
 import imgFacingIndicator from "../../assets/images/facing-indicator.svg";
-import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_entry";
-import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry";
-import PersistLayerChangesEntry from "./history/entries/persist_layers_entry";
-import MoveTool from "./tools/toolset/move_tool";
-import { nonPolyfilledCtx } from "../helpers";
+import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_entry.js";
+import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry.js";
+import PersistLayerChangesEntry from "./history/entries/persist_layers_entry.js";
+import MoveTool from "./tools/toolset/move_tool.js";
+import { nonPolyfilledCtx } from "../helpers.js";
 
 const FORMAT = -1;
 
@@ -43,6 +43,8 @@ const CONFIG_VALUES = {
       arm_right: true,
       leg_left: true,
       leg_right: true,
+      ear_left: true,
+      ear_right: true
     },
     persistence: true
   },
@@ -70,7 +72,7 @@ class Editor extends LitElement {
     this.persistence.setDefault("format", FORMAT);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(50, this.clientWidth / this.clientHeight);
+    this.camera = new THREE.PerspectiveCamera(45, this.clientWidth / this.clientHeight);
     this.renderer = new Renderer(this.scene, this.camera);
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -381,9 +383,13 @@ class Editor extends LitElement {
   }
 
   easterEgg(input) {
-    if (input == "#MOXVALLIX") {
-      this.baseGroup.rotateX(Math.PI);
-      this.baseGroup.rotateY(Math.PI);
+    if (["#MOXVALLIX", "#DINNERBONE", "#GRUMM", "#AUSTRALIA"].includes(input)) {
+      this.baseGroup.rotateZ(Math.PI);
+    }
+
+    if (["#DEADMAU5", "#EARS", "#JAX"].includes(input)) {
+      const partVisibility = this.config.get("partVisibility", {});
+      this.setPartVisible("ears", !partVisibility["ears"]);
     }
   }
 

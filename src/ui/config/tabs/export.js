@@ -1,6 +1,6 @@
-import Tab from "../../misc/tab";
 import { css, html } from "lit";
-import ExportTabButtons from "./export/buttons";
+import Tab from "../../misc/tab.js";
+import ExportTabButtons from "./export/buttons.js";
 
 class ExportTab extends Tab {
   static styles = [

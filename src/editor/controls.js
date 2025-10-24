@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { OrbitControls } from "./orbit";
-import { getFocusedElement, isKeybindIgnored } from "../helpers";
+import { OrbitControls } from "./orbit.js";
+import { getFocusedElement, isKeybindIgnored } from "../helpers.js";
 
 import imgEyedropper from "../../assets/images/cursors/eyedropper.png"
 const CURSOR_EYEDROPPER = `url("${imgEyedropper}") 0 32, crosshair`;

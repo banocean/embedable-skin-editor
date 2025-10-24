@@ -1,7 +1,7 @@
-import Tab from "../../misc/tab";
+import Tab from "../../misc/tab.js";
 import { css, html } from "lit";
-import QuickSearch from "./import/quick_search";
-import ImportTabButtons from "./import/buttons";
+import QuickSearch from "./import/quick_search.js";
+import ImportTabButtons from "./import/buttons.js";
 
 class ImportTab extends Tab {
   static styles = [

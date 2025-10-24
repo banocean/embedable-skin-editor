@@ -8,20 +8,20 @@ import "./misc/window";
 import "./misc/skin_2d";
 
 import { css, html, LitElement, render, unsafeCSS } from "lit";
-import Editor from "../editor/main";
-import Toolbar from "./tools/toolbar";
-import LayerList from "./layers/layer_list";
-import Config from "./config/main";
-import PersistenceManager from "../persistence";
-import Modal from "./misc/modal";
+import Editor from "../editor/main.js";
+import Toolbar from "./tools/toolbar.js";
+import LayerList from "./layers/layer_list.js";
+import Config from "./config/main.js";
+import PersistenceManager from "../persistence.js";
+import Modal from "./misc/modal.js";
 
 import imgGridDark from "../../assets/images/grid-editor-dark.png";
 import imgGridGray from "../../assets/images/grid-editor-gray.png";
 import imgGridLight from "../../assets/images/grid-editor-light.png";
 
-import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
-import passesColorAccuracyTest from "./misc/color_accuracy_test";
-import setupKeybinds from "./keybinds";
+import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants.js";
+import passesColorAccuracyTest from "./misc/color_accuracy_test.js";
+import setupKeybinds from "./keybinds.js";
 
 class UI extends LitElement {
   static styles = css`
@@ -46,7 +46,7 @@ class UI extends LitElement {
       pointer-events: none;
       position: absolute;
       top: 8px;
-      left: 36px;
+      left: 4px;
       color: #aaaaaa;
       font-size: small;
     }
@@ -150,13 +150,13 @@ class UI extends LitElement {
       cursor: pointer;
       position: absolute;
       top: 8px;
-      left: 8px;
+      right: 8px;
     }
 
     #themeSwitch ncrs-icon {
       display: none;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     :host(.editor-dark) #themeSwitch ncrs-icon.dark {
@@ -176,14 +176,14 @@ class UI extends LitElement {
       display: block;
       cursor: pointer;
       position: absolute;
-      top: 36px;
-      left: 8px;
+      top: 40px;
+      right: 8px;
     }
 
     #fullscreenSwitch ncrs-icon {
       display: none;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     :host(.minimized) #fullscreenSwitch ncrs-icon.minimized {
@@ -203,14 +203,14 @@ class UI extends LitElement {
       display: block;
       cursor: pointer;
       position: absolute;
-      top: 36px;
-      left: 8px;
+      top: 40px;
+      right: 8px;
     }
 
     #fullscreenSwitchLightMode ncrs-icon {
       display: none;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     :host(.minimized) #fullscreenSwitchLightMode ncrs-icon.minimized {
@@ -402,9 +402,9 @@ class UI extends LitElement {
   _bgToggle() {
     return html`
       <button id="themeSwitch" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="#ffffff44" class="dark"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="light-mode" color="#ffffff44" class="gray"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="#00000066" class="light"></ncrs-icon>
+        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="#ffffff66" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="light-mode" color="#ffffff66" class="gray"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="#00000088" class="light"></ncrs-icon>
       </button>
     `
   }
@@ -412,12 +412,12 @@ class UI extends LitElement {
   _fullscreenToggle() {
     return html`
       <button id="fullscreenSwitchLightMode" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#00000066" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="#00000066" class="fullscreen"></ncrs-icon>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#00000088" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="#00000088" class="fullscreen"></ncrs-icon>
       </button>
       <button id="fullscreenSwitch" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#ffffff44" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="#ffffff44" class="fullscreen"></ncrs-icon>
+        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#ffffff66" class="minimized"></ncrs-icon>
+        <ncrs-icon title="Minimize." icon="minimize" color="#ffffff66" class="fullscreen"></ncrs-icon>
       </button>
     `
   }

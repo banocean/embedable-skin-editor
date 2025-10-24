@@ -1,9 +1,11 @@
 import { css, html, LitElement } from "lit";
 import { styleMap } from "lit/directives/style-map.js";
 import Color from "color";
-import { clamp } from "../../helpers";
-import NAMED_COLORS from "./named_colors";
-import Slider from "./slider";
+import { clamp } from "../../helpers.js";
+import NAMED_COLORS from "./named_colors.js";
+import Slider from "./slider.js";
+
+const EASTEREGG_VALUES = ["#MOXVALLIX", "#DINNERBONE", "#GRUMM", "#AUSTRALIA", "#DEADMAU5", "#EARS", "#JAX"]
 
 class ColorPicker extends LitElement {
   static properties = {
@@ -403,7 +405,7 @@ class ColorPicker extends LitElement {
   _onTextChange(event) {
     const oldValue = this.getColorWithAlpha().hexa();
 
-    if (event.target.value === "#MOXVALLIX") {
+    if (EASTEREGG_VALUES.includes(event.target.value)) {
       this.dispatchEvent(new CustomEvent("easteregg", { detail: event.target.value }));
     }
 

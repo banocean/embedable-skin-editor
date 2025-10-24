@@ -1,4 +1,4 @@
-import CssFilter from "./filters/css_filter";
+import CssFilter from "./filters/css_filter.js";
 
 const FILTERS = [CssFilter];
 

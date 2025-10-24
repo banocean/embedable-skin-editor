@@ -1,9 +1,9 @@
 import createPanZoom from "panzoom";
-import Window from "../../../misc/window";
-import { CURSOR_EYEDROPPER } from "../../../../editor/controls";
-import Color from "color";
-import { genUUID, nonPolyfilledCtx } from "../../../../helpers";
 import { get, update } from "idb-keyval";
+import Color from "color";
+import Window from "../../../misc/window.js";
+import { CURSOR_EYEDROPPER } from "../../../../editor/controls.js";
+import { genUUID, nonPolyfilledCtx } from "../../../../helpers.js";
 
 import imgGrid from "../../../../../assets/images/grid-reference-image-dark.png";
 

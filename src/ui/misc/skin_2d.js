@@ -1,7 +1,7 @@
 import { css, LitElement } from "lit";
-import { MODEL_MAP } from "../../editor/model/uv";
-import { SkinModel } from "../../editor/model/model";
-import { nonPolyfilledCtx } from "../../helpers";
+import { MODEL_MAP } from "../../editor/model/uv.js";
+import { SkinModel } from "../../editor/model/model.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
 
 const LAYOUT = {
   classic: [

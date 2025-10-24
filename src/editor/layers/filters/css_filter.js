@@ -1,5 +1,5 @@
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
-import BaseFilter from "./base_filter";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants.js";
+import BaseFilter from "./base_filter.js";
 
 class CssFilter extends BaseFilter {
   static filterId = "css";

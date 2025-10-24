@@ -1,6 +1,6 @@
 import { html } from "lit";
-import BaseToolConfig from "./base_tool_config";
-import ShadeTool from "../../../../../editor/tools/toolset/shade_tool";
+import BaseToolConfig from "./base_tool_config.js";
+import ShadeTool from "../../../../../editor/tools/toolset/shade_tool.js";
 
 class ShadeToolConfig extends BaseToolConfig {
   static styles = [

@@ -14,6 +14,12 @@ const KEYBINDS = {
   "^y": "redo",
   "^+z": "redo",
   "^r": "reset",
+  "=": "zoomIn",
+  "-": "zoomOut",
+  "arrowleft": "panLeft",
+  "arrowright": "panRight",
+  "arrowup": "panUp",
+  "arrowdown": "panDown",
   "0": "cameraReset",
   "1": "selectTools",
   "2": "selectLayer",
@@ -27,6 +33,7 @@ const KEYBINDS = {
   "delete": "removeLayer",
   "+d": "cloneLayer",
   "+m": "mergeLayer",
+  "f": "toggleFullscreen",
 }
 
 function checkKeybinds(event) {
@@ -52,7 +59,7 @@ function setupKeybinds(editor, config) {
     const element = event.originalTarget || getFocusedElement();
     if (isKeybindIgnored(element)) { return; }
 
-    switch(checkKeybinds(event)){
+    switch(checkKeybinds(event)) {
       case "pen":
         if (editor.currentTool == editor.tools[0]) {
           config.select("tool");
@@ -104,6 +111,16 @@ function setupKeybinds(editor, config) {
         }
         
         break;
+      case "zoomIn":
+        if (editor.camera.position.z > 1) {
+          editor.camera.position.z-= editor.camera.position.z * 0.075;
+        }
+        break;
+      case "zoomOut":
+        if (editor.camera.position.z < 15) {
+          editor.camera.position.z+= editor.camera.position.z * 0.075;
+        }
+        break;
       case "cameraReset":
         editor.resetCamera();
         break;
@@ -131,7 +148,10 @@ function setupKeybinds(editor, config) {
       case "mergeLayer":
         editor.mergeLayer();
         break;
-    }
+      case "toggleFullscreen":
+        this.toggleFullscreen();
+        break;
+      }
   });
 }
 

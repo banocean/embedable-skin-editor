@@ -1,6 +1,6 @@
 import Color from "color";
-import { clamp } from "../../../../../helpers";
-import Tab from "../../../../misc/tab";
+import { clamp } from "../../../../../helpers.js";
+import Tab from "../../../../misc/tab.js";
 import { css, html } from "lit";
 
 const defaultColors = [];
@@ -36,6 +36,7 @@ class RecentColorPaletteTab extends Tab {
       }
 
       #palette-select, #columns {
+        color-scheme: dark;
         background-color: #232428;
         border: none;
         border-radius: 0.25rem;

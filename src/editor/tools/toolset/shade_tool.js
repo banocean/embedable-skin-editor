@@ -1,4 +1,4 @@
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 // Scales the force
 const SHADE_SCALAR = 5;
@@ -9,7 +9,7 @@ class ShadeTool extends BrushBaseTool {
       id: "shade",
       icon: "shading",
       name: "Shade [S]",
-      description: "Makes pixels lighter/darker or adjusts their color based on the palette.",
+      description: "Makes pixels lighter/darker or adjusts their color based on the palette.\nUse the left mouse button to darken, and the right mouse button to lighten.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.,
       disableMirror: true, // Whether to disable the mirror.
     });

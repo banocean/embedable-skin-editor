@@ -1,8 +1,8 @@
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
-import { BaseEntry } from "../base_entry";
-import GroupedEntry from "./grouped_entry";
-import UpdateLayerFiltersEntry from "./update_layer_filters_entry";
-import UpdateLayerTextureEntry from "./update_layer_texture_entry";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants.js";
+import { BaseEntry } from "../base_entry.js";
+import GroupedEntry from "./grouped_entry.js";
+import UpdateLayerFiltersEntry from "./update_layer_filters_entry.js";
+import UpdateLayerTextureEntry from "./update_layer_texture_entry.js";
 import * as THREE from "three";
 
 class MergeFiltersEntry extends BaseEntry {

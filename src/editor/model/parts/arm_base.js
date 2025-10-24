@@ -1,4 +1,4 @@
-import { BasePart } from "../base";
+import { BasePart } from "../base.js";
 
 const WIDTHS = {
   classic: 0.5,

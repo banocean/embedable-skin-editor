@@ -1,8 +1,8 @@
 import Color from "color";
-import { BaseTool } from "./base_tool";
-import { getMirroredCoords, getUVFromCoords } from "../layers/texture_utils";
-import { clamp } from "../../helpers";
-import BRUSHES from "./brushes";
+import { BaseTool } from "./base_tool.js";
+import { getMirroredCoords, getUVFromCoords } from "../layers/texture_utils.js";
+import { clamp } from "../../helpers.js";
+import BRUSHES from "./brushes.js";
 
 const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
 

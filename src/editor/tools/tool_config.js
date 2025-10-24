@@ -1,6 +1,6 @@
-import Config from "../config";
+import Config from "../config.js";
 import Color from "color";
-import { getRandomInt, pickFromArray } from "../../helpers";
+import { getRandomInt, pickFromArray } from "../../helpers.js";
 
 function saveColor(color) {
   return color.hexa();
@@ -20,6 +20,7 @@ const VALUE_MAP = {
   force: {default: 5, persistence: true},
   mirror: {default: false, persistence: true},
   shadeOnce: {default: false, persistence: true},
+  fillStyle: {default: "fill-cube-connected", persistence: true}
 }
 
 class ToolConfig extends Config {

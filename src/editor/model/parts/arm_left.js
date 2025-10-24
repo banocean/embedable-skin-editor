@@ -1,6 +1,6 @@
 import * as THREE from "three"
-import { ArmBasePart } from "./arm_base"
-import { getUVMap } from "../uv"
+import { ArmBasePart } from "./arm_base.js"
+import { getUVMap } from "../uv.js"
 
 const UVMAP_BASE = {
   classic: {

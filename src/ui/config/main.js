@@ -1,10 +1,11 @@
 import { css, html, LitElement } from "lit";
 import "./controls"
-import TabGroup from "../misc/tab_group";
-import ToolTab from "./tabs/tool";
-import LayersTab from "./tabs/layers";
-import ImportTab from "./tabs/import";
-import ExportTab from "./tabs/export";
+import TabGroup from "../misc/tab_group.js";
+import ToolTab from "./tabs/tool.js";
+import LayersTab from "./tabs/layers.js";
+import ImportTab from "./tabs/import.js";
+import ExportTab from "./tabs/export.js";
+import SettingsTab from "./tabs/settings.js";
 
 class Config extends LitElement {
   static styles = css`
@@ -88,6 +89,7 @@ class Config extends LitElement {
       layers: new LayersTab(this.editor),
       import: new ImportTab(this.ui),
       export: new ExportTab(this.ui),
+      settings: new SettingsTab(this.ui),
     }
   }
 
@@ -105,6 +107,7 @@ class Config extends LitElement {
     tabs.registerTab(t.layers);
     tabs.registerTab(t.import);
     tabs.registerTab(t.export);
+    // tabs.registerTab(t.settings); Disable settings tab for now, still needs work
 
     tabs.addEventListener("select", event => {
       const tabName = Object.keys(t).find(key => t[key] === event.detail);

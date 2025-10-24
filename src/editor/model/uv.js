@@ -70,7 +70,20 @@ const UVMAP_CLASSIC = {
   arm_right_overlay_right: [48, 36, 4, 12],
   arm_right_overlay_back: [52, 36, 4, 12],
   arm_right_overlay_top: [44, 32, 4, 4],
-  arm_right_overlay_bottom: [48, 36, 4, -4]
+  arm_right_overlay_bottom: [48, 36, 4, -4],
+
+  ears_base_front: [25, 1, 6, 6],
+  ears_base_bottom: [31, 1, 6, -1],
+  ears_base_left: [24, 1, 1, 6],
+  ears_base_right: [31, 1, 1, 6],
+  ears_base_top: [25, 0, 6, 1],
+  ears_base_back: [32, 1, 6, 6],
+  ears_overlay_front: [25, 1, 6, 6],
+  ears_overlay_bottom: [31, 1, 6, -1],
+  ears_overlay_left: [24, 1, 1, 6],
+  ears_overlay_right: [31, 1, 1, 6],
+  ears_overlay_top: [25, 0, 6, 1],
+  ears_overlay_back: [32, 1, 6, 6]
 }
 
 const UVMAP_SLIM = {
@@ -145,7 +158,20 @@ const UVMAP_SLIM = {
   arm_right_overlay_right: [47,36,4,12],
   arm_right_overlay_back: [51,36,3,12],
   arm_right_overlay_top: [44,32,3,4],
-  arm_right_overlay_bottom: [47,36,3,-4]
+  arm_right_overlay_bottom: [47,36,3,-4],
+
+  ears_base_front: [25, 1, 6, 6],
+  ears_base_bottom: [31, 1, 6, -1],
+  ears_base_left: [24, 1, 1, 6],
+  ears_base_right: [31, 1, 1, 6],
+  ears_base_top: [25, 0, 6, 1],
+  ears_base_back: [32, 1, 6, 6],
+  ears_overlay_front: [25, 1, 6, 6],
+  ears_overlay_bottom: [31, 1, 6, -1],
+  ears_overlay_left: [24, 1, 1, 6],
+  ears_overlay_right: [31, 1, 1, 6],
+  ears_overlay_top: [25, 0, 6, 1],
+  ears_overlay_back: [32, 1, 6, 6]
 }
 
 const MODEL_MAP = {

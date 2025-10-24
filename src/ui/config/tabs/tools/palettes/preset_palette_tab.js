@@ -1,5 +1,5 @@
 import { clamp } from "three/src/math/MathUtils.js";
-import Tab from "../../../../misc/tab";
+import Tab from "../../../../misc/tab.js";
 import { css, html } from "lit";
 import Color from "color";
 
@@ -72,6 +72,7 @@ class PresetPaletteTab extends Tab {
       }
 
       #palette-select, #columns {
+        color-scheme: dark;
         background-color: #232428;
         border: none;
         border-radius: 0.25rem;

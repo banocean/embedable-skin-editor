@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import Skin2d from "../misc/skin_2d";
+import Skin2d from "../misc/skin_2d.js";
 
 class Layer extends LitElement {
   static styles = css`

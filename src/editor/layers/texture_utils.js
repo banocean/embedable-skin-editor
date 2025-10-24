@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv";
-import MIRROR_MAP from "./mirror_map";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
-import { nonPolyfilledCtx } from "../../helpers";
+import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv.js";
+import MIRROR_MAP from "./mirror_map.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
 
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];

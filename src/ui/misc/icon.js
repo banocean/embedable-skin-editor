@@ -1,7 +1,6 @@
 import { css, html, LitElement } from "lit";
 import imgArrowLeft from "../../../assets/images/icons/misc/arrow-left.svg";
 import imgArrowRight from "../../../assets/images/icons/misc/arrow-right.svg";
-import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 import imgIconAdd from "../../../assets/images/icons/misc/add.svg";
 import imgIconBackfaceCulling from "../../../assets/images/icons/toggles/backface-culling.svg";
 import imgIconBase from "../../../assets/images/icons/toggles/base.svg";
@@ -26,8 +25,12 @@ import imgIconDownload from "../../../assets/images/icons/download.svg";
 import imgIconDuskMode from "../../../assets/images/icons/misc/dusk-mode.svg";
 import imgIconEraser from "../../../assets/images/icons/tools/eraser.svg";
 import imgIconEyeClosed from "../../../assets/images/icons/toggles/eye-closed.svg";
-import imgIconEyedropper from "../../../assets/images/icons/tools/eyedropper.svg";
 import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
+import imgIconEyedropper from "../../../assets/images/icons/tools/eyedropper.svg";
+import imgIconFillCubeConnected from "../../../assets/images/icons/modifiers/fill-cube-connected.svg";
+import imgIconFillCubeReplace from "../../../assets/images/icons/modifiers/fill-cube-replace.svg";
+import imgIconFillFaceConnected from "../../../assets/images/icons/modifiers/fill-face-connected.svg";
+import imgIconFillFaceReplace from "../../../assets/images/icons/modifiers/fill-face-replace.svg";
 import imgIconForce1 from "../../../assets/images/icons/modifiers/force-1.svg";
 import imgIconForce2 from "../../../assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "../../../assets/images/icons/modifiers/force-3.svg";
@@ -60,6 +63,7 @@ import imgIconSize2 from "../../../assets/images/icons/modifiers/size-2.svg";
 import imgIconSize3 from "../../../assets/images/icons/modifiers/size-3.svg";
 import imgIconSquare from "../../../assets/images/icons/modifiers/square.svg";
 import imgIconUndo from "../../../assets/images/icons/misc/undo.svg";
+import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -90,6 +94,10 @@ const ICON_MAP = {
   "eye-closed": imgIconEyeClosed,
   "eye-open": imgIconEyeOpen,
   "eyedropper": imgIconEyedropper,
+  "fill-cube-connected": imgIconFillCubeConnected,
+  "fill-cube-replace": imgIconFillCubeReplace,
+  "fill-face-connected": imgIconFillFaceConnected,
+  "fill-face-replace": imgIconFillFaceReplace,
   "force-1": imgIconForce1,
   "force-2": imgIconForce2,
   "force-3": imgIconForce3,
@@ -123,6 +131,7 @@ const ICON_MAP = {
   "size-3": imgIconSize3,
   "square": imgIconSquare,
   "undo": imgIconUndo,
+  "grid-culling": imgGridCull,
 }
 
 class Icon extends LitElement {

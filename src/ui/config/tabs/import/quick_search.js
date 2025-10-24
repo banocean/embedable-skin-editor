@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { css, html, LitElement } from "lit";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants";
-import GallerySkin from "../../../gallery/skin";
-import { clamp } from "../../../../helpers";
-import UpdateLayerTextureEntry from "../../../../editor/history/entries/update_layer_texture_entry";
-import GroupedEntry from "../../../../editor/history/entries/grouped_entry";
-import ReplaceLayerMetadataEntry from "../../../../editor/history/entries/replace_layer_metadata_entry";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants.js";
+import GallerySkin from "../../../gallery/skin.js";
+import { clamp } from "../../../../helpers.js";
+import UpdateLayerTextureEntry from "../../../../editor/history/entries/update_layer_texture_entry.js";
+import GroupedEntry from "../../../../editor/history/entries/grouped_entry.js";
+import ReplaceLayerMetadataEntry from "../../../../editor/history/entries/replace_layer_metadata_entry.js";
 
 class QuickSearch extends LitElement {
   static properties = {

@@ -1,6 +1,6 @@
-import BaseVersion from "../base_version";
-import { uvLookup } from "../../model/uv";
-import { nonPolyfilledCtx } from "../../../helpers";
+import BaseVersion from "../base_version.js";
+import { uvLookup } from "../../model/uv.js";
+import { nonPolyfilledCtx } from "../../../helpers.js";
 
 const IMAGE_WIDTH = 64, IMAGE_HEIGHT = 64
 

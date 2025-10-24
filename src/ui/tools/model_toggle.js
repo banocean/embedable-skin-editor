@@ -6,7 +6,7 @@ class ModelToggle extends LitElement {
   static styles = css`
     #toggle-variant {
       display: block;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     #toggle-variant > div {

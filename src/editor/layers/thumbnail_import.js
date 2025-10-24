@@ -1,6 +1,6 @@
-import { IMAGE_HEIGHT, IMAGE_THUMBNAIL_HEIGHT, IMAGE_THUMBNAIL_WIDTH, IMAGE_WIDTH } from "../../constants";
-import { nonPolyfilledCtx } from "../../helpers";
-import { getUV } from "./texture_utils";
+import { IMAGE_HEIGHT, IMAGE_THUMBNAIL_HEIGHT, IMAGE_THUMBNAIL_WIDTH, IMAGE_WIDTH } from "../../constants.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
+import { getUV } from "./texture_utils.js";
 
 const OPERATIONS = [
   // Head

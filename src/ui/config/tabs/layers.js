@@ -1,7 +1,7 @@
-import Tab from "../../misc/tab";
 import { html } from "lit";
-import LayersTabFilters from "./layers/filters";
-import LayersTabButtons from "./layers/buttons";
+import Tab from "../../misc/tab.js";
+import LayersTabFilters from "./layers/filters.js";
+import LayersTabButtons from "./layers/buttons.js";
 
 class LayersTab extends Tab {
   static styles = [

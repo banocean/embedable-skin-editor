@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { SKIN_LOOKUP_URL } from "../../../../constants";
+import { SKIN_LOOKUP_URL } from "../../../../constants.js";
 
 class MinecraftImport extends LitElement {
   static properties = {
