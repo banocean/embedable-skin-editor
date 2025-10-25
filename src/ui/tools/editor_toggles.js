@@ -36,11 +36,11 @@ class EditorToggles extends LitElement {
     }
 
     .label {
-      font-size: small;
+      font-size: x-small;
       color: rgb(134, 137, 139);
       text-align: center;
-      margin-top: 0.25rem;
-      margin-bottom: 0.125rem;
+      margin-top: 0.125rem;
+      margin-bottom: 0;
     }
 
     .label-grid {
