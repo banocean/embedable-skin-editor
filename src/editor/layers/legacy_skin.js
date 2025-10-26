@@ -26,6 +26,26 @@ function convertLegacySkin(imgSource) {
 
   ctx.drawImage(imgSource, 0, 0);
 
+  let notch_fix = true
+
+  for (let x = 0; x < 64; x++) {
+    for (let y = 0; y < 32; y++) {
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      if (x >= 32 && pixel[3] < 128) {
+        notch_fix = false
+      }
+    }
+  }
+
+  if (notch_fix) {
+    for (let x = 0; x < 64; x++) {
+      for (let y = 0; y < 32; y++) {
+        ctx.clearRect(40, 0, 16, 8);
+        ctx.clearRect(32, 8, 32, 8);
+      }
+    }
+  }
+
   OPERATIONS.forEach(op => {
     const uv = getUV("classic", op[0]);
 
