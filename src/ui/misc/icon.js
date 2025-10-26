@@ -104,7 +104,6 @@ const ICON_MAP = {
   "force-4": imgIconForce4,
   "force-5": imgIconForce5,
   "fullscreen": imgIconFullscreen,
-  "grid-culling": imgGridCull,
   "jitter": imgIconJitter,
   "light-mode": imgIconLightMode,
   "lighten": imgIconLighten,
