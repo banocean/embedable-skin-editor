@@ -16,6 +16,12 @@ const CONFIG_DRAWER_STYLES = css`
   #config-drawer ncrs-import-tab-buttons::part(reference-image) {
     display: none;
   }
+
+  ncrs-tools-editor-toggles {
+    --icon-scale: 1.375;
+    margin-top: -0.75rem;
+    margin-right: -1rem;
+  }
 `;
 
 class ConfigDrawer {

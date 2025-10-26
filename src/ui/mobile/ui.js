@@ -374,7 +374,7 @@ const STYLES = css`
   }
 
   .label {
-    font-size: small;
+    font-size: x-small;
     color: rgb(134, 137, 139);
     text-align: center;
     margin-top: 0.25rem;
