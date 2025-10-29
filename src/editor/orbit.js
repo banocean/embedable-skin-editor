@@ -1453,9 +1453,9 @@ class OrbitControls extends EventDispatcher {
 
         function onContextMenu( event ) {
 
-            // if ( scope.enabled === false ) return;
+            if ( scope.enabled === false ) return;
 
-            // event.preventDefault();
+            event.preventDefault();
 
         }
 
