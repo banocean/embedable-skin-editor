@@ -4,6 +4,7 @@ import MIRROR_MAP from "./mirror_map.js";
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
 import { nonPolyfilledCtx } from "../../helpers.js";
 
+const MODEL_LAYERS = ["base", "overlay"];
 const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
 const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];
 
@@ -16,6 +17,8 @@ function swapBodyOverlay(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
   const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
+  ctx.drawImage(inputCanvas, 0, 0);
+  
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {
       remapUV(inputCanvas, ctx, source[key], destination[key])
@@ -290,6 +293,17 @@ function mergeLayers(inputCanvas, sourceLayer, destLayer, variant) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
   const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
+  ctx.drawImage(inputCanvas, 0, 0);
+
+  MODEL_LAYERS.forEach(layer => {
+    MODEL_PARTS.forEach(part => {
+      MODEL_FACES.forEach(face => {
+        const uv = uvLookup(variant, layer, part, face);
+        ctx.clearRect(...uv);
+      });
+    });
+  });
+  
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {
       remapUV(inputCanvas, ctx, source[key], destination[key])
