@@ -7,28 +7,33 @@ class LayersTabButtons extends LitElement {
   static styles = css`
     #layer-buttons {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap:0.5rem;
       flex-basis: 0;
       padding: 0.5rem;
+      padding-top:0.75rem;
     }
 
-    #layer-buttons ncrs-button {
-      text-align: center;
-      font-size: large;
-      font-weight: bold;
-    }
-
-    #layer-buttons ncrs-button::part(button) {
+    #layer-buttons ncrs-icon-button {
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
+      width:calc(50% - 0.25rem);
     }
 
-    hr {
-      width: 100%;
-      border-color: rgb(73, 76, 78);
-      margin-bottom: 0.75rem;
-      box-sizing: border-box;
+    #layer-buttons ncrs-icon-button::part(icon) {
+      height: 2.6rem;
     }
+
+    #layer-buttons label {
+      font-size: small;
+      color: #86898b;
+      width:calc(50% - 0.25rem);
+      text-align: center;
+      margin-top: -0.5rem;
+      margin-bottom: -0.375rem;
+    }
+
   `;
 
   constructor(editor) {
@@ -42,15 +47,20 @@ class LayersTabButtons extends LitElement {
     return html`
       <ncrs-layers-tab-filters></ncrs-layers-tab-filters>
       <div id="layer-buttons">
-        <ncrs-button @click=${this.swapBodyOverlay} title="Swap body of the skin with the overlay.">Swap Body / Overlay</ncrs-button>
-        <ncrs-button @click=${this.swapLeftRight} title="Flip skin left and right.">Flip Left / Right</ncrs-button>
-        <ncrs-button @click=${this.swapFrontBack} title="Flip skin front and back.">Flip Front / Back</ncrs-button>
-        <hr>
-        <ncrs-button @click=${this.flattenLayerOverlay} title="Flatten the overlay in to the base of the skin on the selected layer.">Flatten Overlay in to Base</ncrs-button>
-        <ncrs-button @click=${this.clearLayerBase} title="Erases the base of the skin on the selected layer.">Erase Skin Base</ncrs-button>
-        <ncrs-button @click=${this.clearLayerOverlay} title="Erases the overlay of the skin on the selected layer.">Erase Skin Overlay</ncrs-button>
+      <label>Flip Front / Back</label>
+      <label>Flip Left / Right</label>
+      <ncrs-icon-button icon="flip-front-back" @click=${this.swapFrontBack} title="Flip the skin's front with its back."></ncrs-icon-button>
+      <ncrs-icon-button icon="flip-left-right" @click=${this.swapLeftRight} title="Flip the current skin horizontally."></ncrs-icon-button>
+      <label>Swap Body / Overlay</label>
+      <label>Flatten Overlay</label>
+      <ncrs-icon-button icon="swap-body-overlay" @click=${this.swapBodyOverlay} title="Swap the body layer of the skin with its overlay."></ncrs-icon-button>
+      <ncrs-icon-button icon="flatten-overlay-base" @click=${this.flattenLayerOverlay} title="Flatten the overlay in to the base of the skin on the selected layer."></ncrs-icon-button>
+      <label>Erase Base</label>
+      <label>Erase Overlay</label>
+      <ncrs-icon-button icon="erase-base" @click=${this.clearLayerBase} title="Erases the base of the skin on the selected layer."></ncrs-icon-button>
+      <ncrs-icon-button icon="erase-overlay" @click=${this.clearLayerOverlay} title="Erases the overlay of the skin on the selected layer."></ncrs-icon-button>
       </div>
-    `;
+      `;
   }
 
   swapBodyOverlay() {
