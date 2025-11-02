@@ -5,7 +5,7 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
 import { nonPolyfilledCtx } from "../../helpers.js";
 
 const MODEL_LAYERS = ["base", "overlay"];
-const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
+const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right", "ears"];
 const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];
 
 function remapUV(texture, ctx, source, destination) {
@@ -42,7 +42,7 @@ function swapFrontBack(inputCanvas, variant = "classic") {
 
   ctx.drawImage(inputCanvas, 0, 0);
 
-  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"]];
+  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"], ["ears", "ears"]];
 
   function flipUV(source, destination) {
     const pairs = [["front", "back"], ["left", "right"]];
@@ -98,7 +98,7 @@ function swapLeftRight(inputCanvas, variant = "classic") {
 
   ctx.drawImage(inputCanvas, 0, 0);
 
-  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"]];
+  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"], ["ears", "ears"]];
 
   function flipUV(source, destination) {
     const pairs = [["front", "front"],["back", "back"]];
