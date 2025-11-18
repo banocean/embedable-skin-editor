@@ -23,20 +23,26 @@ import imgIconCopy from "../../../assets/images/icons/misc/copy.svg";
 import imgIconDarkMode from "../../../assets/images/icons/misc/dark-mode.svg";
 import imgIconDownload from "../../../assets/images/icons/download.svg";
 import imgIconDuskMode from "../../../assets/images/icons/misc/dusk-mode.svg";
+import imgIconEraseBase from "../../../assets/images/icons/layer/erase-base.svg";
+import imgIconEraseOverlay from "../../../assets/images/icons/layer/erase-overlay.svg";
 import imgIconEraser from "../../../assets/images/icons/tools/eraser.svg";
 import imgIconEyeClosed from "../../../assets/images/icons/toggles/eye-closed.svg";
-import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
 import imgIconEyedropper from "../../../assets/images/icons/tools/eyedropper.svg";
+import imgIconEyeOpen from "../../../assets/images/icons/toggles/eye-open.svg";
 import imgIconFillCubeConnected from "../../../assets/images/icons/modifiers/fill-cube-connected.svg";
 import imgIconFillCubeReplace from "../../../assets/images/icons/modifiers/fill-cube-replace.svg";
 import imgIconFillFaceConnected from "../../../assets/images/icons/modifiers/fill-face-connected.svg";
 import imgIconFillFaceReplace from "../../../assets/images/icons/modifiers/fill-face-replace.svg";
+import imgIconFlattenOverlayBase from "../../../assets/images/icons/layer/flatten.svg";
+import imgIconFlipFrontBack from "../../../assets/images/icons/layer/flip-front-back.svg";
+import imgIconFlipLeftRight from "../../../assets/images/icons/layer/flip-left-right.svg";
 import imgIconForce1 from "../../../assets/images/icons/modifiers/force-1.svg";
 import imgIconForce2 from "../../../assets/images/icons/modifiers/force-2.svg";
 import imgIconForce3 from "../../../assets/images/icons/modifiers/force-3.svg";
 import imgIconForce4 from "../../../assets/images/icons/modifiers/force-4.svg";
 import imgIconForce5 from "../../../assets/images/icons/modifiers/force-5.svg";
 import imgIconFullscreen from "../../../assets/images/icons/misc/fullscreen.svg";
+import imgIconGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 import imgIconJitter from "../../../assets/images/icons/jitter.svg";
 import imgIconLighten from "../../../assets/images/icons/modifiers/lighten.svg";
 import imgIconLightMode from "../../../assets/images/icons/misc/light-mode.svg";
@@ -62,8 +68,8 @@ import imgIconSize1 from "../../../assets/images/icons/modifiers/size-1.svg";
 import imgIconSize2 from "../../../assets/images/icons/modifiers/size-2.svg";
 import imgIconSize3 from "../../../assets/images/icons/modifiers/size-3.svg";
 import imgIconSquare from "../../../assets/images/icons/modifiers/square.svg";
+import imgIconSwapBodyOverlay from "../../../assets/images/icons/layer/swap-body-overlay.svg";
 import imgIconUndo from "../../../assets/images/icons/misc/undo.svg";
-import imgGridCull from "../../../assets/images/icons/toggles/grid-cull.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -90,6 +96,8 @@ const ICON_MAP = {
   "dark-mode": imgIconDarkMode,
   "download": imgIconDownload,
   "dusk-mode": imgIconDuskMode,
+  "erase-base": imgIconEraseBase,
+  "erase-overlay": imgIconEraseOverlay,
   "eraser": imgIconEraser,
   "eye-closed": imgIconEyeClosed,
   "eye-open": imgIconEyeOpen,
@@ -98,12 +106,16 @@ const ICON_MAP = {
   "fill-cube-replace": imgIconFillCubeReplace,
   "fill-face-connected": imgIconFillFaceConnected,
   "fill-face-replace": imgIconFillFaceReplace,
+  "flatten-overlay-base": imgIconFlattenOverlayBase,
+  "flip-front-back": imgIconFlipFrontBack,
+  "flip-left-right": imgIconFlipLeftRight,
   "force-1": imgIconForce1,
   "force-2": imgIconForce2,
   "force-3": imgIconForce3,
   "force-4": imgIconForce4,
   "force-5": imgIconForce5,
   "fullscreen": imgIconFullscreen,
+  "grid-culling": imgIconGridCull,
   "jitter": imgIconJitter,
   "light-mode": imgIconLightMode,
   "lighten": imgIconLighten,
@@ -111,8 +123,8 @@ const ICON_MAP = {
   "merge": imgIconMerge,
   "minimize": imgIconMinimize,
   "mirror": imgIconMirror,
-  "move": imgIconMove,
   "move-layer": imgIconMoveLayer,
+  "move": imgIconMove,
   "overlay-grid": imgIconOverlayGrid,
   "overlay": imgIconOverlay,
   "paste": imgIconPaste,
@@ -129,8 +141,8 @@ const ICON_MAP = {
   "size-2": imgIconSize2,
   "size-3": imgIconSize3,
   "square": imgIconSquare,
+  "swap-body-overlay": imgIconSwapBodyOverlay,
   "undo": imgIconUndo,
-  "grid-culling": imgGridCull,
 }
 
 class Icon extends LitElement {
