@@ -64,6 +64,7 @@ class Layers extends EventTarget {
   createFromLayer(layer) {
     const newLayer = this.createFromTexture(layer.texture.clone());
     newLayer.compositor.applyFilters(layer.compositor.getFilters());
+    newLayer.metadata = structuredClone(layer.metadata);
 
     return newLayer;
   }
