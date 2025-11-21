@@ -8,6 +8,7 @@ class BaseTool {
   }
   properties;
 
+  id() { return (this.properties || {}).id || "" }
   down(_texture, _part, _x, _y, _pointerButton) {}
   move(_part, _x, _y, _pointerButton) {}
   up(_x, _y) {}

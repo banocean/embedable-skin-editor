@@ -109,7 +109,7 @@ class Editor extends LitElement {
     const toolId = this.persistence.get("selectedTool", undefined);
     const tool = this.tools.find(tool => tool.properties.id == toolId);
 
-    this.selectTool(tool || this.tools[1]);
+    this.selectTool(tool || this.getToolById("pen"));
   }
 
   sceneRender() {
@@ -143,8 +143,8 @@ class Editor extends LitElement {
     if (this.config.get("pick-color", false)) {
       const toolData = this._createSkinToolData(parts, pointerEvent.buttons);
       this._pickColor(toolData);
-      if (this.currentTool == this.tools[2]) {
-        this.selectTool(this.tools[1]);
+      if (this.currentTool == this.getToolById("eraser")) {
+        this.selectTool(this.getToolById("pen"));
       }
       return false;
     }
@@ -246,6 +246,10 @@ class Editor extends LitElement {
 
     this.model.baseGrid.visible = baseGridVisible && baseVisible;
     this.model.overlayGrid.visible = overlayGridVisible && overlayVisible;
+  }
+
+  getToolById(id) {
+    return this.tools.find(tool => tool.id() == id);
   }
 
   selectTool(tool, wasActive) {
