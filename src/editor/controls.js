@@ -26,7 +26,6 @@ class Controls {
     this.pointerEvent = undefined;
     this.panning = false;
     this.firstClickOutside = false;
-    this.targetingModel = false;
     this.drawing = false;
     this.drawOnPointerUp = false;
     this.keybindEyedropper = false;
