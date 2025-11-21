@@ -6,32 +6,38 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants";
 class LayersTabButtons extends LitElement {
   static styles = css`
     #layer-buttons {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap:0.5rem;
-      flex-basis: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 0.25rem;
+      column-gap: 0.5rem;
       padding: 0.5rem;
-      padding-top:0.75rem;
     }
 
-    #layer-buttons ncrs-icon-button {
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
-      width:calc(50% - 0.25rem);
+    #layer-buttons ncrs-button {
+      display: block;
+      width: 100%;
     }
 
-    #layer-buttons ncrs-icon-button::part(icon) {
+    #layer-buttons ncrs-button::part(button) {
+      padding: 0.25rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      box-sizing: border-box;
+    }
+
+    #layer-buttons ncrs-icon {
       height: 2.6rem;
+      width: auto;
+      display: block;
     }
 
-    #layer-buttons label {
+    #layer-buttons p {
+      margin: 0px;
+      margin-top: 0.125rem;
       font-size: small;
-      color: #86898b;
-      width:calc(50% - 0.25rem);
+      color: var(--text-color);
       text-align: center;
-      margin-top: -0.5rem;
-      margin-bottom: -0.375rem;
+      width: 100%;
     }
 
   `;
@@ -45,20 +51,31 @@ class LayersTabButtons extends LitElement {
 
   render() {
     return html`
-      <ncrs-layers-tab-filters></ncrs-layers-tab-filters>
       <div id="layer-buttons">
-      <label>Flip Front / Back</label>
-      <label>Flip Left / Right</label>
-      <ncrs-icon-button icon="flip-front-back" @click=${this.swapFrontBack} title="Flip the skin's front with its back."></ncrs-icon-button>
-      <ncrs-icon-button icon="flip-left-right" @click=${this.swapLeftRight} title="Flip the current skin horizontally."></ncrs-icon-button>
-      <label>Swap Body / Overlay</label>
-      <label>Flatten Overlay</label>
-      <ncrs-icon-button icon="swap-body-overlay" @click=${this.swapBodyOverlay} title="Swap the body layer of the skin with its overlay."></ncrs-icon-button>
-      <ncrs-icon-button icon="flatten-overlay-base" @click=${this.flattenLayerOverlay} title="Flatten the overlay in to the base of the skin on the selected layer."></ncrs-icon-button>
-      <label>Erase Base</label>
-      <label>Erase Overlay</label>
-      <ncrs-icon-button icon="erase-base" @click=${this.clearLayerBase} title="Erases the base of the skin on the selected layer."></ncrs-icon-button>
-      <ncrs-icon-button icon="erase-overlay" @click=${this.clearLayerOverlay} title="Erases the overlay of the skin on the selected layer."></ncrs-icon-button>
+        <ncrs-button @click=${this.swapFrontBack} title="Flip the skin's front with its back.">
+          <ncrs-icon icon="flip-front-back" color="var(--text-color)"></ncrs-icon>
+          <p>Flip Front / Back</p>
+        </ncrs-button>
+        <ncrs-button @click=${this.swapLeftRight} title="Flip the current skin horizontally.">
+          <ncrs-icon icon="flip-left-right" color="var(--text-color)"></ncrs-icon>
+          <p>Flip Left / Right</p>
+        </ncrs-button>
+        <ncrs-button @click=${this.swapBodyOverlay} title="Swap the base layer of the skin with its overlay.">
+          <ncrs-icon icon="swap-body-overlay" color="var(--text-color)"></ncrs-icon>
+          <p>Swap Base / Overlay</p>
+        </ncrs-button>
+        <ncrs-button @click=${this.flattenLayerOverlay} title="Flatten the overlay in to the base of the skin on the selected layer.">
+          <ncrs-icon icon="flatten-overlay-base" color="var(--text-color)"></ncrs-icon>
+          <p>Flatten Overlay</p>
+        </ncrs-button>
+        <ncrs-button @click=${this.clearLayerBase} title="Erases the base of the skin on the selected layer.">
+          <ncrs-icon icon="erase-base" color="var(--text-color)"></ncrs-icon>
+          <p>Erase Base</p>
+        </ncrs-button>
+        <ncrs-button @click=${this.clearLayerOverlay} title="Erases the overlay of the skin on the selected layer.">
+          <ncrs-icon icon="erase-overlay" color="var(--text-color)"></ncrs-icon>
+          <p>Erase Overlay</p>
+        </ncrs-button>
       </div>
       `;
   }
