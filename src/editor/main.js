@@ -545,6 +545,7 @@ class Editor extends LitElement {
     if (!this.config.get("cullBackFace", true)) {
       this.model.setMaterialSide(THREE.DoubleSide);
     }
+    this.model.setGridCulling(this.config.get("cullGrid"));
 
     this.skinMesh = this.model.mesh;
     this.baseGroup = this._setupBaseGroup(this.skinMesh);
