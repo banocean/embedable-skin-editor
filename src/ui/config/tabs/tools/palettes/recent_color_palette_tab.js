@@ -143,13 +143,7 @@ class RecentColorPaletteTab extends Tab {
           ${colorsDiv}
         </div>
         <div id="options">
-          <input
-            id="columns" value="12" type="number"
-            title="Palette width"
-            inputmode="numeric"
-            @input=${this._onColumnsInput}
-            @wheel=${this._onColumnsWheel}
-          >
+          <ncrs-palette-scale-selector id="scale" scale=14 @update=${this._onScaleUpdate}></ncrs-palette-scale-selector>
         </div>
       </div>
     `;
@@ -225,31 +219,17 @@ class RecentColorPaletteTab extends Tab {
     });
   }
 
-  _onColumnsInput(event) {
-    if (event.target.value == "") { return; }
-
-    event.target.value = clamp(Number(event.target.value), 4, 16);
-    this.style.setProperty("--palette-width", event.target.value);
-  }
-
-  _onColumnsWheel(event) {
-    event.preventDefault();
-    let dir = 1;
-    if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 4, 16);
-    this.style.setProperty("--palette-width", event.target.value)
+  _onScaleUpdate(event) {
+    this.style.setProperty("--palette-width", event.detail);
   }
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
     event.preventDefault();
 
-    let dir = 1;
-    if (event.deltaY < 0) { dir = -1 }
-
-    const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 4, 16);
-    this.style.setProperty("--palette-width", columns.value);
+    const dir = event.deltaY > 0 ? -1 : 1;
+    const scale = this.shadowRoot.getElementById("scale");
+    scale.scale = Number(scale.scale) + dir;
   }
 }
 

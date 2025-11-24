@@ -2,6 +2,7 @@ import { clamp } from "three/src/math/MathUtils.js";
 import Tab from "../../../../misc/tab.js";
 import { css, html } from "lit";
 import Color from "color";
+import "./scale_selector.js";
 
 const defaultPalettes = [
   {
@@ -81,7 +82,7 @@ class PresetPaletteTab extends Tab {
 
       #palette-label {
         color: white;
-        font-size: small;
+        font-size: x-small;
         margin-right: 0.25rem;
       }
 
@@ -152,8 +153,6 @@ class PresetPaletteTab extends Tab {
     this.select = this._createSelect();
     this.select.id = "palette-select";
 
-    this.scaleInput = this._createScaleInput();
-
     this._setupEvents();
   }
 
@@ -173,7 +172,7 @@ class PresetPaletteTab extends Tab {
           ${colorsDiv}
         </div>
         <div id="options">
-          ${this.scaleInput}
+          <ncrs-palette-scale-selector id="scale" scale=${this.scale} @update=${this._onScaleUpdate}></ncrs-palette-scale-selector>
           <div>
             <label id="palette-label" for="palette-select">Select palette</label>
             ${this.select}
@@ -205,27 +204,12 @@ class PresetPaletteTab extends Tab {
       const palette = this.palettes[select.value];
 
       this.scale = palette.scale;
-      this.scaleInput.value = this.scale;
       this.colors = palette.palette;
 
       this.requestUpdate();
     });
 
     return select;
-  }
-
-  _createScaleInput() {
-    const scaleInput = document.createElement("input");
-
-    scaleInput.id = "columns";
-    scaleInput.title = "Palette width";
-    scaleInput.type = "number";
-    scaleInput.inputmode = "numeric";
-    scaleInput.addEventListener("input", event => this._onColumnsInput(event));
-    scaleInput.addEventListener("wheel", event => this._onColumnsWheel(event));
-    scaleInput.value = this.scale;
-
-    return scaleInput;
   }
 
   _createColor(color) {
@@ -273,34 +257,17 @@ class PresetPaletteTab extends Tab {
     });
   }
 
-  _onColumnsInput(event) {
-    if (event.target.value == "") { return; }
-
-    event.target.value = clamp(Number(event.target.value), 4, 16);
-    this.scale = event.target.value;
-    this.style.setProperty("--palette-width", event.target.value);
-  }
-
-  _onColumnsWheel(event) {
-    event.preventDefault();
-    let dir = 1;
-    if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 4, 16);
-    this.scale = event.target.value;
-    this.style.setProperty("--palette-width", event.target.value)
+  _onScaleUpdate(event) {
+    this.style.setProperty("--palette-width", event.detail);
   }
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
     event.preventDefault();
 
-    let dir = 1;
-    if (event.deltaY < 0) { dir = -1 }
-
-    const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 4, 16);
-    this.scale = columns.value;
-    this.style.setProperty("--palette-width", columns.value);
+    const dir = event.deltaY > 0 ? -1 : 1;
+    const scale = this.shadowRoot.getElementById("scale");
+    scale.scale = Number(scale.scale) + dir;
   }
 }
 

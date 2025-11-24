@@ -112,18 +112,19 @@ class BlendPaletteTab extends Tab {
         border: 1px solid white;
       }
 
-      #remove {
+      #remove::part(button) {
+        box-sizing: border-box;
         width: 20px;
         height: 20px;
-        --icon-height: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
-      #remove::part(button) {
-        padding: 0.25rem;
-      }
-
-      #remove::part(button):focus-visible {
-        border: 1px solid white;
+      #remove ncrs-icon {
+        display: block;
+        width: 0.75rem;
+        height: 0.75rem;
       }
     `
   ]
@@ -178,15 +179,10 @@ class BlendPaletteTab extends Tab {
           ${colorsDiv}
         </div>
         <div id="options">
-          <input
-            id="columns" value="12" type="number"
-            title="Palette width"
-            inputmode="numeric"
-            @input=${this._onColumnsInput}
-            @wheel=${this._onColumnsWheel}
-          >
-          <ncrs-icon-button id="remove" title="Remove selected color" icon="remove" ?disabled=${!hasColor} @click=${this._removeSelected}>
-          </ncrs-icon-button>
+          <ncrs-palette-scale-selector id="scale" scale=14 @update=${this._onScaleUpdate}></ncrs-palette-scale-selector>
+          <ncrs-button id="remove" ?disabled=${!hasColor} @click=${this._removeSelected}>
+            <ncrs-icon icon="remove" color="var(--text-color)"></ncrs-icon>
+          </ncrs-button>
         </div>
       </div>
     `;
@@ -300,31 +296,17 @@ class BlendPaletteTab extends Tab {
     });
   }
 
-  _onColumnsInput(event) {
-    if (event.target.value == "") { return; }
-
-    event.target.value = clamp(Number(event.target.value), 1, 14);
-    this.style.setProperty("--palette-width", event.target.value);
-  }
-
-  _onColumnsWheel(event) {
-    event.preventDefault();
-    let dir = 1;
-    if (event.deltaY > 0) { dir = -1 }
-    event.target.value = clamp(Number(event.target.value) + dir, 1, 14);
-    this.style.setProperty("--palette-width", event.target.value)
+  _onScaleUpdate(event) {
+    this.style.setProperty("--palette-width", event.detail);
   }
 
   _onPaletteWheel(event) {
     if (!event.ctrlKey) { return; }
     event.preventDefault();
 
-    let dir = 1;
-    if (event.deltaY < 0) { dir = -1 }
-
-    const columns = this.shadowRoot.getElementById("columns");
-    columns.value = clamp(Number(columns.value) + dir, 1, 14);
-    this.style.setProperty("--palette-width", columns.value);
+    const dir = event.deltaY > 0 ? -1 : 1;
+    const scale = this.shadowRoot.getElementById("scale");
+    scale.scale = Number(scale.scale) + dir;
   }
 }
 
