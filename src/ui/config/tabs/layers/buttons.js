@@ -29,6 +29,7 @@ class LayersTabButtons extends LitElement {
       height: 2.6rem;
       width: auto;
       display: block;
+      padding-top: 2px;
     }
 
     #layer-buttons p {
@@ -36,6 +37,7 @@ class LayersTabButtons extends LitElement {
       margin-top: 0.125rem;
       font-size: small;
       color: var(--text-color);
+      opacity:0.5;
       text-align: center;
       width: 100%;
     }
