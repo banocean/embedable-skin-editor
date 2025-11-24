@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import ProjectLoader from "../../../../editor/format/project_loader";
-import { download } from "../../../../helpers";
+import { download, isIOS } from "../../../../helpers";
 
 class ExportTabButtons extends LitElement {
   static styles = css`
@@ -69,7 +69,6 @@ class ExportTabButtons extends LitElement {
 
   download(filename, blob, type) {
     // If the platform is iOS, use the Share API instead of regular download.
-    const isIOS = navigator.platform.match(/iPad|iPhone|iPod/i) != null ? true : false;
     const file = new File([blob], filename, {type: type});
 
     if (isIOS && navigator.canShare && navigator.canShare({files: [file]})) {
