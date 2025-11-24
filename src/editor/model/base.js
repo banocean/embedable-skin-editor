@@ -73,9 +73,9 @@ class BasePart {
     this.textureMaterial = this._setupTextureMaterial();
 
     this.baseMesh = this._setupMesh(this.uvmap().base);
-    this.baseGrid = this._setupGrid(false);
+    this.baseGrid = this._setupGrid(this.uvmap().base, false);
     this.overlayMesh = this._setupMesh(this.uvmap().overlay, true);
-    this.overlayGrid = this._setupGrid(true);
+    this.overlayGrid = this._setupGrid(this.uvmap().overlay, true);
 
     this.baseMeshVisible = true;
     this.overlayMeshVisible = true;
@@ -144,10 +144,29 @@ class BasePart {
     return geometry;
   }
 
+  _setupGridGeometry(uvmap, overlay = false) {
+    const size = this.getSize(overlay);
+
+    const geometry = new THREE.BoxGeometry(...size);
+    const uv = geometry.attributes.uv.clone();
+
+    // Base UVMAP
+    for (let [face, map] of Object.entries(uvmap)) {
+      setFaceUVs(face, map, uv);
+    }
+
+    geometry.setAttribute("grid", uv);
+
+    return geometry;
+  }
+
   _setupTextureMaterial() {
     return new THREE.MeshBasicMaterial({
       map: this.texture,
       transparent: true,
+      polygonOffset: true,
+      polygonOffsetFactor: 1,
+      polygonOffsetUnits: 1,
       side: THREE.FrontSide,
       alphaTest: 1e-5,
     });
@@ -162,12 +181,13 @@ class BasePart {
     return mesh;
   }
 
-  _setupGrid(overlay) {
-    const size = this.getSize(overlay);
+  _setupGrid(uvmap, overlay) {
     const dim = this.getSize().map(n => n * 8);
+    const geometry = this._setupGridGeometry(uvmap, overlay, dim);
+    // const geometry = new THREE.BoxGeometry(...this.getSize(overlay), ...dim);
 
     const gridColor = overlay ? new THREE.Color("#373737") : new THREE.Color("#575757");
-    const grid = createSkinGridBox(...size, ...dim, gridColor);
+    const grid = createSkinGridBox(geometry, this.texture, ...dim, gridColor);
     grid.position.add(this.position());
     grid.layers.set(overlay ? 2 : 1);
 

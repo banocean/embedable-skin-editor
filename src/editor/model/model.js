@@ -57,7 +57,7 @@ class SkinModel {
   }
 
   setGridCulling(cull) {
-    this.updateGridMaterials(material => material.polygonOffset = !!cull);
+    this.updateGridMaterials(material => material.uniforms.gridCullingEnabled.value = !!cull);
   }
 
   _setupMesh(texture, variant) {
