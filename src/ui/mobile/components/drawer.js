@@ -171,7 +171,9 @@ class MobileDrawer extends LitElement {
 
     const handle = this.renderRoot.getElementById("handle-overlay");
     handle.addEventListener("click", () => {
-      if (this._translate > 0) { return; }
+      if (this._translate > 0) return;
+      if (this.classList.contains("snap")) return;
+      
       this.hide();
     });
 
@@ -219,6 +221,7 @@ class MobileDrawer extends LitElement {
       return;
     }
 
+    this.classList.remove("dragging");
     this.classList.add("snap");
   }
 
@@ -251,6 +254,8 @@ class MobileDrawer extends LitElement {
 
   _setupEvents() {
     this.addEventListener("click", () => {
+      if (this.classList.contains("snap")) return;
+
       this.hide();
     })
   }

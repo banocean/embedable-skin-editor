@@ -44,10 +44,6 @@ const COLOR_DRAWER_STYLES = css`
     height: 1.25rem;
   }
 
-  ncrs-mobile-tab-group {
-    height: 19rem;
-  }
-
   #palettes {
     display: flex;
     flex-direction: column;
