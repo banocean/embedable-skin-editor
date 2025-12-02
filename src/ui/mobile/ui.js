@@ -21,6 +21,7 @@ import EraseToolConfig from "../config/tabs/tools/configs/erase_tool_config";
 import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
 import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
 import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
+import { isIOS } from "../../helpers";
 
 const STYLES = css`
   :host {
@@ -58,7 +59,7 @@ const STYLES = css`
     display: none;
   }
 
- #fullscreenToggle ncrs-icon {
+  #fullscreenToggle ncrs-icon {
     width: 1.5rem;
     height: 1.5rem;
     --icon-color: #ffffff44;
@@ -288,9 +289,9 @@ const STYLES = css`
     position: absolute;
     align-self: center;
     display: block;
-    width: 1.75rem;
+    width: 2rem;
     height: 5rem;
-    left: -1.75rem;
+    left: -2rem;
     background-color: white;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
@@ -308,8 +309,8 @@ const STYLES = css`
   }
 
   #layers .toggle ncrs-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     --icon-color: white;
   }
 
@@ -413,6 +414,7 @@ class MobileUI extends LitElement {
     this._setToolConfig();
 
     this._pwaCheck();
+    this._iosCheck();
 
     this.addEventListener("dblclick", event => event.preventDefault());
 
@@ -433,7 +435,7 @@ class MobileUI extends LitElement {
       }
 
       this.requestUpdate();
-    })
+    });
   }
 
   firstUpdated() {
@@ -663,6 +665,12 @@ class MobileUI extends LitElement {
   _pwaCheck() {
     if (window.matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches) {
       this.classList.add("fullscreen", "hide-controls");
+    }
+  }
+
+  _iosCheck() {
+    if (isIOS) {
+      this.classList.add("platform-ios")
     }
   }
 
