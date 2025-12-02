@@ -60,14 +60,16 @@ class Config extends LitElement {
       background-color: #232428;
     }
 
-    ncrs-tab-group::part(button):hover {
-      color: #ccc;
+    ncrs-tab-group::part(button):not(:active):hover {
+      color: #bbb;
     }
 
     ncrs-tab-group::part(button selected),
     ncrs-tab-group::part(button):active,
-    ncrs-tab-group::part(button):focus {
+    ncrs-tab-group::part(button):focus,
+    ncrs-tab-group::part(button selected):not(:active):hover {
       border-color: #313436;
+      color: #55b2ff;
     }
 
     ncrs-tab-group::part(button selected) {
