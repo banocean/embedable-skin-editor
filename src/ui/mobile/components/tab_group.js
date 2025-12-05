@@ -5,6 +5,7 @@ class MobileTabGroup extends LitElement {
   static styles = css`
     :host {
       display: block;
+      height: 100%;
     }
 
     #nav {
@@ -47,6 +48,7 @@ class MobileTabGroup extends LitElement {
       position: relative;
       display: flex;
       gap: 0.25rem;
+      max-height: calc(100% - 34px);
       height: 100%;
       overflow-x: scroll;
       scrollbar-width: none;

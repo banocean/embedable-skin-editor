@@ -69,6 +69,7 @@ class MobileDrawer extends LitElement {
     }
 
     #body {
+      height: 100%;
       max-height: calc(100% - 2rem);
       box-sizing: border-box;
     }
