@@ -338,7 +338,11 @@ const STYLES = css`
     z-index: 1;
     box-shadow: #13131566 0px -4px 4px;
     transform: translateY(100%);
-    transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
+    transition: transform 0.5s cubic-bezier(0.32,0.72,0,1), width 0.5s cubic-bezier(0.32,0.72,0,1);
+  }
+
+  :host(.layers-open) #tool-config {
+    width: calc(100% - 7.25rem);
   }
 
   @-moz-document url-prefix() {
@@ -582,6 +586,7 @@ class MobileUI extends LitElement {
 
   _toggleLayers() {
     this.renderRoot.getElementById("layers").classList.toggle("open");
+    this.classList.toggle("layers-open");
   }
 
   _setupDrawerOpenDrag(button, func) {
