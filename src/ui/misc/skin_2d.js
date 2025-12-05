@@ -47,6 +47,7 @@ class Skin2d extends LitElement {
   static styles = css`
     :host {
       display: block;
+      image-rendering: pixelated;
     }
 
     canvas {

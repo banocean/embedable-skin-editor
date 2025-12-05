@@ -1,11 +1,6 @@
-import * as THREE from "three";
 import { css, html, LitElement } from "lit";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../../constants.js";
 import GallerySkin from "../../../gallery/skin.js";
 import { clamp } from "../../../../helpers.js";
-import UpdateLayerTextureEntry from "../../../../editor/history/entries/update_layer_texture_entry.js";
-import GroupedEntry from "../../../../editor/history/entries/grouped_entry.js";
-import ReplaceLayerMetadataEntry from "../../../../editor/history/entries/replace_layer_metadata_entry.js";
 
 class QuickSearch extends LitElement {
   static properties = {
@@ -25,7 +20,7 @@ class QuickSearch extends LitElement {
     }
 
     #search-button::part(button) {
-      padding: 0px;
+      padding: var(--search-button-padding, 0px);
     }
 
     input {
@@ -149,7 +144,7 @@ class QuickSearch extends LitElement {
     return html`
       <div id="search">
         ${this.searchField}
-        <ncrs-button id="search-button" title="Submit search" @click=${this._setQuery}>
+        <ncrs-button id="search-button" part="search-button" title="Submit search" @click=${this._setQuery}>
           <ncrs-icon icon="search" color="var(--text-color)"></ncrs-icon>
         </ncrs-button>
       </div>
@@ -234,6 +229,7 @@ class QuickSearch extends LitElement {
   _renderSkins() {
     const div = document.createElement("div");
     div.id = "skins";
+    div.part = "skins";
 
     if (!this._galleryData) { return div; }
 

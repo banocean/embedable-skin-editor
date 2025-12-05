@@ -22,6 +22,7 @@ import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
 import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
 import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
 import { isIOS } from "../../helpers";
+import { GALLERY_DRAWER_STYLES, GalleryDrawer } from "./gallery_drawer";
 
 const STYLES = css`
   :host {
@@ -275,14 +276,26 @@ const STYLES = css`
     transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
   }
 
+  #layers .main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 3rem;
+  }
+
+  #layers .button {
+    padding: 0.25rem;
+    padding-bottom: 0px;
+    background-color: #13131599;
+    border-left: 1px solid #1f2025;
+  }
+
   #layers.open {
     transform: translateX(0%);
   }
 
   #layers ncrs-layer-list {
     position: relative;
-    top: 3rem;
-    height: calc(100% - 3rem);
+    flex-grow: 1;
   }
 
   #layers .toggle {
@@ -390,13 +403,32 @@ const STYLES = css`
     margin-top: -0.5rem;
     margin-bottom: 0.25rem;
   }
+
+  ncrs-button {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+  }
+
+  ncrs-button::part(button) {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  ncrs-button ncrs-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 `;
 
 const DRAWER_OPEN_DRAG_THRESHOLD = 15;
 const LAYERS_OPEN_DRAG_THRESHOLD = 5;
 
 class MobileUI extends LitElement {
-  static styles = [STYLES, COLOR_DRAWER_STYLES, CONFIG_DRAWER_STYLES];
+  static styles = [STYLES, COLOR_DRAWER_STYLES, CONFIG_DRAWER_STYLES, GALLERY_DRAWER_STYLES];
 
   constructor() {
     super();
@@ -407,6 +439,7 @@ class MobileUI extends LitElement {
 
     this.colorDrawer = new ColorDrawer(this);
     this.configDrawer = new ConfigDrawer(this);
+    this.galleryDrawer = new GalleryDrawer(this);
     this.partToggles = new PartToggles(this.editor);
     this.modelToggle = new ModelToggle(this.editor);
     this.editorToggles = new EditorToggles(this.editor);
@@ -445,6 +478,7 @@ class MobileUI extends LitElement {
   firstUpdated() {
     this.colorDrawer.firstUpdated();
     this.configDrawer.firstUpdated();
+    this.galleryDrawer.firstUpdated();
 
     this._setupButtonDrag();
     this._setupEvents();
@@ -479,7 +513,15 @@ class MobileUI extends LitElement {
         <div id="editor">
           ${this.editor}
           <div id="layers">
-            ${this.layers}
+            <div class="main">
+              <div class="button">
+                <ncrs-button @click=${this._showGalleryDrawer}>
+                  <ncrs-icon icon="search" color="var(--text-color)"></ncrs-icon>
+                  Browse
+                </ncrs-button>
+              </div>
+              ${this.layers}
+            </div>
             <button class="toggle" @click=${this._toggleLayers}>
               <ncrs-icon icon="arrow-right" class="on" color="var(--icon-color)"></ncrs-icon>
               <ncrs-icon icon="arrow-left" class="off" color="var(--icon-color)"></ncrs-icon>
@@ -529,6 +571,7 @@ class MobileUI extends LitElement {
         </div>
         ${this.colorDrawer.render()}
         ${this.configDrawer.render()}
+        ${this.galleryDrawer.render()}
       </div>
       <slot name="footer"></slot>
     `;
@@ -556,6 +599,10 @@ class MobileUI extends LitElement {
 
   _showConfigDrawer() {
     this.configDrawer.show();
+  }
+
+  _showGalleryDrawer() {
+    this.galleryDrawer.show();
   }
 
   _scrollToToggles() {
