@@ -3,7 +3,7 @@ import MobileDrawer from "./components/drawer";
 import QuickSearch from "../config/tabs/import/quick_search";
 
 const GALLERY_DRAWER_STYLES = css`
-  ncrs-mobile-drawer {
+  #gallery-drawer {
     --drawer-height: 31rem;
   }
 
