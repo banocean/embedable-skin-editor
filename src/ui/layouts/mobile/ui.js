@@ -1,27 +1,27 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import PersistenceManager from "../../persistence";
-import { Editor } from "../../main";
+import PersistenceManager from "../../../persistence";
+import { Editor } from "../../../main";
 import "./components/drawer";
 import "./components/tab";
 import "./components/tab_group";
-import "../misc/color_picker";
+import "../../misc/color_picker";
 
 import imgGridDark from "../../../assets/images/grid-editor-dark.png";
-import Toolset from "../tools/toolset";
+import Toolset from "../../tools/toolset";
 import { ColorDrawer, COLOR_DRAWER_STYLES } from "./color_drawer";
 import interact from "interactjs";
-import PartToggles from "../tools/part_toggles";
-import ModelToggle from "../tools/model_toggle";
-import EditorToggles from "../tools/editor_toggles";
+import PartToggles from "../../tools/part_toggles";
+import ModelToggle from "../../tools/model_toggle";
+import EditorToggles from "../../tools/editor_toggles";
 import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./config_drawer";
-import { GALLERY_URL, SKIN_LOOKUP_URL } from "../../constants";
-import LayerList from "../layers/layer_list";
-import PenToolConfig from "../config/tabs/tools/configs/pen_tool_config";
-import EraseToolConfig from "../config/tabs/tools/configs/erase_tool_config";
-import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
-import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
-import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
-import { isIOS } from "../../helpers";
+import { GALLERY_URL, SKIN_LOOKUP_URL } from "../../../constants";
+import LayerList from "../../layers/layer_list";
+import PenToolConfig from "../../config/tabs/tools/configs/pen_tool_config";
+import EraseToolConfig from "../../config/tabs/tools/configs/erase_tool_config";
+import BucketToolConfig from "../../config/tabs/tools/configs/bucket_tool_config";
+import ShadeToolConfig from "../../config/tabs/tools/configs/shade_tool_config";
+import SculptToolConfig from "../../config/tabs/tools/configs/sculpt_tool_config";
+import { isIOS } from "../../../helpers";
 import { GALLERY_DRAWER_STYLES, GalleryDrawer } from "./gallery_drawer";
 
 const STYLES = css`

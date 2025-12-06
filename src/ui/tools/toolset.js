@@ -6,7 +6,9 @@ class Toolset extends LitElement {
     super();
 
     this.editor = editor;
-
+  }
+  
+  firstUpdated() {
     this._setupEvents();
   }
 

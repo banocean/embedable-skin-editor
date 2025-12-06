@@ -1,6 +1,6 @@
 import { css } from "lit";
 import MobileDrawer from "./components/drawer";
-import QuickSearch from "../config/tabs/import/quick_search";
+import QuickSearch from "../../config/tabs/import/quick_search";
 
 const GALLERY_DRAWER_STYLES = css`
   #gallery-drawer {

@@ -2,10 +2,10 @@ import { css } from "lit";
 import MobileDrawer from "./components/drawer";
 import MobileTabGroup from "./components/tab_group";
 import MobileTab from "./components/tab";
-import LayersTabFilters from "../config/tabs/layers/filters";
-import LayersTabButtons from "../config/tabs/layers/buttons";
-import ImportTabButtons from "../config/tabs/import/buttons";
-import ExportTabButtons from "../config/tabs/export/buttons";
+import LayersTabFilters from "../../config/tabs/layers/filters";
+import LayersTabButtons from "../../config/tabs/layers/buttons";
+import ImportTabButtons from "../../config/tabs/import/buttons";
+import ExportTabButtons from "../../config/tabs/export/buttons";
 
 const CONFIG_DRAWER_STYLES = css`
   ncrs-layers-tab-filters {
