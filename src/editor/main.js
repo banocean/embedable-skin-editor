@@ -573,16 +573,13 @@ class Editor extends LitElement {
 
   _setupTools() {
     const tools = [
+      new MoveTool(this.toolConfig),
       new PenTool(this.toolConfig),
       new EraseTool(this.toolConfig),
       new BucketTool(this.toolConfig),
       new ShadeTool(this.toolConfig),
       new SculptTool(this.toolConfig),
     ]
-
-    if (this.mobile) {
-      tools.unshift(new MoveTool(this.toolConfig));
-    }
 
     return tools;
   }

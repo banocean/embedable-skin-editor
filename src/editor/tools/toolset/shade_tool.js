@@ -12,6 +12,8 @@ class ShadeTool extends BrushBaseTool {
       description: "Makes pixels lighter/darker or adjusts their color based on the palette.\nUse the left mouse button to darken, and the right mouse button to lighten.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.,
       disableMirror: true, // Whether to disable the mirror.
+      desktopLayout: true,
+      mobileLayout: true,
     });
   }
 

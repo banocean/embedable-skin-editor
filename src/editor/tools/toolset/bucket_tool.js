@@ -11,6 +11,8 @@ class BucketTool extends BaseTool {
       name: "Paint Bucket [G]",
       description: "Simple tool for filling large closed areas with a specific color.\nUse the left mouse button to fill, and the right mouse button to erase.",
       providesColor: true, // Whether or not drawing with this tool adds to recent colors.
+      desktopLayout: true,
+      mobileLayout: true,
     });
   }
 

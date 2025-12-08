@@ -433,6 +433,7 @@ class NCRSUIMobileLayout extends BaseLayout {
     super(ui, "mobile");
 
     this.toolSet = new Toolset(this.editor);
+    this.toolSet.mobile = true;
 
     this.colorDrawer = new ColorDrawer(this);
     this.configDrawer = new ConfigDrawer(this);

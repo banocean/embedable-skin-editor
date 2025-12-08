@@ -2,6 +2,10 @@ import { LitElement } from "lit";
 import Tool from "./tool";
 
 class Toolset extends LitElement {
+  static properties = {
+    mobile: {type: Boolean}
+  }
+
   constructor(editor) {
     super();
 
@@ -17,6 +21,9 @@ class Toolset extends LitElement {
     const tools = [];
 
     editor.tools.forEach(tool => {
+      if (this.mobile && !tool.properties.mobileLayout) return;
+      if (!this.mobile && !tool.properties.desktopLayout) return;
+
       const newTool = new Tool(this.editor, tool);
       newTool.part = "tool";
 

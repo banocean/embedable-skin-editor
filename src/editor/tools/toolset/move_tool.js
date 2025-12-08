@@ -8,6 +8,8 @@ class MoveTool extends BaseTool {
       name: "Move Tool",
       description: "",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.
+      desktopLayout: false,
+      mobileLayout: true,
     });
   }
 
