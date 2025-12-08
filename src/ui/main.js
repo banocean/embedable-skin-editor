@@ -7,7 +7,7 @@ import "./misc/modal";
 import "./misc/window";
 import "./misc/skin_2d";
 
-import { css, html, LitElement } from "lit";
+import { css, html, unsafeCSS, LitElement } from "lit";
 import Editor from "../editor/main.js";
 import PersistenceManager from "../persistence.js";
 import Modal from "./misc/modal.js";
@@ -18,6 +18,10 @@ import setupKeybinds from "./keybinds.js";
 import NCRSUIDesktopLayout from "./layouts/desktop.js";
 import NCRSUIMobileLayout from "./layouts/mobile.js";
 
+import imgGridDark from "../../assets/images/grid-editor-dark.png";
+import imgGridGray from "../../assets/images/grid-editor-gray.png";
+import imgGridLight from "../../assets/images/grid-editor-light.png";
+
 const DESKTOP_MIN_WIDTH = 670;
 
 class UI extends LitElement {
@@ -25,6 +29,44 @@ class UI extends LitElement {
     :host {
       width: 100%;
       height: 100%;
+    }
+
+    :host(.fullscreen) {
+      --toggle-fullscreen: none;
+      --toggle-minimize: block;
+    }
+
+    :host(.minimized) {
+      --toggle-fullscreen: block;
+      --toggle-minimize: none;
+    }
+
+    :host(.editor-dark) {
+      --editor-bg: url(${unsafeCSS(imgGridDark)});
+      --editor-icon-color: #ffffff66;
+      --toggle-dark: block;
+      --toggle-gray: none;
+      --toggle-light: none;
+    }
+
+    :host(.editor-gray) {
+      --editor-bg: url(${unsafeCSS(imgGridGray)});
+      --editor-icon-color: #ffffff66;
+      --toggle-dark: none;
+      --toggle-gray: block;
+      --toggle-light: none;
+    }
+
+    :host(.editor-light) {
+      --editor-bg: url(${unsafeCSS(imgGridLight)});
+      --editor-icon-color: #00000088;
+      --toggle-dark: none;
+      --toggle-gray: none;
+      --toggle-light: block;
+    }
+
+    :host(.hide-controls) {
+      --controls-fullscreen: none;
     }
 
     #main {
@@ -72,6 +114,10 @@ class UI extends LitElement {
       text-align: center;
       font-size: large;
     }
+
+    #export-form {
+      z-index: 100;
+    }
   `;
 
   static properties = {
@@ -91,6 +137,7 @@ class UI extends LitElement {
 
     this._setFullscreen();
     this._setupResizeObserver();
+    this._setEditorTheme();
     this._setupEvents();
   }
 
@@ -134,6 +181,20 @@ class UI extends LitElement {
     }
   }
 
+  toggleEditorBackground() {
+    if (this.classList.contains("editor-gray")) {
+      this.classList.replace("editor-gray", "editor-light");
+      this.persistence.set("theme", "light");
+    } else if (this.classList.contains("editor-light")) {
+      this.classList.replace("editor-light", "editor-dark");
+      this.persistence.set("theme", "dark");
+    } else {
+      this.classList.remove("editor-dark", "editor-light");
+      this.classList.add("editor-gray");
+      this.persistence.set("theme", "gray");
+    }
+  }
+
   _getValidLayout() {
     if (this.clientWidth >= DESKTOP_MIN_WIDTH) {
       return "desktop";
@@ -155,6 +216,7 @@ class UI extends LitElement {
   _setupModal(name) {
     const modal = new Modal();
     modal.part = name;
+    modal.id = name;
     
     const slot = document.createElement("slot");
     slot.name = name;
@@ -196,6 +258,17 @@ class UI extends LitElement {
     if (passesColorAccuracyTest()) { return; }
 
     this.shadowRoot.getElementById("color-check-modal").show();
+  }
+
+  _setEditorTheme() {
+    if (
+      !this.classList.contains("editor-dark") ||
+      !this.classList.contains("editor-gray") ||
+      !this.classList.contains("editor-light")
+    ) {
+      const theme = this.persistence.get("theme", "dark");
+      this.classList.add(`editor-${theme}`);
+    }
   }
 
   _setupResizeObserver() {

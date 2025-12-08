@@ -13,13 +13,11 @@ class BaseLayout extends LitElement {
   }
 
   toggleFullscreen() {
-    if (this.classList.contains("minimized")) {
-      this.classList.replace("minimized", "fullscreen");
-    } else if (this.classList.contains("fullscreen")) {
-      this.classList.replace("fullscreen", "minimized");
-    }
-
     this.ui.toggleFullscreen();
+  }
+
+  toggleEditorBackground() {
+    this.ui.toggleEditorBackground();
   }
 }
 

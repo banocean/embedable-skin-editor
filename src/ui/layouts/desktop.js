@@ -6,15 +6,12 @@ import LayerList from "../layers/layer_list.js";
 import Config from "../config/main.js";
 
 import imgGridDark from "../../../assets/images/grid-editor-dark.png";
-import imgGridGray from "../../../assets/images/grid-editor-gray.png";
-import imgGridLight from "../../../assets/images/grid-editor-light.png";
 
 class NCRSUIDesktopLayout extends BaseLayout {
   static styles = css`
     :host {
       width: 100%;
       height: 100%;
-      --editor-bg: url(${unsafeCSS(imgGridDark)});
       --ncrs-color-picker-height: 15rem;
     }
 
@@ -51,18 +48,6 @@ class NCRSUIDesktopLayout extends BaseLayout {
       display: flex;
     }
 
-    :host(.editor-dark) {
-      --editor-bg: url(${unsafeCSS(imgGridDark)});
-    }
-
-    :host(.editor-gray) {
-      --editor-bg: url(${unsafeCSS(imgGridGray)});
-    }
-
-    :host(.editor-light) {
-      --editor-bg: url(${unsafeCSS(imgGridLight)});
-    }
-
     :host(.editor-light) .warning {
       color: black;
     }
@@ -77,7 +62,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
 
     #editor {
       background-color: #191919;
-      background-image: var(--editor-bg);
+      background-image: var(--editor-bg, url(${unsafeCSS(imgGridDark)}));
       flex-grow: 1;
       position: relative;
     }
@@ -130,7 +115,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
       --icon-color: #aaaaaa;
     }
 
-    #themeSwitch {
+    #themeToggle {
       all: unset;
       display: block;
       cursor: pointer;
@@ -139,25 +124,24 @@ class NCRSUIDesktopLayout extends BaseLayout {
       right: 8px;
     }
 
-    #themeSwitch ncrs-icon {
-      display: none;
+    #themeToggle ncrs-icon {
       width: 24px;
       height: 24px;
     }
 
-    :host(.editor-dark) #themeSwitch ncrs-icon.dark {
-      display: block;
+    #themeToggle .dark {
+      display: var(--toggle-dark);
     }
 
-    :host(.editor-gray) #themeSwitch ncrs-icon.gray {
-      display: block;
+    #themeToggle .gray {
+      display: var(--toggle-gray);
     }
 
-    :host(.editor-light) #themeSwitch ncrs-icon.light {
-      display: block;
+    #themeToggle .light {
+      display: var(--toggle-light);
     }
 
-    #fullscreenSwitch {
+    #fullscreenToggle {
       all: unset;
       display: block;
       cursor: pointer;
@@ -166,53 +150,17 @@ class NCRSUIDesktopLayout extends BaseLayout {
       right: 8px;
     }
 
-    #fullscreenSwitch ncrs-icon {
-      display: none;
+    #fullscreenToggle ncrs-icon {
       width: 24px;
       height: 24px;
     }
 
-    :host(.minimized) #fullscreenSwitch ncrs-icon.minimized {
-      display: block;
+    #fullscreenToggle .minimize {
+      display: var(--toggle-minimize);
     }
 
-    :host(.fullscreen) #fullscreenSwitch ncrs-icon.fullscreen {
-      display: block;
-    }
-
-    :host(.editor-light) #fullscreenSwitch {
-      display: none;
-    }
-
-    #fullscreenSwitchLightMode {
-      all: unset;
-      display: block;
-      cursor: pointer;
-      position: absolute;
-      top: 40px;
-      right: 8px;
-    }
-
-    #fullscreenSwitchLightMode ncrs-icon {
-      display: none;
-      width: 24px;
-      height: 24px;
-    }
-
-    :host(.minimized) #fullscreenSwitchLightMode ncrs-icon.minimized {
-      display: block;
-    }
-
-    :host(.fullscreen) #fullscreenSwitchLightMode ncrs-icon.fullscreen {
-      display: block;
-    }
-
-    :host(.editor-gray) #fullscreenSwitchLightMode {
-      display: none;
-    }
-
-    :host(.editor-dark) #fullscreenSwitchLightMode {
-      display: none;
+    #fullscreenToggle .fullscreen {
+      display: var(--toggle-fullscreen);
     }
   `;
 
@@ -223,7 +171,6 @@ class NCRSUIDesktopLayout extends BaseLayout {
     this.layers = new LayerList(this.ui);
     this.config = new Config(this.ui);
 
-    this._setEditorTheme();
     this._setupEvents();
   }
 
@@ -250,20 +197,6 @@ class NCRSUIDesktopLayout extends BaseLayout {
     `;
   }
 
-  toggleEditorBackground() {
-    if (this.classList.contains("editor-gray")) {
-      this.classList.replace("editor-gray", "editor-light");
-      this.persistence.set("theme", "light");
-    } else if (this.classList.contains("editor-light")) {
-      this.classList.replace("editor-light", "editor-dark");
-      this.persistence.set("theme", "dark");
-    } else {
-      this.classList.remove("editor-dark", "editor-light");
-      this.classList.add("editor-gray");
-      this.persistence.set("theme", "gray");
-    }
-  }
-
   _filtersWarning() {
     const filterIcon = html`
       <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -288,38 +221,23 @@ class NCRSUIDesktopLayout extends BaseLayout {
     `;
   }
 
-  _setEditorTheme() {
-    if (
-      !this.classList.contains("editor-dark") ||
-      !this.classList.contains("editor-gray") ||
-      !this.classList.contains("editor-light")
-    ) {
-      const theme = this.persistence.get("theme", "dark");
-      this.classList.add(`editor-${theme}`);
-    }
-  }
-
   _bgToggle() {
     return html`
-      <button id="themeSwitch" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="#ffffff66" class="dark"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="light-mode" color="#ffffff66" class="gray"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="#00000088" class="light"></ncrs-icon>
+      <button id="themeToggle" @click=${this.toggleEditorBackground}>
+        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="var(--editor-icon-color)" class="dark"></ncrs-icon>
+        <ncrs-icon title="Switch to light mode." icon="light-mode" color="var(--editor-icon-color)" class="gray"></ncrs-icon>
+        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="var(--editor-icon-color)" class="light"></ncrs-icon>
       </button>
-    `
+    `;
   }
 
   _fullscreenToggle() {
     return html`
-      <button id="fullscreenSwitchLightMode" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#00000088" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="#00000088" class="fullscreen"></ncrs-icon>
+      <button id="fullscreenToggle" @click=${this.toggleFullscreen}>
+        <ncrs-icon class="fullscreen" title="Switch to Fullscreen." icon="fullscreen" color="var(--editor-icon-color)" class="minimized"></ncrs-icon>
+        <ncrs-icon class="minimize" title="Minimize." icon="minimize" color="var(--editor-icon-color)" class="fullscreen"></ncrs-icon>
       </button>
-      <button id="fullscreenSwitch" @click=${this.toggleFullscreen}>
-        <ncrs-icon title="Switch to Fullscreen." icon="fullscreen" color="#ffffff66" class="minimized"></ncrs-icon>
-        <ncrs-icon title="Minimize." icon="minimize" color="#ffffff66" class="fullscreen"></ncrs-icon>
-      </button>
-    `
+    `;
   }
 
   _historyButtons() {

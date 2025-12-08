@@ -28,7 +28,6 @@ const STYLES = css`
     width: 100%;
     height: 100%;
     -webkit-user-select: none;
-    --editor-bg: url(${unsafeCSS(imgGridDark)});
     --ncrs-color-picker-height: 15rem;
     --current-color: black;
   }
@@ -43,7 +42,7 @@ const STYLES = css`
 
   #editor {
     background-color: #191919;
-    background-image: var(--editor-bg);
+    background-image: var(--editor-bg, url(${unsafeCSS(imgGridDark)}));
     flex-grow: 1;
     position: relative;
     overflow: hidden;
@@ -55,14 +54,40 @@ const STYLES = css`
     min-width: 240px;
   }
 
-  :host(.hide-controls) #fullscreenToggle {
-    display: none;
+  #fullscreenToggle {
+    display: var(--controls-fullscreen);
   }
 
   #fullscreenToggle ncrs-icon {
     width: 1.5rem;
     height: 1.5rem;
     --icon-color: #ffffff44;
+  }
+
+  #fullscreenToggle .minimize {
+    display: var(--toggle-minimize);
+  }
+
+  #fullscreenToggle .fullscreen {
+    display: var(--toggle-fullscreen);
+  }
+
+  #themeToggle ncrs-icon {
+    width: 24px;
+    height: 24px;
+    --icon-color: #ffffff44;
+  }
+
+  #themeToggle .dark {
+    display: var(--toggle-dark);
+  }
+
+  #themeToggle .gray {
+    display: var(--toggle-gray);
+  }
+
+  #themeToggle .light {
+    display: var(--toggle-light);
   }
 
   #top {
@@ -84,6 +109,11 @@ const STYLES = css`
     #top {
       backdrop-filter: none; 
     }
+  }
+
+  #top .left {
+    display: flex;
+    gap: 0.5rem;
   }
 
   #bottom {
@@ -286,6 +316,15 @@ const STYLES = css`
     padding-bottom: 0px;
     background-color: #13131599;
     border-left: 1px solid #1f2025;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  @-moz-document url-prefix() {
+    #layers .button {
+      backdrop-filter: none;
+      background-color: #131315dd;
+    }
   }
 
   #layers.open {
@@ -436,7 +475,7 @@ class NCRSUIMobileLayout extends BaseLayout {
     this.toolSet.mobile = true;
 
     this.colorDrawer = new ColorDrawer(this);
-    this.configDrawer = new ConfigDrawer(this);
+    this.configDrawer = new ConfigDrawer(this.ui);
     this.galleryDrawer = new GalleryDrawer(this.ui);
     this.partToggles = new PartToggles(this.editor);
     this.modelToggle = new ModelToggle(this.editor);
@@ -499,10 +538,15 @@ class NCRSUIMobileLayout extends BaseLayout {
       <div id="main">
         <div id="top">
           <div class="left">
-            <ncrs-toggle id="fullscreenToggle" @click=${this.toggleFullscreen}>
-              <ncrs-icon slot="off" icon="fullscreen" title="Switch to fullscreen." color="var(--icon-color)"></ncrs-icon>
-              <ncrs-icon slot="on" icon="minimize" title="Switch to minimized." color="var(--icon-color)"></ncrs-icon>
-            </ncrs-toggle>
+            <button id="fullscreenToggle" @click=${this.toggleFullscreen}>
+              <ncrs-icon class="fullscreen" icon="fullscreen" title="Switch to fullscreen." color="var(--icon-color)"></ncrs-icon>
+              <ncrs-icon class="minimize" icon="minimize" title="Switch to minimized." color="var(--icon-color)"></ncrs-icon>
+            </button>
+            <button id="themeToggle" @click=${this.toggleEditorBackground}>
+              <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="var(--icon-color)" class="dark"></ncrs-icon>
+              <ncrs-icon title="Switch to light mode." icon="light-mode" color="var(--icon-color)" class="gray"></ncrs-icon>
+              <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="var(--icon-color)" class="light"></ncrs-icon>
+            </button>
           </div>
           <div class="right">
             ${this._historyButtons()}
