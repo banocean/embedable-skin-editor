@@ -11,7 +11,9 @@ class ShadeToolConfig extends BaseToolConfig {
     size: {},
     shape: {},
     force: {},
+    shadeStyle: {},
     shadeOnce: {},
+    shadeLighten: {},
   }
 
   constructor(config, mobile = false) {
