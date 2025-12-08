@@ -1,10 +1,10 @@
 import { css } from "lit";
 import MobileDrawer from "./components/drawer";
-import TabGroup from "../../misc/tab_group";
-import PresetPaletteTab from "../../config/tabs/tools/palettes/preset_palette_tab";
-import RecentColorPaletteTab from "../../config/tabs/tools/palettes/recent_color_palette_tab";
-import BlendPaletteTab from "../../config/tabs/tools/palettes/blend_palette_tab";
-import ColorPicker from "../../misc/color_picker";
+import TabGroup from "../misc/tab_group";
+import PresetPaletteTab from "../config/tabs/tools/palettes/preset_palette_tab";
+import RecentColorPaletteTab from "../config/tabs/tools/palettes/recent_color_palette_tab";
+import BlendPaletteTab from "../config/tabs/tools/palettes/blend_palette_tab";
+import ColorPicker from "../misc/color_picker";
 import Color from "color";
 import MobileTabGroup from "./components/tab_group";
 import MobileTab from "./components/tab";

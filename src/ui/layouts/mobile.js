@@ -1,9 +1,9 @@
 import { css, html, unsafeCSS } from "lit";
 import BaseLayout from "./base";
 
-import "./mobile/components/drawer";
-import "./mobile/components/tab";
-import "./mobile/components/tab_group";
+import "../mobile/components/drawer";
+import "../mobile/components/tab";
+import "../mobile/components/tab_group";
 import "../misc/color_picker";
 
 import imgGridDark from "../../../assets/images/grid-editor-dark.png";
@@ -19,9 +19,9 @@ import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
 import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
 import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
 import { isIOS } from "../../helpers";
-import { ColorDrawer, COLOR_DRAWER_STYLES } from "./mobile/color_drawer";
-import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "./mobile/config_drawer";
-import { GALLERY_DRAWER_STYLES, GalleryDrawer } from "./mobile/gallery_drawer";
+import { ColorDrawer, COLOR_DRAWER_STYLES } from "../mobile/color_drawer";
+import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "../mobile/config_drawer";
+import { GALLERY_DRAWER_STYLES, GalleryDrawer } from "../mobile/gallery_drawer";
 
 const STYLES = css`
   :host {
@@ -436,7 +436,7 @@ class NCRSUIMobileLayout extends BaseLayout {
 
     this.colorDrawer = new ColorDrawer(this);
     this.configDrawer = new ConfigDrawer(this);
-    this.galleryDrawer = new GalleryDrawer(this);
+    this.galleryDrawer = new GalleryDrawer(this.ui);
     this.partToggles = new PartToggles(this.editor);
     this.modelToggle = new ModelToggle(this.editor);
     this.editorToggles = new EditorToggles(this.editor);
