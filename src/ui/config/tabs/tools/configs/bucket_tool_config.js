@@ -10,6 +10,7 @@ class BucketToolConfig extends BaseToolConfig {
   static properties = {
     camo: {},
     blend: {},
+    bucketErase: {},
     fillStyle: {},
   }
 
@@ -17,6 +18,7 @@ class BucketToolConfig extends BaseToolConfig {
     super(config, {
       camo: {type: "toggle", icon: "camo", title: "Toggle camo\nRandomly lightens and darkens the current color"},
       blend: {type: "toggle", icon: "blend", title: "Toggle blend\nRandomly selects colors from the blend palette"},
+      bucketErase: {type: "toggle", icon: "eraser", title: "Toggle erase mode"},
       fillStyle: {
         type: "select",
         options: [
@@ -61,6 +63,7 @@ class BucketToolConfig extends BaseToolConfig {
             <div class="group-sm">
               ${this._camoControl()}
               ${this._blendControl()}
+              ${this._bucketEraseControl()}
             </div>
           </div>
         </div>
@@ -81,6 +84,7 @@ class BucketToolConfig extends BaseToolConfig {
           <div class="group-sm">
             ${this._camoControl()}
             ${this._blendControl()}
+            ${this._bucketEraseControl()}
           </div>
         </div>
         <div>

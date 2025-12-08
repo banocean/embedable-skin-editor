@@ -22,7 +22,8 @@ const VALUE_MAP = {
   shadeStyle: {default: "lighten", persistence: true},
   shadeLighten:  {default: false, persistence: true},
   shadeOnce: {default: false, persistence: true},
-  fillStyle: {default: "fill-cube-connected", persistence: true}
+  fillStyle: {default: "fill-cube-connected", persistence: true},
+  bucketErase: {default: false, persistence: true},
 }
 
 class ToolConfig extends Config {
