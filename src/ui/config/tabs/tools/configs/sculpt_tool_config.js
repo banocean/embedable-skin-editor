@@ -24,6 +24,7 @@ class SculptToolConfig extends BaseToolConfig {
         options: [{icon: "square", value: "square"}, {icon: "circle", value: "circle"}]
       },
       mirror: {type: "toggle", icon: "mirror", title: "Toggle mirror\nMirrors the stroke across the skin"},
+      sculptFlatten: {type: "toggle", icon: "merge", title: "Toggle flatten mode"},
     }, mobile);
     this.tool = new SculptTool(config);
   }
@@ -46,6 +47,7 @@ class SculptToolConfig extends BaseToolConfig {
           <p class="title">Effects</p>
           <div class="group-sm">
             ${this._mirrorControl()}
+            ${this._sculptFlattenControl()}
           </div>
         </div>
         <p class="description">${this.tool.properties.description}</p>
@@ -68,6 +70,7 @@ class SculptToolConfig extends BaseToolConfig {
           <p class="title">Effects</p>
           <div class="group-sm">
             ${this._mirrorControl()}
+            ${this._sculptFlattenControl()}
           </div>
         </div>
       </div>
