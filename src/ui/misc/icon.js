@@ -70,6 +70,7 @@ import imgIconSize3 from "../../../assets/images/icons/modifiers/size-3.svg";
 import imgIconSquare from "../../../assets/images/icons/modifiers/square.svg";
 import imgIconSwapBodyOverlay from "../../../assets/images/icons/layer/swap-body-overlay.svg";
 import imgIconUndo from "../../../assets/images/icons/misc/undo.svg";
+import imgShadeLighten from "../../../assets/images/icons/modifiers/shade-lighten.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -143,6 +144,7 @@ const ICON_MAP = {
   "square": imgIconSquare,
   "swap-body-overlay": imgIconSwapBodyOverlay,
   "undo": imgIconUndo,
+  "shade-lighten": imgShadeLighten,
 }
 
 class Icon extends LitElement {

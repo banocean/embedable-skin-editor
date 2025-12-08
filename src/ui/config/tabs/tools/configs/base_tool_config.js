@@ -123,6 +123,10 @@ class BaseToolConfig extends LitElement {
     toggle.title = options.title;
     toggle.selected = this[property];
 
+    this.config.addEventListener(`${property}-change`, event => {
+      toggle.selected = event.detail;
+    });
+
     return toggle;
   }
 
