@@ -21,6 +21,7 @@ import NCRSUIMobileLayout from "./layouts/mobile.js";
 import imgGridDark from "../../assets/images/grid-editor-dark.png";
 import imgGridGray from "../../assets/images/grid-editor-gray.png";
 import imgGridLight from "../../assets/images/grid-editor-light.png";
+import { isIOS } from "../helpers.js";
 
 const DESKTOP_MIN_WIDTH = 670;
 
@@ -34,6 +35,10 @@ class UI extends LitElement {
     :host(.fullscreen) {
       --toggle-fullscreen: none;
       --toggle-minimize: block;
+    }
+
+    :host(.fullscreen-browser) {
+      --mobile-header-padding: 1.5rem;
     }
 
     :host(.minimized) {
@@ -135,11 +140,15 @@ class UI extends LitElement {
 
     this.layout = new NCRSUIDesktopLayout(this);
 
-    this._setFullscreen();
+    this.classList.add("minimized");
+
     this._setupResizeObserver();
     this._setEditorTheme();
+    this._pwaCheck();
+    this._iosCheck();
     this._setupEvents();
   }
+  _browserFullScreen = false;
 
   firstUpdated() {
     setupKeybinds(this.editor, this.config);
@@ -176,8 +185,21 @@ class UI extends LitElement {
   toggleFullscreen() {
     if (this.classList.contains("minimized")) {
       this.classList.replace("minimized", "fullscreen");
+
+      if (!isIOS && this._getValidLayout() === "mobile") {
+        this.requestFullscreen().then(() => {
+          this._browserFullScreen = true;
+          this.classList.add("fullscreen-browser");
+        });
+      }
+
     } else if (this.classList.contains("fullscreen")) {
       this.classList.replace("fullscreen", "minimized");
+
+      if (this._browserFullScreen) {
+        this.classList.remove("fullscreen-browser");
+        document.exitFullscreen();      
+      }
     }
   }
 
@@ -204,13 +226,12 @@ class UI extends LitElement {
   }
 
   _getLayout(id) {
-    if (id === "desktop") return new NCRSUIDesktopLayout(this);
-    if (id === "mobile") return new NCRSUIMobileLayout(this);
-  }
+    const layouts = {
+      desktop: new NCRSUIDesktopLayout(this),
+      mobile: new NCRSUIMobileLayout(this),
+    }
 
-  _setFullscreen() {
-    const fullscreen = "minimized";
-    this.classList.add(fullscreen);
+    return layouts[id];
   }
 
   _setupModal(name) {
@@ -286,6 +307,18 @@ class UI extends LitElement {
     });
 
     resizeObserver.observe(this);
+  }
+
+  _pwaCheck() {
+    if (window.matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches) {
+      this.classList.add("fullscreen", "hide-controls");
+    }
+  }
+
+  _iosCheck() {
+    if (isIOS) {
+      this.classList.add("platform-ios")
+    }
   }
 
   _setupEvents() {

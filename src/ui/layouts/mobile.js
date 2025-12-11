@@ -18,7 +18,6 @@ import EraseToolConfig from "../config/tabs/tools/configs/erase_tool_config";
 import BucketToolConfig from "../config/tabs/tools/configs/bucket_tool_config";
 import ShadeToolConfig from "../config/tabs/tools/configs/shade_tool_config";
 import SculptToolConfig from "../config/tabs/tools/configs/sculpt_tool_config";
-import { isIOS } from "../../helpers";
 import { ColorDrawer, COLOR_DRAWER_STYLES } from "../mobile/color_drawer";
 import { CONFIG_DRAWER_STYLES, ConfigDrawer } from "../mobile/config_drawer";
 import { GALLERY_DRAWER_STYLES, GalleryDrawer } from "../mobile/gallery_drawer";
@@ -101,7 +100,7 @@ const STYLES = css`
     background-color: #1f2025dd;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    padding: 0.5rem;
+    padding: var(--mobile-header-padding, 0.5rem);
     box-sizing: border-box;
   }
 
@@ -487,9 +486,6 @@ class NCRSUIMobileLayout extends BaseLayout {
     this._setupToolConfigs();
     this._setToolConfig();
 
-    this._pwaCheck();
-    this._iosCheck();
-
     this.addEventListener("dblclick", event => event.preventDefault());
 
     this.editor.addEventListener("select-tool", event => {
@@ -734,18 +730,6 @@ class NCRSUIMobileLayout extends BaseLayout {
 
   _redo() {
     this.editor.history.redo();
-  }
-
-  _pwaCheck() {
-    if (window.matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches) {
-      this.classList.add("fullscreen", "hide-controls");
-    }
-  }
-
-  _iosCheck() {
-    if (isIOS) {
-      this.classList.add("platform-ios")
-    }
   }
 
   _setupEvents() {
