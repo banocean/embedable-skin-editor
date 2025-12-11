@@ -70,7 +70,12 @@ import imgIconSize3 from "../../../assets/images/icons/modifiers/size-3.svg";
 import imgIconSquare from "../../../assets/images/icons/modifiers/square.svg";
 import imgIconSwapBodyOverlay from "../../../assets/images/icons/layer/swap-body-overlay.svg";
 import imgIconUndo from "../../../assets/images/icons/misc/undo.svg";
-import imgShadeLighten from "../../../assets/images/icons/modifiers/shade-lighten.svg";
+import imgIconShadeLighten from "../../../assets/images/icons/modifiers/shade-lighten.svg";
+import imgIconMinus from "../../../assets/images/icons/misc/minus.svg";
+import imgIconCross from "../../../assets/images/icons/misc/cross.svg";
+import imgToolConfig from "../../../assets/images/icons/misc/tool-config.svg";
+import imgArrowUp from "../../../assets/images/icons/misc/arrow-up.svg";
+import imgArrowDown from "../../../assets/images/icons/misc/arrow-down.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -144,7 +149,12 @@ const ICON_MAP = {
   "square": imgIconSquare,
   "swap-body-overlay": imgIconSwapBodyOverlay,
   "undo": imgIconUndo,
-  "shade-lighten": imgShadeLighten,
+  "shade-lighten": imgIconShadeLighten,
+  "minus": imgIconMinus,
+  "cross": imgIconCross,
+  "tool-config": imgToolConfig,
+  "arrow-up": imgArrowUp,
+  "arrow-down": imgArrowDown,
 }
 
 class Icon extends LitElement {

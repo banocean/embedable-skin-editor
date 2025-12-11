@@ -10,24 +10,58 @@ class Tool extends LitElement {
       padding: 0.25rem;
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
+      position: relative;
     }
 
     ncrs-icon {
+      --expand-icon-color: var(--text-color);
       height: var(--icon-height);
       width: auto;
       display: block;
     }
+
+    #expand {
+      display: none;
+      height: 0.75rem;
+      width: 0.75rem;
+      position: absolute;
+      right: 0.25rem;
+      top: 0px;
+    }
+
+    :host([mobile][expandable]) #expand {
+      display: block;
+    }
+
+    #expand ncrs-icon {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    :host([active]) #expand .closed {
+      display: var(--tool-closed);
+    }
+
+    :host([active]) #expand .open {
+      display: var(--tool-open);
+    }
   `;
 
   static properties = {
-    active: {reflect: true},
-    disabled: {reflect: true},
+    active: {type: Boolean, reflect: true},
+    disabled: {type: Boolean, reflect: true},
+    mobile: {type: Boolean, reflect: true},
+    expandable: {type: Boolean, reflect: true},
   }
 
-  constructor(editor, tool) {
+  constructor(editor, tool, mobile = false, expandable = true) {
     super()
     this.active = false;
     this.disabled = false;
+    this.mobile = mobile;
+    this.expandable = expandable;
+    this.expanded = false;
     this.editor = editor;
     this.tool = tool;
   }
@@ -43,13 +77,16 @@ class Tool extends LitElement {
     return html`
       <ncrs-button ?active=${this.active} ?disabled=${this.disabled} title="${title}" @click=${this.select}>
         <ncrs-icon icon="${icon}" color="var(--text-color)"></ncrs-icon>
+        <div id="expand">
+          <ncrs-icon class="closed" icon="arrow-up" color="var(--expand-icon-color)"></ncrs-icon>
+          <ncrs-icon class="open" icon="arrow-down" color="var(--expand-icon-color)"></ncrs-icon>
+        </div>
       </ncrs-button>
     `
   }
 
   select() {
     this.editor.selectTool(this.tool, this.active);
-    this.active = true;
   }
 }
 

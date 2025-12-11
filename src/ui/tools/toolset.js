@@ -1,15 +1,29 @@
-import { LitElement } from "lit";
+import { css, LitElement } from "lit";
 import Tool from "./tool";
 
 class Toolset extends LitElement {
   static properties = {
-    mobile: {type: Boolean}
+    mobile: {type: Boolean},
+    expanded: {type: Boolean, reflect: true}
   }
+
+  static styles = css`
+    :host {
+      --tool-closed: block;
+      --tool-open: none;
+    }
+
+    :host([expanded]) {
+      --tool-closed: none;
+      --tool-open: block;
+    }
+  `;
 
   constructor(editor) {
     super();
 
     this.editor = editor;
+    this.expanded = false;
   }
   
   firstUpdated() {
@@ -24,7 +38,7 @@ class Toolset extends LitElement {
       if (this.mobile && !tool.properties.mobileLayout) return;
       if (!this.mobile && !tool.properties.desktopLayout) return;
 
-      const newTool = new Tool(this.editor, tool);
+      const newTool = new Tool(this.editor, tool, this.mobile, tool.properties.id !== "move");
       newTool.part = "tool";
 
       if (tool.properties.id === "sculpt") {
@@ -43,7 +57,12 @@ class Toolset extends LitElement {
   select(tool) {
     this.shadowRoot.querySelectorAll("ncrs-tool").forEach(element => {
       element.active = (tool == element.tool);
-    })
+      this.active = true;
+    });
+  }
+
+  toggleExpanded() {
+    this.expanded = !this.expanded;
   }
 
   _setupEvents() {

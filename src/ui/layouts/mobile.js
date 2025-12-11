@@ -491,6 +491,7 @@ class NCRSUIMobileLayout extends BaseLayout {
     this.editor.addEventListener("select-tool", event => {
       if (event.detail.wasActive) {
         this.classList.toggle("tool-config-open");
+        this.toolSet.toggleExpanded();
       }
 
       const oldConfig = this.toolConfig;
@@ -500,6 +501,7 @@ class NCRSUIMobileLayout extends BaseLayout {
       if (!this.toolConfig) {
         this.toolConfig = oldConfig;
         this.classList.remove("tool-config-open");
+        this.toolSet.expanded = false;
 
         return;
       }
