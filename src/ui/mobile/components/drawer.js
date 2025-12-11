@@ -38,7 +38,6 @@ class MobileDrawer extends LitElement {
       background-color: rgb(26, 26, 26);
       height: var(--drawer-height);
       max-height: 100vh;
-      overflow: auto;
       width: 100%;
       border-top-left-radius: 0.5rem;
       border-top-right-radius: 0.5rem;
@@ -74,6 +73,7 @@ class MobileDrawer extends LitElement {
       height: 100%;
       max-height: calc(100% - 2rem);
       box-sizing: border-box;
+      overflow: auto;
     }
 
     :host([open]) {
