@@ -80,6 +80,13 @@ class ShadeToolConfig extends BaseToolConfig {
     return html`
       <div id="main-mobile" class="group">
         <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._shadeOnceControl()}
+            ${this._shadeLightenControl()}
+          </div>
+        </div>
+        <div>
           <p class="title">Size</p>
           ${this._sizeControl()}
         </div>
@@ -94,13 +101,6 @@ class ShadeToolConfig extends BaseToolConfig {
         <div>
           <p class="title">Force</p>
           ${this._forceControl()}
-        </div>
-        <div>
-          <p class="title">Effects</p>
-          <div class="group-sm">
-            ${this._shadeOnceControl()}
-            ${this._shadeLightenControl()}
-          </div>
         </div>
       </div>
     `;

@@ -57,18 +57,18 @@ class EraseToolConfig extends BaseToolConfig {
     return html`
       <div id="main-mobile" class="group">
         <div>
+          <p class="title">Effects</p>
+          <div class="group-sm">
+            ${this._mirrorControl()}
+          </div>
+        </div>
+        <div>
           <p class="title">Size</p>
           ${this._sizeControl()}
         </div>
         <div>
           <p class="title">Shape</p>
           ${this._shapeControl()}
-        </div>
-        <div>
-          <p class="title">Effects</p>
-          <div class="group-sm">
-            ${this._mirrorControl()}
-          </div>
         </div>
       </div>
     `;
