@@ -194,11 +194,10 @@ class UI extends LitElement {
       }
 
     } else if (this.classList.contains("fullscreen")) {
-      this.classList.replace("fullscreen", "minimized");
-
       if (this._browserFullScreen) {
-        this.classList.remove("fullscreen-browser");
         document.exitFullscreen();      
+      } else {
+        this.classList.replace("fullscreen", "minimized");
       }
     }
   }
@@ -332,9 +331,17 @@ class UI extends LitElement {
       })
     });
 
+    this.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) return;
+
+      this.classList.remove("fullscreen-browser");
+      this.classList.replace("fullscreen", "minimized");
+      this._browserFullScreen = false;
+    })
+
     window.addEventListener("load", () => {
       this._runColorCheck();
-    })
+    });
   }
 }
 
