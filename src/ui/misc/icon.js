@@ -198,4 +198,4 @@ class Icon extends LitElement {
 
 customElements.define("ncrs-icon", Icon);
 
-export default Icon;
+export {Icon, ICON_MAP};
