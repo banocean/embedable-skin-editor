@@ -121,6 +121,7 @@ class BaseToolConfig extends LitElement {
     toggle.addEventListener("toggle", event => this[`_${callbackName}`](event));
     toggle.icon = options.icon;
     toggle.title = options.title;
+    toggle.touchTooltip = options.title;
     toggle.selected = this[property];
 
     this.config.addEventListener(`${property}-change`, event => {
@@ -142,9 +143,11 @@ class BaseToolConfig extends LitElement {
       button.icon = entry.icon;
       button.name = entry.value;
       if (entry.title) {
-        button.title = entry.title 
+        button.title = entry.title;
+        button.touchTooltip = entry.title;
       } else {
-        button.title = `Set ${property} to ${entry.value}`
+        button.title = `Set ${property} to ${entry.value}`;
+        button.touchTooltip = button.title;
       }
 
       control.appendChild(button);

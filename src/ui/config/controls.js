@@ -4,6 +4,7 @@ class ToggleControl extends LitElement {
   static properties = {
     icon: { reflect: true },
     selected: { reflect: true, type: Boolean },
+    touchTooltip: {type: String, attribute: "touch-tooltip"},
   }
 
   static styles = css`
@@ -45,7 +46,7 @@ class ToggleControl extends LitElement {
 
   render() {
     return html`
-      <ncrs-button @click=${this._onClick} ?active=${this.selected}>
+      <ncrs-button @click=${this._onClick} ?active=${this.selected} touch-tooltip=${this.touchTooltip}>
         <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `
@@ -120,6 +121,7 @@ class OptionControlButton extends LitElement {
     icon: { reflect: true },
     name: { reflect: true },
     selected: { reflect: true },
+    touchTooltip: {type: String, attribute: "touch-tooltip"},
   };
 
   static styles = css`
@@ -161,7 +163,7 @@ class OptionControlButton extends LitElement {
 
   render() {
     return html`
-      <ncrs-button @click=${this._onClick} ?active=${this.selected}>
+      <ncrs-button @click=${this._onClick} ?active=${this.selected} touch-tooltip=${this.touchTooltip}>
         <ncrs-icon icon=${this.icon} color="var(--text-color)"></ncrs-icon>
       </ncrs-button>
     `;

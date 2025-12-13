@@ -1,5 +1,7 @@
-import { css, html, LitElement, nothing } from "lit";
+import { css, html, LitElement } from "lit";
+import tippy from "tippy.js";
 
+const TOOLTIP_TIMEOUT = 800;
 class Button extends LitElement {
   static styles = css`
     :host {
@@ -27,6 +29,7 @@ class Button extends LitElement {
 
       margin-bottom: 0.375rem;
       color: var(--text-color);
+      touch-action: auto;
     }
 
     button:not(:disabled):hover {
@@ -63,14 +66,40 @@ class Button extends LitElement {
   static properties = {
     active: {type: Boolean, reflect: true},
     disabled: {type: Boolean, reflect: true},
+    touchTooltip: {type: String, attribute: "touch-tooltip"},
   }
 
   render() {
     return html`
-      <button part="button" ?disabled=${this.disabled}>
+      <button id="button" part="button" ?disabled=${this.disabled}>
         <slot></slot>
       </button>
     `
+  }
+
+  firstUpdated() {
+    console.log(this._tooltipContent());
+
+    const title = this._tooltipContent();
+    const button = this.shadowRoot.getElementById("button");
+    tippy(button, {
+      content: title,
+      allowHTML: true,
+      touch: ["hold", TOOLTIP_TIMEOUT],
+      trigger: "manual",
+      placement: "top",
+    });
+  }
+
+  _tooltipContent() {
+    const title = this.getAttribute("title") || this.title || "";
+    const text = (this.touchTooltip || title).toString();
+
+    if (text.length < 1) return undefined;
+          
+    return '<div style="background-color: #131315;color: white;padding: 0.5rem;border-radius: 0.25rem;font-size: small;">' +
+            text.split("\n").join("<br>") +
+            "</div>";
   }
 }
 
