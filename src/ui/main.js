@@ -130,6 +130,8 @@ class UI extends LitElement {
     _warning: {type: String, state: true},
   }
 
+  static desktopLayoutMinWidth = DESKTOP_MIN_WIDTH;
+
   constructor() {
     super();
 
