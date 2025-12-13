@@ -78,8 +78,6 @@ class Button extends LitElement {
   }
 
   firstUpdated() {
-    console.log(this._tooltipContent());
-
     const title = this._tooltipContent();
     const button = this.shadowRoot.getElementById("button");
     tippy(button, {
