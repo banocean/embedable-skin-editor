@@ -78,8 +78,8 @@ class Tool extends LitElement {
       <ncrs-button ?active=${this.active} ?disabled=${this.disabled} title="${title}" @click=${this.select}>
         <ncrs-icon icon="${icon}" color="var(--text-color)"></ncrs-icon>
         <div id="expand">
-          <ncrs-icon class="closed" icon="arrow-up" color="var(--expand-icon-color)"></ncrs-icon>
-          <ncrs-icon class="open" icon="arrow-down" color="var(--expand-icon-color)"></ncrs-icon>
+          <ncrs-icon class="closed" icon="arrow-up" color="var(--expand-icon-color)" style="filter: drop-shadow(0px -1px 1px #25282b);"></ncrs-icon>
+          <ncrs-icon class="open" icon="arrow-down" color="var(--expand-icon-color)" style="filter: drop-shadow(0px -1px 1px #25282b);"></ncrs-icon>
         </div>
       </ncrs-button>
     `
