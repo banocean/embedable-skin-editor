@@ -54,42 +54,47 @@ function checkKeybinds(event) {
     }
   }
 
-function setupKeybinds(editor, config) {
+function setupKeybinds(ui, editor) {
   document.addEventListener("keydown", event => {
+    if (ui.disableKeybinds) {
+      return;
+    }
+
     const element = event.originalTarget || getFocusedElement();
+
     if (isKeybindIgnored(element)) { return; }
 
     switch(checkKeybinds(event)) {
       case "pen":
-        if (editor.currentTool == editor.tools[0]) {
-          config.select("tool");
+        if (editor.currentTool.properties.id === "pen") {
+          ui.selectConfigTab("tool");
         }
-        editor.selectTool(editor.tools[0]);
+        editor.selectToolById("pen");
         break;
       case "eraser":
-        if (editor.currentTool == editor.tools[1]) {
-          config.select("tool");
+        if (editor.currentTool.properties.id === "eraser") {
+          ui.selectConfigTab("tool");
         }
-        editor.selectTool(editor.tools[1]);
+        editor.selectToolById("eraser");
         break;
       case "bucket":
-        if (editor.currentTool == editor.tools[2]) {
-          config.select("tool");
+        if (editor.currentTool.properties.id === "bucket") {
+          ui.selectConfigTab("tool");
         }
-        editor.selectTool(editor.tools[2]);
+        editor.selectToolById("bucket");
         break;
       case "shade":
-        if (editor.currentTool == editor.tools[3]) {
-          config.select("tool");
+        if (editor.currentTool.properties.id === "shade") {
+          ui.selectConfigTab("tool");
         }
-        editor.selectTool(editor.tools[3]);
+        editor.selectToolById("shade");
         break;
       case "sculpt":
         if (!editor.config.get("overlayVisible")) { break; }
-        if (editor.currentTool == editor.tools[4]) {
-          config.select("tool");
+        if (editor.currentTool.properties.id === "sculpt") {
+          ui.selectConfigTab("tool");
         }
-        editor.selectTool(editor.tools[4]);
+        editor.selectToolById("sculpt");
         break;
       case "eyedropper":
         editor.config.set("pick-color-toggle", true);
@@ -125,16 +130,16 @@ function setupKeybinds(editor, config) {
         editor.resetCamera();
         break;
       case "selectTools":
-        config.select("tool");
+        ui.selectConfigTab("tool");
         break;
       case "selectLayer":
-        config.select("layers");
+        ui.selectConfigTab("layers");
         break;
       case "selectImport":
-        config.select("import");
+        ui.selectConfigTab("import");
         break;
       case "selectExport":
-        config.select("export");
+        ui.selectConfigTab("export");
         break;
       case "addLayer":
         editor.addLayer();
@@ -149,7 +154,7 @@ function setupKeybinds(editor, config) {
         editor.mergeLayer();
         break;
       case "toggleFullscreen":
-        this.toggleFullscreen();
+        ui.toggleFullscreen();
         break;
       }
   });

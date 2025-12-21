@@ -260,6 +260,10 @@ class Editor extends LitElement {
     this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool, wasActive}}));
   }
 
+  selectToolById(id, wasActive = false) {
+    this.selectTool(this.getToolById(id), wasActive);
+  }
+
   selectLayer(layer) {
     this.history.add(
       new SelectLayerEntry(this.layers, {layer})

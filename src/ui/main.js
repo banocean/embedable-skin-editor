@@ -150,10 +150,11 @@ class UI extends LitElement {
     this._iosCheck();
     this._setupEvents();
   }
+  disableKeybinds = false;
   _browserFullScreen = false;
 
   firstUpdated() {
-    setupKeybinds(this.editor, this.config);
+    setupKeybinds(this, this.editor);
   }
 
   render() {
@@ -215,6 +216,12 @@ class UI extends LitElement {
       this.classList.remove("editor-dark", "editor-light");
       this.classList.add("editor-gray");
       this.persistence.set("theme", "gray");
+    }
+  }
+
+  selectConfigTab(tab) {
+    if (this.layout instanceof NCRSUIDesktopLayout) {
+      this.layout.config.select(tab);
     }
   }
 
@@ -344,6 +351,14 @@ class UI extends LitElement {
     window.addEventListener("load", () => {
       this._runColorCheck();
     });
+
+    this.exportModal.addEventListener("show", () => {
+      this.disableKeybinds = true;
+    });
+
+    this.exportModal.addEventListener("hide", () => {
+      this.disableKeybinds = false;
+    })
   }
 }
 
