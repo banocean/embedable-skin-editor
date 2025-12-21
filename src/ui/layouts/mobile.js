@@ -110,6 +110,14 @@ const STYLES = css`
     }
   }
 
+  ncrs-warning-manager {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.25rem;
+    padding-right: 2.5rem;
+    --text-color: var(--editor-icon-color);
+  }
+
   #top .left {
     display: flex;
     gap: 0.5rem;
@@ -511,6 +519,8 @@ class NCRSUIMobileLayout extends BaseLayout {
   }
 
   firstUpdated() {
+    super.firstUpdated();
+
     this.colorDrawer.firstUpdated();
     this.configDrawer.firstUpdated();
     this.galleryDrawer.firstUpdated();
@@ -552,6 +562,7 @@ class NCRSUIMobileLayout extends BaseLayout {
         </div>
         <div id="editor">
           ${this.editor}
+          ${this.warningManager}
           <div id="layers">
             <div class="main">
               <div class="button">

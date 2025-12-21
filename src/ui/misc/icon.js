@@ -74,8 +74,9 @@ import imgIconShadeLighten from "../../../assets/images/icons/modifiers/shade-li
 import imgIconMinus from "../../../assets/images/icons/misc/minus.svg";
 import imgIconCross from "../../../assets/images/icons/misc/cross.svg";
 import imgToolConfig from "../../../assets/images/icons/misc/tool-config.svg";
-import imgArrowUp from "../../../assets/images/icons/misc/arrow-up.svg";
-import imgArrowDown from "../../../assets/images/icons/misc/arrow-down.svg";
+import imgIconArrowUp from "../../../assets/images/icons/misc/arrow-up.svg";
+import imgIconArrowDown from "../../../assets/images/icons/misc/arrow-down.svg";
+import imgIconInvisible from "../../../assets/images/icons/misc/invisible.svg";
 
 const ICON_MAP = {
   "add": imgIconAdd,
@@ -153,8 +154,9 @@ const ICON_MAP = {
   "minus": imgIconMinus,
   "cross": imgIconCross,
   "tool-config": imgToolConfig,
-  "arrow-up": imgArrowUp,
-  "arrow-down": imgArrowDown,
+  "arrow-up": imgIconArrowUp,
+  "arrow-down": imgIconArrowDown,
+  "invisible": imgIconInvisible,
 }
 
 class Icon extends LitElement {

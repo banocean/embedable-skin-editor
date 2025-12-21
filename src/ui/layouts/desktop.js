@@ -4,6 +4,7 @@ import { css, html, unsafeCSS } from "lit";
 import Toolbar from "../tools/toolbar.js";
 import LayerList from "../layers/layer_list.js";
 import Config from "../config/main.js";
+import WarningManager from "../misc/warnings.js";
 
 import imgGridDark from "../../../assets/images/grid-editor-dark.png";
 
@@ -22,34 +23,12 @@ class NCRSUIDesktopLayout extends BaseLayout {
       position: relative;
     }
 
-    .warning {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      pointer-events: none;
+    ncrs-warning-manager {
       position: absolute;
       top: 8px;
       left: 4px;
-      color: #aaaaaa;
-      font-size: small;
-    }
-
-    .warning svg {
-      width: 1.25rem;
-      height: auto;
-      padding-left: 0.35rem;
-    }
-
-    :host(.has-filters) #filters-warning {
-      display: flex;
-    }
-
-    :host(.layer-invisible) #layer-warning {
-      display: flex;
-    }
-
-    :host(.editor-light) .warning {
-      color: black;
+      padding-right: 2.5rem;
+      --text-color: var(--editor-icon-color);
     }
 
     :host(.minimized) {
@@ -175,7 +154,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
   }
 
   firstUpdated() {
-    this._updateWarning();
+    super.firstUpdated();
   }
 
   render() {
@@ -185,7 +164,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
         ${this.toolbar}
         <div id="editor">
           ${this.editor}
-          ${this._filtersWarning()}
+          ${this.warningManager}
           ${this._bgToggle()}
           ${this._fullscreenToggle()}
         </div>
@@ -193,30 +172,6 @@ class NCRSUIDesktopLayout extends BaseLayout {
           ${this._historyButtons()}
           ${this.layers}
         </div>
-      </div>
-    `;
-  }
-
-  _filtersWarning() {
-    const filterIcon = html`
-      <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    `;
-    const eyeIcon = html`
-      <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    `
-
-    return html`
-      <div id="filters-warning" class="warning">
-        ${filterIcon}
-        Colors drawn on the current layer will appear altered by filters.
-      </div>
-      <div id="layer-warning" class="warning">
-        ${eyeIcon}
-        Current layer is hidden, and cannot be edited.
       </div>
     `;
   }
@@ -264,33 +219,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
     this.editor.history.redo();
   }
 
-  _updateWarning() {
-    const layer = this.editor.layers.getSelectedLayer();
-    if (!layer) { return; }
-
-    this.classList.remove("has-filters", "layer-invisible");
-    
-    if (!layer.visible) {
-      return this.classList.add("layer-invisible");
-    } else if (layer.hasFilters()) {
-      return this.classList.add("has-filters");
-    }
-  }
-
   _setupEvents() {
-    const layers = this.editor.layers;
-    layers.addEventListener("layers-render", () => {
-      this._updateWarning();
-    });
-
-    layers.addEventListener("update-filters", () => {
-      this._updateWarning();
-    });
-
-    layers.addEventListener("layers-select", () => {
-      this._updateWarning();
-    });
-
     this.editor.history.addEventListener("update", () => {
       this.requestUpdate();
     });
@@ -299,7 +228,7 @@ class NCRSUIDesktopLayout extends BaseLayout {
       if (event.detail.wasActive) {
         this.config.select("tool");
       }
-    })
+    });
   }
 }
 
