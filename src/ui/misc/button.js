@@ -1,7 +1,6 @@
 import { css, html, LitElement } from "lit";
-import tippy from "tippy.js";
-
-const TOOLTIP_TIMEOUT = 800;
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
+import "@m3e/tooltip";
 class Button extends LitElement {
   static styles = css`
     :host {
@@ -71,22 +70,11 @@ class Button extends LitElement {
 
   render() {
     return html`
-      <button id="button" part="button" ?disabled=${this.disabled}>
+      <button id="button" part="button" ?disabled=${this.disabled} title="">
         <slot></slot>
       </button>
+      <m3e-tooltip for="button" touch-gestures="on" position="above" show-delay=500>${unsafeHTML(this._tooltipContent())}</m3e-tooltip>
     `
-  }
-
-  firstUpdated() {
-    const title = this._tooltipContent();
-    const button = this.shadowRoot.getElementById("button");
-    tippy(button, {
-      content: title,
-      allowHTML: true,
-      touch: ["hold", TOOLTIP_TIMEOUT],
-      trigger: "manual",
-      placement: "top",
-    });
   }
 
   _tooltipContent() {
@@ -95,9 +83,7 @@ class Button extends LitElement {
 
     if (text.length < 1) return undefined;
           
-    return '<div style="background-color: #131315;color: white;padding: 0.5rem;border-radius: 0.25rem;font-size: small;">' +
-            text.split("\n").join("<br>") +
-            "</div>";
+    return text.split("\n").join("<br>");
   }
 }
 
