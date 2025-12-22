@@ -1,4 +1,3 @@
-import { entries } from "idb-keyval";
 import { css, html, LitElement } from "lit";
 
 class MobileTabGroup extends LitElement {
@@ -93,9 +92,10 @@ class MobileTabGroup extends LitElement {
     return this._getChildTabs().map(tab => {
       const button = document.createElement("button");
       button.textContent = tab.name;
-
+      
       button.addEventListener("click", () => {
-        tab.scrollIntoView({behavior: "smooth"});
+        const body = this.shadowRoot.getElementById("body");
+        body.scrollTo({left: tab.offsetLeft, behavior: "smooth"});
       });
       this._setupIntersectionObserver(tab, entries => {
         const entry = entries[0];

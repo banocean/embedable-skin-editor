@@ -641,11 +641,15 @@ class NCRSUIMobileLayout extends BaseLayout {
   }
 
   _scrollToToggles() {
-    this.shadowRoot.getElementById("toggles").scrollIntoView({behavior: "smooth"});
+    const bottom = this.shadowRoot.getElementById("bottom");
+    const toggles = this.shadowRoot.getElementById("toggles");
+    bottom.scrollTo({left: toggles.offsetLeft, behavior: "smooth"});
   }
 
   _scrollToMenu() {
-    this.shadowRoot.getElementById("menu").scrollIntoView({behavior: "smooth"});
+    const bottom = this.shadowRoot.getElementById("bottom");
+    const menu = this.shadowRoot.getElementById("menu");
+    bottom.scrollTo({left: menu.offsetLeft, behavior: "smooth"});
   }
 
   _setupButtonDrag() {
