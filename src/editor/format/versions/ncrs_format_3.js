@@ -1,6 +1,6 @@
 import BaseVersion from "../base_version.js";
 import NCRSLegacyVersion from "./ncrs_legacy.js";
-import schema3Validate from "./schemas/schema_3.js";
+import validate from "./schemas/schema_3.js";
 
 class NCRSFormat3 extends BaseVersion {
   static exportEditor(editor) {
@@ -34,11 +34,7 @@ class NCRSFormat3 extends BaseVersion {
   }
 
   validateData(data) {
-    const valid = schema3Validate(data);
-
-    if (!valid) { console.log(schema3Validate.errors, data); }
-
-    return valid;
+    return validate(data);
   }
 
   loadEditor(editor) {

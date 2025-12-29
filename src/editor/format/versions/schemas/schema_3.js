@@ -36,6 +36,17 @@ const schema = {
   }
 }
 
-const schema3Validate = AJV.compile(schema);
+let schema3;
 
-export default schema3Validate;
+function validate(data) {
+  if (!schema3) {
+    schema3 = AJV.compile(schema);
+  }
+
+  const valid = schema3(data);
+  if (!valid) console.log(schema3.errors, data);
+
+  return valid;
+}
+
+export default validate;
