@@ -226,6 +226,33 @@ class Editor extends LitElement {
     this.updateVisibility();
   }
 
+  toggleBaseVisible() {
+    this.setBaseVisible(!this.config.get("baseVisible"));
+    
+  }
+
+  toggleOverlayVisible() {
+    this.setOverlayVisible(!this.config.get("overlayVisible"));
+  }
+
+  toggleBaseGridVisible() {
+    this.setBaseGridVisible(!this.config.get("baseGridVisible"));
+  }
+
+  toggleOverlayGridVisible() {
+    this.setOverlayGridVisible(!this.config.get("overlayGridVisible"));
+  }
+
+  toggleBackfaceCulling() {
+    this.config.set("cullBackFace", !this.config.get("cullBackFace"));
+    this.updateVisibility();
+  }
+
+  toggleGridCulling() {
+    this.config.set("cullGrid", !this.config.get("cullGrid"));
+    this.updateVisibility();
+  }
+
   updateVisibility() {
     const baseVisible = this.config.get("baseVisible");
     const overlayVisible = this.config.get("overlayVisible");

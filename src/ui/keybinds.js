@@ -34,6 +34,12 @@ const KEYBINDS = {
   "+d": "cloneLayer",
   "+m": "mergeLayer",
   "f": "toggleFullscreen",
+  "+l": "toggleOverlay",
+  "^+l": "toggleBase",
+  "+o": "toggleOverlayGrid",
+  "^+o": "toggleBaseGrid",
+  "+f": "toggleBackfaceCulling",
+  "^+f": "toggleGridCulling",
 }
 
 function checkKeybinds(event) {
@@ -155,6 +161,24 @@ function setupKeybinds(ui, editor) {
         break;
       case "toggleFullscreen":
         ui.toggleFullscreen();
+        break;
+      case "toggleOverlay":
+        editor.toggleOverlayVisible();
+        break;
+      case "toggleBase":
+        editor.toggleBaseVisible();
+        break;
+      case "toggleOverlayGrid":
+        editor.toggleOverlayGridVisible();
+        break;
+      case "toggleBaseGrid":
+        editor.toggleBaseGridVisible();
+        break;
+      case "toggleBackfaceCulling":
+        editor.toggleBackfaceCulling();
+        break;
+      case "toggleGridCulling":
+        editor.toggleGridCulling();
         break;
       }
   });
