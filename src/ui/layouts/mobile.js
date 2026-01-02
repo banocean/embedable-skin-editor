@@ -133,7 +133,7 @@ const STYLES = css`
     scroll-snap-stop: always;
     background-color: #1f2025;
     box-shadow: #131315ee 0px -4px 4px;
-    overscroll-behavior: none;
+    overscroll-behavior-x: none;
   }
 
   #bottom::-webkit-scrollbar {
