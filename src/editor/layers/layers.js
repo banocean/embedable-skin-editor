@@ -223,6 +223,8 @@ class Layers extends EventTarget {
     ctx.drawImage(this.textureCacheTop, 0, 0);
 
     this.texture.needsUpdate = true;
+    window.dispatchEvent(new CustomEvent("update"))
+
   }
 
   isBlank() {
