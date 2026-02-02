@@ -1,22 +1,26 @@
-import CssFilter from "../../../../editor/layers/filters/css_filter.js";
+import SaturationFilter from "../../../../editor/layers/filters/saturation_filter.js";
 import BaseFilterSlider from "./base_filter_slider.js";
 
 class SaturationFilterSlider extends BaseFilterSlider {
   constructor(layers) {
     super(layers, {
-      name: "saturation",
+      name: "ncrs:saturation_slider",
       default: 0.5,
     });
 
     this.slider.unclamped = true;
   }
 
-  getValue() {
+  getFilterValue() {
     return this.getProgress() * 200;
   }
 
+  getSliderValue(filter) {
+    return filter.value / 200;
+  }
+
   toFilter() {
-    return new CssFilter(`saturate(${this.getValue()}%)`, {name: this.name, value: this.getProgress()});
+    return new SaturationFilter(this.getFilterValue(), {name: this.name});
   }
 }
 

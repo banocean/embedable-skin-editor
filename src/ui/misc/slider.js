@@ -106,12 +106,12 @@ class Slider extends LitElement {
     super.attributeChangedCallback(name, _old, value);
 
     if (name === "progress") {
-      this.dispatchEvent(new CustomEvent("slider-change", { detail: { progress: this.progress, value: this.getValue() } }));
+      this.dispatchEvent(new CustomEvent("slider-change", { detail: { progress: this.progress, value: this.getFilterValue() } }));
     }
   }
 
   render() {
-    this.input.value = this.getValue();
+    this.input.value = this.getFilterValue();
 
     return html`
       <div id="slider" part="slider">
@@ -122,7 +122,7 @@ class Slider extends LitElement {
     `;
   }
 
-  getValue() {
+  getFilterValue() {
     return Math.floor(this.progress * this.steps);
   }
 
@@ -205,7 +205,7 @@ class Slider extends LitElement {
     } else {
       this.progress = clamp(x, this.getMin() / this.steps, this.getMax() / this.steps);
     }
-    this.dispatchEvent(new CustomEvent("slider-set", {detail: { progress: this.progress, value: this.getValue() }}));
+    this.dispatchEvent(new CustomEvent("slider-set", {detail: { progress: this.progress, value: this.getFilterValue() }}));
   }
 
   _getPos() {

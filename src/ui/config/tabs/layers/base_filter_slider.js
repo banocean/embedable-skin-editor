@@ -27,7 +27,9 @@ class BaseFilterSlider extends EventTarget {
     return this.slider.progress;
   }
 
-  getValue() {}
+  getFilterValue() {}
+
+  getSliderValue(_filter) {}
 
   toFilter() {}
 
@@ -65,7 +67,8 @@ class BaseFilterSlider extends EventTarget {
       const filter = layer.findFilter(filter => filter.name == this.name);
 
       if (filter) {
-        this.currentValue = filter.properties.value;
+        this.currentValue = this.getSliderValue(filter);
+        console.log(this.currentValue);
       }
     }
 

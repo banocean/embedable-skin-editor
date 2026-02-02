@@ -1,10 +1,10 @@
-import CssFilter from "../../../../editor/layers/filters/css_filter.js";
+import HueFilter from "../../../../editor/layers/filters/hue_filter.js";
 import BaseFilterSlider from "./base_filter_slider.js";
 
 class HueFilterSlider extends BaseFilterSlider {
   constructor(layers) {
     super(layers, {
-      name: "hue",
+      name: "ncrs:hue_slider",
       default: 0.5,
     });
 
@@ -12,7 +12,7 @@ class HueFilterSlider extends BaseFilterSlider {
     this.slider.max = 359;
   }
 
-  getValue() {
+  getFilterValue() {
     let value = this.getProgress() - 0.5;
     if (value < 0) {
       value += 1;
@@ -21,8 +21,17 @@ class HueFilterSlider extends BaseFilterSlider {
     return value * 360;
   }
 
+  getSliderValue(filter) {
+    let value = (filter.value / 360) + 0.5;
+    if (value > 1) {
+      value -= 1;
+    }
+
+    return value;
+  }
+
   toFilter() {
-    return new CssFilter(`hue-rotate(${this.getValue()}deg)`, {name: this.name, value: this.getProgress()});
+    return new HueFilter(this.getFilterValue(), {name: this.name});
   }
 }
 

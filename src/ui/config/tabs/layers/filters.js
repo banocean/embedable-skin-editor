@@ -299,7 +299,7 @@ class LayersTabFilters extends LitElement {
     this.hueSlider = new HueFilterSlider(layers);
     this.hueSlider.slider.id = "hue-slider";
     this.hueSlider.slider.addEventListener("slider-change", () => {
-      const color = new Color(`hsl(${this.hueSlider.getValue()} 100% 50%)`);
+      const color = new Color(`hsl(${this.hueSlider.getFilterValue()} 100% 50%)`);
       this.style.setProperty("--current-color", color.hex());
     });
 
