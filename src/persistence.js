@@ -36,6 +36,17 @@ class PersistenceManager {
     }
   }
 
+  remove(key) {
+    if (this.has(key)) {
+      delete this._data[key];
+      this.sync();
+
+      return true;
+    }
+
+    return false;
+  }
+
   getData(filterFunction = () => true) {
     const data = {};
 

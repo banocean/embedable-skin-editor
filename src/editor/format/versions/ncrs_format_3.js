@@ -17,7 +17,7 @@ class NCRSFormat3 extends BaseVersion {
   static loadEditor(editor, data) {
     editor.history.wipe();
 
-    editor.project.set("variant", data.variant);
+    editor.setVariant(data.variant);
     editor.toolConfig.set("blend-palette", data.blendPalette);
 
     editor.layers.layers = [];

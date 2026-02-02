@@ -56,6 +56,10 @@ class ModelToggle extends LitElement {
     super();
 
     this.editor = editor;
+
+    editor.project.addEventListener("variant-change", () => {
+      this.requestUpdate();
+    })
   }
 
   render() {

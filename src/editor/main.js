@@ -528,6 +528,9 @@ class Editor extends LitElement {
       }
 
       const data = new ProjectLoader(project).serialize();
+      
+      // Remove legacy field
+      this.project.persistence.remove("selectedTool");
 
       // Load project data
       this.project.set("format", FORMAT);
