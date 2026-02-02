@@ -1,4 +1,4 @@
-import {default as VERSION} from "./versions/ncrs_format_3.js";
+import {default as VERSION} from "./versions/ncrs_format_4.js";
 
 class ProjectLoader {
   static version = VERSION;
@@ -12,7 +12,7 @@ class ProjectLoader {
   }
 
   load(editor) {
-    this.version.loadEditor(editor);
+    VERSION.loadEditor(editor, this.getData());
   }
 
   getData() {

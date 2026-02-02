@@ -3,17 +3,32 @@ import NCRSLegacyVersion from "./ncrs_legacy.js";
 import validate from "./schemas/schema_3.js";
 
 class NCRSFormat3 extends BaseVersion {
+  static format = 3;
+
   static exportEditor(editor) {
     return {
-      format: 3,
+      format: this.format,
       variant: editor.config.get("variant"),
       layers: editor.layers.serializeLayers(),
       blendPalette: editor.toolConfig.get("blend-palette"),
     };
   }
 
+  static loadEditor(editor, data) {
+    editor.history.wipe();
+
+    editor.config.set("variant", data.variant);
+    editor.toolConfig.set("blend-palette", data.blendPalette);
+
+    editor.layers.layers = [];
+    data.layers.forEach(layer => {
+      const deserializedLayer = editor.layers.deserializeLayer(layer);
+      editor.layers.addLayer(deserializedLayer);
+    });
+  }
+
   constructor(data) {
-    super(NCRSLegacyVersion, data, 3);
+    super(NCRSLegacyVersion, data, NCRSFormat3.format);
   }
 
   checkData(data) {
@@ -38,16 +53,6 @@ class NCRSFormat3 extends BaseVersion {
   }
 
   loadEditor(editor) {
-    editor.history.wipe();
-
-    editor.config.set("variant", this.data.variant);
-    editor.toolConfig.set("blend-palette", this.data.blendPalette);
-
-    editor.layers.layers = [];
-    this.data.layers.forEach(layer => {
-      const deserializedLayer = editor.layers.deserializeLayer(layer);
-      editor.layers.addLayer(deserializedLayer);
-    });
   }
 }
 

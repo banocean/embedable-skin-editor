@@ -68,7 +68,6 @@ class BaseFilterSlider extends EventTarget {
 
       if (filter) {
         this.currentValue = this.getSliderValue(filter);
-        console.log(this.currentValue);
       }
     }
 

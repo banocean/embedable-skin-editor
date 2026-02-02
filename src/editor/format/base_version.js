@@ -3,6 +3,10 @@ class BaseVersion {
     throw new Error("exportEditor not implemented!");
   }
 
+  static loadEditor(_editor, _data) {
+    throw new Error("loadEditor not implemented!");
+  }
+
   constructor(lastVersionClass, data, format) {
     this.lastVersion = lastVersionClass;
     this.format = format;
@@ -22,10 +26,6 @@ class BaseVersion {
 
   versionCheck(data) {
     return this.format == data.format;
-  }
-
-  loadEditor(_editor) {
-    throw new Error("loadEditor not implemented!");
   }
 
   serialize() {
