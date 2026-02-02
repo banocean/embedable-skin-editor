@@ -8,7 +8,7 @@ class NCRSFormat4 extends BaseVersion {
   static exportEditor(editor) {
     return {
       format: this.format,
-      variant: editor.config.get("variant"),
+      variant: editor.project.get("variant"),
       layers: editor.layers.serializeLayers(),
       blendPalette: editor.toolConfig.get("blend-palette"),
     };

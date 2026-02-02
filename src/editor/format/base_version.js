@@ -1,4 +1,6 @@
 class BaseVersion {
+  static format = -1;
+
   static exportEditor(_editor) {
     throw new Error("exportEditor not implemented!");
   }

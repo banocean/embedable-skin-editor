@@ -120,7 +120,7 @@ class Layer extends LitElement {
   render() {
     if (!this.blank && !this.rendering) {
       const image = this.layer.getBaseCanvas();
-      this.preview.drawImage(image, this.editor.config.get("variant", "classic"));
+      this.preview.drawImage(image, this.editor.project.get("variant", "classic"));
     }
 
     return html`
@@ -151,7 +151,7 @@ class Layer extends LitElement {
   }
 
   _setupEvents() {
-    this.editor.config.addEventListener("variant-change", () => {
+    this.editor.project.addEventListener("variant-change", () => {
       this.requestUpdate();
     })
   }

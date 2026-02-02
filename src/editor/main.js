@@ -21,7 +21,6 @@ import DeleteLayerEntry from "./history/entries/delete_layer_entry.js";
 import ReorderLayersEntry from "./history/entries/reorder_layers_entry.js";
 import MergeLayersEntry from "./history/entries/merge_layers_entry.js";
 import CloneLayerEntry from "./history/entries/clone_layer_entry.js";
-import PersistenceManager from "../persistence.js";
 import Config from "./config.js";
 
 import imgFacingIndicator from "../../assets/images/facing-indicator.svg";
@@ -32,10 +31,17 @@ import MoveTool from "./tools/toolset/move_tool.js";
 import { nonPolyfilledCtx } from "../helpers.js";
 import ProjectLoader from "./format/project_loader.js";
 
-const FORMAT = -1;
+const FORMAT = ProjectLoader.version.format;
+
+const PROJECT_VALUES = {
+  format: {default: FORMAT, persistence: true},
+  variant: {default: "classic", persistence: true},
+  layers: {default: [], persistence: true},
+}
 
 const CONFIG_VALUES = {
   variant: {default: "classic", persistence: true},
+  selectedTool: {persistence: true},
   partVisibility: {
     default: {
       head: true,
@@ -72,8 +78,10 @@ class Editor extends LitElement {
 
     this.mobile = mobile;
 
-    this.persistence = new PersistenceManager("ncrs-editor");
-    this.persistence.setDefault("format", FORMAT);
+    this.project = new Config("ncrs-editor", PROJECT_VALUES);
+    this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
+
+    this._upgradeFormat();
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(50, this.clientWidth / this.clientHeight);
@@ -81,7 +89,6 @@ class Editor extends LitElement {
     this.controls = new Controls(this);
     this.layers = new Layers(IMAGE_WIDTH, IMAGE_HEIGHT);
     this.history = new HistoryManager();
-    this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
     this.toolConfig = new ToolConfig();
     this.tools = this._setupTools();
     this.currentTool = this.tools[this.mobile ? 1 : 0];
@@ -107,7 +114,7 @@ class Editor extends LitElement {
   firstUpdated() {
     this.updateVisibility();
 
-    const toolId = this.persistence.get("selectedTool", undefined);
+    const toolId = this.config.get("selectedTool", undefined);
     const tool = this.tools.find(tool => tool.properties.id == toolId);
 
     this.selectTool(tool || this.getToolById("pen"));
@@ -276,6 +283,10 @@ class Editor extends LitElement {
     this.model.overlayGrid.visible = overlayGridVisible && overlayVisible;
   }
 
+  getVariant() {
+    this.project.get("variant", "classic");
+  }
+
   getToolById(id) {
     return this.tools.find(tool => tool.id() == id);
   }
@@ -284,7 +295,7 @@ class Editor extends LitElement {
     if (!this.tools.includes(tool)) { return false; }
 
     this.currentTool = tool;
-    this.persistence.set("selectedTool", tool.properties.id);
+    this.config.set("selectedTool", tool.properties.id);
     this.dispatchEvent(new CustomEvent("select-tool", {detail: {tool, wasActive}}));
   }
 
@@ -325,7 +336,7 @@ class Editor extends LitElement {
           new GroupedEntry(
             new UpdateLayerTextureEntry(this.layers, currentLayer, texture),
             new ReplaceLayerMetadataEntry(currentLayer, setMetadata),
-            new PersistLayerChangesEntry(this.persistence, this.layers),
+            new PersistLayerChangesEntry(this.project, this.layers),
           )
         );
       } else {
@@ -333,7 +344,7 @@ class Editor extends LitElement {
           new GroupedEntry(
             new UpdateLayerTextureEntry(this.layers, currentLayer, texture),
             new UpdateLayerAttributionEntry(currentLayer),
-            new PersistLayerChangesEntry(this.persistence, this.layers),
+            new PersistLayerChangesEntry(this.project, this.layers),
           )
         );
       }
@@ -460,9 +471,9 @@ class Editor extends LitElement {
     const yPos = this.skinMesh.position.y;
     const r = this.baseGroup.rotation.clone();
 
-    this.config.set("variant", variant);
+    this.project.set("variant", variant);
 
-    this.model = new SkinModel(this.layers.texture, this.config.get("variant"));
+    this.model = new SkinModel(this.layers.texture, this.project.get("variant"));
     
     // Update model from settings
     this.model.setMaterialSide(this.config.get("cullBackFace") ? THREE.FrontSide : THREE.DoubleSide);
@@ -504,6 +515,27 @@ class Editor extends LitElement {
     this.zoom(0.45);
   }
 
+  _upgradeFormat() {
+    const format = this.project.get("format", -1);
+
+    if (format < FORMAT) {
+      // Create project
+      const project = {
+        format,
+        variant: this.project.get("variant", "classic"),
+        layers: this.project.get("layers", []),
+        blendPalette: [],
+      }
+
+      const data = new ProjectLoader(project).serialize();
+
+      // Load project data
+      this.project.set("format", FORMAT);
+      this.project.set("variant", data.variant);
+      this.project.set("layers", data.layers);
+    }
+  }
+
   _pickColor(toolData) {
     const point = toolData.getCoords();
     let color = toolData.texture.getPixel({ x: point.x, y: point.y });
@@ -527,13 +559,13 @@ class Editor extends LitElement {
     const layer = this.layers.getSelectedLayer();
     const texture = layer.texture.image;
 
-    return new ToolData({ texture, parts, button, variant: this.config.get("variant") });
+    return new ToolData({ texture, parts, button, variant: this.project.get("variant") });
   }
 
   _createSkinToolData(parts, button) {
     const texture = this.layers.render();
 
-    return new ToolData({ texture, parts, button, variant: this.config.get("variant") });
+    return new ToolData({ texture, parts, button, variant: this.project.get("variant") });
   }
 
   _setupResizeObserver() {
@@ -548,7 +580,7 @@ class Editor extends LitElement {
   }
 
   _loadSkin() {
-    const layerData = this.persistence.get("layers", []);
+    const layerData = this.project.get("layers", []);
     if (layerData.length > 0) {
       this._loadSkinFromData(layerData);
     } else {
@@ -594,7 +626,7 @@ class Editor extends LitElement {
   }
 
   _setupMesh(texture) {
-    this.model = new SkinModel(texture, this.config.get("variant", "classic"));
+    this.model = new SkinModel(texture, this.project.get("variant", "classic"));
 
     if (!this.config.get("cullBackFace", true)) {
       this.model.setMaterialSide(THREE.DoubleSide);
@@ -642,7 +674,7 @@ class Editor extends LitElement {
     const persistenceListeners = ["layers-update", "layers-render", "layers-select"];
     persistenceListeners.forEach(listener => {
       this.layers.addEventListener(listener, () => {
-        new PersistLayerChangesEntry(this.persistence, this.layers).perform();
+        new PersistLayerChangesEntry(this.project, this.layers).perform();
       })
     });
 

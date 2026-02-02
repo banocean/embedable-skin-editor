@@ -11,6 +11,8 @@ const IMAGE_WIDTH = 64, IMAGE_HEIGHT = 64
 */
 
 class NCRSLegacyVersion extends BaseVersion {
+  static format = 2;
+
   constructor(data) {
     super(undefined, data);
 

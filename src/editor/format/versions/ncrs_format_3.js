@@ -8,7 +8,7 @@ class NCRSFormat3 extends BaseVersion {
   static exportEditor(editor) {
     return {
       format: this.format,
-      variant: editor.config.get("variant"),
+      variant: editor.project.get("variant"),
       layers: editor.layers.serializeLayers(),
       blendPalette: editor.toolConfig.get("blend-palette"),
     };
@@ -17,7 +17,7 @@ class NCRSFormat3 extends BaseVersion {
   static loadEditor(editor, data) {
     editor.history.wipe();
 
-    editor.config.set("variant", data.variant);
+    editor.project.set("variant", data.variant);
     editor.toolConfig.set("blend-palette", data.blendPalette);
 
     editor.layers.layers = [];

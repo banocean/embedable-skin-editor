@@ -205,7 +205,7 @@ class QuickSearch extends LitElement {
       params.set("category", this.category);
     }
 
-    params.set("model", this.editor.config.get("variant", "classic"));
+    params.set("model", this.editor.project.get("variant", "classic"));
 
     return this.ui.galleryURL() + `/${this.page}?${params}`;
   }
@@ -340,7 +340,7 @@ class QuickSearch extends LitElement {
   }
 
   _setupEvents() {
-    this.editor.config.addEventListener("variant-change", () => {
+    this.editor.project.addEventListener("variant-change", () => {
       this._syncGalleryData();
     })
   }

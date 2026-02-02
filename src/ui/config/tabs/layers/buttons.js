@@ -96,7 +96,7 @@ class LayersTabButtons extends LitElement {
   swapFrontBack() {
     const layers = this.editor.layers;
     const layer = this._getLayer();
-    const canvas = layer.swapFrontBackTexture(this.editor.config.get("variant", "classic"));
+    const canvas = layer.swapFrontBackTexture(this.editor.project.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
@@ -107,7 +107,7 @@ class LayersTabButtons extends LitElement {
   swapLeftRight() {
     const layers = this.editor.layers;
     const layer = this._getLayer();
-    const canvas = layer.swapLeftRightTexture(this.editor.config.get("variant", "classic"));
+    const canvas = layer.swapLeftRightTexture(this.editor.project.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
@@ -118,7 +118,7 @@ class LayersTabButtons extends LitElement {
   clearLayerBase() {
     const layers = this.editor.layers;
     const layer = this._getLayer();
-    const canvas = layer.clearBase(this.editor.config.get("variant", "classic"));
+    const canvas = layer.clearBase(this.editor.project.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
@@ -129,7 +129,7 @@ class LayersTabButtons extends LitElement {
   clearLayerOverlay() {
     const layers = this.editor.layers;
     const layer = this._getLayer();
-    const canvas = layer.clearOverlay(this.editor.config.get("variant", "classic"));
+    const canvas = layer.clearOverlay(this.editor.project.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
@@ -140,7 +140,7 @@ class LayersTabButtons extends LitElement {
   flattenLayerOverlay() {
     const layers = this.editor.layers;
     const layer = this._getLayer();
-    const canvas = layer.flattenOverlay(this.editor.config.get("variant", "classic"));
+    const canvas = layer.flattenOverlay(this.editor.project.get("variant", "classic"));
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     this.editor.history.add(
