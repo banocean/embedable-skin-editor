@@ -1,7 +1,6 @@
 import { css, html, LitElement } from "lit";
 import ReferenceImageManager from "./reference_image";
 import MinecraftImport from "./minecraft";
-import ProjectLoader from "../../../../editor/format/project_loader";
 
 class ImportTabButtons extends LitElement {
   static styles = css`
@@ -140,24 +139,7 @@ class ImportTabButtons extends LitElement {
 
   _ncrsFileRead(event) {
     const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      let confirmText = "Load new Project?";
-      confirmText += "\nThis will replace your current project, and you will lose your history.";
-      confirmText += "\nMake sure you have saved the current project."
-
-      const check = confirm(confirmText);
-      if (!check) { return; }
-
-      const text = reader.result;
-      const json = JSON.parse(text);
-
-      const projectLoader = new ProjectLoader(json);
-      projectLoader.load(this.editor);
-    }
-
-    reader.readAsText(file);
+    this.editor.loadProjectFromFile(file);
   }
 
   _referenceFileRead(event) {

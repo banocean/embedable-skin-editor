@@ -334,9 +334,13 @@ class UI extends LitElement {
     this.addEventListener("drop", event => {
       event.preventDefault();
       [...event.dataTransfer.items].forEach(item => {
-        if (item.type != "image/png") { return; }
+        const file = item.getAsFile();
 
-        this.editor.addLayerFromFile(item.getAsFile());
+        if (item.type === "image/png") { 
+          this.editor.addLayerFromFile(file);
+        } else if (file.name.endsWith(".ncrs")) {
+          this.editor.loadProjectFromFile(file);
+        }
       })
     });
 

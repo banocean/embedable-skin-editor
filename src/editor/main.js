@@ -30,6 +30,7 @@ import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribut
 import PersistLayerChangesEntry from "./history/entries/persist_layers_entry.js";
 import MoveTool from "./tools/toolset/move_tool.js";
 import { nonPolyfilledCtx } from "../helpers.js";
+import ProjectLoader from "./format/project_loader.js";
 
 const FORMAT = -1;
 
@@ -365,6 +366,28 @@ class Editor extends LitElement {
 
     reader.readAsDataURL(file);
   }
+
+  loadProjectFromFile(file) {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      let confirmText = "Load new Project?";
+      confirmText += "\nThis will replace your current project, and you will lose your history.";
+      confirmText += "\nMake sure you have saved the current project."
+
+      const check = confirm(confirmText);
+      if (!check) { return; }
+
+      const text = reader.result;
+      const json = JSON.parse(text);
+
+      const projectLoader = new ProjectLoader(json);
+      projectLoader.load(this);
+    }
+
+    reader.readAsText(file);
+  }
+
 
   removeLayer() {
     const layers = this.layers;
