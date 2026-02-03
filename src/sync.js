@@ -1,9 +1,11 @@
 import * as THREE from "three"
+import Color from "color";
 
 const resetCamera = () => window.editor.resetCamera()
 const setToolSize = (size) => window.editor.toolConfig.set("size", size)
 const disableEditing = () => setToolSize(0)
 const setSkinType = (model) => window.editor.setVariant(model)
+const setColor = (config) => window.editor.toolConfig.set("color", config)
 
 const urlToImage = (url) => {
     const img = new Image()
@@ -43,14 +45,41 @@ const Tools = {
     Shade: 3
 }
 
-let currentTool = Tools.Pen
-let currentMode = "Showcase"
+const MaskTools = {
+    PenAdd: 0,
+    PenRemove: 1,
+    BucketAdd: 2,
+    BucketRemove: 3
+}
 
+const maskAddColor = new Color([255, 0, 0]).alpha(1)
+const maskRemoveColor = new Color([0, 0, 255]).alpha(1)
+
+let currentTool = Tools.Pen
+let currentMaskTool = MaskTools.PenAdd
+let currentMode = "Showcase"
+let currentColor = new Color([255, 255, 255]).alpha(1)
+
+const setCurrentColor = () => {
+    console.log("[SET COLOR RUN]")
+    if (currentMode === "EditMask") {
+        console.log(currentMaskTool)
+        setColor([MaskTools.PenAdd, MaskTools.BucketAdd].includes(currentMaskTool) ? maskAddColor : maskRemoveColor)
+    } else {
+        setColor(currentColor)
+    }
+}
+
+const maskToolToTool = (maskTool) => [Tools.Pen, Tools.Pen, Tools.Bucket, Tools.Bucket][maskTool]
 const setCurrentTool = () => {
     if (currentMode === "Showcase") {
         setTool(Tools.Pen)
         disableEditing()
-    } else setTool(currentTool)
+    } else if (currentMode === "EditMask") {
+        setTool(maskToolToTool(currentMaskTool))
+    } else {
+        setTool(currentTool)
+    }
 }
 
 let lastUpdate = 0
@@ -74,6 +103,15 @@ window.addEventListener("message", async (event) => {
 
         currentMode = "EditAll"
         setCurrentTool()
+        setCurrentColor()
+    } else if (event.data?.mode === "EditMask") {
+        setSkinType(event.data.model)
+        await replaceSkinTexture(await urlToImage(event.data.data))
+        clearHistory()
+
+        currentMode = "EditMask"
+        setCurrentTool()
+        setCurrentColor()
     } else if (event.data?.action === "UpdateBodyParts") {
         window.editor.setPartVisible("head", event.data.head)
         window.editor.setPartVisible("arm_left", event.data.leftArm)
@@ -86,15 +124,24 @@ window.addEventListener("message", async (event) => {
     } else if (event.data?.action === "SetTool") {
         currentTool = event.data.tool
         setCurrentTool()
+        setCurrentColor()
+    } else if (event.data?.action === "SetMaskTool") {
+        currentMaskTool = event.data.tool
+        setCurrentTool()
+        setCurrentColor()
+    } else if (event.data?.action === "UpdateColor") {
+        const [r, g, b, a] = event.data.color
+        currentColor = new Color([r, g, b]).alpha(a)
+        setCurrentColor()
     } else if (event.data?.action === "ResetCamera") resetCamera()
 });
 
 const handleChange = async () => {
-    if (currentMode !== "EditAll") return
+    if (currentMode !== "EditAll" && currentMode !== "EditMask") return
     const timestamp = Date.now()
     setTimeout(() => {
         window.top.postMessage({
-            action: "UpdateSkin",
+            action: currentMode === "EditAll" ? "UpdateSkin" : "UpdateMask",
             skinURL: window.editor.skinToDataURL(),
             timestamp
         }, "*")
