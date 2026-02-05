@@ -1,12 +1,13 @@
 import BaseVersion from "../base_version.js";
 import NCRSFormat3 from "./ncrs_format_3.js";
-import validate from "./schemas/schema_3.js";
+import validate from "./schemas/schema_4.js";
 
 class NCRSFormat4 extends BaseVersion {
   static format = 4;
 
   static exportEditor(editor) {
     return {
+      type: "application/vnd.needcoolershoes.ncrs+json",
       format: this.format,
       variant: editor.project.get("variant"),
       layers: editor.layers.serializeLayers(),
