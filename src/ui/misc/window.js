@@ -58,6 +58,7 @@ class Window extends LitElement {
 
     #header button > svg {
       height: 18px;
+      pointer-events: none;
     }
 
     #body {

@@ -30,7 +30,12 @@ class ReferenceImage extends EventTarget {
     
     this.window = this._createWindow(x, y, width, height);
     this.canvas = this._createCanvas(image);
-    this.window.appendChild(this.canvas);
+
+    const div = document.createElement("div");
+    div.id = "panzoom";
+    div.appendChild(this.canvas);
+
+    this.window.appendChild(div);
     
     this.panZoom = createPanZoom(this.canvas, {
       smoothScroll: false
