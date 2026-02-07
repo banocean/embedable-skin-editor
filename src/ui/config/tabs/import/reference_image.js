@@ -169,13 +169,19 @@ class ReferenceImageManager {
   }
 
   add(referenceImage) {
+    if (document.getElementById(referenceImage.uuid)) {
+      return;
+    }
+
     referenceImage.addEventListener("update", () => {
       this._update(referenceImage);
     });
 
     referenceImage.window.addEventListener("close", () => {
       this._delete(referenceImage);
-    })
+    });
+
+    referenceImage.window.id = referenceImage.uuid;
 
     document.body.appendChild(referenceImage.window);
 
