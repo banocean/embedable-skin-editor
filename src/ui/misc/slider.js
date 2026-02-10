@@ -1,6 +1,8 @@
 import { LitElement, css, html } from "lit";
 import { clamp } from "../../helpers.js";
 
+const SLIDER_SLOWDOWN_START = 10;
+
 class Slider extends LitElement {
   static properties = {
     progress: { reflect: true, type: Number },
@@ -143,7 +145,19 @@ class Slider extends LitElement {
 
   onMove(event) {
     const rect = this.getBoundingClientRect();
-    this.setProgress((event.clientX - rect.x) / this._clientWidth());
+
+    const distance = Math.abs(event.clientY - rect.y);
+
+    let difference = ((event.clientX - rect.x) / this._clientWidth()) - this.progress;
+
+    if (distance > SLIDER_SLOWDOWN_START) {
+      const x = distance - SLIDER_SLOWDOWN_START;
+      const y = Math.pow((x / 15) + 1, -3);
+
+      difference *= y;
+    }
+
+    this.setProgress(this.progress + difference);
   }
 
   onWheel(event) {
