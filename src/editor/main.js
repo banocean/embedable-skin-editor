@@ -30,15 +30,9 @@ import PersistLayerChangesEntry from "./history/entries/persist_layers_entry.js"
 import MoveTool from "./tools/toolset/move_tool.js";
 import { genUUID, nonPolyfilledCtx } from "../helpers.js";
 import ProjectLoader from "./format/project_loader.js";
+import ProjectData from "./format/project_data.js";
 
 const FORMAT = ProjectLoader.version.format;
-
-const PROJECT_VALUES = {
-  format: {default: FORMAT, persistence: true},
-  project: {default: {id: genUUID()}, persistence: true},
-  variant: {default: "classic", persistence: true},
-  layers: {default: [], persistence: true},
-}
 
 const CONFIG_VALUES = {
   variant: {default: "classic", persistence: true},
@@ -79,7 +73,7 @@ class Editor extends LitElement {
 
     this.mobile = mobile;
 
-    this.project = new Config("ncrs-editor", PROJECT_VALUES);
+    this.project = new ProjectData();
     this.config = new Config("ncrs-editor-config", CONFIG_VALUES);
 
     this._upgradeFormat();
@@ -404,7 +398,7 @@ class Editor extends LitElement {
     this.history.wipe();
     this.layers.layers = [];
 
-    this.project.set("project", {id: genUUID()});
+    this.project.reset();
   }
 
   removeLayer() {

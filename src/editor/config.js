@@ -36,16 +36,20 @@ class Config extends EventTarget {
     return value;
   }
 
-  _loadValues(valueMap) {
+  reset() {
+    this._loadValues(this.#valueMap, false);
+  }
+
+  _loadValues(valueMap, loadPersistent = true) {
     Object.entries(valueMap).map(([key, config]) => {
-      if (this._loadPersistent(key, config)) {
+      if (loadPersistent && this._loadPersistent(key, config)) {
         return;
       }
 
       if (config.default) {
         this.set(key, config.default);
       }
-    })
+    });
   }
 
   _loadPersistent(key, config) {

@@ -11,7 +11,9 @@ const schema = {
     project: {
       type: "object",
       properties: {
-        id: {type: "string"}
+        id: {type: "string"},
+        createdAt: {type: "integer"},
+        modifiedAt: {type: "integer"},
       }
     },
     variant: {
