@@ -8,6 +8,12 @@ const schema = {
       pattern: "^application/vnd\\.needcoolershoes\\.ncrs\\+json$"
     },
     format: {type: "integer"},
+    project: {
+      type: "object",
+      properties: {
+        id: {type: "string"}
+      }
+    },
     variant: {
       type: "string",
       pattern: "^(classic|slim)$"

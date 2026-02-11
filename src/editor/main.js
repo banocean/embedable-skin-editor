@@ -28,13 +28,14 @@ import ReplaceLayerMetadataEntry from "./history/entries/replace_layer_metadata_
 import UpdateLayerAttributionEntry from "./history/entries/update_layer_attribution_entry.js";
 import PersistLayerChangesEntry from "./history/entries/persist_layers_entry.js";
 import MoveTool from "./tools/toolset/move_tool.js";
-import { nonPolyfilledCtx } from "../helpers.js";
+import { genUUID, nonPolyfilledCtx } from "../helpers.js";
 import ProjectLoader from "./format/project_loader.js";
 
 const FORMAT = ProjectLoader.version.format;
 
 const PROJECT_VALUES = {
   format: {default: FORMAT, persistence: true},
+  project: {default: {id: genUUID()}, persistence: true},
   variant: {default: "classic", persistence: true},
   layers: {default: [], persistence: true},
 }
@@ -399,6 +400,12 @@ class Editor extends LitElement {
     reader.readAsText(file);
   }
 
+  resetProject() {
+    this.history.wipe();
+    this.layers.layers = [];
+
+    this.project.set("project", {id: genUUID()});
+  }
 
   removeLayer() {
     const layers = this.layers;

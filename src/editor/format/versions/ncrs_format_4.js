@@ -9,6 +9,7 @@ class NCRSFormat4 extends BaseVersion {
     return {
       type: "application/vnd.needcoolershoes.ncrs+json",
       format: this.format,
+      project: editor.project.get("project"),
       variant: editor.project.get("variant"),
       layers: editor.layers.serializeLayers(),
       blendPalette: editor.toolConfig.get("blend-palette"),
@@ -16,7 +17,9 @@ class NCRSFormat4 extends BaseVersion {
   }
 
   static loadEditor(editor, data) {
-    return NCRSFormat3.loadEditor(editor, data);
+    NCRSFormat3.loadEditor(editor, data);
+
+    editor.project.set("project", data.project);
   }
 
   constructor(data) {

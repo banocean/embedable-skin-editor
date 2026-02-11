@@ -15,12 +15,11 @@ class NCRSFormat3 extends BaseVersion {
   }
 
   static loadEditor(editor, data) {
-    editor.history.wipe();
+    editor.resetProject();
 
     editor.setVariant(data.variant);
     editor.toolConfig.set("blend-palette", data.blendPalette);
 
-    editor.layers.layers = [];
     data.layers.forEach(layer => {
       const deserializedLayer = editor.layers.deserializeLayer(layer);
       editor.layers.addLayer(deserializedLayer);
