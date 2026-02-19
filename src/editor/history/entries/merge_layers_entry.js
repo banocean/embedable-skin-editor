@@ -26,7 +26,7 @@ class MergeLayersEntry extends BaseEntry {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
     const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
-    ctx.drawImage(target.getBaseCanvas(), 0, 0);
+    ctx.drawImage(target.getBaseOffscreenCanvas(), 0, 0);
     ctx.drawImage(source.render(), 0, 0);
 
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);

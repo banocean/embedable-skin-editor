@@ -75,20 +75,25 @@ class Layers extends EventTarget {
   }
 
   deserializeLayer(serializedLayer) {
-    const data = atob(serializedLayer.data);
-    const array = Uint8ClampedArray.from([...data].map(ch => ch.charCodeAt()));
-    const imgData = new ImageData(array, IMAGE_WIDTH, IMAGE_HEIGHT);
-    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
-    ctx.putImageData(imgData, 0, 0);
+    return new Promise((resolve, _err) => {
+      const img = new Image();
+      const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+      const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
+      
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        const layer = this.createFromCanvas(canvas);
 
-    const layer = this.createFromCanvas(canvas);
-    layer.metadata = serializedLayer.metadata || {};
-    layer.compositor.deserializeFilters(serializedLayer.filters);
-    layer.selected = serializedLayer.selected;
-    layer.visible = serializedLayer.visible;
+        layer.metadata = serializedLayer.metadata || {};
+        layer.compositor.deserializeFilters(serializedLayer.filters);
+        layer.selected = serializedLayer.selected;
+        layer.visible = serializedLayer.visible;
 
-    return layer;
+        resolve(layer);
+      }
+
+      img.src = serializedLayer.data;
+    });
   }
 
   serializeLayers() {

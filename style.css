@@ -58,3 +58,9 @@ ncrs-ui.fullscreen {
 * {
   -webkit-tap-highlight-color: #0000;
 }
+
+p {
+  margin: 0px;
+  color: white;
+  max-width: 1000px;
+}

@@ -119,7 +119,7 @@ class Layer extends LitElement {
 
   render() {
     if (!this.blank && !this.rendering) {
-      const image = this.layer.getBaseCanvas();
+      const image = this.layer.getBaseOffscreenCanvas();
       this.preview.drawImage(image, this.editor.project.get("variant", "classic"));
     }
 

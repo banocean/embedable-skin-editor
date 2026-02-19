@@ -88,9 +88,11 @@ class Editor extends LitElement {
     this.tools = this._setupTools();
     this.currentTool = this.tools[this.mobile ? 1 : 0];
 
-    this._loadSkin();
-    this._setupMesh(this.layers.texture);
-    this._startRender();
+    this._loadSkin().then(() => {
+      this._setupMesh(this.layers.texture);
+      this._startRender();
+    });
+    
     this._setupResizeObserver();
     this._setupEvents();
   }
@@ -583,7 +585,7 @@ class Editor extends LitElement {
     obs.observe(this);
   }
 
-  _loadSkin() {
+  async _loadSkin() {
     const layerData = this.project.get("layers", []);
     if (layerData.length > 0) {
       this._loadSkinFromData(layerData);
@@ -592,11 +594,11 @@ class Editor extends LitElement {
     }    
   }
 
-  _loadSkinFromData(layerData) {
-    layerData.forEach(data => {
-      const layer = this.layers.deserializeLayer(data);
+  async _loadSkinFromData(layerData) {
+    for (const data of layerData) {
+      const layer = await this.layers.deserializeLayer(data);
       this.layers.addLayer(layer);
-    });
+    }
   }
 
   _loadDefaultSkin() {

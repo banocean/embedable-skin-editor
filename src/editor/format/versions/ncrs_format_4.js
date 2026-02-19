@@ -1,3 +1,5 @@
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants.js";
+import { nonPolyfilledCtx } from "../../../helpers.js";
 import BaseVersion from "../base_version.js";
 import NCRSFormat3 from "./ncrs_format_3.js";
 import validate from "./schemas/schema_4.js";
@@ -15,11 +17,22 @@ class NCRSFormat4 extends BaseVersion {
       blendPalette: editor.toolConfig.get("blend-palette"),
     };
   }
-
+  
   static loadEditor(editor, data) {
-    NCRSFormat3.loadEditor(editor, data);
-
+    editor.resetProject();
+    
+    editor.setVariant(data.variant);
+    editor.toolConfig.set("blend-palette", data.blendPalette);
     editor.project.set("project", data.project);
+
+    async function loadLayers(layerData) {
+      for (const data of layerData) {
+        const layer = await editor.layers.deserializeLayer(data);
+        editor.layers.addLayer(layer);
+      }
+    }
+
+    loadLayers(data.layers);
   }
 
   constructor(data) {
@@ -29,6 +42,7 @@ class NCRSFormat4 extends BaseVersion {
   // Convert data to version 4
   convert(data) {
     data.layers.forEach(layer => {
+      layer.data = this._convertData(layer.data);
       layer.filters = layer.filters.map(filter => this._convertFilter(filter));
     });
 
@@ -37,6 +51,20 @@ class NCRSFormat4 extends BaseVersion {
 
   validateData(data) {
     return validate(data);
+  }
+
+  _convertData(dataStr) {
+    const data = atob(dataStr);
+    const array = Uint8ClampedArray.from([...data].map(ch => ch.charCodeAt()));
+    const imgData = new ImageData(array, IMAGE_WIDTH, IMAGE_HEIGHT);
+    const canvas = document.createElement("canvas");
+    canvas.width = IMAGE_WIDTH;
+    canvas.height = IMAGE_HEIGHT;
+
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
+    ctx.putImageData(imgData, 0, 0);
+
+    return canvas.toDataURL();
   }
 
   _convertFilter(v3Filter) {

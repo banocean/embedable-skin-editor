@@ -29,6 +29,18 @@ class Layer extends EventTarget {
 
   getBaseCanvas() {
     const img = this.texture.image;
+    const canvas = document.createElement("canvas");
+    canvas.width = IMAGE_WIDTH;
+    canvas.height = IMAGE_HEIGHT;
+
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
+    ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+    return canvas;
+  }
+
+  getBaseOffscreenCanvas() {
+    const img = this.texture.image;
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
     const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
     ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -37,11 +49,11 @@ class Layer extends EventTarget {
   }
 
   getBaseImageData() {
-    return this.getBaseCanvas().getContext("2d").getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+    return this.getBaseOffscreenCanvas().getContext("2d").getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
   }
 
   isBlank() {
-    const canvas = this.getBaseCanvas();
+    const canvas = this.getBaseOffscreenCanvas();
     const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
@@ -78,12 +90,10 @@ class Layer extends EventTarget {
     return this.compositor.getFilters().find(filter => condition(filter.properties));
   }
   
-  // https://stackoverflow.com/questions/51371648/converting-from-a-uint8array-to-a-string-and-back
   serialize() {
-    const binString = String.fromCharCode(...this.getBaseImageData().data);
     return {
       filters: this.compositor.serializeFilters(),
-      data: btoa(binString),
+      data: this.getBaseCanvas().toDataURL(),
       metadata: this.metadata,
       selected: this.selected,
       visible: this.visible,
@@ -91,31 +101,31 @@ class Layer extends EventTarget {
   }
 
   swapBodyOverlayTexture(variant) {
-    return swapBodyOverlay(this.getBaseCanvas(), variant);
+    return swapBodyOverlay(this.getBaseOffscreenCanvas(), variant);
   }
 
   swapFrontBackTexture(variant) {
-    return swapFrontBack(this.getBaseCanvas(), variant);
+    return swapFrontBack(this.getBaseOffscreenCanvas(), variant);
   }
 
   swapLeftRightTexture(variant) {
-    return swapLeftRight(this.getBaseCanvas(), variant);
+    return swapLeftRight(this.getBaseOffscreenCanvas(), variant);
   }
 
   clearBase(variant) {
-    return clearLayer(this.getBaseCanvas(), variant, "base");
+    return clearLayer(this.getBaseOffscreenCanvas(), variant, "base");
   }
 
   clearOverlay(variant) {
-    return clearLayer(this.getBaseCanvas(), variant, "overlay");
+    return clearLayer(this.getBaseOffscreenCanvas(), variant, "overlay");
   }
 
   flattenOverlay(variant) {
-    return mergeLayers(this.getBaseCanvas(), "overlay", "base", variant);
+    return mergeLayers(this.getBaseOffscreenCanvas(), "overlay", "base", variant);
   }
 
   readAttributionData() {
-    return getWatermarkData(this.getBaseCanvas());
+    return getWatermarkData(this.getBaseOffscreenCanvas());
   }
 
   _setAttribution() {
