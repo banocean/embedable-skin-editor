@@ -191,24 +191,24 @@ class Controls {
     this.ctrlKey = event.ctrlKey;
     this.shiftKey = event.shiftKey;
 
-    if (event.key == "Control" || event.key == "Alt") {
+    if (event.key === "Control" || event.key === "Alt" && !event.repeat) {
       this.parent.config.set("pick-color", true);
       this.keybindEyedropper = true;
     }
   }
 
   onKeyUp(event) {
-    if (event.key == "Control" || event.key == "Alt") {
+    if (event.key === "Control" || event.key === "Alt") {
       event.preventDefault();
       this.parent.config.set("pick-color", false);
       this.keybindEyedropper = false;
     }
 
-    if (event.key == "Control" && this.ctrlKey) {
+    if (event.key === "Control" && this.ctrlKey) {
       this.ctrlKey = false;
     }
 
-    if (event.key == "Shift" && this.shiftKey) {
+    if (event.key === "Shift" && this.shiftKey) {
       this.shiftKey = false;
     }
   }
