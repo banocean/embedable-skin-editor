@@ -133,7 +133,7 @@ class Layer extends EventTarget {
 
     if (!attribution) { return; }
 
-    this.metadata.attribution = this.readAttributionData();
+    this.metadata.attribution = attribution;
   }
 
   _normaliseImageDimensions(texture) {

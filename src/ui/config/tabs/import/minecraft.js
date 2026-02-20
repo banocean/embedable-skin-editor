@@ -91,12 +91,15 @@ class MinecraftImport extends LitElement {
 
   _loadSkin() {
     this._processing = true;
-    const url = this.ui.skinLookupURL() + "/" + encodeURI(this.input.value);
+    const username = encodeURI(this.input.value);
+    const url = this.ui.skinLookupURL() + "/" + username;
 
     fetch(url).then(res => {
       res.blob().then(blob => {
+        const uuid = res.headers.get("X-NeedCoolerShoes-UUID");
+
         if (blob.type === "image/png") {
-          this.editor.addLayerFromFile(blob);
+          this.editor.addLayerFromFile(blob, {attribution: `minecraft:java/${uuid}\n${username}`});
         }
         this._processing = false;
       }, () => {
