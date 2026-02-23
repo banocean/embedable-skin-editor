@@ -1,3 +1,5 @@
+import { nonPolyfilledCtx } from "../../helpers";
+
 const UVMAP = {
   classic: {
     face: [8, 8, 8, 8],
@@ -48,7 +50,7 @@ const LAYOUT = {
 
 function imageToPreview(image, variant = 'classic') {
   const canvas = new OffscreenCanvas(36, 32);
-  const ctx = canvas.getContext('2d');
+  const ctx = nonPolyfilledCtx(canvas.getContext('2d'));
 
   const uvmap = UVMAP[variant];
   const layout = LAYOUT[variant];

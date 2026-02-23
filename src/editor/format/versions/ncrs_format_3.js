@@ -1,19 +1,33 @@
-import BaseVersion from "../base_version";
-import NCRSLegacyVersion from "./ncrs_legacy";
-import schema3Validate from "./schemas/schema_3";
+import BaseVersion from "../base_version.js";
+import NCRSLegacyVersion from "./ncrs_legacy.js";
+import validate from "./schemas/schema_3.js";
 
 class NCRSFormat3 extends BaseVersion {
+  static format = 3;
+
   static exportEditor(editor) {
     return {
-      format: 3,
-      variant: editor.config.get("variant"),
+      format: this.format,
+      variant: editor.project.get("variant"),
       layers: editor.layers.serializeLayers(),
       blendPalette: editor.toolConfig.get("blend-palette"),
     };
   }
 
+  static loadEditor(editor, data) {
+    editor.resetProject();
+
+    editor.setVariant(data.variant);
+    editor.toolConfig.set("blend-palette", data.blendPalette);
+
+    data.layers.forEach(layer => {
+      const deserializedLayer = editor.layers.deserializeLayer(layer);
+      editor.layers.addLayer(deserializedLayer);
+    });
+  }
+
   constructor(data) {
-    super(NCRSLegacyVersion, data, 3);
+    super(NCRSLegacyVersion, data, NCRSFormat3.format);
   }
 
   checkData(data) {
@@ -34,24 +48,10 @@ class NCRSFormat3 extends BaseVersion {
   }
 
   validateData(data) {
-    const valid = schema3Validate(data);
-
-    if (!valid) { console.log(schema3Validate.errors, data); }
-
-    return valid;
+    return validate(data);
   }
 
   loadEditor(editor) {
-    editor.history.wipe();
-
-    editor.config.set("variant", this.data.variant);
-    editor.toolConfig.set("blend-palette", this.data.blendPalette);
-
-    editor.layers.layers = [];
-    this.data.layers.forEach(layer => {
-      const deserializedLayer = editor.layers.deserializeLayer(layer);
-      editor.layers.addLayer(deserializedLayer);
-    });
   }
 }
 

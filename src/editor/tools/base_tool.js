@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import CanvasHelper from "./canvas_helper";
+import CanvasHelper from "./canvas_helper.js";
 
 class BaseTool {
   constructor(config, properties) {
@@ -8,9 +8,11 @@ class BaseTool {
   }
   properties;
 
+  id() { return (this.properties || {}).id || "" }
   down(_texture, _part, _x, _y, _pointerButton) {}
   move(_part, _x, _y, _pointerButton) {}
   up(_x, _y) {}
+  check(_parts, _event) { return true; }
 
   tempCanvas() {
     return new CanvasHelper();

@@ -1,4 +1,4 @@
-import { BaseEntry } from "../base_entry";
+import { BaseEntry } from "../base_entry.js";
 
 class UpdateLayerFiltersEntry extends BaseEntry {
   constructor(layers, layer, filters = [], stack = true) {

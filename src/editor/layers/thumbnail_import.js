@@ -1,5 +1,6 @@
-import { IMAGE_HEIGHT, IMAGE_THUMBNAIL_HEIGHT, IMAGE_THUMBNAIL_WIDTH, IMAGE_WIDTH } from "../../constants";
-import { getUV } from "./texture_utils";
+import { IMAGE_HEIGHT, IMAGE_THUMBNAIL_HEIGHT, IMAGE_THUMBNAIL_WIDTH, IMAGE_WIDTH } from "../../constants.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
+import { getUV } from "./texture_utils.js";
 
 const OPERATIONS = [
   // Head
@@ -29,7 +30,7 @@ const OPERATIONS = [
 
 function thumbnailImport(imgSource) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   const scaleWidth = IMAGE_THUMBNAIL_WIDTH / 5;
   const scaleHeight = IMAGE_THUMBNAIL_HEIGHT / 5;

@@ -1,10 +1,11 @@
-import { BaseEntry } from "../base_entry";
+import { BaseEntry } from "../base_entry.js";
 import * as THREE from "three";
-import GroupedEntry from "./grouped_entry";
-import UpdateLayerTextureEntry from "./update_layer_texture_entry";
-import DeleteLayerEntry from "./delete_layer_entry";
-import SelectLayerEntry from "./select_layer_entry";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants";
+import GroupedEntry from "./grouped_entry.js";
+import UpdateLayerTextureEntry from "./update_layer_texture_entry.js";
+import DeleteLayerEntry from "./delete_layer_entry.js";
+import SelectLayerEntry from "./select_layer_entry.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../../constants.js";
+import { nonPolyfilledCtx } from "../../../helpers.js";
 
 class MergeLayersEntry extends BaseEntry {
   constructor(layers, target, source) {
@@ -23,9 +24,9 @@ class MergeLayersEntry extends BaseEntry {
 
   _setupEntryGroup(layers, target, source) {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
-    ctx.drawImage(target.getBaseCanvas(), 0, 0);
+    ctx.drawImage(target.getBaseOffscreenCanvas(), 0, 0);
     ctx.drawImage(source.render(), 0, 0);
 
     const texture = new THREE.Texture(canvas, IMAGE_WIDTH, IMAGE_HEIGHT);

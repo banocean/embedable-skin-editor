@@ -1,33 +1,66 @@
-import "./misc/icon";
-import "./misc/button";
-import "./misc/toggle";
-import "./misc/troggle";
-import "./misc/quadroggle";
-import "./misc/modal";
-import "./misc/window";
-import "./misc/skin_2d";
+import { css, html, unsafeCSS, LitElement } from "lit";
+import Editor from "../editor/main.js";
+import PersistenceManager from "../persistence.js";
+import Modal from "./misc/modal.js";
 
-import { css, html, LitElement, render, unsafeCSS } from "lit";
-import Editor from "../editor/main";
-import PersistenceManager from "../persistence";
-import { getFocusedElement, isKeybindIgnored } from "../helpers";
-import Modal from "./misc/modal";
+import passesColorAccuracyTest from "./misc/color_accuracy_test.js";
+import setupKeybinds from "./keybinds.js";
+import NCRSUIDesktopLayout from "./layouts/desktop.js";
 
-import imgGridDark from "/assets/images/grid-editor-dark.png";
-import imgGridGray from "/assets/images/grid-editor-gray.png";
-import imgGridLight from "/assets/images/grid-editor-light.png";
+import imgGridDark from "../../assets/images/grid-editor-dark.png";
+import imgGridGray from "../../assets/images/grid-editor-gray.png";
+import imgGridLight from "../../assets/images/grid-editor-light.png";
+import { isIOS } from "../helpers.js";
 
-import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants";
-import { del } from "idb-keyval";
-import passesColorAccuracyTest from "./misc/color_accuracy_test";
+const DESKTOP_MIN_WIDTH = 670;
 
 class UI extends LitElement {
   static styles = css`
     :host {
       width: 100%;
       height: 100%;
+    }
+
+    :host(.fullscreen) {
+      --toggle-fullscreen: none;
+      --toggle-minimize: block;
+    }
+
+    :host(.fullscreen-browser) {
+      --mobile-header-padding: 1.5rem;
+    }
+
+    :host(.minimized) {
+      --toggle-fullscreen: block;
+      --toggle-minimize: none;
+    }
+
+    :host(.editor-dark) {
       --editor-bg: url(${unsafeCSS(imgGridDark)});
-      --ncrs-color-picker-height: 15rem;
+      --editor-icon-color: #ffffff66;
+      --toggle-dark: block;
+      --toggle-gray: none;
+      --toggle-light: none;
+    }
+
+    :host(.editor-gray) {
+      --editor-bg: url(${unsafeCSS(imgGridGray)});
+      --editor-icon-color: #ffffff66;
+      --toggle-dark: none;
+      --toggle-gray: block;
+      --toggle-light: none;
+    }
+
+    :host(.editor-light) {
+      --editor-bg: url(${unsafeCSS(imgGridLight)});
+      --editor-icon-color: #00000088;
+      --toggle-dark: none;
+      --toggle-gray: none;
+      --toggle-light: block;
+    }
+
+    :host(.hide-controls) {
+      --controls-fullscreen: none;
     }
 
     #main {
@@ -35,196 +68,6 @@ class UI extends LitElement {
       width: 100%;
       height: 100%;
       position: relative;
-    }
-
-    .warning {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      pointer-events: none;
-      position: absolute;
-      top: 8px;
-      left: 4px;
-      color: #aaaaaa;
-      font-size: small;
-    }
-
-    .warning svg {
-      width: 1.25rem;
-      height: auto;
-      padding-left: 0.35rem;
-    }
-
-    :host(.has-filters) #filters-warning {
-      display: flex;
-    }
-
-    :host(.layer-invisible) #layer-warning {
-      display: flex;
-    }
-
-    :host(.editor-dark) {
-      --editor-bg: url(${unsafeCSS(imgGridDark)});
-    }
-
-    :host(.editor-gray) {
-      --editor-bg: url(${unsafeCSS(imgGridGray)});
-    }
-
-    :host(.editor-light) {
-      --editor-bg: url(${unsafeCSS(imgGridLight)});
-    }
-
-    :host(.editor-light) .warning {
-      color: black;
-    }
-
-    :host(.minimized) {
-      --ncrs-color-picker-height: 15rem;
-    }
-
-    :host(.fullscreen) {
-      --ncrs-color-picker-height: 17rem;
-    }
-
-    #editor {
-      background-color: #191919;
-      background-image: var(--editor-bg);
-      flex-grow: 1;
-      position: relative;
-    }
-
-    #layers {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      box-sizing: border-box;
-    }
-
-    #layers ncrs-layer-list {
-      flex-grow: 1;
-    }
-
-    #editor ncrs-editor {
-      width: 100%;
-      height: 100%;
-      min-width: 240px;
-    }
-
-    #history {
-      display: flex;
-      justify-content: center;
-      padding: 0.5rem;
-      gap: 0.5rem;
-      background-color: rgb(19, 19, 21);
-    }
-
-    #history button {
-      all: unset;
-      cursor: pointer;
-    }
-
-    #history button:disabled {
-      cursor: default;
-    }
-
-    #history button:focus-visible {
-      outline: 1px solid white;
-    }
-
-    #history ncrs-icon {
-      --icon-color: white;
-      width: 24px;
-      height: 24px;
-    }
-
-    #history button:disabled ncrs-icon {
-      --icon-color: #aaaaaa;
-    }
-
-    #themeSwitch {
-      all: unset;
-      display: block;
-      cursor: pointer;
-      position: absolute;
-      top: 8px;
-      right: 8px;
-    }
-
-    #themeSwitch ncrs-icon {
-      display: none;
-      width: 24px;
-      height: 24px;
-    }
-
-    :host(.editor-dark) #themeSwitch ncrs-icon.dark {
-      display: block;
-    }
-
-    :host(.editor-gray) #themeSwitch ncrs-icon.gray {
-      display: block;
-    }
-
-    :host(.editor-light) #themeSwitch ncrs-icon.light {
-      display: block;
-    }
-
-    #fullscreenSwitch {
-      all: unset;
-      display: block;
-      cursor: pointer;
-      position: absolute;
-      top: 40px;
-      right: 8px;
-    }
-
-    #fullscreenSwitch ncrs-icon {
-      display: none;
-      width: 24px;
-      height: 24px;
-    }
-
-    :host(.minimized) #fullscreenSwitch ncrs-icon.minimized {
-      display: block;
-    }
-
-    :host(.fullscreen) #fullscreenSwitch ncrs-icon.fullscreen {
-      display: block;
-    }
-
-    :host(.editor-light) #fullscreenSwitch {
-      display: none;
-    }
-
-    #fullscreenSwitchLightMode {
-      all: unset;
-      display: block;
-      cursor: pointer;
-      position: absolute;
-      top: 40px;
-      right: 8px;
-    }
-
-    #fullscreenSwitchLightMode ncrs-icon {
-      display: none;
-      width: 24px;
-      height: 24px;
-    }
-
-    :host(.minimized) #fullscreenSwitchLightMode ncrs-icon.minimized {
-      display: block;
-    }
-
-    :host(.fullscreen) #fullscreenSwitchLightMode ncrs-icon.fullscreen {
-      display: block;
-    }
-
-    :host(.editor-gray) #fullscreenSwitchLightMode {
-      display: none;
-    }
-
-    :host(.editor-dark) #fullscreenSwitchLightMode {
-      display: none;
     }
 
     #color-check-modal {
@@ -265,6 +108,10 @@ class UI extends LitElement {
       text-align: center;
       font-size: large;
     }
+
+    #export-form {
+      z-index: 100;
+    }
   `;
 
   static properties = {
@@ -272,123 +119,63 @@ class UI extends LitElement {
     _warning: {type: String, state: true},
   }
 
-  // All keybind definitions, ^ = ctrl, + = shift, ! = alt
-
-  static keybinds = {
-    "b": "pen",
-    "e": "eraser",
-    "g": "bucket",
-    "s": "shade",
-    "i": "eyedropper",
-    "+s": "sculpt",
-    "^z": "undo",
-    "^y": "redo",
-    "^+z": "redo",
-    "^r": "reset",
-    "=": "zoomIn",
-    "-": "zoomOut",
-    "arrowleft": "panLeft",
-    "arrowright": "panRight",
-    "arrowup": "panUp",
-    "arrowdown": "panDown",
-    "0": "cameraReset",
-    "1": "selectTools",
-    "2": "selectLayer",
-    "3": "selectImport",
-    "4": "selectExport",
-    "!t": "selectTools",
-    "!l": "selectLayer",
-    "!i": "selectImport",
-    "!e": "selectExport",
-    "+n": "addLayer",
-    "delete": "removeLayer",
-    "+d": "cloneLayer",
-    "+m": "mergeLayer",
-    "f": "toggleFullscreen",
-  }
+  static desktopLayoutMinWidth = DESKTOP_MIN_WIDTH;
 
   constructor() {
     super();
 
     this.persistence = new PersistenceManager("ncrs-ui");
-    this.editor = new Editor;
+    this.editor = new Editor();
 
     this.exportModal = this._setupModal("export-form");
-    this.galleryModal = this._setupGalleryModal();
 
+    this.layout = new NCRSUIDesktopLayout(this);
+
+    this.classList.add("minimized");
+
+    this._setupResizeObserver();
     this._setEditorTheme();
-    this._setFullscreen();
+    this._pwaCheck();
+    this._iosCheck();
     this._setupEvents();
 
     this.classList.replace("minimized", "fullscreen");
   }
-  currentLayer;
+  disableKeybinds = false;
+  _browserFullScreen = false;
 
   firstUpdated() {
-    document.addEventListener("keydown", event => {
-      const element = event.originalTarget || getFocusedElement();
-      if (isKeybindIgnored(element)) { return; }
-
-      switch(this.checkKeybinds(event)){
-        case "undo":
-          this.editor.history.undo();
-          break;
-        case "redo":
-          this.editor.history.redo();
-          break;
-        case "cameraReset":
-          this.editor.resetCamera();
-          break;
-      }
-    });
-
-    this._updateWarning();
-  }
-
-  checkKeybinds(event) {
-    let key = '';
-    if (event.ctrlKey) {
-      key+='^';
-    }
-    if (event.altKey) {
-      key+='!';
-    }
-    if (event.shiftKey) {
-      key+='+';
-    }
-    key+=event.key.toLowerCase();
-    if (key in this.constructor.keybinds) {
-      return this.constructor.keybinds[key];
-    }
+    setupKeybinds(this, this.editor);
   }
 
   render() {
     return html`
       <div id="main">
-        <div id="editor">
-          ${this.editor}
-          ${this._historyButtons()}
-        </div>
+        ${this.layout}
         ${this._setupColorCheckModal()}
       </div>
       <slot name="footer"></slot>
     `;
   }
 
-  galleryURL() {
-    if (!this.src) { return GALLERY_URL };
+  toggleFullscreen() {
+    if (this.classList.contains("minimized")) {
+      this.classList.replace("minimized", "fullscreen");
 
-    const url = new URL(this.src);
+      if (!isIOS && this._getValidLayout() === "mobile") {
+        this.requestFullscreen().then(() => {
+          this._browserFullScreen = true;
+          this.classList.add("fullscreen-browser");
+        });
+      }
 
-    return `${url.origin}/gallery/skins`;
-  }
-
-  skinLookupURL() {
-    if (!this.src) { return SKIN_LOOKUP_URL };
-
-    const url = new URL(this.src);
-
-    return `${url.origin}/api/skin`;
+    } else if (this.classList.contains("fullscreen")) {
+      if (this._browserFullScreen) {
+        document.exitFullscreen();      
+      } else {
+        this.classList.replace("fullscreen", "minimized");
+      }
+    }
   }
 
   toggleEditorBackground() {
@@ -405,70 +192,22 @@ class UI extends LitElement {
     }
   }
 
-  toggleFullscreen() {
-    if (this.classList.contains("minimized")) {
-      this.classList.replace("minimized", "fullscreen");
-    } else if (this.classList.contains("fullscreen")) {
-      this.classList.replace("fullscreen", "minimized");
+  _getValidLayout() {
+    if (this.clientWidth >= DESKTOP_MIN_WIDTH) {
+      return "desktop";
+    } else {
+      return "mobile";
     }
   }
 
-  _setEditorTheme() {
-    if (
-      !this.classList.contains("editor-dark") ||
-      !this.classList.contains("editor-gray") ||
-      !this.classList.contains("editor-light")
-    ) {
-      const theme = this.persistence.get("theme", "dark");
-      this.classList.add(`editor-${theme}`);
-    }
-  }
-
-  _setFullscreen() {
-    const fullscreen = "minimized";
-    this.classList.add(fullscreen);
-  }
-
-  _historyButtons() {
-    const undoDisabled = !this.editor.history.canUndo();
-    const redoDisabled = !this.editor.history.canRedo();
-
-    return html`
-      <div id="history">
-        <button title="Undo [Ctrl + Z]" ?disabled=${undoDisabled} @click=${this._undo}>
-          <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
-        </button>
-        <button title="Redo [Ctrl + Y]" ?disabled=${redoDisabled} @click=${this._redo}>
-          <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
-        </button>
-      </div>
-    `
-  }
-
-  _undo() {
-    this.editor.history.undo();
-  }
-
-  _redo() {
-    this.editor.history.redo();
-  }
-
-  _updateWarning() {
-    const layer = this.editor.layers.getSelectedLayer();
-    if (!layer) { return; }
-
-    this.classList.remove("has-filters", "layer-invisible");
-    
-    if (!layer.visible) {
-      return this.classList.add("layer-invisible");
-    } else if (layer.hasFilters()) {
-      return this.classList.add("has-filters");
-    }
+  _getLayout(id) {
+    return new NCRSUIDesktopLayout(this);
   }
 
   _setupModal(name) {
     const modal = new Modal();
     modal.part = name;
+    modal.id = name;
     
     const slot = document.createElement("slot");
     slot.name = name;
@@ -476,16 +215,6 @@ class UI extends LitElement {
     modal.appendChild(slot);
 
     return modal
-  }
-
-  _setupGalleryModal() {
-    const modal = new Modal();
-    // const gallery = new Gallery(this);
-    // gallery.url = "http://127.0.0.1:3000/gallery/skins"
-
-    // modal.appendChild(gallery);
-
-    return modal;
   }
 
   _setupColorCheckModal() {
@@ -522,36 +251,57 @@ class UI extends LitElement {
     this.shadowRoot.getElementById("color-check-modal").show();
   }
 
-  _setupEvents() {
-    const layers = this.editor.layers;
-    layers.addEventListener("layers-render", () => {
-      this._updateWarning();
-    });
+  _setEditorTheme() {
+    if (
+      !this.classList.contains("editor-dark") ||
+      !this.classList.contains("editor-gray") ||
+      !this.classList.contains("editor-light")
+    ) {
+      const theme = this.persistence.get("theme", "dark");
+      this.classList.add(`editor-${theme}`);
+    }
+  }
 
-    layers.addEventListener("update-filters", () => {
-      this._updateWarning();
-    });
+  _setupResizeObserver() {
+    const resizeObserver = new ResizeObserver(() => {
+      const validLayout = this._getValidLayout();
 
-    layers.addEventListener("layers-select", () => {
-      this._updateWarning();
-    });
+      if (this.layout.id === validLayout) return;
 
-    this.editor.history.addEventListener("update", () => {
+      this.editor.mobile = (validLayout === "mobile");
+
+      delete this.layout;
+      this.layout = this._getLayout(validLayout);
+
       this.requestUpdate();
-    })
-
-    this.addEventListener("dragover", event => event.preventDefault());
-    this.addEventListener("drop", event => {
-      event.preventDefault();
-      [...event.dataTransfer.items].forEach(item => {
-        if (item.type != "image/png") { return; }
-
-        this.editor.addLayerFromFile(item.getAsFile());
-      })
     });
 
+    resizeObserver.observe(this);
+  }
+
+  _pwaCheck() {
+    if (window.matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches) {
+      this.classList.add("fullscreen", "hide-controls");
+    }
+  }
+
+  _iosCheck() {
+    if (isIOS) {
+      this.classList.add("platform-ios")
+    }
+  }
+
+  _setupEvents() {
     window.addEventListener("load", () => {
       this._runColorCheck();
+    });
+
+    this.exportModal.addEventListener("show", () => {
+      this.disableKeybinds = true;
+    });
+
+    this.exportModal.addEventListener("hide", () => {
+      this.disableKeybinds = false;
     })
   }
 }

@@ -1,6 +1,8 @@
 import Color from "color";
 import { v4 as uuidv4 } from "uuid";
 
+const isIOS = navigator.platform.match(/iPad|iPhone|iPod/i) != null ? true : false;
+
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -72,4 +74,10 @@ function download(filename, url) {
   link.remove();
 }
 
-export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored, genUUID};
+function nonPolyfilledCtx(ctx) {
+  if (!ctx.__withoutSideEffects) { return ctx; }
+
+  return ctx.__withoutSideEffects;
+}
+
+export {clamp, camelize, colorToObject, objectToColor, getRandomInt, pickFromArray, getFocusedElement, download, isKeybindIgnored, genUUID, nonPolyfilledCtx, isIOS};

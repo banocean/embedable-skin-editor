@@ -44,10 +44,11 @@ const setOverlayVisible = (isVisible) => window.editor.setOverlayVisible(isVisib
 const setTool = (tool) => window.editor.selectTool(window.editor.tools[tool])
 
 const Tools = {
-    Pen: 0,
-    Eraser: 1,
-    Bucket: 2,
-    Shade: 3
+    Move: 0,
+    Pen: 1,
+    Eraser: 2,
+    Bucket: 3,
+    Shade: 4
 }
 
 const MaskTools = {

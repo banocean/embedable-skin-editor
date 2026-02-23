@@ -1,5 +1,6 @@
-import { css, html, LitElement, nothing } from "lit";
-
+import { css, html, LitElement } from "lit";
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
+import "@m3e/tooltip";
 class Button extends LitElement {
   static styles = css`
     :host {
@@ -27,6 +28,7 @@ class Button extends LitElement {
 
       margin-bottom: 0.375rem;
       color: var(--text-color);
+      touch-action: auto;
     }
 
     button:not(:disabled):hover {
@@ -55,7 +57,7 @@ class Button extends LitElement {
     button:disabled {
       --text-color: var(--text-color-disabled);
       background-image: linear-gradient(to top, #222427, #2a2d2f);
-      box-shadow: #1c1e1f  0px 0px 0px 1px inset, #191a1c 0px 1px 3px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
+      box-shadow: #1c1e1f 0px 0px 0px 1px inset, #191a1c 0px 1px 3px, rgba(0, 0, 0, 0.2) 0px 4px 3px;
       cursor: initial
     }
   `
@@ -63,14 +65,25 @@ class Button extends LitElement {
   static properties = {
     active: {type: Boolean, reflect: true},
     disabled: {type: Boolean, reflect: true},
+    touchTooltip: {type: String, attribute: "touch-tooltip"},
   }
 
   render() {
     return html`
-      <button part="button" ?disabled=${this.disabled}>
+      <button id="button" part="button" ?disabled=${this.disabled} title="">
         <slot></slot>
       </button>
+      <m3e-tooltip for="button" touch-gestures="on" position="above" show-delay=500>${unsafeHTML(this._tooltipContent())}</m3e-tooltip>
     `
+  }
+
+  _tooltipContent() {
+    const title = this.getAttribute("title") || this.title || "";
+    const text = (this.touchTooltip || title).toString();
+
+    if (text.length < 1) return undefined;
+          
+    return text.split("\n").join("<br>");
   }
 }
 

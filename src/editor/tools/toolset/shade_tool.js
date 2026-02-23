@@ -1,4 +1,4 @@
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 // Scales the force
 const SHADE_SCALAR = 5;
@@ -9,30 +9,42 @@ class ShadeTool extends BrushBaseTool {
       id: "shade",
       icon: "shading",
       name: "Shade [S]",
-      description: "Makes pixels lighter/darker or adjusts their color based on the palette.",
+      description: "Makes pixels lighter/darker or adjusts their color based on the palette.\nUse the left mouse button to darken, and the right mouse button to lighten.",
       providesColor: false, // Whether or not drawing with this tool adds to recent colors.,
       disableMirror: true, // Whether to disable the mirror.
+      desktopLayout: true,
+      mobileLayout: true,
     });
   }
 
   _visited = new Set();
   _lastPixel = "";
+  _unsetLightenOnUp = false;
 
   down(toolData) {
+    this._checkDarken(toolData);
     this.shade(toolData);
 
     return toolData.texture.toTexture();
   }
 
   move(toolData) {
+    this._checkDarken(toolData);
     this.shade(toolData);
 
     return toolData.texture.toTexture();
   }
 
   up() {
+    super.up();
+
     this._visited.clear();
     this._lastPixel = "";
+    
+    if (this._unsetLightenOnUp) {
+      this.config.set("shadeLighten", false);
+      this._unsetLightenOnUp = false;
+    }
   }
 
   shade(toolData) {
@@ -43,6 +55,7 @@ class ShadeTool extends BrushBaseTool {
     const force = this.config.get("force", 1) * SHADE_SCALAR;
     const shadeOnce = this.config.get("shadeOnce", false);
     const shadeStyle = this.config.get("shadeStyle", "lighten");
+    const lighten = !this.config.get("shadeLighten", false);
 
     const pointStr = `${point.x}:${point.y}`;
     if (shadeOnce && this._visited.has(pointStr)) { return; }
@@ -53,11 +66,11 @@ class ShadeTool extends BrushBaseTool {
       
       if (shadeStyle === "saturate") {
         const scalar = 0.01;
-        color = toolData.button == 1 ? color.saturate(force * scalar) : color.desaturate(force * scalar);
+        color = lighten ? color.saturate(force * scalar) : color.desaturate(force * scalar);
       } else {
-        color.color[0] = toolData.button == 1 ? color.color[0]-force : color.color[0]+force;
-        color.color[1] = toolData.button == 1 ? color.color[1]-force : color.color[1]+force;
-        color.color[2] = toolData.button == 1 ? color.color[2]-force : color.color[2]+force;
+        color.color[0] = lighten ? color.color[0]-force : color.color[0]+force;
+        color.color[1] = lighten ? color.color[1]-force : color.color[1]+force;
+        color.color[2] = lighten ? color.color[2]-force : color.color[2]+force;
       }
 
       return color;
@@ -67,6 +80,14 @@ class ShadeTool extends BrushBaseTool {
 
     this._visited.add(pointStr);
     this._lastPixel = pointStr;
+  }
+
+  _checkDarken(toolData) {
+    if (this._unsetLightenOnUp || this.config.get("shadeLighten", false)) return;
+    if (toolData.button !== 2) return;
+
+    this.config.set("shadeLighten", true);
+    this._unsetLightenOnUp = true;
   }
 }
 

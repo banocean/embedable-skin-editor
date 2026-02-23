@@ -1,5 +1,5 @@
-import { BaseEntry } from "../base_entry";
-import ReplaceLayerMetadataEntry from "./replace_layer_metadata_entry";
+import { BaseEntry } from "../base_entry.js";
+import ReplaceLayerMetadataEntry from "./replace_layer_metadata_entry.js";
 
 class UpdateLayerAttributionEntry extends BaseEntry {
   constructor(layer) {

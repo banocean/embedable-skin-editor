@@ -27,7 +27,9 @@ class Renderer {
 
   updateSize(width, height) {
     this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.composer.setSize(width, height);
+    this.composer.setPixelRatio(window.devicePixelRatio);
   }
 
   setAnimationLoop(fn) {
@@ -36,8 +38,6 @@ class Renderer {
 
   _setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.domElement.style.position = "absolute";
 
     this.renderer = renderer;

@@ -24,6 +24,23 @@ ncrs-ui {
   max-height: 670px;
 }
 
+ncrs-ui-mobile {
+  max-width: 375px;
+  max-height: 620px;
+}
+
+ncrs-ui-mobile.fullscreen {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+@media screen and (min-height: 700px) {
+  ncrs-ui-mobile.platform-ios.fullscreen {
+    padding-bottom: 2rem;
+    background-color: rgb(31, 32, 37);
+  }
+}
+
 ncrs-ui.fullscreen {
   position: absolute;
   top:0;
@@ -36,4 +53,14 @@ ncrs-ui.fullscreen {
   z-index: 100;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+* {
+  -webkit-tap-highlight-color: #0000;
+}
+
+p {
+  margin: 0px;
+  color: white;
+  max-width: 1000px;
 }

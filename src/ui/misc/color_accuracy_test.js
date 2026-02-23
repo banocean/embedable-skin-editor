@@ -1,7 +1,9 @@
+import { nonPolyfilledCtx } from "../../helpers";
+
 function passesColorAccuracyTest() {
   const canvas = new OffscreenCanvas(16, 16);
 
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.fillStyle = "#ff0000";
   ctx.fillRect(4, 4, 8, 8);

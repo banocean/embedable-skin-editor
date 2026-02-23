@@ -1,5 +1,5 @@
 import Color from "color";
-import { BaseTool } from "../base_tool";
+import { BaseTool } from "../base_tool.js";
 
 const TRANSPARENT_COLOR = new Color("#000000").alpha(0);
 
@@ -11,6 +11,8 @@ class BucketTool extends BaseTool {
       name: "Paint Bucket [G]",
       description: "Simple tool for filling large closed areas with a specific color.\nUse the left mouse button to fill, and the right mouse button to erase.",
       providesColor: true, // Whether or not drawing with this tool adds to recent colors.
+      desktopLayout: true,
+      mobileLayout: true,
     });
   }
 
@@ -18,11 +20,14 @@ class BucketTool extends BaseTool {
   replaceColor = false;
   lastPart;
   lastFace;
+  _unsetEraseOnUp = false;
 
   down(toolData) {
+    this._checkErase(toolData);
+
     const texture = toolData.texture;
     const point = toolData.getCoords();
-    const color = toolData.button == 1 ? this.config.getColor.bind(this.config) : () => TRANSPARENT_COLOR;
+    const color = this.config.get("bucketErase", false) ? () => TRANSPARENT_COLOR : this.config.getColor.bind(this.config);
     const old_color = toolData.texture.getPixel({ x: point.x, y: point.y });
 
     this.replaceColor = this.config.get("fillStyle")=="replace-color";
@@ -95,12 +100,19 @@ class BucketTool extends BaseTool {
   }
 
   move(toolData) {
+    this._checkErase(toolData);
     const texture = toolData.texture;
     return texture.toTexture();
   }
 
-  up() {}
+  up() {
+    super.up();
 
+    if (this._unsetEraseOnUp) {
+      this.config.set("bucketErase", false);
+      this._unsetEraseOnUp = false;
+    }
+  }
 
   draw_replace_color(texture, color, old_color){
     const width = 64;
@@ -265,6 +277,13 @@ class BucketTool extends BaseTool {
     }
   }
 
+  _checkErase(toolData) {
+    if (this._unsetEraseOnUp || this.config.get("bucketErase", false)) return;
+    if (toolData.button !== 2) return;
+
+    this.config.set("bucketErase", true);
+    this._unsetEraseOnUp = true;
+  }
 }
 
 export default BucketTool;

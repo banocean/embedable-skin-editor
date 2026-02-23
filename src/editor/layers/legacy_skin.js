@@ -1,5 +1,6 @@
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
-import { getUV } from "./texture_utils";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
+import { getUV } from "./texture_utils.js";
 
 const OPERATIONS = [
   // Left Leg
@@ -21,9 +22,29 @@ const OPERATIONS = [
 
 function convertLegacySkin(imgSource) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(imgSource, 0, 0);
+
+  let notch_fix = true
+
+  for (let x = 0; x < 64; x++) {
+    for (let y = 0; y < 32; y++) {
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      if (x >= 32 && pixel[3] < 128) {
+        notch_fix = false
+      }
+    }
+  }
+
+  if (notch_fix) {
+    for (let x = 0; x < 64; x++) {
+      for (let y = 0; y < 32; y++) {
+        ctx.clearRect(40, 0, 16, 8);
+        ctx.clearRect(32, 8, 32, 8);
+      }
+    }
+  }
 
   OPERATIONS.forEach(op => {
     const uv = getUV("classic", op[0]);

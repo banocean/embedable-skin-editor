@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { clamp } from "three/src/math/MathUtils.js";
-import { IMAGE_HEIGHT, IMAGE_LEGACY_HEIGHT, IMAGE_WIDTH } from "../../constants";
-import Layer from "./layer";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
+import Layer from "./layer.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
 
 class Layers extends EventTarget {
   constructor(width, height) {
@@ -63,6 +64,7 @@ class Layers extends EventTarget {
   createFromLayer(layer) {
     const newLayer = this.createFromTexture(layer.texture.clone());
     newLayer.compositor.applyFilters(layer.compositor.getFilters());
+    newLayer.metadata = structuredClone(layer.metadata);
 
     return newLayer;
   }
@@ -73,20 +75,25 @@ class Layers extends EventTarget {
   }
 
   deserializeLayer(serializedLayer) {
-    const data = atob(serializedLayer.data);
-    const array = Uint8ClampedArray.from([...data].map(ch => ch.charCodeAt()));
-    const imgData = new ImageData(array, IMAGE_WIDTH, IMAGE_HEIGHT);
-    const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext('2d');
-    ctx.putImageData(imgData, 0, 0);
+    return new Promise((resolve, _err) => {
+      const img = new Image();
+      const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+      const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
+      
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        const layer = this.createFromCanvas(canvas);
 
-    const layer = this.createFromCanvas(canvas);
-    layer.metadata = serializedLayer.metadata || {};
-    layer.compositor.deserializeFilters(serializedLayer.filters);
-    layer.selected = serializedLayer.selected;
-    layer.visible = serializedLayer.visible;
+        layer.metadata = serializedLayer.metadata || {};
+        layer.compositor.deserializeFilters(serializedLayer.filters);
+        layer.selected = serializedLayer.selected;
+        layer.visible = serializedLayer.visible;
 
-    return layer;
+        resolve(layer);
+      }
+
+      img.src = serializedLayer.data;
+    });
   }
 
   serializeLayers() {
@@ -171,7 +178,7 @@ class Layers extends EventTarget {
 
   render() {
     const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     this.layers.forEach((layer) => {
       if (!layer.visible) { return; }
@@ -183,7 +190,7 @@ class Layers extends EventTarget {
   }
 
   renderTexture() {
-    const ctx = this.canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(this.canvas.getContext("2d"));
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.textureCacheBottom = new OffscreenCanvas(this.canvas.width, this.canvas.height);
@@ -191,8 +198,8 @@ class Layers extends EventTarget {
 
     const selectedIdx = this.getSelectedLayerIndex();
 
-    const ctxBottom = this.textureCacheBottom.getContext("2d");
-    const ctxTop = this.textureCacheTop.getContext("2d");
+    const ctxBottom = nonPolyfilledCtx(this.textureCacheBottom.getContext("2d"));
+    const ctxTop = nonPolyfilledCtx(this.textureCacheTop.getContext("2d"));
 
     this.layers.forEach((layer, idx) => {
       if (!layer.visible) { return; }
@@ -215,7 +222,7 @@ class Layers extends EventTarget {
   renderTextureCached() {
     if (!this.textureCacheBottom || !this.textureCacheTop) { return this.renderTexture() };
 
-    const ctx = this.canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(this.canvas.getContext("2d"));
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     ctx.drawImage(this.textureCacheBottom, 0, 0);
@@ -229,7 +236,7 @@ class Layers extends EventTarget {
 
   isBlank() {
     const canvas = this.render();
-    const ctx = canvas.getContext("2d");
+    const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
     return !ctx.getImageData(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT).data.some(pixel => pixel !== 0);
   }

@@ -1,31 +1,45 @@
 import * as THREE from "three";
-import { OrbitControls } from "./orbit";
-import { getFocusedElement, isKeybindIgnored } from "../helpers";
+import { OrbitControls } from "./orbit.js";
+import { getFocusedElement, isKeybindIgnored } from "../helpers.js";
 
-import imgEyedropper from "/assets/images/cursors/eyedropper.png"
+import imgEyedropper from "../../assets/images/cursors/eyedropper.png"
 const CURSOR_EYEDROPPER = `url("${imgEyedropper}") 0 32, crosshair`;
+const POINTER_MOVEMENT_THRESHOLD = 16;
 
 class Controls {
   constructor(parent) {
     this.parent = parent;
     this.raycaster = new THREE.Raycaster();
-    this.orbit = this._setupOrbit(parent.camera, parent);
+    this.camera = this.parent.camera;
+    this.orbit = this._setupOrbit(this.camera, parent);
     this._setupEvents(parent);
+    this.resetVariables();
   }
 
-  pointer = new THREE.Vector2(100000, 100000);
-  pointerDown = false;
-  pointerEvent;
-  panning = false;
-  firstClickOutside = false;
-  targetingModel = false;
-  drawing = false;
   ctrlKey = false;
   shiftKey = false;
+  
+  resetVariables() {
+    this.pointer = new THREE.Vector2(100000, 100000);
+    this.pointerDown = false;
+    this.pointerDownAt = new THREE.Vector2(0, 0);
+    this.pointerEvent = undefined;
+    this.panning = false;
+    this.firstClickOutside = false;
+    this.drawing = false;
+    this.drawOnPointerUp = false;
+    this.keybindEyedropper = false;
 
-  keybindEyedropper = false;
+    this.orbit.enabled = true;
+    this.orbit.enableRotate = true;
+  }
 
-  handleIntersects() {
+  handleIntersects(draw = true) {
+    if (!this.shouldRaycast()) {
+      this.targetingModel = false;
+      return;
+    }
+
     const intersects = this.raycast();
 
     function isValidIntersect(part) {
@@ -44,7 +58,7 @@ class Controls {
       if (parts.length > 0) {
         this.targetingModel = true;
 
-        if (this.pointerDown && !this.firstClickOutside) {
+        if (draw && this.pointerDown && !this.firstClickOutside) {
           this.toolAction(parts, this.pointerEvent);
         }
       }
@@ -75,6 +89,34 @@ class Controls {
     }
   }
 
+  onPointerDown(event) {
+    if (event.pointerType === "touch") {
+      this.onTouchDown(event);
+    } else {
+      this.onMouseDown(event);
+    }
+  }
+  
+  onTouchDown(event) {
+    if (!this.pointerDown) {
+      this.setInitialPointer(event.offsetX, event.offsetY);
+    } else if (!this.drawing) {
+      this.firstClickOutside = true;
+      this.drawOnPointerUp = false;
+    }
+    
+    this.pointerEvent = event;
+    this.pointerDown = true;
+    this.handleIntersects(false);
+    
+    if (this.targetingModel) {
+      this.orbit.enableRotate = false;
+      this.drawOnPointerUp = true;
+    } else {
+      this.firstClickOutside = true;
+    }
+  }
+
   onMouseDown(event) {
     this.setPointer(event.offsetX, event.offsetY);
     this.pointerEvent = event;
@@ -98,23 +140,48 @@ class Controls {
     this.handleIntersects();
   }
 
+  onPointerMove(event) {
+    if (event.pointerType === "touch") {
+      this.onTouchMove(event);
+    } else {
+      this.onMouseMove(event);
+    }
+  }
+
   onMouseMove(event) {
     this.setPointer(event.offsetX, event.offsetY);
     this.pointerEvent = event;
     this.handleIntersects();
   }
 
-  onMouseUp() {
-    if (this.drawing) {
+  onTouchMove(event) {
+    this.setPointer(event.offsetX, event.offsetY);
+    this.pointerEvent = event;
+
+    if (this.firstClickOutside) return;
+    if (this.drawing) return this.handleIntersects();
+    
+    const threshold = POINTER_MOVEMENT_THRESHOLD / this.camera.position.z;
+    const distance = this.pointerDownAt.distanceTo(new THREE.Vector2(event.offsetX, event.offsetY));
+
+    if (distance < threshold) { return; }
+
+    this.orbit.enabled = false;
+    this.drawOnPointerUp = false;
+
+    this.handleIntersects();
+  }
+
+  onPointerUp() {
+    if (this.drawOnPointerUp) {
+      this.handleIntersects();
+    }
+    
+    if (this.drawing || this.drawOnPointerUp) {
       this.parent.toolUp();
     }
 
-    this.drawing = false;
-    this.pointerDown = false;
-    this.pointerEvent = undefined;
-    this.panning = false;
-    this.firstClickOutside = false;
-    this.orbit.enabled = true;
+    this.resetVariables();
   }
 
   onKeyDown(event) {
@@ -124,32 +191,38 @@ class Controls {
     this.ctrlKey = event.ctrlKey;
     this.shiftKey = event.shiftKey;
 
-    if (event.key == "Control" || event.key == "Alt") {
+    if (event.key === "Control" || event.key === "Alt" && !event.repeat) {
       this.parent.config.set("pick-color", true);
       this.keybindEyedropper = true;
     }
   }
 
   onKeyUp(event) {
-    if (event.key == "Control" || event.key == "Alt") {
+    if (event.key === "Control" || event.key === "Alt") {
       event.preventDefault();
       this.parent.config.set("pick-color", false);
       this.keybindEyedropper = false;
     }
 
-    if (event.key == "Control" && this.ctrlKey) {
+    if (event.key === "Control" && this.ctrlKey) {
       this.ctrlKey = false;
     }
 
-    if (event.key == "Shift" && this.shiftKey) {
+    if (event.key === "Shift" && this.shiftKey) {
       this.shiftKey = false;
     }
+  }
+
+  setInitialPointer(x, y) {
+    this.pointerDownAt = new THREE.Vector2(x, y);
+    this.setPointer(x, y);
   }
 
   setPointer(x, y) {
     const domElement = this.parent.renderer.canvas();
     (this.pointer.x = (x / domElement.clientWidth) * 2 - 1), (this.pointer.y = -(y / domElement.clientHeight) * 2 + 1);
   }
+
 
   getCursorStyle() {
     if (this.panning) {
@@ -175,6 +248,12 @@ class Controls {
     return "grab";
   }
 
+  shouldRaycast() {
+    if (this.parent.config.get("pick-color", false)) return true;
+
+    return this.parent.currentTool.properties.id !== "move";
+  }
+
   _checkEyedropper(event) {
     if (!this.keybindEyedropper) { return; };
     if (event.ctrlKey || event.altKey) { return; }
@@ -194,9 +273,9 @@ class Controls {
   }
 
   _setupEvents(parent) {
-    parent.addEventListener("mousedown", this.onMouseDown.bind(this));
-    parent.addEventListener("mousemove", this.onMouseMove.bind(this));
-    parent.addEventListener("mouseup", this.onMouseUp.bind(this));
+    parent.addEventListener("pointerdown", this.onPointerDown.bind(this));
+    parent.addEventListener("pointermove", this.onPointerMove.bind(this));
+    parent.addEventListener("pointerup", this.onPointerUp.bind(this));
 
     parent.addEventListener("contextmenu", event => {
       if (!this.targetingModel) { return; }

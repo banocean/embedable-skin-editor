@@ -1,4 +1,4 @@
-import BrushBaseTool from "../brush_tool";
+import BrushBaseTool from "../brush_tool.js";
 
 class EraseTool extends BrushBaseTool {
   constructor(config) {
@@ -10,6 +10,8 @@ class EraseTool extends BrushBaseTool {
         name: "Erase [E]",
         description: "Simple tool for erasing.\nUse either the left or right mouse button to erase.",
         providesColor: false, // Whether or not drawing with this tool adds to recent colors.
+        desktopLayout: true,
+        mobileLayout: true,
       }
     );
   }
@@ -35,8 +37,6 @@ class EraseTool extends BrushBaseTool {
 
     return texture.toTexture();
   }
-
-  up() {}
 }
 
 export default EraseTool;

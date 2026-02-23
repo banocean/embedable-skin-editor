@@ -1,9 +1,11 @@
 import * as THREE from "three";
-import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv";
-import MIRROR_MAP from "./mirror_map";
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants";
+import { getUVMap, MODEL_MAP, uvLookup } from "../model/uv.js";
+import MIRROR_MAP from "./mirror_map.js";
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "../../constants.js";
+import { nonPolyfilledCtx } from "../../helpers.js";
 
-const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right"];
+const MODEL_LAYERS = ["base", "overlay"];
+const MODEL_PARTS = ["arm_left", "arm_right", "head", "torso", "leg_left", "leg_right", "ears"];
 const MODEL_FACES = ["front", "back", "left", "right", "top", "bottom"];
 
 function remapUV(texture, ctx, source, destination) {
@@ -13,8 +15,10 @@ function remapUV(texture, ctx, source, destination) {
 
 function swapBodyOverlay(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
+  ctx.drawImage(inputCanvas, 0, 0);
+  
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {
       remapUV(inputCanvas, ctx, source[key], destination[key])
@@ -34,11 +38,11 @@ function swapBodyOverlay(inputCanvas, variant = "classic") {
 
 function swapFrontBack(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
-  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"]];
+  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"], ["ears", "ears"]];
 
   function flipUV(source, destination) {
     const pairs = [["front", "back"], ["left", "right"]];
@@ -90,11 +94,11 @@ function swapFrontBack(inputCanvas, variant = "classic") {
 
 function swapLeftRight(inputCanvas, variant = "classic") {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
-  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"]];
+  const partPairs = [["arm_left", "arm_right"], ["head", "head"], ["torso", "torso"], ["leg_left", "leg_right"], ["ears", "ears"]];
 
   function flipUV(source, destination) {
     const pairs = [["front", "front"],["back", "back"]];
@@ -217,7 +221,7 @@ function getMirroredCoords(variant, point) {
 
 function clearLayer(inputCanvas, variant, layer) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   ctx.drawImage(inputCanvas, 0, 0);
 
@@ -262,7 +266,7 @@ function getUVFromCoords(variant, point) {
 }
 
 function getWatermarkData(canvas) {
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
   function bytesToString(bytea) {
     let i = 0;
@@ -287,8 +291,19 @@ function getWatermarkData(canvas) {
 
 function mergeLayers(inputCanvas, sourceLayer, destLayer, variant) {
   const canvas = new OffscreenCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-  const ctx = canvas.getContext("2d");
+  const ctx = nonPolyfilledCtx(canvas.getContext("2d"));
 
+  ctx.drawImage(inputCanvas, 0, 0);
+
+  MODEL_LAYERS.forEach(layer => {
+    MODEL_PARTS.forEach(part => {
+      MODEL_FACES.forEach(face => {
+        const uv = uvLookup(variant, layer, part, face);
+        ctx.clearRect(...uv);
+      });
+    });
+  });
+  
   function swapUV(source, destination) {
     Object.keys(source).forEach(key => {
       remapUV(inputCanvas, ctx, source[key], destination[key])
