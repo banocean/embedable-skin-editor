@@ -95,6 +95,7 @@ class BucketTool extends BaseTool {
         this.draw_replace_color(texture, color, old_color);
     }
 
+    window.dispatchEvent(new CustomEvent("update"))
     return texture.toTexture();
   }
 

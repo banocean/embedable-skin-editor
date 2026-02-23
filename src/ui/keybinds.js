@@ -1,6 +1,4 @@
-import { del } from "idb-keyval";
 import { getFocusedElement, isKeybindIgnored } from "../helpers";
-import PersistenceManager from "../persistence";
 
 // All keybind definitions, ^ = ctrl, + = shift, ! = alt
 const KEYBINDS = {
@@ -71,37 +69,6 @@ function setupKeybinds(ui, editor) {
     if (isKeybindIgnored(element)) { return; }
 
     switch(checkKeybinds(event)) {
-      case "pen":
-        if (editor.currentTool.properties.id === "pen") {
-          ui.selectConfigTab("tool");
-        }
-        editor.selectToolById("pen");
-        break;
-      case "eraser":
-        if (editor.currentTool.properties.id === "eraser") {
-          ui.selectConfigTab("tool");
-        }
-        editor.selectToolById("eraser");
-        break;
-      case "bucket":
-        if (editor.currentTool.properties.id === "bucket") {
-          ui.selectConfigTab("tool");
-        }
-        editor.selectToolById("bucket");
-        break;
-      case "shade":
-        if (editor.currentTool.properties.id === "shade") {
-          ui.selectConfigTab("tool");
-        }
-        editor.selectToolById("shade");
-        break;
-      case "sculpt":
-        if (!editor.config.get("overlayVisible")) { break; }
-        if (editor.currentTool.properties.id === "sculpt") {
-          ui.selectConfigTab("tool");
-        }
-        editor.selectToolById("sculpt");
-        break;
       case "eyedropper":
         editor.config.set("pick-color-toggle", true);
         editor.config.set("pick-color", !editor.config.get("pick-color", false));
@@ -111,16 +78,6 @@ function setupKeybinds(ui, editor) {
         break;
       case "redo":
         editor.history.redo();
-        break;
-      case "reset":
-        const check = confirm("Do you want to reset all editor data? You will lose all progress on your current skin.");
-
-        if (check) {
-          PersistenceManager.resetAll();
-          del("ncrs:reference-images");
-          location.reload();
-        }
-        
         break;
       case "zoomIn":
         if (editor.camera.position.z > 1) {
@@ -134,51 +91,6 @@ function setupKeybinds(ui, editor) {
         break;
       case "cameraReset":
         editor.resetCamera();
-        break;
-      case "selectTools":
-        ui.selectConfigTab("tool");
-        break;
-      case "selectLayer":
-        ui.selectConfigTab("layers");
-        break;
-      case "selectImport":
-        ui.selectConfigTab("import");
-        break;
-      case "selectExport":
-        ui.selectConfigTab("export");
-        break;
-      case "addLayer":
-        editor.addLayer();
-        break;
-      case "removeLayer":
-        editor.removeLayer();
-        break;
-      case "cloneLayer":
-        editor.cloneLayer();
-        break;
-      case "mergeLayer":
-        editor.mergeLayer();
-        break;
-      case "toggleFullscreen":
-        ui.toggleFullscreen();
-        break;
-      case "toggleOverlay":
-        editor.toggleOverlayVisible();
-        break;
-      case "toggleBase":
-        editor.toggleBaseVisible();
-        break;
-      case "toggleOverlayGrid":
-        editor.toggleOverlayGridVisible();
-        break;
-      case "toggleBaseGrid":
-        editor.toggleBaseGridVisible();
-        break;
-      case "toggleBackfaceCulling":
-        editor.toggleBackfaceCulling();
-        break;
-      case "toggleGridCulling":
-        editor.toggleGridCulling();
         break;
       }
   });

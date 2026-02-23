@@ -1,10 +1,6 @@
 import BaseLayout from "./base";
 
 import { css, html, unsafeCSS } from "lit";
-import Toolbar from "../tools/toolbar.js";
-import LayerList from "../layers/layer_list.js";
-import Config from "../config/main.js";
-import WarningManager from "../misc/warnings.js";
 
 import imgGridDark from "../../../assets/images/grid-editor-dark.png";
 
@@ -146,10 +142,6 @@ class NCRSUIDesktopLayout extends BaseLayout {
   constructor(ui) {
     super(ui, "desktop");
 
-    this.toolbar = new Toolbar(this.ui);
-    this.layers = new LayerList(this.ui);
-    this.config = new Config(this.ui);
-
     this._setupEvents();
   }
 
@@ -160,74 +152,18 @@ class NCRSUIDesktopLayout extends BaseLayout {
   render() {
     return html`
       <div id="main">
-        ${this.config}
-        ${this.toolbar}
         <div id="editor">
           ${this.editor}
           ${this.warningManager}
-          ${this._bgToggle()}
-          ${this._fullscreenToggle()}
         </div>
-        <div id="layers">
-          ${this._historyButtons()}
-          ${this.layers}
-        </div>
+        <div id="layers"></div>
       </div>
     `;
-  }
-
-  _bgToggle() {
-    return html`
-      <button id="themeToggle" @click=${this.toggleEditorBackground}>
-        <ncrs-icon title="Switch to dusk mode." icon="dusk-mode" color="var(--editor-icon-color)" class="dark"></ncrs-icon>
-        <ncrs-icon title="Switch to light mode." icon="light-mode" color="var(--editor-icon-color)" class="gray"></ncrs-icon>
-        <ncrs-icon title="Switch to dark mode." icon="dark-mode" color="var(--editor-icon-color)" class="light"></ncrs-icon>
-      </button>
-    `;
-  }
-
-  _fullscreenToggle() {
-    return html`
-      <button id="fullscreenToggle" @click=${this.toggleFullscreen}>
-        <ncrs-icon class="fullscreen" title="Switch to Fullscreen." icon="fullscreen" color="var(--editor-icon-color)" class="minimized"></ncrs-icon>
-        <ncrs-icon class="minimize" title="Minimize." icon="minimize" color="var(--editor-icon-color)" class="fullscreen"></ncrs-icon>
-      </button>
-    `;
-  }
-
-  _historyButtons() {
-    const undoDisabled = !this.editor.history.canUndo();
-    const redoDisabled = !this.editor.history.canRedo();
-
-    return html`
-      <div id="history">
-        <button title="Undo [Ctrl + Z]" ?disabled=${undoDisabled} @click=${this._undo}>
-          <ncrs-icon icon="undo" color="var(--icon-color)"></ncrs-icon>
-        </button>
-        <button title="Redo [Ctrl + Y]" ?disabled=${redoDisabled} @click=${this._redo}>
-          <ncrs-icon icon="redo" color="var(--icon-color)"></ncrs-icon>
-        </button>
-      </div>
-    `
-  }
-
-  _undo() {
-    this.editor.history.undo();
-  }
-
-  _redo() {
-    this.editor.history.redo();
   }
 
   _setupEvents() {
     this.editor.history.addEventListener("update", () => {
       this.requestUpdate();
-    });
-
-    this.editor.addEventListener("select-tool", event => {
-      if (event.detail.wasActive) {
-        this.config.select("tool");
-      }
     });
   }
 }

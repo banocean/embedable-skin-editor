@@ -1,22 +1,11 @@
-import "./misc/icon";
-import "./misc/button";
-import "./misc/toggle";
-import "./misc/troggle";
-import "./misc/quadroggle";
-import "./misc/modal";
-import "./misc/window";
-import "./misc/skin_2d";
-
 import { css, html, unsafeCSS, LitElement } from "lit";
 import Editor from "../editor/main.js";
 import PersistenceManager from "../persistence.js";
 import Modal from "./misc/modal.js";
 
-import { GALLERY_URL, SKIN_LOOKUP_URL } from "../constants.js";
 import passesColorAccuracyTest from "./misc/color_accuracy_test.js";
 import setupKeybinds from "./keybinds.js";
 import NCRSUIDesktopLayout from "./layouts/desktop.js";
-import NCRSUIMobileLayout from "./layouts/mobile.js";
 
 import imgGridDark from "../../assets/images/grid-editor-dark.png";
 import imgGridGray from "../../assets/images/grid-editor-gray.png";
@@ -149,6 +138,8 @@ class UI extends LitElement {
     this._pwaCheck();
     this._iosCheck();
     this._setupEvents();
+
+    this.classList.replace("minimized", "fullscreen");
   }
   disableKeybinds = false;
   _browserFullScreen = false;
@@ -163,26 +154,8 @@ class UI extends LitElement {
         ${this.layout}
         ${this._setupColorCheckModal()}
       </div>
-      ${this.exportModal}
-      ${this.galleryModal}
       <slot name="footer"></slot>
     `;
-  }
-
-  galleryURL() {
-    if (!this.src) { return GALLERY_URL };
-
-    const url = new URL(this.src);
-
-    return `${url.origin}/gallery/skins`;
-  }
-
-  skinLookupURL() {
-    if (!this.src) { return SKIN_LOOKUP_URL };
-
-    const url = new URL(this.src);
-
-    return `${url.origin}/api/skin`;
   }
 
   toggleFullscreen() {
@@ -219,12 +192,6 @@ class UI extends LitElement {
     }
   }
 
-  selectConfigTab(tab) {
-    if (this.layout instanceof NCRSUIDesktopLayout) {
-      this.layout.config.select(tab);
-    }
-  }
-
   _getValidLayout() {
     if (this.clientWidth >= DESKTOP_MIN_WIDTH) {
       return "desktop";
@@ -234,12 +201,7 @@ class UI extends LitElement {
   }
 
   _getLayout(id) {
-    const layouts = {
-      desktop: new NCRSUIDesktopLayout(this),
-      mobile: new NCRSUIMobileLayout(this),
-    }
-
-    return layouts[id];
+    return new NCRSUIDesktopLayout(this);
   }
 
   _setupModal(name) {
@@ -330,28 +292,6 @@ class UI extends LitElement {
   }
 
   _setupEvents() {
-    this.addEventListener("dragover", event => event.preventDefault());
-    this.addEventListener("drop", event => {
-      event.preventDefault();
-      [...event.dataTransfer.items].forEach(item => {
-        const file = item.getAsFile();
-
-        if (item.type === "image/png") { 
-          this.editor.addLayerFromFile(file);
-        } else if (file.name.endsWith(".ncrs")) {
-          this.editor.loadProjectFromFile(file);
-        }
-      })
-    });
-
-    this.addEventListener("fullscreenchange", () => {
-      if (document.fullscreenElement) return;
-
-      this.classList.remove("fullscreen-browser");
-      this.classList.replace("fullscreen", "minimized");
-      this._browserFullScreen = false;
-    })
-
     window.addEventListener("load", () => {
       this._runColorCheck();
     });

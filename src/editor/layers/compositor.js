@@ -5,6 +5,7 @@ import OpacityFilter from "./filters/opacity_filter.js";
 import SaturationFilter from "./filters/saturation_filter.js";
 
 const FILTERS = [CssFilter, HueFilter, SaturationFilter, BrightnessFilter, OpacityFilter];
+window.FILTERS = FILTERS;
 
 class Compositor extends EventTarget {
   constructor() {

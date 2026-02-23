@@ -65,6 +65,7 @@ class BrushBaseTool extends BaseTool {
     })
 
     this.cursor = point;
+    window.dispatchEvent(new CustomEvent("update"))
   }
 
   drawLine(texture, color, variant, startPoint, endPoint) {
