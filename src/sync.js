@@ -23,12 +23,14 @@ const urlToImage = (url) => {
     return promise
 }
 
-const replaceSkinTexture = async (img) => {
-    const currentLayer = window.editor.layers.getSelectedLayer()
+const emptyDataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAhElEQVR4Xu3VAREAMAwCseLfdIV85qAcGbv4W/z+E4AGxBNAIF4AnyACCMQTQCBeACuAAALxBBCIF8AKIIBAPAEE4gWwAgggEE8AgXgBrAACCMQTQCBeACuAAALxBBCIF8AKIIBAPAEE4gWwAgggEE8AgXgBrAACCMQTQCBeACuAQJ3AA2jYAEGs/2CBAAAAAElFTkSuQmCC"
+const emptyImage = await urlToImage(emptyDataURL)
+
+const replaceLayerTexture = async (layer, img) => {
     const texture = new THREE.Texture(img)
 
-    currentLayer.flush()
-    currentLayer.replaceTexture(texture)
+    layer.flush()
+    layer.replaceTexture(texture)
     window.editor.layers.renderTexture()
 }
 
@@ -61,7 +63,7 @@ const MaskTools = {
 const maskAddColor = new Color([255, 0, 0]).alpha(1)
 const maskRemoveColor = new Color([0, 0, 255]).alpha(1)
 
-window.currentMode = "Showcase"
+window.currentMode = ""
 let currentTool = Tools.Pen
 let currentMaskTool = MaskTools.PenAdd
 let currentColor = new Color([255, 255, 255]).alpha(1)
@@ -91,41 +93,155 @@ const setCurrentTool = () => {
 
 const setCurrentToolSize = () => window.currentMode === "Showcase" ? disableEditing() : setToolSize(currentToolSize)
 
+const selectTopLayer = () => window.editor.layers.selectLayer(window.editor.layers.layers.length - 1)
+const setWorkableLayers = (n) => {
+    console.log(n, window.editor.layers.length)
+    for (let i = window.editor.layers.layers.length - 1; i < n; i++) {
+        window.editor.layers.addBlankLayer()
+    }
+    selectTopLayer()
+}
+
+const clearLayers = () => {
+    while (window.editor.layers.layers[1]) {
+        window.editor.layers.removeLayer(window.editor.layers.layers[1])
+    }
+}
+
+const getLayerDataURL = (layer) => {
+    const canvas = document.createElement("canvas")
+    canvas.width = 64
+    canvas.height = 64
+
+    const ctx = canvas.getContext("2d")
+    ctx.drawImage(layer.texture.source.data, 0, 0)
+
+    return canvas.toDataURL()
+}
+
+const getLayerFromIndex = (i) => window.editor.layers.getLayerAtIndex(i)
+const getFirstLayer = () => getLayerFromIndex(1)
+
+const setLayerOpacity = (layer, opacity) => layer.compositor.applyFilters([new window.FILTERS[4](opacity)])
+let currentOpacity = 50
+
+let currentMaskLayer = null
+let currentMaskBackgroundLayer = null
+let currentEditAllLayer = null
+
 let lastUpdate = 0
-window.addEventListener("message", async (event) => {
+let lastId = 0
+
+const onMessage = async (event) => {
     if (event.data?.mode === "Showcase") {
+        if (window.currentMode !== "Showcase") {
+            window.currentMode = "Showcase"
+            lastId = null
+            clearLayers()
+            setWorkableLayers(2)
+        }
+
         const timestamp = event.data.timestamp ?? new Date()
         if (lastUpdate > timestamp) return
         const image = await urlToImage(event.data.data)
         if (lastUpdate > timestamp) return
 
-        window.currentMode = "Showcase"
         setSkinType(event.data.model)
-        await replaceSkinTexture(image)
+        await replaceLayerTexture(getFirstLayer(), image)
+
+        const maskLayer = getLayerFromIndex(2)
+        if (event.data.maskData) {
+            const maskImage = await urlToImage(event.data.maskData)
+            await replaceLayerTexture(maskLayer, maskImage)
+            setLayerOpacity(maskLayer, currentOpacity)
+        } else {
+            await replaceLayerTexture(maskLayer, emptyImage)
+        }
 
         clearHistory()
         setCurrentTool()
         setCurrentToolSize()
     } else if (event.data?.mode === "EditAll") {
-        setSkinType(event.data.model)
-        await replaceSkinTexture(await urlToImage(event.data.data))
-        clearHistory()
+        if (window.currentMode !== "EditAll" || lastId !== event.data.id) {
+            clearLayers()
+            setWorkableLayers(1)
 
-        window.currentMode = "EditAll"
+            window.currentMode = "EditAll"
+            lastId = event.data.id
+            const layer = getFirstLayer()
+            currentEditAllLayer = layer
+
+            await replaceLayerTexture(layer, await urlToImage(event.data.data))
+
+            layer.addEventListener("layer-update", () => {
+                const dataURL = getLayerDataURL(layer)
+                if (!dataURL) return
+
+                window.top.postMessage({
+                    action: "UpdateSkin",
+                    skinURL: dataURL,
+                    id: event.data.id,
+                    timestamp: Date.now()
+                }, "*")
+            })
+        } else {
+            await replaceLayerTexture(currentEditAllLayer, await urlToImage(event.data.data))
+        }
+
+        setSkinType(event.data.model)
+        clearHistory()
         setCurrentTool()
         setCurrentColor()
         setCurrentToolSize()
         setCurrentCamo()
     } else if (event.data?.mode === "EditMask") {
-        setSkinType(event.data.model)
-        await replaceSkinTexture(await urlToImage(event.data.data))
-        clearHistory()
+        if (window.currentMode !== "EditMask" || lastId !== event.data.id) {
+            clearLayers()
+            setWorkableLayers(2)
 
-        window.currentMode = "EditMask"
-        setCurrentTool()
-        setCurrentColor()
-        setCurrentToolSize()
-        setCurrentCamo()
+            lastId = event.data.id
+
+            const backgroundLayer = getFirstLayer()
+            currentMaskBackgroundLayer = { layer: backgroundLayer, id: event.data.id }
+
+            const maskLayer = window.editor.layers.getLayerAtIndex(2)
+            setLayerOpacity(maskLayer, currentOpacity)
+            currentMaskLayer = { layer: maskLayer, id: event.data.id }
+
+            await replaceLayerTexture(maskLayer, await urlToImage(event.data.data))
+            if (event.data.backgroundData) {
+                await replaceLayerTexture(backgroundLayer, await urlToImage(event.data.backgroundData))
+            }
+
+            maskLayer.addEventListener("layer-update", () => {
+                const dataURL = getLayerDataURL(maskLayer)
+                if (!dataURL) return
+
+                window.top.postMessage({
+                    action: "UpdateMask",
+                    skinURL: dataURL,
+                    id: event.data.id,
+                    timestamp: Date.now()
+                }, "*")
+            })
+
+            window.currentMode = "EditMask"
+            setCurrentTool()
+            setCurrentColor()
+            setCurrentToolSize()
+            setCurrentCamo()
+            clearHistory()
+        } else {
+            if (currentMaskBackgroundLayer.id === event.data.id) {
+                await replaceLayerTexture(currentMaskLayer.layer, await urlToImage(event.data.data))
+            }
+
+            if (currentMaskBackgroundLayer.id === event.data.id && event.data.backgroundData) {
+                await replaceLayerTexture(currentMaskBackgroundLayer.layer, await urlToImage(event.data.backgroundData))
+            }
+        }
+
+        setSkinType(event.data.model)
     } else if (event.data?.action === "UpdateBodyParts") {
         window.editor.setPartVisible("head", event.data.head)
         window.editor.setPartVisible("arm_left", event.data.leftArm)
@@ -163,25 +279,15 @@ window.addEventListener("message", async (event) => {
         setShadeStyle(event.data.value)
     } else if (event.data?.action === "SetFillStyle") {
         setFillStyle(event.data.value)
+    } else if (event.data?.action === "SetMaskOpacity") {
+        currentOpacity = event.data.value
+        if (currentMode === "Showcase" || currentMode === "EditMask") {
+            setLayerOpacity(getLayerFromIndex(2), currentOpacity)
+        }
     } else if (event.data?.action === "ResetCamera") resetCamera()
-});
-
-const handleChange = async () => {
-    if (window.currentMode !== "EditAll" && window.currentMode !== "EditMask") return
-    const timestamp = Date.now()
-    setTimeout(() => {
-        window.top.postMessage({
-            action: window.currentMode === "EditAll" ? "UpdateSkin" : "UpdateMask",
-            skinURL: window.editor.skinToDataURL(),
-            timestamp
-        }, "*")
-    }, 500)
 }
 
 window.addEventListener("ready", () => {
-    window.editor.layers.addEventListener("layers-render", handleChange)
-    window.addEventListener("update", handleChange)
-    window.editor.addEventListener("tool-up", handleChange)
-
+    window.addEventListener("message", onMessage)
     window.top.postMessage({ action: "Ready" }, "*")
 })

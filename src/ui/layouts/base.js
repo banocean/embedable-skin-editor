@@ -40,12 +40,6 @@ class BaseLayout extends LitElement {
       this.warningManager.remove("layer-invisible");
     }
 
-    if (layer.hasFilters()) {
-      this.warningManager.add("layer-filters", "tool-config", "Colors drawn on the current layer will appear altered by filters.");
-    } else {
-      this.warningManager.remove("layer-filters");
-    }
-
     if (this.editor.toolConfig.get("blend", false)) {
       this.warningManager.add(
         "blend-enabled", "blend",
