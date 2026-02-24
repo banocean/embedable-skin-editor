@@ -11,5 +11,14 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
       },
     },
+    target: "esnext",
+  },
+  esbuild: {
+    target: "esnext",
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: "esnext",
+    },
   },
 })
