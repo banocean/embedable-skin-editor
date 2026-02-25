@@ -561,6 +561,8 @@ class Editor extends LitElement {
       }, 100)
     }
 
+    window.dispatchEvent(new CustomEvent("color-picked", { detail: color }))
+
     this.toolConfig.set("color", color);
   }
 

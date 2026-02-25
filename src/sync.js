@@ -95,7 +95,6 @@ const setCurrentToolSize = () => window.currentMode === "Showcase" ? disableEdit
 
 const selectTopLayer = () => window.editor.layers.selectLayer(window.editor.layers.layers.length - 1)
 const setWorkableLayers = (n) => {
-    console.log(n, window.editor.layers.length)
     for (let i = window.editor.layers.layers.length - 1; i < n; i++) {
         window.editor.layers.addBlankLayer()
     }
@@ -284,10 +283,16 @@ const onMessage = async (event) => {
         if (currentMode === "Showcase" || currentMode === "EditMask") {
             setLayerOpacity(getLayerFromIndex(2), currentOpacity)
         }
+    } else if (event.data?.action === "SetPickingColor") {
+        window.editor.config.set("pick-color-toggle", event.data.value)
+        window.editor.config.set("pick-color", event.data.value)
     } else if (event.data?.action === "ResetCamera") resetCamera()
 }
 
 window.addEventListener("ready", () => {
     window.addEventListener("message", onMessage)
+    window.addEventListener("color-picked", ({ detail }) => {
+        window.top.postMessage({ action: "ColorPicked", color: detail }, "*")
+    })
     window.top.postMessage({ action: "Ready" }, "*")
 })
