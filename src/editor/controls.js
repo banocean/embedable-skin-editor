@@ -191,7 +191,7 @@ class Controls {
     this.ctrlKey = event.ctrlKey;
     this.shiftKey = event.shiftKey;
 
-    if (event.key === "Control" || event.key === "Alt" && !event.repeat) {
+    if (window.currentMode === "EditAll" && (event.key === "Control" || event.key === "Alt" && !event.repeat)) {
       this.parent.config.set("pick-color", true);
       this.keybindEyedropper = true;
     }
