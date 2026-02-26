@@ -90,6 +90,8 @@ class Controls {
   }
 
   onPointerDown(event) {
+    if (window.currentMode === "EditMask" && event.button >= 2) return
+
     if (event.pointerType === "touch") {
       this.onTouchDown(event);
     } else {
@@ -141,6 +143,8 @@ class Controls {
   }
 
   onPointerMove(event) {
+    if (window.currentMode === "EditMask" && event.buttons >= 2) return
+
     if (event.pointerType === "touch") {
       this.onTouchMove(event);
     } else {
