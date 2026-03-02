@@ -140,6 +140,8 @@ const onMessage = async (event) => {
             setWorkableLayers(2)
         }
 
+        window.editErrorMessage = event.data.message
+
         const timestamp = event.data.timestamp ?? new Date()
         if (lastUpdate > timestamp) return
         const image = await urlToImage(event.data.data)

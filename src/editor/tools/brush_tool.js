@@ -37,6 +37,12 @@ class BrushBaseTool extends BaseTool {
 
     const uv = getUVFromCoords(variant, point);
     const offsets = BRUSHES[shape][size];
+    if (offsets.length === 0 && window.editErrorMessage) {
+      const messageElement = document.querySelector(".info-message")
+      messageElement.innerText = window.editErrorMessage
+      messageElement.classList.remove("visible")
+      setTimeout(() => messageElement.classList.add("visible"))
+    }
 
     offsets.forEach(offset => {
       const maxX = uv.x + Math.abs(uv.width) - 1;
