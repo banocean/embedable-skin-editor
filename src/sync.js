@@ -280,6 +280,8 @@ const onMessage = async (event) => {
         setShadeStyle(event.data.value)
     } else if (event.data?.action === "SetFillStyle") {
         setFillStyle(event.data.value)
+    } else if (event.data?.action === "SetGirdVisible") {
+        setGridVisible(event.data.visible)
     } else if (event.data?.action === "SetMaskOpacity") {
         currentOpacity = event.data.value
         if (currentMode === "Showcase" || currentMode === "EditMask") {
