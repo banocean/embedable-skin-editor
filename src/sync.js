@@ -83,7 +83,7 @@ const maskToolToTool = (maskTool) => [Tools.Pen, Tools.Pen, Tools.Bucket, Tools.
 
 const setCurrentTool = () => {
     if (window.currentMode === "Showcase") {
-        setTool(Tools.Pen)
+        setTool(window.editErrorMessage ? Tools.Pen : Tools.Move)
     } else if (window.currentMode === "EditMask") {
         setTool(maskToolToTool(currentMaskTool))
     } else {
