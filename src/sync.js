@@ -12,6 +12,11 @@ const setColor = (config) => window.editor.toolConfig.set("color", config)
 const setShadeStyle = (value) => window.editor.toolConfig.set("shadeStyle", value)
 const setFillStyle = (value) => window.editor.toolConfig.set("fillStyle", value)
 
+const setBackfaceCulling = (value) => {
+    window.editor.config.set("cullBackFace", value)
+    window.editor.updateVisibility()
+}
+
 const urlToImage = (url) => {
     const img = new Image()
     let resolve = null
@@ -290,6 +295,8 @@ const onMessage = async (event) => {
     } else if (event.data?.action === "SetPickingColor") {
         window.editor.config.set("pick-color-toggle", event.data.value)
         window.editor.config.set("pick-color", event.data.value)
+    } else if (event.data?.action === "SetBackfaceCulling") {
+        setBackfaceCulling(event.data.value)
     } else if (event.data?.action === "ResetCamera") resetCamera()
 }
 
