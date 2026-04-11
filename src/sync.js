@@ -17,6 +17,11 @@ const setBackfaceCulling = (value) => {
     window.editor.updateVisibility()
 }
 
+const setGridCulling = (value) => {
+    window.editor.config.set("cullGrid", value)
+    window.editor.updateVisibility()
+}
+
 const urlToImage = (url) => {
     const img = new Image()
     let resolve = null
@@ -297,6 +302,8 @@ const onMessage = async (event) => {
         window.editor.config.set("pick-color", event.data.value)
     } else if (event.data?.action === "SetBackfaceCulling") {
         setBackfaceCulling(event.data.value)
+    } else if (event.data?.action === "SetGridCulling") {
+        setGridCulling(event.data.value)
     } else if (event.data?.action === "ResetCamera") resetCamera()
 }
 
