@@ -188,7 +188,7 @@ const onMessage = async (event) => {
                 const dataURL = getLayerDataURL(layer)
                 if (!dataURL) return
 
-                window.top.postMessage({
+                window.parent.postMessage({
                     action: "UpdateSkin",
                     skinURL: dataURL,
                     id: event.data.id,
@@ -228,7 +228,7 @@ const onMessage = async (event) => {
                 const dataURL = getLayerDataURL(maskLayer)
                 if (!dataURL) return
 
-                window.top.postMessage({
+                window.parent.postMessage({
                     action: "UpdateMask",
                     skinURL: dataURL,
                     id: event.data.id,
@@ -310,7 +310,7 @@ const onMessage = async (event) => {
 window.addEventListener("ready", () => {
     window.addEventListener("message", onMessage)
     window.addEventListener("color-picked", ({ detail }) => {
-        window.top.postMessage({ action: "ColorPicked", color: detail }, "*")
+        window.parent.postMessage({ action: "ColorPicked", color: detail }, "*")
     })
-    window.top.postMessage({ action: "Ready" }, "*")
+    window.parent.postMessage({ action: "Ready" }, "*")
 })
