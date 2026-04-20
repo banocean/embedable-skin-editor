@@ -12,6 +12,13 @@ const setColor = (config) => window.editor.toolConfig.set("color", config)
 const setShadeStyle = (value) => window.editor.toolConfig.set("shadeStyle", value)
 const setFillStyle = (value) => window.editor.toolConfig.set("fillStyle", value)
 
+const setBackgroundTheme = (theme) => {
+    const ui = document.querySelector("ncrs-ui")
+    ui.classList.remove("editor-dark", "editor-light", "editor-gray");
+    ui.classList.add(`editor-${theme}`)
+    ui.persistence.set("theme", theme);
+}
+
 const setBackfaceCulling = (value) => {
     window.editor.config.set("cullBackFace", value)
     window.editor.updateVisibility()
@@ -304,6 +311,8 @@ const onMessage = async (event) => {
         setBackfaceCulling(event.data.value)
     } else if (event.data?.action === "SetGridCulling") {
         setGridCulling(event.data.value)
+    } else if (event.data?.action === "SetBackgroundTheme") {
+        setBackgroundTheme(event.data.theme)
     } else if (event.data?.action === "ResetCamera") resetCamera()
 }
 
