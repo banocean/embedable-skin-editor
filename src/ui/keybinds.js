@@ -73,12 +73,6 @@ function setupKeybinds(ui, editor) {
         editor.config.set("pick-color-toggle", true);
         editor.config.set("pick-color", !editor.config.get("pick-color", false));
         break;
-      case "undo":
-        editor.history.undo();
-        break;
-      case "redo":
-        editor.history.redo();
-        break;
       case "zoomIn":
         if (editor.camera.position.z > 1) {
           editor.camera.position.z-= editor.camera.position.z * 0.075;
@@ -88,9 +82,6 @@ function setupKeybinds(ui, editor) {
         if (editor.camera.position.z < 15) {
           editor.camera.position.z+= editor.camera.position.z * 0.075;
         }
-        break;
-      case "cameraReset":
-        editor.resetCamera();
         break;
       }
   });

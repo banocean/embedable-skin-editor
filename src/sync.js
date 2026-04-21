@@ -148,6 +148,8 @@ let currentEditAllLayer = null
 let lastUpdate = 0
 let lastId = 0
 
+let watchedShortcutsList = []
+
 const onMessage = async (event) => {
     if (event.data?.mode === "Showcase") {
         if (window.currentMode !== "Showcase") {
@@ -313,7 +315,11 @@ const onMessage = async (event) => {
         setGridCulling(event.data.value)
     } else if (event.data?.action === "SetBackgroundTheme") {
         setBackgroundTheme(event.data.theme)
-    } else if (event.data?.action === "ResetCamera") resetCamera()
+    } else if (event.data?.action === "ResetCamera"){
+        resetCamera()
+    } else if (event.data?.action === "SetWatchedShortcuts") {
+        watchedShortcutsList = event.data.shortcuts
+    }
 }
 
 window.addEventListener("ready", () => {
@@ -322,4 +328,26 @@ window.addEventListener("ready", () => {
         window.parent.postMessage({ action: "ColorPicked", color: detail }, "*")
     })
     window.parent.postMessage({ action: "Ready" }, "*")
+})
+
+document.addEventListener("keydown", (event) => {
+    const listHasCurrent = watchedShortcutsList.find((shortcut) => {
+        return event.key.toLowerCase() === shortcut.key.toLowerCase() &&
+            event.ctrlKey === shortcut.ctrlKey &&
+            event.shiftKey === shortcut.shiftKey &&
+            event.altKey === shortcut.altKey;
+    })
+
+    const transferableEvent = ["key", "code", "ctrlKey", "shiftKey", "altKey", "metaKey", "repeat"]
+        .reduce((object, key) => ({ ...object, [key]: event[key] }), {});
+    transferableEvent.target = ["tagName", "id", "className", "value", "name"]
+        .reduce((object, key) => ({ ...object, [key]: event.target[key] }), {});
+    
+    if (listHasCurrent) {
+        event.preventDefault()
+        window.parent.postMessage({
+            action: "KeyDownEvent",
+            event: transferableEvent
+        }, "*")
+    }
 })
